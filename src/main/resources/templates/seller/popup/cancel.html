@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로젝트 취소</title>
+    <link rel="stylesheet" href="./popup.css">
+    <link rel="stylesheet" href="projectDetail.css">
+    <script src="../../../../../../../OSMAS/resources/jqeury/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <div class="container-justify-center-w100">
+        <h1 class="cancel-title">프로젝트 취소 신청</h1>
+    </div>
+    <div class="container-justify-center-w100">
+        <table id="cancel-table" class="cancel-table">
+            <tr>
+                <th>프로젝트 명</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>프로젝트 기간</th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>목표금액(원)</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>모금액(원)</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>달성률(%)</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>취소 수수료율(%)</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>취소 예상금액(원)</th>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <th>상태</th>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="cancel-content-area">
+        <h1 class="cancel-content-title">취소 사유</h1>
+        <label for="cancel-content"><span>0</span>/500</label>
+        <textarea maxlength="500" class="cancel-content" id="cancel-content" name="content" rows=5 placeholder="취소 사유를 입력하세요."></textarea>
+    </div>
+
+    <footer class="footer">
+        <input type="button" class="footer-btn" onclick="window.close()" value="닫기">
+        <input type="button" class="footer-btn" value="취소하기">
+    </footer>
+
+    <script src="../../../../../../../OSMAS/yooseungcheol/cusPage/customerPage.js"></script>
+    <script>cancelTableDummyData()</script>
+</body>
+</html>

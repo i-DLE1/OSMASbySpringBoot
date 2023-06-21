@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>프로젝트 정보</title>
+    <link rel="stylesheet" href="projectDetail.css">
+    <script src="../../../../../../../OSMAS/resources/jqeury/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <div class="title">
+        <h1 style="color:#884A3B; font-size: 40px; ">프로젝트 현황 및 통계</h1>
+    </div>
+    <!--프로젝트 정보-->
+    <div class="col-2">
+        <div>
+            <div>
+                <div class="sub-title">
+                    <span>프로젝트 정보</span>
+                </div>
+                <table id="project-detail-table" class="project-table">
+                    <tbody>
+                        <tr>
+                            <th>프로젝트 명</th>
+                            <td colspan="2">프로젝트 이름이름</td>
+                        </tr>
+                        <tr>
+                            <th>프로젝트 기간</th>
+                            <td>2023-01-12</td>
+                            <td>2023-10-12</td>
+                        </tr>
+                        <tr>
+                            <th>남은 기간(일)</th>
+                            <td colspan="2">200</td>
+                        </tr>
+                        <tr>
+                            <th>목표금액(원)</th>
+                            <td colspan="2">100,000,000</td>
+                        </tr>
+                        <tr>
+                            <th>달성금액(원)</th>
+                            <td colspan="2"> 25,000,000</td>
+                        </tr>
+                        <tr>
+                            <th>참여자수(명)</th>
+                            <td colspan="2">1000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div class="sub-title">
+                    <span>상품별 판매 현황</span>
+                </div>
+                <table class="product-statistics">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <td>상품명</td>
+                            <td>상품가격(원)</td>
+                            <td>주문수량(개)</td>
+                            <td>판매금액(원)</td>
+                        </tr>
+                    </thead>
+                    <tbody id="product-statics-list">
+                        <!-- javascript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="chart-area">차트 공간</div>
+        </div>
+    </div>
+    <div class="footer" style="margin-top: 4em">
+        <footer class="footer">
+            <input class="footer-btn" type="button" value="닫기" onclick="window.close()" />
+        </footer>
+    </div>
+    <script src="../../../../../../../OSMAS/yooseungcheol/cusPage/projectDetail.js"></script>
+    <script >
+        projectDetailDummyData()
+        projectStaticListDummyData()
+    </script>
+</body>
+</html>

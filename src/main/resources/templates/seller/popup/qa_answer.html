@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>질문 답변</title>
+        <link rel="stylesheet" href="qa_.css">
+        <script src="../../../../../../../OSMAS/resources/jqeury/jquery-3.7.0.min.js"></script>
+    </head>
+    <body class="body">
+        <div>
+            <div style="margin-top: 2em;">
+                <label for="title" class="label">제목</label>
+                <textarea type="text" id="title" name="title" class="textarea" disabled></textarea>
+                <hr class="qa-line" />
+            <div style="margin-top: 2em">
+                <label for="content" class="label">내용</label>
+                <textarea class="textarea" type="text" id="content" name="content" rows="2" disabled > </textarea>
+                <hr class="qa-line" />
+            </div>
+            <div id="qa-answer-area" style="margin-top: 2em">
+                <label><span>0</span>/1000</label>
+                <label for="qa-answer" class="label">답변</label>
+                <textarea class="textarea" type="text" id="qa-answer" name="answer" rows="5"> </textarea>
+                <hr class="qa-line" />
+            </div>
+            <footer class="footer">
+                <input class="footer-btn" type="button" value="취소" onclick="window.close()" />
+                <input class="footer-btn" type="button" value="등록" />
+            </footer>
+        </div>
+            <script src="../../../../../../../OSMAS/yooseungcheol/cusPage/projectDetail.js"></script>
+    </body>
+
+</html>
+

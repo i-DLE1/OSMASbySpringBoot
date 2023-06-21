@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>프로젝트 등록-프로젝트</title>
+        <link rel="stylesheet" href="project_create.css">
+        <link rel="stylesheet" href="../../resources/bootstrap/bootstrap.min.css">
+        <script src="../../resources/jqeury/jquery-3.7.0.min.js"></script>
+    </head>
+    <body>
+        <!-- 진행 헤더 시작 -->
+        <header class="header">
+            <div >약관 동의</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div class="active-process">프로젝트</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>상품</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>상품 상세</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>FAQ</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>새소식</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>미리보기</div>
+        </header>
+        <!-- 진행 헤더 끝-->
+        <main class="main">
+            <h1 class="h1-title">프로젝트 등록</h1>
+            
+            <div class="row mt-2">
+                <div>
+                    <label class="sub-title" for="title">프로젝트 제목<span class="required-item">*</span></label>
+                    <input class="input-box w-100" type="text" name="title" id="title" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div>
+                    <label for="body" class="sub-title">프로젝트 설명<span class="required-item">*</span></label>
+                    <input type="text" class="input-box w-100" id="body" name="body" />
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="row w-75 mt-3">
+                    <div class="col" >
+                        <label for="startDate" class="sub-title">프로젝트 시작<span class="required-item">*</span></label>
+                        <input type="date" class="input-box" style="width: 100%;" id="startDate" name="startDate"/>
+                    </div>
+                    <div class="col" >
+                        <label for="endDate" class="sub-title">프로젝트 종료<span class="required-item">*</span></label>
+                        <input type="date" class="input-box" style="width: 100%;" id="endDate" name="endDate"/>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div>
+                    <label for="money" class="sub-title">펀딩 목표 금액<span class="required-item">*</span></label>
+                    <input type="number"  class="input-box w-100" id="money" name="money"/>
+                </div>
+            </div>
+        </main>
+
+        <!-- 하단 버튼 시작 -->
+        <footer class="footer">
+            <a href="index.html"><input class="footer-btn" type="button" value="이전" /></a>
+            <a href="project3.html"><input class="footer-btn" type="button" value="다음" /></a>
+<!--            <input class="footerBtn" type="button" value="다음" onclick="project1Confirm()" />-->
+        </footer>
+        <!-- 하단 버튼 끝 -->
+        <script src="projectCreate.js"></script>
+    </body>
+</html>

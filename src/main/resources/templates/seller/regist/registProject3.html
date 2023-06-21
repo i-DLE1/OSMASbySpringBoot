@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <title>프로젝트 등록-상품등록</title>
+        <link rel="stylesheet" href="project_create.css">
+        <link rel="stylesheet" href="../../resources/bootstrap/bootstrap.min.css">
+        <script src="../../resources/jqeury/jquery-3.7.0.min.js"></script>
+
+    </head>
+    <body>
+        <!-- 진행 헤더 시작 -->
+        <header class="header">
+            <div >약관 동의</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div >프로젝트</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div class="active-process">상품</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>상품 상세</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>FAQ</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>새소식</div>
+            <div>&nbsp;&nbsp;>&nbsp;&nbsp;</div>
+            <div>미리보기</div>
+        </header>
+        <!-- 진행 헤더 끝-->
+        <main class="main">
+            <h1 class="h1-title">상품 이미지 등록</h1>
+            <div class="image-upload-list" >
+                    <div>
+                        <label for="file1" >
+                            <img class="image-upload-button" src="" onerror="this.src='../../static/image/imageAddButton.png'" >
+                            <div class="image-upload-description">대표이미지</div>
+                        </label>
+                        <input id="file1" name="file1" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png" />
+                    </div>
+                    <div>
+                        <label for="file2" >
+                            <img class="image-upload-button" src="" onerror="this.src='../../static/image/imageAddButton.png'">
+                            <div class="image-upload-description">썸네일</div>
+                        </label>
+                        <input id="file2" name="file2" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                    </div>
+                    <div>
+                        <label for="file3" >
+                            <img class="image-upload-button" src="" onerror="this.src='../../static/image/imageAddButton.png'">
+                            <div class="image-upload-description">추가</div>
+                        </label>
+                        <input id="file3" name="file3" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                    </div>
+                    <div>
+                        <label for="file4" >
+                            <img class="image-upload-button" src="" onerror="this.src='../../static/image/imageAddButton.png'">
+                            <div class="image-upload-description">추가</div>
+                        </label>
+                        <input id="file4" name="file4" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                    </div>
+                    <div>
+                        <label for="file5" >
+                            <img class="image-upload-button" src="" onerror="this.src='../../static/image/imageAddButton.png'">
+                            <div class="image-upload-description">추가</div>
+                        </label>
+                        <input id="file5" name="file5" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                    </div>
+                </div>
+            </div>
+            <h1 class="h1-title">상품 추가</h1>
+            <div id="productList">
+                <!-- 상품 추가 컴포넌트 시작 -->
+
+                <!-- 상품 추가 컴포넌트 끝 -->
+
+            </div>
+            <div class="row" style="margin-top: 2em;">
+                <div class="container-justify-center-w100">
+                    <button id="productAdd" class="add-item" >
+                        <img src="../../static/image/additem.png" width="40px" height="40px" >
+                    </button>
+                </div>
+            </div>
+        </main>
+        <!-- 하단 버튼 시작 -->
+        <footer class="footer">
+            <a href="project2.html"><input class="footer-btn" type="button" value="이전" /></a>
+            <a href="project4.html"><input class="footer-btn" type="button" value="다음" /></a>
+        </footer>
+        <!-- 하단 버튼 끝 -->
+
+    </body>
+    <script src="projectCreate.js"></script>
+    <script >project3LoadData()</script>
+</html>

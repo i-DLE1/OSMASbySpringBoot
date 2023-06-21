@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0 20px 0 20px;
+}
+
+.col-2{
+    display: grid;
+    grid-template-columns: 500px auto;
+    grid-column-gap: 20px;
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    min-width: 500px;
+    margin-bottom: 2em;
+}
+
+.sub-title{
+    margin: 0 0 2em 0;
+    padding: 0;
+    display: flex;
+    color: white;
+    background-color: #C49A6C;
+    align-items: center;
+}
+.sub-title span{
+    font-size: 30px;
+    font-weight: 600;
+    padding: 10px 0 10px 0.5em;
+}
+
+.chart-area{
+    background-color: rgba(0,0,0,0.1);
+    height: 100vh;
+}
+.project-table{
+    font-size: 20px;
+    margin: 0 0 2em 0;
+}
+.project-table tr{
+    line-height: 40px;
+}
+.project-table th{
+    font-size: 25px;
+    font-weight: 700;
+    color: #884A3B;
+    text-align: end;
+    padding-right: 20px;
+}
+.project-table tr:nth-child(2) td:nth-child(3){
+    width: 120px;
+    text-align: end;
+}
+
+.product-statistics{
+    font-size: 20px;
+    width: 500px;
+    line-height: 35px;
+}
+
+.product-statistics thead{
+    font-weight: 700;
+    color: #884A3B;
+}
+
+.product-statistics thead{
+    border-top: 1px solid #884A3B;
+}
+
+.product-statistics thead tr td:nth-child(4){
+    text-align: center;
+}
+
+.product-statistics thead tr td:last-child{
+    text-align: end;
+}
+
+.product-statistics tbody tr td:nth-child(4){
+    text-align: center;
+}
+
+.product-statistics tbody tr td:last-child{
+    text-align: end;
+}
+.footer{
+    margin-top: 2em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer-btn{
+    font-size: large;
+    width: 100px;
+    height: 50px;
+    color: white;
+    font-weight: 400;
+    background-color: #C49A6C;
+    border: 0;
+    border-radius: 5px;
+    margin: 10px;
+}
+.footer-btn:hover{
+    transition: 0.3s;
+    background-color: #884A3B;
+}
