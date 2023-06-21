@@ -1,1 +1,16 @@
+#server port
 
+server:
+  port: 8080
+
+# oracle config
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@oracle.coffit.site:1521:xe
+    username: C##OSMAS
+    password: OSMAS
+
+# mybatis mappers config
+mybatis:
+#  mapper-locations: mappers/**/*.xml
