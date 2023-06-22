@@ -7,7 +7,7 @@ function removeItemButton(funcName){
     let $button = $("<button>").attr("id","productSub")
                                 .addClass("sub-item")
                                 .attr("onclick",`${funcName}()`);
-    $button.append($("<img>").attr("src","/static/image/subitem.png")
+    $button.append($("<img>").attr("src","/images/seller/regist/subitem.png")
                                 .attr("width","40px")
                                 .attr("height","40px"));
     $div.append($button);
@@ -308,39 +308,57 @@ function newsRegist(){
 }
 
 function indexCheckConfirm() {
-    if( !($("#check1").prop("checked") && $("#check2").prop("checked"))){
-        alert("필수 항목에 체크를 하지 않았습니다.");
-    }else{
-        location.href="project2.html"
-    }
+    let check1 = $("#check1").prop('checked');
+    let check2 = $("#check2").prop('checked');
+    $.ajax({
+        url : '/seller/regist/project1',
+        type : 'post',
+        data : {check1, check2},
+        success : function (data) {
+
+            console.log(data)
+            if(data === 'success'){
+                location.href='/seller/regist/project2'
+            }else {
+                alert("필수 항목에 체크를 하지 않았습니다.");
+            }
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
 }
 
-// 보류
-// function project1Confirm() {
-//     const title = $("#title").val()
-//     const body = $("#body").val()
-//     const startDate = $("#startDate").val()
-//     const endDate = $("#endDate").val()
-//     const money = $("#money").val()
-//
-//     let startDateString = new Date(startDate).toLocaleString().slice(0,new Date(startDate))
-//     let todayString = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
-//     startDateString =  startDateString.slice(0, startDateString.lastIndexOf("."))
-//     todayString =  todayString.slice(0, todayString.lastIndexOf("."))
-//
-//
-//     if(title === "" || body === "" || startDate === "" || endDate === "" || money === ""){
-//         alert("필수 항목을 입력하지 않았습니다. ")
-//     }else{
-//         if(money < 1000000){
-//             alert("펀딩 목표 금액은 100만원 이하일 수 없습니다.")
-//         }
-//         if(startDateString === todayString){
-//             alert("익일 부터 프로젝트를 시작할 수 있습니다. ")
-//         }
-//     }
-// }
+function projectInitRegist() {
+    let title = $("#title").val()
+    let content = $("#content").val()
+    let startDate = $("#startDate").val()
+    let endDate = $("#endDate").val()
+    let money = $("#money").val()
+    let json12 = JSON.stringify({title,content,startDate,endDate,money})
+    console.log(json12)
 
+    $.ajax({
+        url : '/seller/regist/project2',
+        // contentType : 'application/json',
+        // data : json12,
+        data: {title,content,startDate,endDate,money},
+        type : 'post',
+
+        success : function (data){
+            if(data === 'success'){
+                location.href='/seller/regist/project3'
+            }else {
+                alert("입력 되지 않은 필수 항목이 존재합니다.");
+            }
+        },
+        error : function (error){
+            console.log(error)
+        }
+
+    })
+
+}
 
 function project2LoadData() {
 
