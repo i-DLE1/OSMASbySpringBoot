@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 
@@ -14,9 +15,7 @@ import java.time.LocalDate;
 public class ProjectDTO {
 
     private int no;
-    @JsonAlias(value = "title")
     private String title;
-    @JsonAlias(value = "content")
     private String content;
 
     private LocalDate startDate;

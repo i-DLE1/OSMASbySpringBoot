@@ -1,58 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <title>프로젝트 - Q/A</title>
-  <link rel="stylesheet" href="../../resources/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="./cus_page.css">
-    <script src="../../resources/jqeury/jquery-3.7.0.min.js"></script>
+  <div th:replace="~{/seller/sellerFrag :: head}"></div>
+  <title>프로젝트 관리 - Q / A</title>
 </head>
 <body>
-<nav class="cus-nav">
-  <div style="text-align: center;">
-    <img src="../../static/image/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
-  </div>
-  <h2>판매자 페이지</h2>
-  <br>
-  <!-- menu-none-visible 스위치 -->
-  <ul class="menu-list">
-    <h5><a href="../createProject/index.html" target="_blank">프로젝트 등록</a></h5>
-  </ul>
-  <ul class="menu-list">
-    <h5>프로젝트 관리 <span>▼▲</span></h5>
-    <div class="menu-disable">
-      <li id="cusAllMenu"><a href="./cus_index.html">전체 조회</a></li>
-      <li id="cusScreenMenu"><a href="./cus_index.html">심사중</a></li>
-      <li id="cusOngoMenu"><a href="./cus_index.html">진행중</a></li>
-      <li id="cusRefuseMenu"><a href="./cus_index.html">반려</a></li>
-      <li id="cusCancleMenu"><a href="./cus_index.html">취소</a></li>
-    </div>
-  </ul>
-  <ul class="menu-list">
-    <h5>주문관리 <span>▼▲</span></h5>
-    <div class="menu-disable">
-      <li><a href="#">전체조회</a></li>
-      <li><a href="">주문접수</a></li>
-      <li><a href="">배송처리</a></li>
-      <li><a href="">교환환불</a></li>
-      <li><a href="">취소내역</a></li>
-      <li><a href="">주문정보</a></li>
-    </div>
-  </ul>
-  <ul class="menu-list">
-    <h5>Q / A <span>▼▲</span></h5>
-    <div class="menu-visible">
-        <li id="qaAllMenu" class="active-page"><a href="./qa_index.html">전체조회</a></li>
-        <li id="qaWaitMenu"><a href="./qa_index.html">답변 대기중</a></li>
-        <li id="qaCompleteMenu"><a href="./qa_index.html">답변 완료</a></li>
-    </div>
-  </ul>
-</nav>
+<div th:replace="~{/seller/sellerFrag :: nav}"></div>
 <main class="main">
   <div class="main-header">
     <div>
-      <h1 class="h1-title">프로젝트 관리 - Q / A</h1>
+      <h1 class="h1-title">프로젝트 Q/A - <span>전체조회</span></h1>
     </div>
     <div>
       <h5><span>판매자</span>님 환영합니다.</h5>
@@ -62,9 +19,9 @@
   <div class="nav-list-area">
     <table id="qaMenu" class="w-100 list-nav mt-5">
       <tr class="row">
-        <td id="qaAll" class="col-2 active-page">전체조회</td>
-        <td id="qaWait" class="col-2">답변 대기중</td>
-        <td id="qaComplete" class="col-2">답변 완료</td>
+        <td id="qaAll" class="col-2" onclick="location.href='./projectQnAList?listType=all'">전체조회</td>
+        <td id="qaWait" class="col-2" onclick="location.href='./projectQnAList?listType=wait'">답변 대기중</td>
+        <td id="qaComplete" class="col-2" onclick="location.href='./projectQnAList?listType=complete'">답변 완료</td>
         <th class="col">
           <div class="row col">
             <select name="searchSelect" class="col-4 me-3 search-bar">
@@ -98,25 +55,34 @@
     </thead>
     <tbody id="customerQAList">
         <!-- javascript 반복구간  -->
+        <!-- 타임리프 반복 시작  -->
+<!--        <th:block th:each="item, index : ${itemList}">-->
+<!--          <th:block th:object="${item}">-->
+<!--            <tr th:id="*{no}" onclick="qaPopup(this)">-->
+<!--              <th th:text="${index}"></th>-->
+<!--              <td th:text="*{title}"></td>-->
+<!--              <td th:text="*{userId}"></td>-->
+<!--              <td th:text="*{content}"></td>-->
+<!--              <td th:text="*{option}"></td>-->
+<!--              <td th:text="*{amount}"></td>-->
+<!--              <td th:text="*{payment}"></td>-->
+<!--              <td th:text="*{createDate}"></td>-->
+<!--              <td th:text="*{status}"></td>-->
+<!--            </tr>-->
+<!--          </th:block>-->
+<!--        </th:block>-->
+        <!-- 타임리프 반복 끝  -->
     </tbody>
   </table>
   <!-- pagenation start -->
-  <div>
-    <ul class="cus-page">
-      <li><a href=""><</a></li>
-      <li><a href="">1</a></li>
-      <li><a href="">2</a></li>
-      <li><a href="">3</a></li>
-      <li><a href="">4</a></li>
-      <li><a href="">5</a></li>
-      <li><a href="">></a></li>
-    </ul>
-
-  </div>
+  <div th:replace="~{/seller/sellerFrag :: pageantion}"></div>
   <!-- pagenation end -->
-  <!-- 테이블 종료 -->
+
 </main>
-  <script src="customerPage.js"></script>
-  <script>proejctQAList()</script>
+  <script src="/js/seller/sellerPage.js"></script>
+  <script>
+    proejctQAList();
+    activePage();
+  </script>
 </body>
 </html>

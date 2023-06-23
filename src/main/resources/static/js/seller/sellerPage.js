@@ -79,45 +79,22 @@ function proejctQAList(filter){
 }
 
 function qaPopup(e){
-    window.open(`./qa_answer.html?id=${e.id}`,"popup","height=650px, width=500px, resizable=no, name=qa_answer");
+    window.open(`./projectDetail/qaAnwer?id=${e.id}`,"popup","height=650px, width=500px, resizable=no, name=qa_answer");
 }
-
-function activeElement(element){
-    let selectEl = $(element);
-    let selectId = selectEl.prop("id");
-
-    $(`#${selectId}Menu`).siblings("li").removeClass("active-page");
-    $(`#${selectId}Menu`).addClass("active-page");
-
-    selectEl.prop("id");
-    selectEl.siblings("td").removeClass("active-page");
-    //$(`${}Menu`).addClass("active-page")
-    selectEl.addClass("active-page");
-    return selectId;
-}
-$("#cusMenu td").click(function (){
-    let selectId = activeElement(this);
-    customerProjectList(selectId);
-})
-
-$("#qaMenu td").click(function (){
-    let selectId = activeElement(this);
-    proejctQAList(selectId);
-})
 
 function popupCancel(id) {
-    window.open(`./cancel.html?id=${id}`,"popup","height=900px, width=600px, resizable=no, name=projectCancel, location=no");
+    window.open(`./projectDetail/cancel?id=${id}`,"popup","height=900px, width=600px, resizable=no, name=projectCancel, location=no");
 }
 
 function popupStatics(id){
-    window.open(`./projectDetail.html?id=${id}`,"popup","height=1000px, width=1500px, resizable=no, name=projectStatics, location=no");
+    window.open(`./projectDetail/projectDetail?id=${id}`,"popup","height=1000px, width=1500px, resizable=no, name=projectStatics, location=no");
 }
 
 function projectModify(id){
-    window.open(`../createProject/index.html?id=${id}`,"popup");
+    window.open(`../createProject/index?id=${id}`,"popup");
 }
 function popupRetry(id){
-    window.open(`./retry.html?id=${id}`,"popup","height=600px, width=500px, resizable=no, name=projectRetry, location=no");
+    window.open(`./projectDetail/retry?id=${id}`,"popup","height=600px, width=500px, resizable=no, name=projectRetry, location=no");
 }
 function cancelTableDummyData(){
     let data =
@@ -144,3 +121,57 @@ function cancelTable(data) {
 $("#cancel-content").on("input",function (){
     $(this).siblings("label").children("span").text(this.value.length)
 })
+
+
+function activePage() {
+    let pathname = location.pathname;
+    let queryStr = location.search;
+    let $titleSpan = $(".h1-title").children('span')
+
+    switch (pathname+queryStr) {
+        case '/seller/projectList' :
+        case '/seller/projectList?listType=all' :
+            $("#cusAllMenu").addClass('active-page') ;
+            $("#cusAll").addClass('active-page') ;
+            $titleSpan.text('전체조회');
+            break;
+        case '/seller/projectList?listType=screening' :
+            $("#cusScreenMenu").addClass('active-page') ;
+            $("#cusScreen").addClass('active-page') ;
+            $titleSpan.text('심사중');
+            break;
+        case '/seller/projectList?listType=processing' :
+            $("#cusOngoMenu").addClass('active-page') ;
+            $("#cusOngo").addClass('active-page') ;
+            $titleSpan.text('진행중');
+            break;
+        case '/seller/projectList?listType=refuse' :
+            $("#cusRefuseMenu").addClass('active-page') ;
+            $("#cusRefuse").addClass('active-page') ;
+            $titleSpan.text('반려');
+
+            break;
+        case '/seller/projectList?listType=cancel' :
+            $("#cusCancleMenu").addClass('active-page') ;
+            $("#cusCancle").addClass('active-page') ;
+            $titleSpan.text('취소');
+            break;
+        case '/seller/projectQnAList' :
+        case '/seller/projectQnAList?listType=all' :
+            $("#qaAllMenu").addClass('active-page') ;
+            $("#qaAll").addClass('active-page') ;
+            $titleSpan.text('전체조회');
+            break;
+        case '/seller/projectQnAList?listType=wait' :
+            $("#qaWaitMenu").addClass('active-page') ;
+            $("#qaWait").addClass('active-page') ;
+            $titleSpan.text('답변 대기중');
+            break;
+        case '/seller/projectQnAList?listType=complete' :
+            $("#qaCompleteMenu").addClass('active-page') ;
+            $("#qaComplete").addClass('active-page') ;
+            $titleSpan.text('완료');
+            break;
+
+    }
+}
