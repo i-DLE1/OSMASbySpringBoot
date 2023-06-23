@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기</title>
+    <link rel="stylesheet" href="../css/loginstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+    <div class="logo">
+        <a href="../index.html">
+
+            <img src="../img/logo.png" alt="">
+        </a>
+    </div>
+
+    <h2>
+        <div class="tab_list">
+
+                    <a href="./findid.html">아이디 찾기</a>
+
+                    <a href="./findpwd.html">비밀번호 찾기</a>
+            </ul>
+        </div>
+    </h2>
+
+    <div class="container_main">
+        <h3 class="contant_header">비밀번호 찾기</h3>
+        <div class="contant_main">
+            <p class="guide">
+                가입하실 때 사용한 이메일 주소를 입력해주세요. <br>
+                임시비밀번호를 메일로 받을 수 있습니다.
+            </p>
+            <form>
+                <div>
+                    <input type="email" id="userEmail" name="userEmail" class="input_text" placeholder="이메일 계정"
+                        maxlength="100">
+                </div>
+                <p class="error_message">
+                    이메일이 형식이 올바르지 않습니다
+                </p>
+                <div class="container_button">
+                    <a href="./findsuccess.html"><button type="button" class="ok_button">확인</button></a>
+                </div>
+            </form>
+        </div>
+        <div>
+            <ul class="find_info">
+                <li>
+                    <a href="../signin/signin.html">로그인하기</a>
+                </li>
+                <li>
+                    <a href="./findid.html">아이디 찾기</a>
+                </li>
+                <li>
+                    <a href="../signup/signup.html">회원 가입</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>

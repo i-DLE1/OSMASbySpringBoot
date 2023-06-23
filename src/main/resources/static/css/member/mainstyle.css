@@ -1,0 +1,270 @@
+.logo{
+    text-align: center;
+    }
+
+ul{
+        list-style: none;
+}
+
+.content{
+    margin:0 auto;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 50px;
+    
+}
+
+.terms_desc{
+    font-size: 14px;
+    margin: 9px 0 5px 35px;
+}
+.btn_submit{
+    /* border-radius: 6px; */
+    width: 95%;
+    height: 50px;
+    /* background-color: #884A39; */
+    /* color: white; */
+    
+}
+.container_button{
+    text-align: center;
+}
+.term_hadder{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+a{
+    text-decoration: none;
+}
+
+.term{
+    margin-bottom: 20px;
+    
+}
+textarea::-webkit-scrollbar{
+    width: 6px;
+}
+textarea::-webkit-scrollbar-track{
+    background-color: transparent;
+}
+textarea::-webkit-scrollbar-thumb{
+    border-radius: 3px;
+    background-color: gray;
+}
+
+.term textarea{
+    margin-left: 5px;
+}
+
+.signup_h2{
+    border-bottom: 4px solid #333;
+}
+
+.signup_info{
+    height: 50px;
+    margin: 10px;
+    margin-bottom:30px;
+    
+}
+.signup_info>input{
+    height: 100%;
+    width: 95%;
+    border: 1px solid #dde2e6;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+    padding-left: 16px;
+    
+}
+
+.signup_info>button{
+    width: 50px;
+    height: 50px;
+    /* border-color: #cdd3d8; */
+    /* color:#495057; */
+    /* border-radius: 4px; */
+    /* border: 1px solid #cdd3d8; */
+    
+}
+label{
+    margin-left: 10px;   
+}
+#email{
+    width: 83%;
+}
+#emailNum{
+    width: 83%;
+}
+
+.sign_con{
+    text-align: center;
+    font-size: 20px;
+}
+.container_button{
+    margin-top: 70px;
+    text-align: center;
+}
+
+.ok_button{
+    width: 50%;
+    height: 50px;
+    /* background-color: #884A39; */
+    /* color: white; */
+    margin-bottom: 8px;
+    /* border-radius: 4px; */
+}
+
+.condition{
+    font-size: 10px;
+    margin-left: 10px;
+}
+.error_message{
+    font-size: 12px;
+    color: red;
+    /* display:none; */
+    padding-left: 16px;
+}
+
+#id_con{
+    display: none;
+}
+
+#nick_con{
+    display: none;
+}
+#pwd_con{
+    display: none;
+}
+
+.review_list{
+    border-bottom: 1px solid #dedfe4;
+    padding-left: 0;
+    display: flex;
+    font-size: 24px;
+}
+
+
+.board{
+    display: table; 
+    margin:0 auto;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 50px;
+}
+
+#selectKeyword{
+    height: 25px;
+    width: 100px;
+}
+
+#select{
+    height: 25px;
+    width: 250px;
+}
+
+.btn_re{
+    width: 50px;
+    height: 50px;
+    /* border-color: #cdd3d8; */
+    /* color: white; */
+    /* background-color: #00c4c4 ; */
+    /* border-radius: 4px; */
+    border: 1px solid #cdd3d8;
+}
+
+.notice_list span a{
+    color: gray;
+    font-size: 20px;
+    margin-right: 20px;
+    
+}
+
+.notice_list_content{
+    border-bottom: 1px solid #dedfe4;
+    padding-left: 0;
+    display: flex;
+    font-size: 24px;
+}
+
+.address_title span{
+    margin-left: 10px;
+}
+.address_title{
+    margin-bottom: 10px;
+}
+
+.address_info{
+    margin-left: 10px;
+}
+
+
+.address_request{
+    height: 30px;
+    width: 500px;
+    border: 1px solid #dde2e6;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+.address_new input[type=text]{
+    height: 30px;
+    margin-top: 10px;
+    border: 1px solid #dde2e6;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+    padding-left: 10px;
+}
+.address_new input[type=button]{
+    height: 30px;
+    border-radius: 6px; 
+    background-color: #FFC26F;
+    color: white; 
+    border: none;
+    cursor: pointer;
+}
+
+
+.address_new input[type=button]:hover{
+    background-color: #884A39;
+    transition-duration: 0.3s;
+}
+
+.btn_myreview{
+    /* background-color: #00c4c4 ; */
+    border-radius: 6px;
+    background-color: #FFC26F;
+    margin-right: 10px;
+    padding: 10px;
+}
+.btn_review{
+    border-radius: 6px;
+    background-color: #FFC26F;
+    margin-right: 10px;
+    padding: 10px;
+    
+}
+button{
+    border-radius: 6px; 
+    background-color: #FFC26F;
+    color: white; 
+    border: none;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #884A39;
+    transition-duration: 0.3s;
+}
+.btn_myreview a, .btn_review a{
+    color: white; 
+}
+
+.btn_myreview:hover, .btn_review:hover{
+    background-color: #884A39;
+    transition-duration: 0.3s;
+}
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
