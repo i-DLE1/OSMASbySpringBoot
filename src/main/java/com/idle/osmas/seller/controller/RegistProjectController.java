@@ -32,18 +32,40 @@ public class RegistProjectController {
     }
 
     @GetMapping("project2")
-    public String projectRegist(){
+    public String getProjectRegist(){
         return "/seller/regist/registProject2";
     }
-    @PostMapping("project2")
+    @PostMapping(value = "project2")
     @ResponseBody
-    public  String projectInitRegist(ProjectDTO project, Model model){
+    public String postProjectIRegist(@RequestBody ProjectDTO project, Model model){
         System.out.println("project = " + project);
         return "success";
     }
 
     @GetMapping("project3")
-    public String projectDetail(){
+    public String getProjectDetail(){
         return "/seller/regist/registProject3";
     }
+
+    @GetMapping("project4")
+    public String getProjectProductDetail(){
+        return "/seller/regist/registProject4";
+    }
+
+    @GetMapping("project5")
+    public String getProjectFAQ(){
+        return "/eller/regist/registProject5";
+    }
+
+
+    @GetMapping("project6")
+    public String getProjectNEWS(){
+        return "/eller/regist/registProject6";
+    }
+
+    @GetMapping("project7")
+    public String getProjectInfo(){
+        return "/eller/regist/registProject7";
+    }
+
 }

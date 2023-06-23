@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.project-list-main{
+    display: grid;
+    place-items: center;
+    margin: 3em 6em 0 6em;
+}
+
+.container-project-list-view{
+    display: grid;
+    grid-column-gap: 4em;
+    grid-template-columns: auto auto auto;
+}
+
+.menu-list-project-view{
+    width: 100%;
+    margin: 5em 0 5em 0;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-list-project-view div{
+    margin: 0 10px 0 10px;
+    padding: 15px 40px 15px 40px;
+    display: flex;
+    justify-content: center;
+    min-width: 50px;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 10px;
+    background-color: #C49A6C;
+    color: white;
+}
+.flex-center{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.proejct-list-tag-selection{
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+    padding: 7px 15px 7px 15px;
+    background-color: white;
+    border: 1px solid #884A3B;
+    color: #884A3B;
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.proejct-list-tag-selection-active{
+    color: white;
+    background-color: #884A3B;
+}

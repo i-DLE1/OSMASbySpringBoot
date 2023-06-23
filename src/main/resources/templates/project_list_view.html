@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../../../../OSMAS/yooseungcheol/project_list_view.css">
-    <link rel="stylesheet" href="../../../../../OSMAS/yooseungcheol/project_item.css">
-    <script src="../../../../../OSMAS/resources/jqeury/jquery-3.7.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/seller/projectItem.css">
+    <link rel="stylesheet" href="/css/seller/projectListView.css">
 </head>
 <body>
     <section>
@@ -24,11 +24,17 @@
                 </div>
                 <div id="project-view-list" class="container-project-list-view">
                     <!--  javascript   -->
+
+                    <!--  projectItem component start   -->
+<!--                    <th:block th:each="item : ${itemList}">-->
+<!--                        <div th:replace="/seller/sellerFrag :: prjItem('title','content','amount','date','views','img')"></div>-->
+<!--                    </th:block>-->
+                    <!--  projectItem component end   -->
                 </div>
             </div>
         </div>
     </main>
-    <script src="../../../../../OSMAS/yooseungcheol/project_list_view.js"></script>
+    <script src="/js/seller/projectListView.js"></script>
     <script>projectListView()</script>
 </body>
 </html>

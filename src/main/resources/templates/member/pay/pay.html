@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제페이지</title>
+    <link rel="stylesheet" href="../css/mainstyle.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+        h2 {
+            border-bottom: 1px solid black;
+        }
+
+        .paycontent {
+            margin-top: 10px;
+            margin-left: 5px;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="board" style="width: 500px;">
+        <form action="">
+            <h2>상품 정보</h2>
+            <section>
+                <div style="display: flex;">
+                    <img src="./grid.png" height="80px" width="100px" alt="">
+                    <div style="margin-left: 10px;">
+                        <div style="margin-top: 15px;">
+                            상품이름
+                        </div>
+                        <div style="font-size: 12px; margin-top: 5px;">
+                            <span>
+                                100000원
+                            </span>
+                            <span> 10%
+                            </span><span> 10일남음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="paycontent">
+                    상품 구성 상의 하의
+                </div>
+                <div class="paycontent">
+                    상품금액 :
+                    <span>5000원</span>
+                </div>
+                <div class="paycontent">
+                    추가 후원금 :
+                    <span>1000원</span>
+                </div>
+                <div class="paycontent">
+                    총 결제 금액 :
+                    <span>6000원</span>
+                </div>
+                <div class="paycontent">
+                    예상 전달일 :
+                    <span>6월 28일</span>
+                </div class="paycontent">
+
+            </section>
+            <section>
+                <h2>후원자 정보</h2>
+                <div class="paycontent">
+                    이름 <span class="name">감자</span>
+                </div>
+                <div class="paycontent">
+                    이메일
+                    <span class="email">gamja@naver.com</span>
+                </div>
+                <div class="paycontent">
+                    연락처 <span class="pnum"> 010-xxxx-xxxx</span>
+                </div>
+            </section>
+
+            <section>
+                <h2>배송지</h2>
+                <div class="address_title">
+                    <span>새로입력</span>
+                    <span>기존배송지</span>
+                </div>
+                <div class="address_info">
+                    <div class="address_new">
+                        <input type="text" id="sample6_postcode" placeholder="우편번호" style="width: 100px;">
+                        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                        <input type="text" id="sample6_address" placeholder="주소" style="width: 314px;""><br>
+                        <input type=" text" id="sample6_detailAddress" placeholder="상세주소" style="width: 200px;"">
+                        <input type=" text" id="sample6_extraAddress" placeholder="참고항목" style="width: 100px;"">
+                    </div>
+                    <div class=" address_existing" style="display:none;">
+                        <ul>
+                            <li><span> 감자나라 고무마시 </span><span>채소동</span> <button>선택</button></li>
+                        </ul>
+                    </div>
+                    <div>배송시 요청사항(선택)</div>
+                    <input type="text" placeholder="ex)부재 시 경비실에 맡겨주세요" class="address_request">
+                </div>
+            </section>
+            <section>
+                <h2>결제 수단</h2>
+                <div style="margin-left: 10px;">
+                    <input type="checkbox" id="kakao">
+                    <label for="kakao" style="margin-left: 0px;">카카오 페이</label>
+                </div>
+            </section>
+            <section>
+                <h2>약관 동의</h2>
+                <div style="margin-left: 10px;">
+                    <input type="checkbox" id="chk_box1">
+                    <label for="chk_box1" style="margin-left: 0px;"> 개인정보 제 3자 제공동의(필수)</label>
+                    <span style="float: right;">보기</span>
+                    <div style="margin-left: 25px; margin-top: 10px;">
+                        회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및
+                        이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다. </div>
+                    <br>
+                    <input type="checkbox" id="chk_box2">
+                    <label for="chk_box2" style="margin-left: 0px;""> 후원 유의사항 확인</label>
+                    <span style=" float: right;">보기</span>
+                        <div style="margin-left: 25px; margin-top: 10px;">
+                            후원은 구매가 아닌 창의적인 계획에 자금을 지원하는 일입니다.
+                            텀블벅에서의 후원은 아직 실현되지 않은 프로젝트가 실현될 수 있도록 제작비를 후원하는 과정으로, 기존의 상품 또는 용역을 거래의 대상으로 하는 매매와는 차이가
+                            있습니다. 따라서 전자상거래법상 청약철회 등의 규정이 적용되지 않습니다.
+                        </div>
+                </div>
+            </section>
+            <div style="text-align: center;">
+                <button type="button" onclick="location.href='./paysuccess.html'" class="ok_button"
+                    style="margin-top: 10px;">결제 하기</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
+</body>
+
+</html>

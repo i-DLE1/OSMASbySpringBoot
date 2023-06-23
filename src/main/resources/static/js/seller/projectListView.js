@@ -44,3 +44,4 @@ function projectListView(){
         $("#project-view-list").append($div);
     })
 }
+

@@ -340,9 +340,9 @@ function projectInitRegist() {
 
     $.ajax({
         url : '/seller/regist/project2',
-        // contentType : 'application/json',
-        // data : json12,
-        data: {title,content,startDate,endDate,money},
+        contentType : 'application/json',
+        data : json12,
+        // data: {title,content,startDate,endDate,money},
         type : 'post',
 
         success : function (data){
