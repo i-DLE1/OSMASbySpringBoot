@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.termsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 35px;
+}
+
+.terms {
+    overflow-y: scroll;
+    max-height: 600px;
+    max-width: 1200px;
+    border: 1px solid #ccc;
+    padding: 80px;
+}
