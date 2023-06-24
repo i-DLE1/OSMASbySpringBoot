@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <div th:replace="~{/seller/sellerFrag :: head}"></div>
+        <div th:replace="~{/seller/fragments/sellerFrag :: head}"></div>
         <title>프로젝트 관리 - 전체 조회</title>
     </head>
     <body>
-        <div th:replace="~{/seller/sellerFrag :: nav}"></div>
+        <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
         <main>
             <div class="main">
                 <div class="main-header">
@@ -73,7 +73,7 @@
                     </tbody>
                 </table>
                 <!-- cus-page start -->
-                <div th:replace="~{/seller/sellerFrag :: pageantion}"></div>
+                <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
             <!-- cus-page end -->
             <!-- 테이블 종료 -->
             </div>
