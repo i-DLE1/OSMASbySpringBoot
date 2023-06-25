@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 상품 관리 */
+.product {
+    text-align: center;
+    display: flex;
+    gap: 20px 2%;
+    flex-wrap: wrap;
+}
+
+.item{
+    width: 32%;
+}
+
+.product {
+    position: relative;
+    margin: 100px auto;
+    max-width: 1400px;
+    background-color: #ffffff;
+}
+
+.item {
+    height: 300px;
+    line-height: 200px;
+    background-color: #C49A6C;
+}
