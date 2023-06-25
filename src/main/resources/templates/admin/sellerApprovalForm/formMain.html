@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자 권한 획득/회수 신청 관련 메인</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/sellerApprovalForm/formMain.css">
+    <script src="/js/admin/sellerApprovalForm/formMain.js"></script>
+</head>
+<body>
+<middle>
+    <h1 style="text-align: center;  margin: 100px auto 50px;">OSMAS 판매자 권한 관련 신청</h1><br>
+    <div style="display: flex; flex-direction: row; justify-content: center; margin: 50px auto 100px;">
+        <div class="box">
+            <h1><a href="getForm.html">판매자 권한 신청하기</a></h1>
+            <button onclick="toggleNotification('notification1')">권한 신청 준비 서류 등 안내</button>
+            <div id="notification1" class="notification">
+                <span class="close" onclick="hideNotification('notification1')">&times;</span>
+                <h3>판매자 권한 신청 준비 서류 안내</h3>
+                <p>사업자등록증 사본 1부<br>
+                    통신판매업 사업자 사본 1부<br>
+                    대표자 인감증명서 (또는 본인서명사실확인서) 사본 1부<br>
+                    대표자 혹은 사업자 명의 통장 (또는 계좌개설확인서, 온라인통장표지) 사본 1부<br>
+                </p>
+            </div>
+        </div>
+
+        <div class="box">
+            <h1><a href="outForm.html">판매자 권한 회수 신청하기</a></h1>
+            <button onclick="toggleNotification('notification2')">회수 유의사항 안내</button>
+            <div id="notification2" class="notification">
+                <span class="close" onclick="hideNotification('notification2')">&times;</span>
+                <h3>회수 유의사항 안내</h3>
+                <p>권한 회수 완료 즉시 판매자님의 데이터가 영구적으로 삭제됩니다.<br>
+                    판매자의 권한 회수 시 다시 신청이 불가하니 신중히 신청해주시면 감사드리겠습니다.
+                </p>
+            </div>
+        </div>
+    </div>
+</middle>
+</body>
+</html>
