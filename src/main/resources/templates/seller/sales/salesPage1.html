@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>판매페이지_상품상세내용</title>
+    <link rel="stylesheet" href="./style.css" >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <script src="../../resources/메인페이지/script.js"></script>
+    <script src="../script.js"></script>
+</head>
+
+<header id="header"></header>
+
+
+<body>
+
+<div class="contents">
+    <div class="top">
+        <div class="category"><div class="text">의류</div></div>
+        <div class="title"><div class="text">장애인-비장애인 누구나 입는 '유니버셜' 의류</div></div>
+        <div class="sellerlogo"><img class="logoimage" src="../resources/image/판매자로고.PNG" alt="판매자로고"></div>
+    </div>
+
+    <div class="product">
+        <!-- <div class="productimg"><img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진"></div> -->
+
+        <div class="imagecontainer">
+            <div class="productimg">
+                <img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진1">
+                <img class="image" src="../resources/image/썸네일2.PNG" alt="상품사진1">
+                <img class="image" src="../resources/image/썸네일3.PNG" alt="상품사진1">
+            </div>
+            <div class="imagebuttoncontainer">
+                <button class="imagebutton" onclick="showSlide(0)"></button>
+                <button class="imagebutton"  onclick="showSlide(1)"></button>
+                <button class="imagebutton" onclick="showSlide(2)"></button>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="option">
+            <div class="optiontop">
+                <div class="optiontitle">목표금액</div>
+                <div class="optiontop-sub">
+                    <div>600,000</div>
+                    <div>원 /</div>
+                    <div>1,000,000</div>
+                    <div>원</div>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress-gauge1"></div>
+                    <div class="progresstext">
+                        <di >60</di>
+                        <div>% 달성중</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="optiontop">
+                <div class="optiontitle">남은날짜</div>
+                <div class="optiontop-sub">
+                    <div>펀딩기간 : </div>
+                    <div>2023.06.01 ~ 2023.06.15</div>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress-gauge2"></div>
+                    <div class="progresstext">
+                        <div>10</div>
+                        <div>일 남았습니다</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="optiontop">
+                <div class="optiontitle">프로젝트 후원하기</div>
+            </div>
+
+            <div class="optionmiddle">
+                <input type="checkbox" style="width: 45px;">
+                <div class="optiontext" >옵션선택 없이 후원</div>
+                <input class="optiontext" id="donation" type="text" value="1000+">
+                <div class="optiontext">원</div>
+            </div>
+
+            <div class="optionmiddle">
+                <div class="optiontext">옵션1</div>
+                <select class="optiontext" id="selectbox">
+                    <option value="1">옵션1</option>
+                    <option value="2">옵션2</option>
+                    <option value="3">옵션3</option>
+                </select>
+            </div>
+
+            <div class="optionmiddle">
+                <div class="optiontext">옵션2</div>
+                <select class="optiontext" id="selectbox">
+                    <option value="1">옵션1</option>
+                    <option value="2">옵션2</option>
+                    <option value="3">옵션3</option>
+                </select>
+            </div>
+
+            <div class="optiontop">
+                <div class="optiontitle">선택옵션 확인</div>
+                <div class="optiontop-sub">
+                    <div class="optiontext" id="totalamount">45,000</div>
+                    <div class="optiontext" id="totalamount">원</div>
+                    <button id="orderbutton" type="submit">후원하기</button>
+                </div>
+            </div>
+
+            <div class="optionbottom">
+                <div class="optionmiddle">
+                    <div class="optiontext">선택1</div>
+                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
+                    <div class="optiontext">수량</div>
+                    <input class="optiontext" id="optionamount" type="text" value="1" >
+                    <button class="button" id="plusbutton">+</button>
+                    <button class="button" id="minusbutton">-</button>
+                </div>
+                <div class="optionmiddle">
+                    <div class="optiontext">선택2</div>
+                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
+                    <div class="optiontext">수량</div>
+                    <input class="optiontext" id="optionamount" type="text" value="1" >
+                    <button class="button" id="plusbutton">+</button>
+                    <button class="button" id="minusbutton">-</button>
+                </div>
+                <div class="optionmiddle">
+                    <div class="optiontext">선택3</div>
+                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
+                    <div class="optiontext">수량</div>
+                    <input class="optiontext" id="optionamount" type="text" value="1" >
+                    <button class="button" id="plusbutton">+</button>
+                    <button class="button" id="minusbutton">-</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <nav>
+        <ul>
+            <li class="selectedpage"><a href="./1_판매페이지_상품상세내용.html">상품내용</a></li>
+            <li class="contentsmiddle"><a href="./2_판매페이지_프로젝트정보.html">프로젝트정보</a></li>
+            <li class="contentsmiddle"><a href="./3_판매페이지_Q&A.html">Q/A</a></li>
+            <li class="contentsmiddle"><a href="./4_판매페이지_FAQ.html">FAQ</a></li>
+            <li class="contentsmiddle"><a href="./5_판매페이지_새소식.html">새소식</a></li>
+            <li class="contentsmiddle"><a href="./6_판매페이지_판매자정보.html">판매자정보</a></li>
+        </ul>
+    </nav>
+
+
+
+    <div class="contentsbottom">
+
+        <img class="productimage" src="../resources/image/썸네일3.PNG" alt="상품사진1">
+
+
+
+
+    </div>
+
+
+
+</body>
+
+<footer id="footer"></footer>
+</html>
