@@ -12,14 +12,13 @@
     font-size: 15px;
     color: #884A3B;
 }
-.project-item-thumnail{
+.project-item-thumbnail{
     width: 350px;
     height: 200px !important;
     border-radius: 10px;
     background-color: rgb(184, 182, 182);
     margin-bottom: 10px;
     object-fit: cover;
-
 }
 .project-item div:nth-child(2){
     display: grid;

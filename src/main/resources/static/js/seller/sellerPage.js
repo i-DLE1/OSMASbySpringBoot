@@ -78,23 +78,35 @@ function proejctQAList(filter){
     })
 }
 
+// 화면 위치 시작
+const screenCenterPopup = (popupWidth, popupHeight) =>{
+    const screenWidth = window.screen.width
+    const screenHeight = window.screen.height
+
+    const popupX = (screenWidth /2) - (popupWidth /2);
+    const popupY = (screenHeight /2) - (popupHeight /2);
+
+    return `width=${popupWidth} , height=${popupHeight}, left=${popupX}, top=${popupY}`;
+}
+// 화면 위치 끝
+
 function qaPopup(e){
-    window.open(`./projectDetail/qaAnwer?id=${e.id}`,"popup","height=650px, width=500px, resizable=no, name=qa_answer");
+    window.open(`./projectDetail/qaAnwer?id=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
 }
 
 function popupCancel(id) {
-    window.open(`./projectDetail/cancel?id=${id}`,"popup","height=900px, width=600px, resizable=no, name=projectCancel, location=no");
+    window.open(`./projectDetail/cancel?id=${id}`,"popup",`${screenCenterPopup(450, 850)}, resizable=no, name=projectCancel, location=no`);
 }
 
 function popupStatics(id){
-    window.open(`./projectDetail/projectDetail?id=${id}`,"popup","height=1000px, width=1500px, resizable=no, name=projectStatics, location=no");
+    window.open(`./projectDetail/projectDetail?id=${id}`,"popup",`${screenCenterPopup(1800,1000)}, resizable=no, name=projectStatics, location=no`);
 }
 
 function projectModify(id){
     window.open(`../createProject/index?id=${id}`,"popup");
 }
 function popupRetry(id){
-    window.open(`./projectDetail/retry?id=${id}`,"popup","height=600px, width=500px, resizable=no, name=projectRetry, location=no");
+    window.open(`./projectDetail/retry?id=${id}`,"popup",`${screenCenterPopup(500,600)}, resizable=no, name=projectRetry, location=no`);
 }
 function cancelTableDummyData(){
     let data =
@@ -135,38 +147,44 @@ function activePage() {
             $("#cusAll").addClass('active-page') ;
             $titleSpan.text('전체조회');
             break;
+
         case '/seller/projectList?listType=screening' :
             $("#cusScreenMenu").addClass('active-page') ;
             $("#cusScreen").addClass('active-page') ;
             $titleSpan.text('심사중');
             break;
+
         case '/seller/projectList?listType=processing' :
-            $("#cusOngoMenu").addClass('active-page') ;
-            $("#cusOngo").addClass('active-page') ;
+            $("#cusProcessMenu").addClass('active-page') ;
+            $("#cusProcess").addClass('active-page') ;
             $titleSpan.text('진행중');
             break;
+
         case '/seller/projectList?listType=refuse' :
             $("#cusRefuseMenu").addClass('active-page') ;
             $("#cusRefuse").addClass('active-page') ;
             $titleSpan.text('반려');
-
             break;
+
         case '/seller/projectList?listType=cancel' :
-            $("#cusCancleMenu").addClass('active-page') ;
-            $("#cusCancle").addClass('active-page') ;
+            $("#cusCancelMenu").addClass('active-page') ;
+            $("#cusCancel").addClass('active-page') ;
             $titleSpan.text('취소');
             break;
+
         case '/seller/projectQnAList' :
         case '/seller/projectQnAList?listType=all' :
             $("#qaAllMenu").addClass('active-page') ;
             $("#qaAll").addClass('active-page') ;
             $titleSpan.text('전체조회');
             break;
+
         case '/seller/projectQnAList?listType=wait' :
             $("#qaWaitMenu").addClass('active-page') ;
             $("#qaWait").addClass('active-page') ;
             $titleSpan.text('답변 대기중');
             break;
+
         case '/seller/projectQnAList?listType=complete' :
             $("#qaCompleteMenu").addClass('active-page') ;
             $("#qaComplete").addClass('active-page') ;

@@ -23,9 +23,9 @@
     <div class="menu-visible ">
       <li id="cusAllMenu" onclick="location.href='./projectList?listType=all'" >전체 조회</li>
       <li id="cusScreenMenu" onclick="location.href='./projectList?listType=screening'">심사중</li>
-      <li id="cusOngoMenu" onclick="location.href='./projectList?listType=processing'">진행중</li>
+      <li id="cusProcessMenu" onclick="location.href='./projectList?listType=processing'">진행중</li>
       <li id="cusRefuseMenu" onclick="location.href='./projectList?listType=refuse'">반려</li>
-      <li id="cusCancleMenu" onclick="location.href='./projectList?listType=cancel'">취소</li>
+      <li id="cusCancelMenu" onclick="location.href='./projectList?listType=cancel'">취소</li>
     </div>
   </ul>
   <ul class="menu-list">
@@ -64,7 +64,7 @@
 <th:block th:fragment="prjItem('title','content','amount','date','views','img')">
 <div class="project-item">
   <div>
-    <img class="project-item-thumnail" th:src="${img}">
+    <img class="project-item-thumbnail" th:src="${img}">
   </div>
   <div class="project-row">
     <div th:text="${money}"></div>

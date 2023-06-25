@@ -295,7 +295,7 @@ function productInfoList(data) {
             .append($(`<th>`).addClass( "col-2").text("가격(원)"))
             .append($(`<td>`).addClass( "col").text(item.money))
             .append($(`<th>`).addClass( "col-1").text("수량"))
-            .append($(`<td>`).addClass( "col-2").text(item.count));
+            .append($(`<td>`).addClass( "col-1").text(item.count));
         $("#projectEndList").append($tr);
 
     })
@@ -357,7 +357,6 @@ function projectInitRegist() {
         }
 
     })
-
 }
 
 
@@ -375,7 +374,7 @@ const suneditor = (minHeight, maxHeight) => {
             ['removeFormat'],
             ['outdent', 'indent'],
             ['align', 'horizontalRule', 'list', 'lineHeight'],
-            ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save'],
+            ['fullScreen', 'showBlocks'],
         ],
         lang: SUNEDITOR_LANG['ko'],
         minHeight : minHeight,

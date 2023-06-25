@@ -33,18 +33,31 @@ body{
 }
 
 .chart-area{
-    background-color: rgba(0,0,0,0.1);
-    height: 100vh;
+    /*border: 1px solid red;*/
+    /*background-color: rgba(0,0,0,0.1);*/
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    column-gap: 20px;
+    max-width: 90vh;
+    min-width: 90vh;
+    height: 80vh;
+    padding: 10px 20px 20px 20px;
+}
+.chart-area>div{
+    width: 40vh;
+    max-height: 40vh;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 .project-table{
-    font-size: 20px;
+    font-size: 15px;
     margin: 0 0 2em 0;
 }
 .project-table tr{
     line-height: 40px;
 }
 .project-table th{
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 700;
     color: #884A3B;
     text-align: end;
@@ -56,18 +69,20 @@ body{
 }
 
 .product-statistics{
-    font-size: 20px;
+    font-size: 15px;
     width: 500px;
     line-height: 35px;
 }
 
 .product-statistics thead{
+    font-size: 18px;
     font-weight: 700;
     color: #884A3B;
 }
 
 .product-statistics thead{
     border-top: 1px solid #884A3B;
+    line-height: 40px;
 }
 
 .product-statistics thead tr td:nth-child(4){
@@ -86,7 +101,7 @@ body{
     text-align: end;
 }
 .footer{
-    margin-top: 2em;
+    margin-top: 3em;
     width: 100%;
     display: flex;
     justify-content: center;

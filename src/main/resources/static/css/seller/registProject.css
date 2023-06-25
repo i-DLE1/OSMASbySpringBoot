@@ -101,10 +101,9 @@ body {
     width: 100%;
 }
 
-.image-upload-list{
-    width: 100%;
+.image-upload-list {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     grid-column-gap: 39px;
     overflow: auto;
 }
@@ -152,7 +151,7 @@ body {
 
 .end-table{
     width: 97%;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .end-table tr{

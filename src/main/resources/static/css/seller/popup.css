@@ -15,10 +15,10 @@ body{
     font-size: 40px;
 }
 .cancel-table{
-    font-size: 21px;
+    font-size: 15px;
 }
 .cancel-table tr{
-    line-height: 50px;
+    line-height: 40px;
 }
 .cancel-table th{
     text-align: end;
@@ -52,7 +52,7 @@ body{
     color: #884A3B;
 }
 .cancel-content{
-    width: 430px;
+    width: 340px;
     border : 1px solid #884A3B;
     resize: none;
     border-radius: 5px;
@@ -64,8 +64,8 @@ body{
 
 .cancel-content-area label{
     position: absolute;
-    width: 430px;
+    width: 350px;
     text-align: right;
     color: #884A3B;
-    top: 725px;
+    top: 655px;
 }

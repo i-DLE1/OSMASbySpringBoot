@@ -2,23 +2,25 @@
 
 body{
     font-family: 'Noto Sans KR', sans-serif;
-    display: grid;
-    grid-template-columns: 270px auto;
     margin: 0 60px 0 0;
 }
-
+.main-col-2{
+    display: grid;
+    grid-template-columns: 270px auto;
+}
 
 .cus-nav{
     display: block;
     justify-content: center;
     text-align: center;
-    height: 140vh;
+    height: 120vh;
     background-color: #F9DFBB;
     font-size: 15px;
     color: #884A3B;
-    box-shadow: 0 0 7px 0 rgb(126, 126, 126) ;
 }
 .menu-list {
+    display: block;
+    text-align: center;
     list-style: none;
     line-height: 35px;
     padding-left: 0;
@@ -31,8 +33,12 @@ body{
     display: block;
 }
 .menu-list li{
+    display: block;
+    text-align: center;
+    margin: 0;
     padding-top: 2px;
     padding-bottom: 2px;
+    list-style: none;
 }
 .menu-list>h5{
     padding: 10px 0 10px 0 ;
