@@ -201,15 +201,15 @@ body{
     color: white !important;
 }
 .cus-button {
-    border: 1px solid #C49A6C;
+    border: 1px solid #cca77f;
     font-size: 15px;
-    color:#C49A6C ;
+    color:#cca77f;
     background-color: white ;
     border-radius: 7px;
     margin: 0 5px 0 5px;
 }
 .cus-button:hover{
-    border: 1px solid #884A3B;
-    background-color: #884A3B;
+    border: 1px solid #b68149;
+    background: #b68149;
     color: white;
 }

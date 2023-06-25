@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
 <body>
 <header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','','active-process','','')}"></header>
@@ -21,7 +21,7 @@
             <div class="row" style="margin-top: 15px;">
                 <div class="container-justify-center-w100">
                     <button id="fqaAdd" class="add-item" type="button">
-                        <img src="../../static/image/additem.png" width="40px" height="40px">
+                        <img src="/images/seller/regist/additem.png" width="40px" height="40px">
                     </button>
                 </div>
             </div>

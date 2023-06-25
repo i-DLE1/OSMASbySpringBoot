@@ -54,18 +54,18 @@ public class RegistProjectController {
 
     @GetMapping("project5")
     public String getProjectFAQ(){
-        return "/eller/regist/registProject5";
+        return "/seller/regist/registProject5";
     }
 
 
     @GetMapping("project6")
     public String getProjectNEWS(){
-        return "/eller/regist/registProject6";
+        return "/seller/regist/registProject6";
     }
 
     @GetMapping("project7")
     public String getProjectInfo(){
-        return "/eller/regist/registProject7";
+        return "/seller/regist/registProject7";
     }
 
 }

@@ -35,7 +35,7 @@ body {
 
 .scroll-box{
     border: 1px solid #884A3B ;
-    width: 97%;
+    width: 100%;
     padding: 1em;
 }
 
@@ -71,7 +71,7 @@ body {
     height: 50px;
     color: white;
     font-weight: 400;
-    background-color: #C49A6C;
+    background: #cca77f;
     border: none;
     border-radius: 5px;
     margin: 10px;    
@@ -79,7 +79,7 @@ body {
 
 .footer-btn:hover{
     transition: 0.3s;
-    background-color: #884A3B;
+    background: #b68149;
 }
 
 .input-box{
