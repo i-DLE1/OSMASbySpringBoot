@@ -8,19 +8,29 @@ import org.springframework.context.annotation.Bean;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectDTO {
 
-    private int no;
-    private String title;
-    private String content;
+    private int no;  // index
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private int money;
+    private String title; // 제목
 
+    private String content; // 컨텐츠
+
+    private LocalDate startDate; // 프로젝트 시작일
+
+    private LocalDate endDate; // 프로젝트 종료일
+
+    private int targetAmount; // 목표금액
+
+    private int currentAmount; // 현재금액
+
+    private LocalDate registDate; // 프로젝트 등록일자
+
+    private int view; // 뷰 수
 
 }

@@ -360,6 +360,29 @@ function projectInitRegist() {
 
 }
 
+
+const suneditor = (minHeight, maxHeight) => {
+    SUNEDITOR.create('content', {
+        font:[
+            'Noto Sans KR', 'Arial','Nanum Gothic',
+        ],
+        buttonList: [
+            ['undo', 'redo'],
+            ['font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+            ['fontColor', 'hiliteColor', 'textStyle'],
+            ['image','link'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save'],
+        ],
+        lang: SUNEDITOR_LANG['ko'],
+        minHeight : minHeight,
+        maxHeight : maxHeight,
+    })
+}
+
 function project2LoadData() {
 
 }

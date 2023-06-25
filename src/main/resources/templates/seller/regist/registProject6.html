@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+<th:block th:replace="~{/seller/fragments/registProjectFrag :: suneditor}"></th:block>
 <body>
 <header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','','','active-process','')}"></header>
         <main class="main">
@@ -13,7 +14,9 @@
                 </div>
                 <div class="mt-4">
                     <label class="sub-title">내용</label>
-                    <div style="height: 300px; border: 1px solid #C49A6C;">웹에디터</div>
+                    <div style="height: 300px;">
+                        <textarea id="content" style="width: 100%; height: 230px;"></textarea>
+                    </div>
                 </div>
                 <div class="footer">
                     <input class="footer-btn" type="button" value="취소" />
@@ -34,7 +37,7 @@
                 <tbody id="newsList">
                 <!-- 리스트 컴포넌트-->
                 </tbody>
-        </table>
+            </table>
         </main>
         <!-- 하단 버튼 시작 -->
         <footer class="footer">
@@ -42,7 +45,10 @@
             <input class="footer-btn" type="button" value="다음" />
         </footer>
         <script src="/js/seller/registProject.js"></script>
-        <script >project6LoadData()</script>
+        <script>
+            project6LoadData();
+            suneditor(230, 230);
+        </script>
         <!-- 하단 버튼 끝 -->
     </body>
 </html>

@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
-<body>
-<header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','active-process','','','')}"></header>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+    <th:block th:replace="~{/seller/fragments/registProjectFrag :: suneditor }"></th:block>
+    <body>
+        <header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','active-process','','','')}"></header>
         <main class="main">
             <h1 class="h1-title">상품 상세정보 등록</h1>
             <div>
-                <div style="width: 100%; height: 600px; border: 1px solid black; display: flex; justify-content: center; align-items: center; font-size: 80px;">WebEditor</div>
+                <textarea id="content" style="width: 100%;"></textarea>
             </div>
         </main>
-        <!-- 하단 버튼 시작 -->
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
             <input class="footer-btn" type="button" value="다음" />
         </footer>
-        <!-- 하단 버튼 끝 -->
+        <script src="/js/seller/registProject.js"></script>
+        <script>suneditor(500,'auto')</script>
     </body>
 </html>

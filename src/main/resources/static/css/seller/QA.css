@@ -40,14 +40,14 @@ body{
     height: 50px;
     color: white;
     font-weight: 400;
-    background-color: #C49A6C;
+    background: #cca77f;
     border: 0;
     border-radius: 5px;
     margin: 10px;    
 }
 .footer-btn:hover{
      transition: 0.3s;
-     background-color: #884A3B;
+    background: #b68149;
  }
 .h1-title {
     color: #884A3B;
