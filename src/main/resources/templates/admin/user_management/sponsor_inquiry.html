@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sponsor_inquiry(후원회원조회)</title>
+  <link rel="stylesheet" href="../css/adminbasicstyle.css">
+  <link rel="stylesheet" href="../css/adminmainstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    function toggleDropdown(event) {
+      // event.stopPropagation(); // 클릭 이벤트의 전파를 중지합니다.
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.classList.toggle("slide-open");
+    }
+
+    $(document).ready(function() {
+      $('#toggleBtn').click(function() {
+        $('.member-list').toggleClass('active');
+      });
+    });
+
+    // 클릭 이벤트가 발생한 영역 밖을 클릭하면 슬라이드가 닫히도록 설정
+    window.addEventListener("click", function (event) {
+      var dropdown = document.getElementById("dropdownContent");
+      var targetElement = event.target;
+
+      if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
+        dropdown.classList.remove("slide-open");
+      }
+
+    });
+  </script>
+
+</head>
+
+<body>
+
+
+<!-- 상단 타이틀 : 회원관리-후원 회원 조회 -->
+<div class="notice">
+  <p style="text-align: right; margin-right: 1111px; padding-top: 10px; font-weight: bold; font-size: 18px;">회원관리</p>
+  <p style="text-align: right; margin-right: 1092px; font-size: 14px; direction: rtl;">후원 회원 조회</p>
+</div>
+
+<br>
+<br>
+
+<!-- 본문 : 검색창 -->
+<div class="search-inquiry">
+  <input type="text" placeholder="검색 할 닉네임(이메일)을 입력하세요" class="search-inquiry">
+  <button type="submit" class="search-button">검색</button>
+</div>
+</div>
+
+
+
+<!-- 본문 : 프로젝트 명(가나다순) 정렬 검색 -->
+<div class="member-list">
+  <button id="toggleBtn" class="more"><i class="fas fa-chevron-down"></i> 후원 금액 높은순 </button>
+  <ul id="memberList" class="toggle-options">
+    <li>후원 금액 낮은순</li>
+  </ul>
+</div>
+<br>
+
+<!-- 본문 : 조회 리스트 -->
+
+<br>
+<br>
+<div class="tablemargin">
+  <table id="user-table">
+    <thead>
+    <tr>
+      <th>닉네임</th>
+      <th>이메일</th>
+      <th>프로젝트명</th>
+      <th>후원금액</th>
+      <th>후원일자</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>이땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Gold)</td>
+      <td>80,000원</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>김땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Gold)</td>
+      <td>80,000원</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>박땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Sliver)</td>
+      <td>80,000원</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>정땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Gold)</td>
+      <td>150,000원</td>
+      <td>2023-03-02 19:00</td>
+    </tr>
+    <tr>
+      <td>우땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Sliver)</td>
+      <td>80,000원</td>
+      <td>2023-01-21 14:40</td>
+    </tr>
+    <tr>
+      <td>강땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Gold)</td>
+      <td>90,000원</td>
+      <td>2023-04-02 09:00</td>
+    </tr>
+    <!-- 추가적인 사용자 데이터 행을 여기에 추가할 수 있습니다 -->
+    </tbody>
+  </table>
+</div>
+<br>
+<br>
+<button id="load-more-btn" onclick="loadMoreUsers()" class="more1">더보기</button>
+
+<br>
+<br>
+</div>
+
+<br>
+<br>
+<br>
+
+</nav>
+</div>
+
+
+</main>
+</body>
+
+</html>

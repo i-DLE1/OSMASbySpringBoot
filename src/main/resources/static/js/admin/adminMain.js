@@ -13,3 +13,9 @@ window.addEventListener("click", function (event) {
         dropdown.classList.remove("slide-open");
     }
 });
+
+$(document).ready(function() {
+    $('#toggleBtn').click(function() {
+        $('.member-list').toggleClass('active');
+    });
+});
