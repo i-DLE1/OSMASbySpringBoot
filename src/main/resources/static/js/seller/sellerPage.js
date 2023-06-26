@@ -139,6 +139,7 @@ function activePage() {
     let pathname = location.pathname;
     let queryStr = new URLSearchParams(location.search).get('listType');
     let $titleSpan = $(".h1-title").children('span')
+    let $tdSpan = $(".td-title").children('span')
     switch (pathname+'?listType='+queryStr) {
         case '/seller/projectList' :
         case '/seller/projectList?listType=all' :
@@ -189,6 +190,47 @@ function activePage() {
             $("#qaComplete").addClass('active-page') ;
             $titleSpan.text('완료');
             break;
+
+        case '/seller/orderList?listType=all' :
+            $("#orderAllMenu").addClass('active-page') ;
+            $("#orderAll").addClass('active-page') ;
+            $titleSpan.text('전체조회');
+            break;
+
+        case '/seller/orderList?listType=receipt' :
+            $("#orderReceiptMenu").addClass('active-page') ;
+            $("#orderReceipt").addClass('active-page') ;
+            $titleSpan.text('주문접수');
+            $tdSpan.text('배송처리');
+            break;
+
+        case '/seller/orderList?listType=delivery' :
+            $("#orderDeliveryMenu").addClass('active-page') ;
+            $("#orderDelivery").addClass('active-page') ;
+            $titleSpan.text('배송처리');
+            $tdSpan.text('운송장번호');
+            break;
+
+        case '/seller/orderList?listType=refund' :
+            $("#orderRefundMenu").addClass('active-page') ;
+            $("#orderRefund").addClass('active-page') ;
+            $titleSpan.text('교환환불');
+            $tdSpan.text('상태변경');
+            break;
+
+        case '/seller/orderList?listType=cancel' :
+            $("#orderCancelMenu").addClass('active-page') ;
+            $("#orderCancel").addClass('active-page') ;
+            $titleSpan.text('취소내역');
+            $tdSpan.text('취소일자');
+            break;
+
+        case '/seller/orderList?listType=calculate' :
+            $("#orderCalculateMenu").addClass('active-page') ;
+            $("#orderCalculate").addClass('active-page') ;
+            $titleSpan.text('주문정보');
+            break;
+
     }
 }
 function projectSearch() {

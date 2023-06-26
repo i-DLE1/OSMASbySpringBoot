@@ -10,7 +10,7 @@
 
 <nav class="cus-nav" th:fragment="nav">
   <div style="text-align: center;">
-    <img src="/images/seller/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+    <img src="/images/seller/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px; cursor: pointer" onclick="location.href='/main'">
   </div>
   <h2>판매자 페이지</h2>
   <br>
@@ -31,12 +31,12 @@
   <ul class="menu-list">
     <h5>주문관리</h5>
     <div class="menu-visible ">
-      <li>전체조회</li>
-      <li>주문접수</li>
-      <li>배송처리</li>
-      <li>교환환불</li>
-      <li>취소내역</li>
-      <li>주문정보</li>
+      <li id="orderAllMenu" onclick="location.href='./orderList?listType=all'">전체조회</li>
+      <li id="orderReceiptMenu" onclick="location.href='./orderList?listType=receipt'">주문접수</li>
+      <li id="orderDeliveryMenu" onclick="location.href='./orderList?listType=delivery'">배송처리</li>
+      <li id="orderRefundMenu" onclick="location.href='./orderList?listType=refund'">교환환불</li>
+      <li id="orderCancelMenu" onclick="location.href='./orderList?listType=cancel'">취소내역</li>
+      <li id="orderCalculateMenu" onclick="location.href='./orderList?listType=calculate'">주문정보</li>
     </div>
   </ul>
   <ul class="menu-list">
