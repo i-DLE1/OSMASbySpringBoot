@@ -9,15 +9,18 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class ProjectFileDTO {
 
-    private int no; // index
+    private int no; // pk
+
+    private int projectNo;
 
     private ProjectFileType type; // 사용처
 
-    private String originFile; // 원본파일
+    private String originName; // 원본파일
 
-    private String changeFile; // 변경 파일
+    private String changeName; // 변경 파일
 
     private char deleteYN; // 삭제여부
 

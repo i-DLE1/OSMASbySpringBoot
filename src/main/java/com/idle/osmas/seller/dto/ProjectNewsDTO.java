@@ -9,7 +9,8 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectNewDTO {
+@Setter
+public class ProjectNewsDTO {
 
     private int no; // index_pk
 
@@ -23,4 +24,6 @@ public class ProjectNewDTO {
 
     private char deleteYN; // 삭제 여부
 
+    private int projectNo;
+    
 }

@@ -13,7 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ProjectFAQDTO {
 
-    private int no; // index
+    private int no; // pk
+
+    private int projectNo; // project No
 
     private String title; // FAQ 제목
 
