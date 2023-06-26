@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
@@ -24,19 +23,19 @@
         <h2>로그인</h2>
 
         <div id=" log_frm">
-            <form action="" method="">
+            <form action="/member/login/login" method="post">
 
                 <div>
                     <input type="text" name="id" id="id" placeholder="아이디" class="input_text" required>
                 </div>
                 <div>
-                    <input type="password" name="pw" id="pw" placeholder="비밀번호" class="input_text" required>
+                    <input type="password" name="pwd" id="pw" placeholder="비밀번호" class="input_text" required>
                 </div>
 
-                <div class="keep_check">
-                    <input type="checkbox" id="keep" name="idkeep">
-                    <label for="keep">로그인 상태 유지</label>
-                </div>
+<!--                <div class="keep_check">-->
+<!--                    <input type="checkbox" id="keep" name="idkeep">-->
+<!--                    <label for="keep">로그인 상태 유지</label>-->
+<!--                </div>-->
                 <div class="error_message">
                     아이디 또는 비밀번호를 잘못입력했습니다. <br>
                     입력하신 내용을 다시 확인해주세요.
@@ -55,7 +54,7 @@
                 <a href="../findinfo/findpwd.html">비밀번호 찾기</a>
             </li>
             <li>
-                <a href="../signup/signup.html">회원가입</a>
+                <a href="../signup/signUp.html">회원가입</a>
             </li>
         </ul>
 
