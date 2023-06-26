@@ -8,4 +8,11 @@ import java.util.List;
 @Mapper
 public interface ProjectFAQMapper {
     List<ProjectFAQDTO> selectAllProjectFAQ(int projectNo); // 프로젝트 faq 조회
+
+    ProjectFAQDTO selectById(int projectFaqNo);
+
+    int insertProjectFAQ(int projectNo, ProjectFAQDTO projectFAQ);
+
+    int updateProjectFAQ(int projectFaqNo, ProjectFAQDTO projectFAQ);
+
 }

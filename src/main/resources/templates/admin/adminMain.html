@@ -30,15 +30,16 @@
                 </div>
                 <a href="">관리자 마이페이지</a>
                 <a onclick="href='admin/adminCategory/fundingRanking'">현재 펀딩 순위</a>
-                <a onclick="href='admin/sellerApproval/waitingAuthorization'">판매자 권한 관리</a>
+                <a onclick="href='admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
+                <a onclick="href='admin/sellerApprovalForm/formMain'">판매자 권한 신청폼</a> <!-- 나중에 다른 곳으로 옮길 예정 -->
                 <a onclick="href='admin/itemApproval/waitingItem'">상품 승인 관리</a>
                 <a onclick="href='admin/adminCategory/gettingProposals'">제안받기</a>
             </div>
 
-            <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
-            <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
-            <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
-            <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
+            <button class="gugu" style="color: black;">오늘 오픈</button>
+            <button class="gugu" style="color: black;">인기 상품</button>
+            <button class="gugu" style="color: black;">오픈 예정</button>
+            <button class="gugu" style="color: black;">이벤트</button>
             <li class="search">
                 <input type="text" placeholder="검색할 내용을 입력해주세요">
             </li>
@@ -86,15 +87,15 @@
     <ul style="list-style: none;">
         <div class="container">
             <div>
-                <li class="guide"><a href="./notice">공지사항</a></li>
-                <li class="guide"><a href="../OSAMSIntroduction.html">OSMAS 소개</a></li>
+                <li class="guide"><a href="">공지사항</a></li>
+                <li class="guide"><a onclick="href='admin/footerCategory/OSAMSIntroduction'">OSMAS 소개</a></li>
                 <li class="guide"><a href="">문의 사항</a></li>
             </div>
 
             <div>
-                <li class="guide"><a href="./useTerms.html">이용약관</a></li>
-                <li class="guide"><a href="./personalInformationProcessingPolicy.html">개인정보처리방침</a></li>
-                <li class="guide"><a href="./projectJudgingCriteria.html">프로젝트 심사 기준</a></li>
+                <li class="guide"><a onclick="href='admin/footerCategory/useTerms'">이용약관</a></li>
+                <li class="guide"><a onclick="href='admin/footerCategory/personalInformationProcessingPolicy'">개인정보처리방침</a></li>
+                <li class="guide"><a onclick="href='admin/footerCategory/projectJudgingCriteria'">프로젝트 심사 기준</a></li>
             </div>
         </div>
 

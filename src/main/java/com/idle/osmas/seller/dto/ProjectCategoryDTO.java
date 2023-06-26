@@ -6,12 +6,14 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectCategory {
+@Setter
+public class ProjectCategoryDTO {
+
     private int no; // PK
 
-    private int subNo;
+    private Integer subNo;
 
     private String name;
 
-    private ProjectCategory subCategory;
+    private ProjectCategoryDTO subCategory;
 }

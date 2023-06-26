@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,12 +26,26 @@ public class ProjectDTO {
 
     private LocalDate endDate; // 프로젝트 종료일
 
-    private int targetAmount; // 목표금액
+    private Integer targetAmount; // 목표금액
 
-    private int currentAmount; // 현재금액
+    private Integer currentAmount; // 현재금액
 
     private LocalDate registDate; // 프로젝트 등록일자
 
-    private int view; // 뷰 수
+    private Integer views; // 뷰 수
+
+    private ProjectCategoryDTO category;
+
+//    private MemberDTO member; DTO추가되면 수정
+
+    private  List<ProjectFAQDTO> projectFAQList;
+
+    private List<ProjectFileDTO> projectFileList;
+
+    private List<ProjectProgressDTO> projectProgressList;
+
+    private List<ProjectNewsDTO> projectNewsList;
+
+    private List<ProjectQnADTO> projectQnAList;
 
 }

@@ -2,26 +2,26 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>권한 회수 완료</title>
-  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <link rel="stylesheet" href="/css/admin/sellerApproval/sellerAuthorityManaging.css">
+    <title>권한 회수 대기</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/sellerApproval/sellerAuthorityManaging.css">
 </head>
 <body>
 <middle>
     <div class="containerbox">
         <nav class="box3">
             <ul>
-                <li class="box"><a href="../grant/waitingAuthority.html">권한 부여 대기</a></li>
-                <li class="box"><a href="../grant/holdingAuthority.html">권한 부여 보류</a></li>
-                <li class="box"><a href="../grant/succesAuthority.html">권한 부여 완료</a></li>
-                <li class="box"><a href="waitingRetrieve.html">권한 회수 대기</a></li>
-                <li class="box"><a href="holdingRetrieve.html">권한 회수 보류</a></li>
-                <li  class="box" style="background-color: #bea376;"><a href="">권한 회수 완료</a></li>
+                <li class="box"><a onclick="href='waitingAuthority'">권한 부여 대기</a></li>
+                <li class="box"><a onclick="href='holdingAuthority'">권한 부여 보류</a></li>
+                <li class="box"><a onclick="href='succesAuthority'">권한 부여 완료</a></li>
+                <li  class="box" style="background-color: #bea376;"><a href="">권한 회수 대기</a></li>
+                <li class="box"><a onclick="href='holdingRetrieve'">권한 회수 보류</a></li>
+                <li class="box"><a onclick="href='succesRetrieve'">권한 회수 완료</a></li>
             </ul>
         </nav>
     </div>
 
-    <h4 style="color: rgb(168, 164, 164); text-align: center;">권한 회수가 완료된 판매자들입니다.</h4>
+    <h4 style="color: rgb(168, 164, 164); text-align: center;">판매자 권한 회수를 기다리고 있습니다.</h4>
     <div class="product">
         <div class="image-container">
             <img src="image.jpg" alt="Product Image">
@@ -30,7 +30,10 @@
             <h3 class="seller-name">판매자 이름</h3>
             <p class="sale-description">판매 내용</p>
         </div>
-        <h4 class="box2">권한 회수 완료</h4>
+        <div class="button-container">
+            <button class="buy-button">권한 회수</button>
+            <button class="add-to-cart-button" style="margin-right: 60px;">회수 보류</button>
+        </div>
     </div>
 
     <div class="product">
@@ -41,7 +44,10 @@
             <h3 class="seller-name">판매자 이름</h3>
             <p class="sale-description">판매 내용</p>
         </div>
-        <h4 class="box2">권한 회수 완료</h4>
+        <div class="button-container">
+            <button class="buy-button">권한 회수</button>
+            <button class="add-to-cart-button" style="margin-right: 60px;">회수 보류</button>
+        </div>
     </div>
 
     <div class="product">
@@ -52,7 +58,10 @@
             <h3 class="seller-name">판매자 이름</h3>
             <p class="sale-description">판매 내용</p>
         </div>
-        <h4 class="box2">권한 회수 완료</h4>
+        <div class="button-container">
+            <button class="buy-button">권한 회수</button>
+            <button class="add-to-cart-button" style="margin-right: 60px;">회수 보류</button>
+        </div>
     </div>
 
     <div class="product">
@@ -63,7 +72,10 @@
             <h3 class="seller-name">판매자 이름</h3>
             <p class="sale-description">판매 내용</p>
         </div>
-        <h4 class="box2">권한 회수 완료</h4>
+        <div class="button-container">
+            <button class="buy-button">권한 회수</button>
+            <button class="add-to-cart-button" style="margin-right: 60px;">회수 보류</button>
+        </div>
     </div>
 
     <div class="product">
@@ -74,7 +86,10 @@
             <h3 class="seller-name">판매자 이름</h3>
             <p class="sale-description">판매 내용</p>
         </div>
-        <h4 class="box2">권한 회수 완료</h4>
+        <div class="button-container">
+            <button class="buy-button">권한 회수</button>
+            <button class="add-to-cart-button" style="margin-right: 60px;">회수 보류</button>
+        </div>
     </div>
 
     <!-- pagenation start -->

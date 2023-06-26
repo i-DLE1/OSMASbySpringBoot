@@ -2,11 +2,14 @@ package com.idle.osmas.seller.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
 public class ProductDTO {
 
     private int no; // pk
@@ -22,4 +25,8 @@ public class ProductDTO {
     private ProductStatus status; // 상품 주문 가능 상태
 
     private String size; // 상품 사이즈
+
+
+
+
 }
