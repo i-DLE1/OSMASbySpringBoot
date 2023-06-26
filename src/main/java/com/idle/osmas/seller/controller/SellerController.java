@@ -15,6 +15,12 @@ public class SellerController {
         return "/seller/sellerProjectList";
     }
 
+    @GetMapping(value = {"/","/orderList"})
+    public String getOrderList(@RequestParam(required = false) String listType){
+        System.out.println("listType = " + listType);
+        return "/seller/sellerOrderList";
+    }
+
     @GetMapping("/projectQnAList")
     public String getProjectQnAList(@RequestParam(required = false) String listType){
         System.out.println("listType = " + listType);

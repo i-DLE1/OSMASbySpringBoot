@@ -78,6 +78,40 @@ function proejctQAList(filter){
     })
 }
 
+
+function projectOrderList(filter){
+    $("#projectOrderList").html("");
+
+    // 더미 데이터
+    let projectList = [
+        {id: 1, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+        {id: 2, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+        {id: 3, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+        {id: 4, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+
+    ];
+    projectList.forEach((item ,index)=>{
+        let $tr = $("<tr>").attr("id",item.id);
+        let $td = $("<td>");
+        $tr.append($("<th>").text(index+1)); // 인덱스 번호
+        $tr.append($("<td>").text(item.title)); // 주문자
+        $tr.append($("<td>").text(item.address)); // 배송지
+        $tr.append($("<td>").text(item.comment)); // 요청사항
+        $tr.append($("<td>").text(item.call)); // 연락처
+        $tr.append($("<td>").text(item.option)); // 구매옵션
+        $tr.append($("<td>").text(item.money)); // 결제금액
+        $tr.append($("<td>").text(item.payment)); // 결제수단
+        $tr.append($("<td>").text(item.date)); // 주문일자
+        $tr.append($("<td>").text(item.state)); // 배송상태
+        $tr.append($td);
+
+        $("#projectOrderList").append($tr);
+    })
+}
+
+
+
+
 // 화면 위치 시작
 const screenCenterPopup = (popupWidth, popupHeight) =>{
     const screenWidth = window.screen.width
@@ -139,6 +173,7 @@ function activePage() {
     let pathname = location.pathname;
     let queryStr = location.search;
     let $titleSpan = $(".h1-title").children('span')
+    let $tdSpan = $(".td-title").children('span')
 
     switch (pathname+queryStr) {
         case '/seller/projectList' :
@@ -189,6 +224,46 @@ function activePage() {
             $("#qaCompleteMenu").addClass('active-page') ;
             $("#qaComplete").addClass('active-page') ;
             $titleSpan.text('완료');
+            break;
+
+        case '/seller/orderList?listType=all' :
+            $("#orderAllMenu").addClass('active-page') ;
+            $("#orderAll").addClass('active-page') ;
+            $titleSpan.text('전체조회');
+            break;
+
+        case '/seller/orderList?listType=receipt' :
+            $("#orderReceiptMenu").addClass('active-page') ;
+            $("#orderReceipt").addClass('active-page') ;
+            $titleSpan.text('주문접수');
+            $tdSpan.text('배송처리');
+            break;
+
+        case '/seller/orderList?listType=delivery' :
+            $("#orderDeliveryMenu").addClass('active-page') ;
+            $("#orderDelivery").addClass('active-page') ;
+            $titleSpan.text('배송처리');
+            $tdSpan.text('운송장번호');
+            break;
+
+        case '/seller/orderList?listType=refund' :
+            $("#orderRefundMenu").addClass('active-page') ;
+            $("#orderRefund").addClass('active-page') ;
+            $titleSpan.text('교환환불');
+            $tdSpan.text('상태변경');
+            break;
+
+        case '/seller/orderList?listType=cancel' :
+            $("#orderCancelMenu").addClass('active-page') ;
+            $("#orderCancel").addClass('active-page') ;
+            $titleSpan.text('취소내역');
+            $tdSpan.text('취소일자');
+            break;
+
+        case '/seller/orderList?listType=calculate' :
+            $("#orderCalculateMenu").addClass('active-page') ;
+            $("#orderCalculate").addClass('active-page') ;
+            $titleSpan.text('주문정보');
             break;
 
     }
