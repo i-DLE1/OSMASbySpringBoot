@@ -92,7 +92,7 @@ label{
 #email{
     width: 83%;
 }
-#emailNum{
+#emailNum, #id, #nickName{
     width: 83%;
 }
 
