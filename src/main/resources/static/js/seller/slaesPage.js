@@ -22,5 +22,5 @@ showSlide(currentIndex);
 
 setInterval(() => {
     showSlide(currentIndex + 1);
-}, 3000);
+}, 1000);
 

@@ -23,7 +23,7 @@ nav ul li a{
 
 .contents{
     /* background-color: rgba(201, 195, 195, 0.7); */
-    width: 1200px;
+    width: 1000px;
     margin: auto;
 }
 
@@ -76,6 +76,7 @@ nav ul li a{
 }
 
 .product {
+    scale: 80%;
     display: flex;
     justify-content: center;
 
@@ -146,12 +147,13 @@ nav ul li a{
 .option {
     text-align: center;
     /* background-color: rgb(255, 255, 255); */
-    font-size: 20px;
+    font-size: 15px;
     width: 600px;
     height: 500px;
 }
 
 .optiontitle {
+    margin-bottom: 10px;
     font-size: 27px;
     font-weight: bold;
 }
@@ -243,7 +245,7 @@ nav ul li a{
     /* top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); */
-    font-size: 25px ;
+    font-size: 20px ;
 
 }
 
@@ -288,7 +290,7 @@ nav ul li a{
 
 #plusbutton{
     width: 40px;
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
     border: none;
     border-radius: 8px;
@@ -305,7 +307,7 @@ nav ul li a{
 
 #minusbutton{
     width: 40px;
-    font-size: 40px;
+    font-size: 30px;
     border: none;
     border-radius: 8px;
     background-color: #C49A6C;
@@ -361,7 +363,7 @@ nav ul li a{
 }
 
 .contentheadline{
-    font-size: 40px;
+    font-size: 30px;
     font-weight: bold;
     text-align: center;
 
