@@ -22,7 +22,7 @@ public class sellerRoleDTO {
 
     private String address; //주소
 
-    private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
+    //private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
 
     private String bank; //은행
 
