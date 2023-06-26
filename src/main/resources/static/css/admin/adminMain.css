@@ -19,19 +19,13 @@ body{
     margin-left: 10px;
 }
 
-nav ul {
+.ctg {
     list-style: none;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     text-align: center;
     display: grid;
     grid-template-columns: auto auto auto auto auto auto;
-}
-
-nav ul li {
-    display: inline;
-    letter-spacing: 0.3em;
-    margin-left: 2em;
 }
 
 .gugu {
@@ -178,3 +172,4 @@ footer a {
     width: 200px;
     height: 200px;
 }
+

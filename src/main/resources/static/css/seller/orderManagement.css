@@ -1,26 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+a{
+    text-decoration: none;
+    color: #884A3B;
+}
 
 body{
-    font-family: 'Noto Sans KR', sans-serif;
-    margin: 0 60px 0 0;
-}
-.main-col-2{
     display: grid;
     grid-template-columns: 270px auto;
+    margin: 0 60px 0 0;
 }
 
 .cus-nav{
     display: block;
     justify-content: center;
     text-align: center;
-    height: 120vh;
+    height: 140vh;
     background-color: #F9DFBB;
     font-size: 15px;
     color: #884A3B;
+    box-shadow: 0 0 7px 0 rgb(126, 126, 126) ;
 }
 .menu-list {
-    display: block;
-    text-align: center;
     list-style: none;
     line-height: 35px;
     padding-left: 0;
@@ -28,26 +27,24 @@ body{
     padding-bottom: 5px;
     border-bottom: 1px solid #884A3B;
 }
-
+.menu-list a{
+    display: block;
+}
 .menu-list:hover div{
     display: block;
 }
 .menu-list li{
-    display: block;
-    text-align: center;
-    margin: 0;
     padding-top: 2px;
     padding-bottom: 2px;
-    list-style: none;
 }
-.menu-list>h5{
+.menu-list>h5>a{
     padding: 10px 0 10px 0 ;
-    color: #884A3B;
+    color: #884A3B !important;
 }
-.menu-list>h5:hover{
+.menu-list>h5>a:hover{
     transition: 0.5s;
-    background-color: #b68149;
-    color: white;
+    background-color: #884A3B !important;
+    color: white !important;
     padding: 10px 0 10px 0 ;
 }
 
@@ -55,7 +52,6 @@ body{
     transition: 0.2s;
     display: block;
 }
-
 
 .list-nav{
     border-top: 1px solid #C49A6C;
@@ -69,7 +65,7 @@ body{
 }
 
 .list-nav td:hover{
-    background-color: #b68149;
+    background-color: #cda57a;
     color: white;
 }
 
@@ -84,12 +80,12 @@ body{
 
 .menu-list li:hover{
     transition: 0.5s;
-    background-color: #b68149;
+    background-color: #C49A6C;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
-.menu-list li:hover{
+.menu-list li:hover a{
     transition: 0.5s;
-    color: white;
+    color: white !important;
 }
 
 .main{
@@ -114,20 +110,19 @@ body{
 }
 
 .search-btn{
-    background-color: #cca77f;
+    background-color: #C49A6C;
     border: none;
     color: white;
     max-width: 60px !important;
     border-radius: 5px;
 }
-.search-btn:hover{
-    transition: 0.2s;
-    background: #b68149;
-}
 
 .active-page{
     background-color: #884A3B !important;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    color: white;
+}
+.active-page a{
     color: white !important;
 }
 
@@ -207,15 +202,38 @@ body{
     color: white !important;
 }
 .cus-button {
-    border: 1px solid #cca77f;
+    border: 1px solid #C49A6C;
     font-size: 15px;
-    color:#cca77f;
+    color:#C49A6C ;
     background-color: white ;
     border-radius: 7px;
     margin: 0 5px 0 5px;
 }
 .cus-button:hover{
-    border: 1px solid #b68149;
-    background: #b68149;
+    border: 1px solid #884A3B;
+    background-color: #884A3B;
     color: white;
+}
+
+.checkoption{
+    width: 20px;
+    height: 20px;
+}
+
+.submitbutton{
+    width: 100px;
+    height: 30px;
+    background-color: #C49A6C;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.tbaletop{
+    display: flex;
+    justify-content: space-between;
+}
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
 }
