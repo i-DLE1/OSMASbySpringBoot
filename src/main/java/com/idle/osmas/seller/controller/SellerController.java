@@ -1,23 +1,31 @@
 package com.idle.osmas.seller.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/seller/")
 public class SellerController {
 
     @GetMapping(value = {"/","/projectList"})
-    public String getProjectList(@RequestParam(required = false) String listType){
+    public String getProjectList(@RequestParam(required = false) String listType,
+                                 @RequestParam(required = false) String searchType,
+                                 @RequestParam(required = false) String search){
         System.out.println("listType = " + listType);
+        System.out.println("searchType = " + searchType);
+        System.out.println("search = " + search);
+
         return "/seller/sellerProjectList";
     }
 
     @GetMapping("/projectQnAList")
-    public String getProjectQnAList(@RequestParam(required = false) String listType){
+    public String getProjectQnAList(@RequestParam(required = false) String listType,
+                                    @RequestParam(required = false) String searchType,
+                                    @RequestParam(required = false) String search){
         System.out.println("listType = " + listType);
+        System.out.println("searchType= " + searchType);
+        System.out.println("search = " + search);
         return "/seller/sellerqa";
     }
+
 }

@@ -8,16 +8,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class projectFAQDTO {
+public class ProjectQnAAnswerDTO {
 
-    private int no; // index
-
-    private String title; // FAQ 제목
+    private int no; // PK No
 
     private String content; // 본문
 
     private LocalDate registDate; // 등록날짜
+
 }

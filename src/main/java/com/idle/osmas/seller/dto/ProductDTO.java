@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class ProductDTO {
 
     private int no; // pk
 

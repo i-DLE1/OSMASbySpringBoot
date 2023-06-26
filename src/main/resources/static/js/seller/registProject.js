@@ -231,14 +231,11 @@ function productItemLoad(data){
                             <label class="sub-title" for="name">상품명</label>
                             <input class="w-100 input-box" type="text" id="name${productCount}" name="name${productCount}" value=${item.name}>
                         </div>
-                        <div class="col">
+                        <div class="col-4">
                             <label class="sub-title" for="size">사이즈</label>
                             <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}" value=${item.size}>
                         </div>
-                        <div class="col-2">
-                            <label for="count" class="sub-title">수량</label>
-                            <input class="w-100 input-box" type="number" id="count${productCount}" name="count${productCount}" value=${item.count}>
-                        </div>
+                        
                         <div class="col-3">
                             <label for="money" class="sub-title">금액</label>
                             <input class="w-100 input-box" type="number" id="money${productCount}" name="money${productCount}" value=${item.money}>
@@ -249,10 +246,14 @@ function productItemLoad(data){
                             <label for="body" class="sub-title">설명</label>
                             <input class="w-100 input-box" type="text" id="body${productCount}" name="body${productCount}" value=${item.body}>
                         </div>
-                        <div class="col-3">
-                            <label for="shippingStart" class="sub-title">배송시작</label>
-                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}" value=${item.shippingStart}>
+                        <div class="col-2">
+                            <label for="count" class="sub-title">수량</label>
+                            <input class="w-100 input-box" type="number" id="count${productCount}" name="count${productCount}" value=${item.count}>
                         </div>
+<!--                        <div class="col-3">-->
+<!--                            <label for="shippingStart" class="sub-title">배송시작</label>-->
+<!--                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}" value=${item.shippingStart}>-->
+<!--                        </div>-->
                         <div class="col-3">
                             <label for="shippingFee" class="sub-title">배송비</label>
                             <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}" value=${item.shppingFee}>
@@ -272,6 +273,7 @@ function productItemLoad(data){
 }
 
 
+// 타임리프 대체 예정
 function newsList(data){
     data.forEach((item,index)=>{
         let $tr = $(`<tr>`);
@@ -284,6 +286,7 @@ function newsList(data){
     });
 }
 
+// 타임리프 대체 예정
 function productInfoList(data) {
     data.forEach((item,index)=>{
         let $tr = $(`<tr>`);
@@ -379,6 +382,8 @@ const suneditor = (minHeight, maxHeight) => {
         lang: SUNEDITOR_LANG['ko'],
         minHeight : minHeight,
         maxHeight : maxHeight,
+        minWidth : 1120,
+        maxWidth : 1120,
     })
 }
 

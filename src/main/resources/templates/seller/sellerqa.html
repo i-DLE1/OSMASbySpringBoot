@@ -25,16 +25,18 @@
           <td id="qaComplete" class="col-2" onclick="location.href='./projectQnAList?listType=complete'">답변 완료</td>
           <th class="col">
             <div class="row col">
-              <select name="searchSelect" class="col-4 me-3 search-bar">
-                <option value="title">프로젝트명</option>
-                <option value="customer">작성자</option>
-                <option value="question">질문</option>
-                <option value="phone">연락처</option>
-                <option value="product-option">상품옵션</option>
-                <option value="pay-method">결제수단</option>
-              </select>
-              <input type="text" class="search-bar col" id="search" name="search">
-              <button class="search-btn col ms-2 me-2">검색</button>
+<!--              <form id="searchForm" action="/seller/projectQnAList" method="get">-->
+                <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
+                  <option value="title">프로젝트명</option>
+                  <option value="customer">작성자</option>
+                  <option value="question">질문</option>
+                  <option value="phone">연락처</option>
+                  <option value="product-option">상품옵션</option>
+                  <option value="pay-method">결제수단</option>
+                </select>
+                <input type="text" class="search-bar col" id="search" name="search">
+                <button class="search-btn col ms-2 me-2" onclick="projectSearch()" >검색</button>
+<!--              </form>-->
             </div>
           </th>
         </tr>

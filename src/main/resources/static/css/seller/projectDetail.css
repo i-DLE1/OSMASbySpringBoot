@@ -7,9 +7,33 @@ body{
 
 .col-2{
     display: grid;
-    grid-template-columns: 500px auto;
     grid-column-gap: 20px;
+    grid-template-columns: 500px auto;
+
+    transition: 0.5s;
 }
+
+#proToggle{
+    border: 1px solid #C49A6C ;
+    color: #C49A6C;
+    padding: 4px 8px 4px 8px;
+    border-radius: 10px;
+    width: 130px;
+    margin-bottom: 20px;
+}
+/*.translate-out{*/
+/*    transform: translateX(-600px);*/
+/*    transition: 0.4s;*/
+/*}*/
+/*.translate-in{*/
+/*    transform: translateX(0px);*/
+/*    transition: 0.4s;*/
+/*}*/
+
+/*.display-none{*/
+/*    animation-delay: 0.4s;*/
+/*    display: none;*/
+/*}*/
 
 .title{
     display: flex;

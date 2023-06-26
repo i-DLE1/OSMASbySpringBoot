@@ -99,7 +99,7 @@ function popupCancel(id) {
 }
 
 function popupStatics(id){
-    window.open(`./projectDetail/projectDetail?id=${id}`,"popup",`${screenCenterPopup(1800,1000)}, resizable=no, name=projectStatics, location=no`);
+    window.open(`./projectDetail/projectDetail?id=${id}`,"popup",`${screenCenterPopup(1600,1000)}, resizable=no, name=projectStatics, location=no`);
 }
 
 function projectModify(id){
@@ -137,10 +137,9 @@ $("#cancel-content").on("input",function (){
 
 function activePage() {
     let pathname = location.pathname;
-    let queryStr = location.search;
+    let queryStr = new URLSearchParams(location.search).get('listType');
     let $titleSpan = $(".h1-title").children('span')
-
-    switch (pathname+queryStr) {
+    switch (pathname+'?listType='+queryStr) {
         case '/seller/projectList' :
         case '/seller/projectList?listType=all' :
             $("#cusAllMenu").addClass('active-page') ;
@@ -190,6 +189,12 @@ function activePage() {
             $("#qaComplete").addClass('active-page') ;
             $titleSpan.text('완료');
             break;
-
     }
+}
+function projectSearch() {
+    const searchType = $("#searchType").val()
+    const path = location.pathname
+    const search = $("#search").val()
+    const listType = new URLSearchParams(location.search).get('listType')
+    location.replace(`${path}?listType=${listType}${searchType === undefined ? '' : '&searchType='+searchType}&search=${search}`)
 }
