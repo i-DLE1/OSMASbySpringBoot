@@ -8,6 +8,11 @@
     <script src="/js/admin/sellerApprovalForm/outForm.js"></script>
 </head>
 <body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
 
@@ -44,5 +49,10 @@
         </div>
     </form>
 </middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
 </body>
 </html>
