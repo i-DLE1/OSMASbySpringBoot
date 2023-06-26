@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>판매페이지_상품상세내용</title>
-    <link rel="stylesheet" href="./style.css" >
+    <link rel="stylesheet" href="/css/seller/salesPage.css" >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
-    <script src="../../resources/메인페이지/script.js"></script>
-    <script src="../script.js"></script>
+    <script src="/js/seller/slaesPage.js"></script>
 </head>
 
-<header id="header"></header>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
 
 
 <body>
-
 <div class="contents">
     <div class="top">
-        <div class="category"><div class="text">의류</div></div>
+        <div class="categorybox"><div class="text">의류</div></div>
         <div class="title"><div class="text">장애인-비장애인 누구나 입는 '유니버셜' 의류</div></div>
-        <div class="sellerlogo"><img class="logoimage" src="../resources/image/판매자로고.PNG" alt="판매자로고"></div>
+        <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
     </div>
 
     <div class="product">
@@ -28,9 +28,9 @@
 
         <div class="imagecontainer">
             <div class="productimg">
-                <img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진1">
-                <img class="image" src="../resources/image/썸네일2.PNG" alt="상품사진1">
-                <img class="image" src="../resources/image/썸네일3.PNG" alt="상품사진1">
+                <img class="image" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
+                <img class="image" src="/images/seller/sales/sales2.PNG" alt="상품사진1">
+                <img class="image" src="/images/seller/sales/sales3.PNG" alt="상품사진1">
             </div>
             <div class="imagebuttoncontainer">
                 <button class="imagebutton" onclick="showSlide(0)"></button>
@@ -38,8 +38,6 @@
                 <button class="imagebutton" onclick="showSlide(2)"></button>
             </div>
         </div>
-
-
 
 
 
@@ -170,13 +168,11 @@
         <img class="productimage" src="../resources/image/썸네일3.PNG" alt="상품사진1">
 
 
-
-
     </div>
-
-
 
 </body>
 
-<footer id="footer"></footer>
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+  <link rel="stylesheet" href="/css/member/mainpage.css">
+  <script>
+    function toggleDropdown(event) {
+      // event.stopPropagation(); // 클릭 이벤트의 전파를 중지합니다.
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.classList.toggle("slide-open");
+    }
+
+    // 클릭 이벤트가 발생한 영역 밖을 클릭하면 슬라이드가 닫히도록 설정
+    window.addEventListener("click", function (event) {
+      var dropdown = document.getElementById("dropdownContent");
+      var targetElement = event.target;
+
+      if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
+        dropdown.classList.remove("slide-open");
+      }
+    });
+  </script>
+
+  <div class="User_container">
+    <th:block sec:authorize="isAnonymous()">
+      <button onclick="location.href='/member/login/login'">로그인</button>
+      <button onclick="location.href='/member/signUp/signup'">회원가입</button>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+      <div style="display: none;">
+        <span>사용자님</span>
+        <button>로그아웃</button>
+      </div>
+    </th:block>
+  </div>
+  <div id="logo">
+    <a href="./index.html">
+      <img src="/images/member/logo.png">
+    </a>
+  </div>
+  <nav>
+    <ul>
+      <li class="category">
+        <button class="gugu" onclick="toggleDropdown()">카테고리</button>
+      </li>
+
+      <div class="slide-content" id="dropdownContent">
+        <div style="text-align: center;">
+          <img src="/images/member/logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+        </div>
+        <a href="#">사용자 마이페이지</a>
+        <a href="#">프로젝트 검색</a>
+        <a href="#">제안하기</a>
+        <a href="#">펀딩후기</a>
+        <a href="#">판매자 등록</a>
+        <a href="#">판매자 페이지</a>
+        <a href="#">관리자 페이지</a>
+      </div>
+
+      <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
+      <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
+      <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
+      <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
+      <li class="search">
+        <input type="text" placeholder="검색할 내용을 입력해주세요">
+      </li>
+    </ul>
+  </nav>
+</header>
+
+</html>
