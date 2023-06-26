@@ -10,4 +10,7 @@ public class adminCategory {
 
     @GetMapping("fundingRanking")
     public void fundingRanking(){}
+
+    @GetMapping("gettingProposals")
+    public void gettingProposals(){}
 }
