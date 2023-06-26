@@ -1,6 +1,7 @@
-package com.idle.osmas;
+package com.idle.osmas.configuration;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
