@@ -1,184 +1,50 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>판매페이지_상품상세내용</title>
-    <link rel="stylesheet" href="./style.css" >
-    <script src="../../resources/메인페이지/script.js"></script>
-    <script src="../script.js"></script>
+    <title>판매페이지_프로젝트정보</title>
+    <link rel="stylesheet" href="/css/seller/salesPage.css" >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+    <script src="/js/seller/slaesPage.js"></script>
 </head>
 
-<header id="header"></header>
-
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
 
 <body>
+<th:block th:include="~{/seller/sales/product}"></th:block>
 
-<div class="contents">
-    <div class="top">
-        <div class="category"><div class="text">의류</div></div>
-        <div class="title"><div class="text">장애인-비장애인 누구나 입는 '유니버셜' 의류</div></div>
-        <div class="sellerlogo"><img class="logoimage" src="../resources/image/판매자로고.PNG" alt="판매자로고"></div>
-    </div>
+<nav>
+    <ul>
+        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage1'">상품내용</a></li>
+        <li class="selectedpage"><a tyle="cursor: pointer" onclick="location.href='/seller/sales/salesPage2'">프로젝트정보</a></li>
+        <li class="contentsmiddle"><a tyle="cursor: pointer" onclick="location.href='/seller/sales/salesPage3'">Q/A</a></li>
+        <li class="contentsmiddle"><a tyle="cursor: pointer" onclick="location.href='/seller/sales/salesPage4'">FAQ</a></li>
+        <li class="contentsmiddle"><a tyle="cursor: pointer" onclick="location.href='/seller/sales/salesPage5'">새소식</a></li>
+        <li class="contentsmiddle"><a tyle="cursor: pointer" onclick="location.href='/seller/sales/salesPage6'">판매자정보</a></li>
+    </ul>
+</nav>
 
-    <div class="product">
-        <!-- <div class="productimg"><img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진"></div> -->
-
-        <div class="imagecontainer">
-            <div class="productimg">
-                <img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진1">
-                <img class="image" src="../resources/image/썸네일2.PNG" alt="상품사진1">
-                <img class="image" src="../resources/image/썸네일3.PNG" alt="상품사진1">
-            </div>
-            <div class="imagebuttoncontainer">
-                <button class="imagebutton" onclick="showSlide(0)"></button>
-                <button class="imagebutton"  onclick="showSlide(1)"></button>
-                <button class="imagebutton" onclick="showSlide(2)"></button>
-            </div>
+<div class="contentsbottom">
+    <div class="contentheadline" >프로젝트를 소개합니다</div>
+    <div>
+        <div class="teaminfo">
+            <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
+            <div>TEAM 모카썸</div>
         </div>
-
-
-
-
-
-        <div class="option">
-            <div class="optiontop">
-                <div class="optiontitle">목표금액</div>
-                <div class="optiontop-sub">
-                    <div>600,000</div>
-                    <div>원 /</div>
-                    <div>1,000,000</div>
-                    <div>원</div>
-                </div>
-            </div>
-
-            <div class="progress-bar-container">
-                <div class="progress-bar">
-                    <div class="progress-gauge1"></div>
-                    <div class="progresstext">
-                        <di >60</di>
-                        <div>% 달성중</div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="optiontop">
-                <div class="optiontitle">남은날짜</div>
-                <div class="optiontop-sub">
-                    <div>펀딩기간 : </div>
-                    <div>2023.06.01 ~ 2023.06.15</div>
-                </div>
-            </div>
-
-            <div class="progress-bar-container">
-                <div class="progress-bar">
-                    <div class="progress-gauge2"></div>
-                    <div class="progresstext">
-                        <div>10</div>
-                        <div>일 남았습니다</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="optiontop">
-                <div class="optiontitle">프로젝트 후원하기</div>
-            </div>
-
-            <div class="optionmiddle">
-                <input type="checkbox" style="width: 45px;">
-                <div class="optiontext" >옵션선택 없이 후원</div>
-                <input class="optiontext" id="donation" type="text" value="1000+">
-                <div class="optiontext">원</div>
-            </div>
-
-            <div class="optionmiddle">
-                <div class="optiontext">옵션1</div>
-                <select class="optiontext" id="selectbox">
-                    <option value="1">옵션1</option>
-                    <option value="2">옵션2</option>
-                    <option value="3">옵션3</option>
-                </select>
-            </div>
-
-            <div class="optionmiddle">
-                <div class="optiontext">옵션2</div>
-                <select class="optiontext" id="selectbox">
-                    <option value="1">옵션1</option>
-                    <option value="2">옵션2</option>
-                    <option value="3">옵션3</option>
-                </select>
-            </div>
-
-            <div class="optiontop">
-                <div class="optiontitle">선택옵션 확인</div>
-                <div class="optiontop-sub">
-                    <div class="optiontext" id="totalamount">45,000</div>
-                    <div class="optiontext" id="totalamount">원</div>
-                    <button id="orderbutton" type="submit">후원하기</button>
-                </div>
-            </div>
-
-            <div class="optionbottom">
-                <div class="optionmiddle">
-                    <div class="optiontext">선택1</div>
-                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
-                    <div class="optiontext">수량</div>
-                    <input class="optiontext" id="optionamount" type="text" value="1" >
-                    <button class="button" id="plusbutton">+</button>
-                    <button class="button" id="minusbutton">-</button>
-                </div>
-                <div class="optionmiddle">
-                    <div class="optiontext">선택2</div>
-                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
-                    <div class="optiontext">수량</div>
-                    <input class="optiontext" id="optionamount" type="text" value="1" >
-                    <button class="button" id="plusbutton">+</button>
-                    <button class="button" id="minusbutton">-</button>
-                </div>
-                <div class="optionmiddle">
-                    <div class="optiontext">선택3</div>
-                    <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
-                    <div class="optiontext">수량</div>
-                    <input class="optiontext" id="optionamount" type="text" value="1" >
-                    <button class="button" id="plusbutton">+</button>
-                    <button class="button" id="minusbutton">-</button>
-                </div>
-
-            </div>
+        <div style="font-size: 25px;">모카썸(MOCCASOM)은 편의성 높은 생활 의류를 바탕으로 실용성을 중시하고 합리적 가치를 제공하는 도시 감각의 캐주얼 웨어를 디자인하는 브랜드입니다.
+            ※ 왜 만들게 되었을까? 하반신마비 초등학생 아이를 둔 이베이코리아 직원이 아이 혼자 입을 수 있는 옷을 찾다 팬코를 만나 개발하게 된 브랜드다. 올해 5월부터 개발에 착수, 한국척수장애인협회의 도움을 받아 휠체어 이용자 의견을 수렴했다. 모든 티셔츠는 부드러운 ‘벨크로(찍찍이)’ 여밈으로 입고 벗기 쉽도록 제작됐다. 밑단 양 옆에 트임을 적용하고 엉덩이 쪽이 긴 디자인이라 휠체어 이용 시에도 허리 속살이 드러나지 않는 방식을 택했다.
+            프로젝트 일정 현재 프로젝트는 구성 및 디자인은 마무리되었습니다. 교정 작업은 6월 10일까지 마무리할 예정입니다. 펀딩이 마무리되면 바로 제작이 들어갑니다. 본 상품은 2~3주정도면 제작이 완료되며 상품은 2주정도 소요됩니다. 펀딩이 마감되는 6월 15일부터 30일정도 제작기간은 소요됩니다. 배송은 7월 31일 1차배송 / 8월 4일 2차배송 / 8월 11일 3차배송으로 진행될 예정입니다.
         </div>
     </div>
-
-
-    <nav>
-        <ul>
-            <li class="contentsmiddle"><a href="./1_판매페이지_상품상세내용.html">상품내용</a></li>
-            <li class="selectedpage"><a href="./2_판매페이지_프로젝트정보.html">프로젝트정보</a></li>
-            <li class="contentsmiddle"><a href="./3_판매페이지_Q&A.html">Q/A</a></li>
-            <li class="contentsmiddle"><a href="./4_판매페이지_FAQ.html">FAQ</a></li>
-            <li class="contentsmiddle"><a href="./5_판매페이지_새소식.html">새소식</a></li>
-            <li class="contentsmiddle"><a href="./6_판매페이지_판매자정보.html">판매자정보</a></li>
-        </ul>
-    </nav>
-
-
-
-    <div class="contentsbottom">
-        <div class="contentheadline" >프로젝트를 소개합니다</div>
-        <div>
-            <div class="teaminfo">
-                <div class="sellerlogo"><img class="logoimage" src="../resources/image/판매자로고.PNG" alt="판매자로고"></div>
-                <div>TEAM 모카썸</div>
-            </div>
-            <div style="font-size: 25px;">모카썸(MOCCASOM)은 편의성 높은 생활 의류를 바탕으로 실용성을 중시하고 합리적 가치를 제공하는 도시 감각의 캐주얼 웨어를 디자인하는 브랜드입니다.
-                ※ 왜 만들게 되었을까? 하반신마비 초등학생 아이를 둔 이베이코리아 직원이 아이 혼자 입을 수 있는 옷을 찾다 팬코를 만나 개발하게 된 브랜드다. 올해 5월부터 개발에 착수, 한국척수장애인협회의 도움을 받아 휠체어 이용자 의견을 수렴했다. 모든 티셔츠는 부드러운 ‘벨크로(찍찍이)’ 여밈으로 입고 벗기 쉽도록 제작됐다. 밑단 양 옆에 트임을 적용하고 엉덩이 쪽이 긴 디자인이라 휠체어 이용 시에도 허리 속살이 드러나지 않는 방식을 택했다.
-                프로젝트 일정 현재 프로젝트는 구성 및 디자인은 마무리되었습니다. 교정 작업은 6월 10일까지 마무리할 예정입니다. 펀딩이 마무리되면 바로 제작이 들어갑니다. 본 상품은 2~3주정도면 제작이 완료되며 상품은 2주정도 소요됩니다. 펀딩이 마감되는 6월 15일부터 30일정도 제작기간은 소요됩니다. 배송은 7월 31일 1차배송 / 8월 4일 2차배송 / 8월 11일 3차배송으로 진행될 예정입니다.
-            </div>
-        </div>
-    </div>
-
-
+</div>
 
 </body>
 
-<footer id="footer"></footer>
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 </html>
