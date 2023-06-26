@@ -55,7 +55,7 @@ body{
     cursor: pointer;
 }
 
-button {
+.select {
     padding: 10px 20px;
     background-color: #D9D9D9;
     color: #fff;
@@ -65,6 +65,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.select:hover {
     background-color: #5B4612;
 }
