@@ -270,3 +270,30 @@ function projectSearch() {
     const listType = new URLSearchParams(location.search).get('listType')
     location.replace(`${path}?listType=${listType}${searchType === undefined ? '' : '&searchType='+searchType}&search=${search}`)
 }
+
+function orderConfirmation() {
+    var result = confirm('배송처리 하시겠습니까?');
+    if (result) {
+        alert('배송처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
+}
+
+function orderExchange() {
+    var result = confirm('교환처리 하시겠습니까?');
+    if (result) {
+        alert('교환처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
+}
+
+function orderRefund() {
+    var result = confirm('환불처리 하시겠습니까?');
+    if (result) {
+        alert('환불처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
+}
