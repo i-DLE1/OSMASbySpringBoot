@@ -20,5 +20,5 @@ public class sellerRoleFileDTO {
 
     private  char deteleYN; //사용가능
 
-    private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
+    //private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
 }
