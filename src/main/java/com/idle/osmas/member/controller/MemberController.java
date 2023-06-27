@@ -5,10 +5,8 @@ import com.idle.osmas.member.dto.MemberDTO;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
@@ -22,7 +20,12 @@ public class MemberController {
         this.memberService = memberService;
     }
     @GetMapping("/login/login")
-    public void memberLoginForm(){}
+    public void memberLoginForm(@RequestParam(value = "error",required = false) String error,
+                                @RequestParam(value = "exception",required = false) String exception, Model model
+                                ){
+        model.addAttribute("error",error);
+        model.addAttribute("exception" , exception);
+    }
 
     @GetMapping("/signup/signUp")
     public void goSignUp(){}

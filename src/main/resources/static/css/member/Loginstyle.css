@@ -45,7 +45,6 @@ a{
 .error_message{
     font-size: 12px;
     color: red;
-    display:none;
     padding-left: 10px;
 }
 body{
