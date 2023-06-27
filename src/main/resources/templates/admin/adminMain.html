@@ -6,13 +6,38 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="stylesheet" href="/css/admin/adminMain.css">
     <script src="/js/admin/adminMain.js"></script>
+
+    <script>
+        var menuVisible = false; // 드롭다운 메뉴의 표시 여부를 저장하는 변수
+
+        function toggleMenu() {
+            var menu = document.getElementById("adminMenuContent");
+
+            if (menuVisible) {
+                menu.style.display = "none"; // 드롭다운 메뉴를 숨김
+                menuVisible = false;
+            } else {
+                menu.style.display = "block"; // 드롭다운 메뉴를 표시
+                menuVisible = true;
+            }
+        }
+    </script>
 </head>
 <body>
 <header>
-    <div class="adminLogin">
-        <h4>관리자님 환영합니다!</h4>
-        <button>로그아웃</button>
+    <div class="adminMenu">
+        <button class="adminLogin" onclick="toggleMenu()">관리자</button>
+        <div class="adminMenu-content" id="adminMenuContent">
+            <a href="">마이 페이지</a>
+            <a onclick="href='admin/adminCategory/fundingRanking'">현재 펀딩 순위</a>
+            <a onclick="href='admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
+            <a onclick="href='admin/sellerApprovalForm/formMain'">판매자 권한 신청폼(추후 삭제 예정)</a>
+            <a onclick="href='admin/itemApproval/waitingItem'">상품 승인 관리</a>
+            <a onclick="href='admin/adminCategory/gettingProposals'">제안 받기</a>
+            <a href="">로그아웃</a>
+        </div>
     </div>
+
     <div id="logo">
         <a style="cursor: pointer" onclick="location.href='/main'">
             <img src="/images/member/logo.png">
@@ -28,12 +53,14 @@
                 <div style="text-align: center;">
                     <img src="/images/admin/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
                 </div>
-                <a href="">관리자 마이페이지</a>
-                <a onclick="href='admin/adminCategory/fundingRanking'">현재 펀딩 순위</a>
-                <a onclick="href='admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
-                <a onclick="href='admin/sellerApprovalForm/formMain'">판매자 권한 신청폼</a> <!-- 나중에 다른 곳으로 옮길 예정 -->
-                <a onclick="href='admin/itemApproval/waitingItem'">상품 승인 관리</a>
-                <a onclick="href='admin/adminCategory/gettingProposals'">제안받기</a>
+                <a href="">전체 상품</a>
+                <a href="">인기 상품</a>
+                <a href="">빅 사이즈</a>
+                <a href="">스몰 사이즈</a>
+                <a href="">오늘 오픈</a>
+                <a href="">마감 임박</a>
+                <a href="">맞춤 의류</a>
+
             </div>
 
             <button class="gugu" style="color: black;">오늘 오픈</button>
@@ -83,33 +110,9 @@
     </div>
 </middle>
 
-<footer>
-    <ul style="list-style: none;">
-        <div class="container">
-            <div>
-                <li class="guide"><a href="">공지사항</a></li>
-                <li class="guide"><a onclick="href='admin/footerCategory/OSAMSIntroduction'">OSMAS 소개</a></li>
-                <li class="guide"><a href="">문의 사항</a></li>
-            </div>
-
-            <div>
-                <li class="guide"><a onclick="href='admin/footerCategory/useTerms'">이용약관</a></li>
-                <li class="guide"><a onclick="href='admin/footerCategory/personalInformationProcessingPolicy'">개인정보처리방침</a></li>
-                <li class="guide"><a onclick="href='admin/footerCategory/projectJudgingCriteria'">프로젝트 심사 기준</a></li>
-            </div>
-        </div>
-
-        <div class="container2">
-            <div class="container3">
-                <h5 class="call">고객 센터</h5>
-                <h5 class="call">평일 9:00 ~ 18:00</h5>
-                <button class="call" style="float: right; padding: 4px;">문의하기</button>
-            </div>
-            <h6 style="text-align: center; padding-top: 30px;">오스메스는 크라우드펀딩 플랫폼을 운영하는 중개자(통신판매중개자)로서 프로젝트를 진행하는 당사자가 아닙니다.<br>
-                상품, 상품정보, 거래에 관한 의무와 책임은 판매자에게 있으므로, 각 상품 페이지에서 구체적인 내용을 확인하시기 바랍니다.</h6>
-            <h6 style="padding-top: 30px;">© 2023 OSMAS. ALL RIGHTS RESERVED.</h6>
-        </div>
-    </ul>
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
+
 </body>
 </html>
