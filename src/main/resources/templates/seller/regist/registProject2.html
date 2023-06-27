@@ -11,21 +11,21 @@
                     <input class="input-box w-100" type="text" name="title" id="title" />
                 </div>
             </div>
-            <br>
-            <div class="row">
-                <div>
-                    <label for="content" class="sub-title">프로젝트 설명<span class="required-item">*</span></label>
-                    <input type="text" class="input-box w-100" id="content" name="content" />
-                </div>
-            </div>
+<!--            <br>-->
+<!--            <div class="row">-->
+<!--                <div>-->
+<!--                    <label for="content" class="sub-title">프로젝트 설명<span class="required-item">*</span></label>-->
+<!--                    <input type="text" class="input-box w-100" id="content" name="content" />-->
+<!--                </div>-->
+<!--            </div>-->
             <br>
             <div class="row">
                 <div class="row w-75 mt-3">
-                    <div class="col" >
+                    <div class="col">
                         <label for="startDate" class="sub-title">프로젝트 시작<span class="required-item">*</span></label>
                         <input type="date" class="input-box" style="width: 100%;" id="startDate" name="startDate"/>
                     </div>
-                    <div class="col" >
+                    <div class="col">
                         <label for="endDate" class="sub-title">프로젝트 종료<span class="required-item">*</span></label>
                         <input type="date" class="input-box" style="width: 100%;" id="endDate" name="endDate"/>
                     </div>
@@ -34,7 +34,7 @@
             <br>
             <div class="row">
                 <div>
-                    <label for="money" class="sub-title">펀딩 목표 금액<span class="required-item">*</span></label>
+                    <label for="money" class="sub-title">펀딩 목표 금액(최소 100,000원 이상)<span class="required-item">*</span></label>
                     <input type="number"  class="input-box w-100" id="money" name="money"/>
                 </div>
             </div>
@@ -42,7 +42,8 @@
 
         <!-- 하단 버튼 시작 -->
         <footer class="footer">
-            <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
+            <input class="footer-btn" type="button" value="이전" onclick="location.href='seller/regist/proejct1'"/>
+            <input class="footer-btn" type="button" value="임시저장" onclick="projectInitRegist(true)" />
             <input class="footer-btn" type="button" value="다음" onclick="projectInitRegist()" />
 <!--            <input class="footerBtn" type="button" value="다음" onclick="project1Confirm()" />-->
         </footer>
