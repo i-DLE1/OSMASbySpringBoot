@@ -19,8 +19,12 @@ public class SellerController {
     }
 
     @GetMapping(value = {"/","/orderList"})
-    public String getOrderList(@RequestParam(required = false) String listType){
+    public String getOrderList(@RequestParam(required = false) String listType,
+                               @RequestParam(required = false) String searchType,
+                               @RequestParam(required = false) String search){
         System.out.println("listType = " + listType);
+        System.out.println("searchType = " + searchType);
+        System.out.println("search = " + search);
         return "/seller/sellerOrderList";
     }
 

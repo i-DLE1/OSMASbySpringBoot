@@ -77,64 +77,66 @@
       </div>
 
       <div class="optionmiddle">
-        <input type="checkbox" style="width: 45px;">
-        <div class="optiontext" >옵션선택 없이 후원</div>
-        <input class="optiontext" id="donation" type="text" value="1000+">
+        <input type="checkbox" style="width: 30px;">
+        <div class="optiontext" style="margin-left: -75px; margin-top: 5px" >옵션선택 없이 후원</div>
+        <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;">
         <div class="optiontext">원</div>
       </div>
 
       <div class="optionmiddle">
         <div class="optiontext">옵션1</div>
-        <select class="optiontext" id="selectbox">
-          <option value="1">옵션1</option>
-          <option value="2">옵션2</option>
-          <option value="3">옵션3</option>
+        <select class="optiontext" id="selectbox1" onchange="addNewDiv()">
+          <option value=""></option>
+          <option value="블랙">블랙</option>
+          <option value="레드">레드</option>
+          <option value="블루">블루</option>
         </select>
       </div>
 
       <div class="optionmiddle">
         <div class="optiontext">옵션2</div>
-        <select class="optiontext" id="selectbox">
-          <option value="1">옵션1</option>
-          <option value="2">옵션2</option>
-          <option value="3">옵션3</option>
+        <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
+          <option value=""></option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L" >L</option>
         </select>
       </div>
 
       <div class="optiontop">
         <div class="optiontitle">선택옵션 확인</div>
-        <div class="optiontop-sub">
-          <div class="optiontext" id="totalamount">45,000</div>
-          <div class="optiontext" id="totalamount">원</div>
+        <div class="optiontop-sub" style="margin-bottom: 10px">
+          <div class="optiontext" id="totalamount">0</div>
+          <div class="optiontext" id="amounttext">원</div>
           <button id="orderbutton" type="submit">후원하기</button>
         </div>
       </div>
 
-      <div class="optionbottom">
-        <div class="optionmiddle">
+      <div class="optionbottom" id="optioncontainer">
+        <div class="optionmiddle" id="optiondiv">
           <div class="optiontext">선택1</div>
-          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
+          <input class="optiontext" id="optioncheck" type="text" readonly>
           <div class="optiontext">수량</div>
           <input class="optiontext" id="optionamount" type="text" value="1" >
-          <button class="button" id="plusbutton">+</button>
-          <button class="button" id="minusbutton">-</button>
+          <button class="button" id="plusbutton" onclick="increaseCounter()">+</button>
+          <button class="button" id="minusbutton" onclick="decreaseCounter()">-</button>
         </div>
-        <div class="optionmiddle">
-          <div class="optiontext">선택2</div>
-          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
-          <div class="optiontext">수량</div>
-          <input class="optiontext" id="optionamount" type="text" value="1" >
-          <button class="button" id="plusbutton">+</button>
-          <button class="button" id="minusbutton">-</button>
-        </div>
-        <div class="optionmiddle">
-          <div class="optiontext">선택3</div>
-          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>
-          <div class="optiontext">수량</div>
-          <input class="optiontext" id="optionamount" type="text" value="1" >
-          <button class="button" id="plusbutton">+</button>
-          <button class="button" id="minusbutton">-</button>
-        </div>
+<!--        <div class="optionmiddle">-->
+<!--          <div class="optiontext">선택2</div>-->
+<!--          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>-->
+<!--          <div class="optiontext">수량</div>-->
+<!--          <input class="optiontext" id="optionamount" type="text" value="1" >-->
+<!--          <button class="button" id="plusbutton">+</button>-->
+<!--          <button class="button" id="minusbutton">-</button>-->
+<!--        </div>-->
+<!--        <div class="optionmiddle">-->
+<!--          <div class="optiontext">선택3</div>-->
+<!--          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>-->
+<!--          <div class="optiontext">수량</div>-->
+<!--          <input class="optiontext" id="optionamount" type="text" value="1" >-->
+<!--          <button class="button" id="plusbutton">+</button>-->
+<!--          <button class="button" id="minusbutton">-</button>-->
+<!--        </div>-->
 
       </div>
     </div>
