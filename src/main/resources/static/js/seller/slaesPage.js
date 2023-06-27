@@ -1,4 +1,4 @@
-let currentIndex = 0;
+let currentIdx= 0;
 const slides = document.getElementsByClassName("image");
 
 function showSlide(index) {
@@ -14,14 +14,15 @@ function showSlide(index) {
 
     if (slides[index]) {
         slides[index].style.display = "block";
-        currentIndex = index;
+        currentIdx = index;
     }
 }
 
-showSlide(currentIndex);
+//showSlide(currentIdx);
 
 setInterval(() => {
-    showSlide(currentIndex + 1);
+    showSlide(currentIdx + 1);
+
 }, 1000);
 
 function setOptionValues() {
@@ -34,30 +35,30 @@ function setOptionValues() {
 }
 
 function addNewDiv() {
-
     var option1 = document.getElementById("selectbox1");
     var option2 = document.getElementById("selectbox2");
-    var originalDiv = document.getElementById("optiondiv");
+    var originalDiv =  document.getElementsByClassName('optionmiddle')[3];
     var container = document.getElementById("optioncontainer");
-    var resultParagraph = document.getElementById("optioncheck");
+    var resultParagraph = document.getElementsByClassName("optioncheck")[0];
 
     if (resultParagraph.value !== "") {
         var clonedDiv = originalDiv.cloneNode(true);
-        var clonedInput = clonedDiv.querySelector("#optioncheck");
-        clonedInput.value = "";
         container.appendChild(clonedDiv);
-        option1.value = "";
-
+        const optioncheck =  document.querySelectorAll('.optioncheck');
+        optioncheck[optioncheck.length-1].value = "";
+        const optionamount =  document.querySelectorAll('.optionamount');
+        optionamount[optionamount.length-1].value = 1;
     }
 }
 function displaySelectedOptions() {
+
     var option1 = document.getElementById("selectbox1");
     var option2 = document.getElementById("selectbox2");
-    var resultParagraph = document.getElementById("optioncheck");
+    const inputbox =  document.querySelectorAll('.optioncheck');
 
     if(option1.value !== ""){
         var result = option1.value + " - " + option2.value;
-        resultParagraph.value = result;
+        inputbox[inputbox.length-1].value = result;
         option1.value="";
         option2.value="";
     } else {
@@ -66,21 +67,26 @@ function displaySelectedOptions() {
     }
 }
 
-var counter = 1;
-
 function increaseCounter() {
-    counter++;
-    var counterElement = document.getElementById("optionamount");
-    counterElement.value = counter;
+    const boxes = document.querySelectorAll('.plusbutton');
+    boxes.forEach(box => {
+        box.addEventListener('click', function increaseCounter() {
+            let count = box.previousSibling.previousSibling.value;
+            console.log(cont);
+            box.previousSibling.previousSibling.value = parseInt(count) + 1;
+        });
+    });
 }
+const boxes2 = document.querySelectorAll('.minusbutton');
 
-function decreaseCounter() {
-     if(counter>1) {
-        counter--;
-        var counterElement = document.getElementById("optionamount");
-        counterElement.value = counter;
-    } else{
-         alert("최소 수량은 1개 입니다.");
-     }
+boxes2.forEach(box => {
+    box.addEventListener('click', function handleClick() {
 
-}
+        let count = box.previousSibling.previousSibling.previousSibling.value;
+        if(count>1) {
+            box.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+        }else{
+            alert("최소 수량은 1개 입니다.");
+        }
+    });
+});

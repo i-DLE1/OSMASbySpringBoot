@@ -278,7 +278,7 @@ nav ul li a{
     font-weight: bold;
 }
 
-#optioncheck{
+.optioncheck{
     width: 180px;
     height: 15px;
     border: 1px solid #bbb;
@@ -287,7 +287,7 @@ nav ul li a{
 }
 
 
-#optionamount{
+.optionamount{
     width: 100px;
     height: 15px;
     text-align: right;
@@ -296,37 +296,51 @@ nav ul li a{
     padding: 10px 12px;
 }
 
+.button {
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    line-height: 5px;
+    cursor: pointer;
+}
 
-#plusbutton{
+.plusbutton{
     width: 40px;
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
     border: none;
     border-radius: 8px;
     background-color: #C49A6C;
+    display: inline-block;
+    line-height: 5px;
+    cursor: pointer;
 }
 
-#plusbutton:hover{
+.plusbutton:hover{
     background-color: #dbc3a8;
 
 }
-#plusbutton:active {
+.plusbutton:active {
     transform: scale(0.95);
 }
 
-#minusbutton{
+.minusbutton{
     width: 40px;
-    font-size: 30px;
     border: none;
     border-radius: 8px;
     background-color: #C49A6C;
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    line-height: 5px;
+    cursor: pointer;
 }
 
-#minusbutton:hover{
+.minusbutton:hover{
     background-color: #dbc3a8;
 
 }
-#minusbutton:active {
+.minusbutton:active {
     transform: scale(0.95);
 }
 
@@ -340,14 +354,7 @@ nav ul li a{
     overflow: auto;
 }
 
-.button {
-    display: inline-block;
 
-    font-size: 16px;
-    text-align: center;
-    line-height: 5px;
-    cursor: pointer;
-}
 
 .selectedpage {
     background-color: #C49A6C;
