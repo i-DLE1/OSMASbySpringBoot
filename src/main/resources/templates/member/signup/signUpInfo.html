@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
-    
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 
 <body>
@@ -27,8 +27,24 @@
         <span class="condition">영문또는 숫자로 4자~12자로 입력해주세요.</span>
         <div class="signup_info">
             <input type="text" name="id" id="id" placeholder="아이디" required>
-            <button type="button">확인</button>
+            <button type="button" id="idCheck">확인</button>
         </div>
+        <script>
+            $("#idCheck").click(function () {
+                const id = $("#id").val();
+                $.ajax({
+                    url: "/member/idDupCheck",
+                    type: "post",
+                    data: {id: id},
+                    success: function (data) {
+                        alert(data)
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+            });
+        </script>
         <label for="nickName">닉네임</label>
         <span class="condition">한글기준 2자~8자. 영문기준 4자~16자로 입력해주세요</span>
         <div class="signup_info">
@@ -58,7 +74,7 @@
             <button type="button">전송</button>
         </div>
         <label>인증번호</label>
-        <div class="signup_info" >
+        <div class="signup_info">
             <input type="text" name="emailNum" placeholder="인증번호" id="emailNum">
             <button type="button">확인</button>
         </div>
@@ -71,5 +87,4 @@
     </form>
 </div>
 </body>
-
 </html>
