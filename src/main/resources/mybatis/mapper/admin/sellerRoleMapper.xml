@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.sellerRoleMapper">
+
+    <resultMap type="sellerRoleDTO" id="sellerRoleResultMap">
+        <id property="memberNo" column="REF_MEMBER_NO"/>
+        <result property="accountNo" column="ACCOUNT_NO"/>
+        <result property="registNo" column="REGIST_NO"/>
+        <result property="name" column="NAME"/>
+        <result property="callNumber" column="CALL_NUMBER"/>
+        <result property="rprsn" column="RPRSN"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="bank" column="BANK"/>
+        <result property="reportNo" column="REPORT_NO"/>
+        <!-- List<sellerRoleFileDTO> fileList; 이거 나중에 넣어줘야함 -->
+
+        <!-- <collection property="fileList" resultMap="fileListResultMap"/> -->
+    </resultMap>
