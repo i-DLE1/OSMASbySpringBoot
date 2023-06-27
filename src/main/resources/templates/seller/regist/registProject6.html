@@ -10,16 +10,16 @@
             <div style="height: 550px;">
                 <div class="w-100">
                     <label for="title" class="sub-title">제목</label>
-                    <input type="text" class="input-box w-100" id="title" name="title" />
+                    <input type="text" class="input-box w-100" id="title" name="title" th:value="${newsList}" />
                 </div>
                 <div class="mt-4">
                     <div style="height: 300px; width: 100%; display: flex; justify-content: center;">
-                        <textarea id="content" style="height: 230px;"></textarea>
+                        <textarea id="content" style="height: 230px;" name="content"></textarea>
                     </div>
                 </div>
                 <div class="footer">
                     <input class="footer-btn" type="button" value="취소" />
-                    <input class="footer-btn" type="button" value="등록" onclick="newsRegist()" />
+                    <input class="footer-btn" type="button" value="등록" onclick="registProject6()" />
                 </div>
             </div>
             <!-- 게시글 등록 끝 -->

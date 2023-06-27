@@ -1,5 +1,6 @@
 package com.idle.osmas.configuration;
 
+import com.idle.osmas.member.handler.LoginFailHandler;
 import com.idle.osmas.member.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SpringSecurityConfiguration {
 
     private LoginService loginService;
+
     @Autowired
     public SpringSecurityConfiguration(LoginService loginService){
         this.loginService = loginService;
@@ -43,6 +46,7 @@ public class SpringSecurityConfiguration {
                 .usernameParameter("id")			// 아이디 파라미터명 설정
                 .passwordParameter("pwd")
                 .successForwardUrl("/")
+                .failureHandler(loginFailHandler())
         .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
@@ -58,5 +62,10 @@ public class SpringSecurityConfiguration {
                 .userDetailsService(loginService)
                 .passwordEncoder(passwordEncoder())
                 .and().build();
+    }
+
+    @Bean
+    public LoginFailHandler loginFailHandler(){
+        return new LoginFailHandler();
     }
 }
