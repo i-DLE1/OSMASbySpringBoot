@@ -246,7 +246,6 @@ nav ul li a{
     left: 50%;
     transform: translate(-50%, -50%); */
     font-size: 20px ;
-
 }
 
 #donation{
@@ -258,13 +257,23 @@ nav ul li a{
     padding: 10px 12px;
 }
 
-#selectbox{
+#selectbox1{
+    width: 500px;
+    height: 35px;
+    border-radius: 8px;
+}
+#selectbox2{
     width: 500px;
     height: 35px;
     border-radius: 8px;
 }
 
 #totalamount{
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#amounttext{
     margin-right: 10px;
     font-weight: bold;
 }
