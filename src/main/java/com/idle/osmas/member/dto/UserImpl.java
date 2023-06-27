@@ -29,6 +29,7 @@ public class UserImpl extends User {
         super(username, password, authorities);
     }
 
+
     public void setDetails(MemberDTO member){
         this.no = member.getNo();
         this.pwd = member.getPwd();

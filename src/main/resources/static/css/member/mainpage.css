@@ -165,8 +165,9 @@ aside#left {
   .User_container button{
     border-radius: 4px; 
     background-color: #FFC26F;
+    font-size: 12px;
     height: 40px;
-    width: 70px;
+    width: auto;
     margin: 20px 0px 0px 10px;
     color: white; 
     border: none;
