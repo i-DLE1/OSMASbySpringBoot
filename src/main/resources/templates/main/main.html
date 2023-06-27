@@ -36,7 +36,7 @@
   <div class="User_container">
     <th:block sec:authorize="isAnonymous()">
     <button onclick="location.href='/member/login/login'">로그인</button>
-    <button onclick="location.href='/member/signUp/signup'">회원가입</button>
+    <button onclick="location.href='/member/signup/signUp'">회원가입</button>
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
       <button>사용자님</button>
