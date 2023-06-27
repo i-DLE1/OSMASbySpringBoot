@@ -39,10 +39,8 @@
     <button onclick="location.href='/member/signUp/signup'">회원가입</button>
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
-    <div style="display: none;">
-      <span>사용자님</span>
-      <button>로그아웃</button>
-    </div>
+      <button>사용자님</button>
+      <button onclick="location.href='/member/logout'">로그아웃</button>
     </th:block>
   </div>
   <div id="logo">
