@@ -4,37 +4,13 @@ body{
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* 상품 관리 */
-.product {
-    text-align: center;
-    display: flex;
-    gap: 20px 2%;
-    flex-wrap: wrap;
-}
-
-.item{
-    width: 32%;
-}
-
-.product {
-    position: relative;
-    margin: 100px auto;
-    max-width: 1400px;
-    background-color: #ffffff;
-}
-
-.item {
-    height: 300px;
-    line-height: 200px;
-    background-color: #C49A6C;
-}
-
 /* 아랫단 숫자 페이지 */
 .pagenation {
     margin-top: 3em;
     list-style: none;
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
 }
 
 .pagenation li {
@@ -54,4 +30,53 @@ body{
 .pagenation li a {
     color: black; /* 숫자 글씨 색상을 변경하려면 원하는 색상으로 설정하세요 */
     text-decoration: none;
+}
+
+/* 상품 관리 */
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 1400px;
+    height: 1000px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.product-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    width: 100%;
+}
+
+.product {
+    width: calc(33.33% - 20px); /* 너비와 상품 간의 간격 조정 */
+    margin-right: 60px; /* 오른쪽 간격 조정 */
+    padding: 100px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: gainsboro;
+}
+
+.image-container {
+    margin-bottom: 10px;
+}
+
+.image-container img {
+    width: 100%;
+}
+
+.seller-name {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.sale-description {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
