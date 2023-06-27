@@ -44,12 +44,31 @@ function addNewDiv() {
     if (resultParagraph.value !== "") {
         var clonedDiv = originalDiv.cloneNode(true);
         container.appendChild(clonedDiv);
+
+        const plusButton = clonedDiv.querySelector('.plusbutton');
+        plusButton.addEventListener('click', function() {
+            let count = plusButton.previousSibling.previousSibling.value;
+            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
+        });
+
+        const minusButton = clonedDiv.querySelector('.minusbutton');
+        minusButton.addEventListener('click', function() {
+            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            if (count > 1) {
+                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+            } else {
+                alert("최소 수량은 1개 입니다.");
+            }
+        });
+
         const optioncheck =  document.querySelectorAll('.optioncheck');
         optioncheck[optioncheck.length-1].value = "";
         const optionamount =  document.querySelectorAll('.optionamount');
         optionamount[optionamount.length-1].value = 1;
     }
 }
+
+
 function displaySelectedOptions() {
 
     var option1 = document.getElementById("selectbox1");
@@ -66,27 +85,53 @@ function displaySelectedOptions() {
         option2.value="";
     }
 }
+// document.addEventListener('DOMContentLoaded', function() {
+// function increaseCounter() {
+//     const boxes = document.querySelectorAll('.plusbutton');
+//     boxes.forEach(box => {
+//         box.addEventListener('click', function() {
+//             let count = box.previousSibling.previousSibling.value;
+//             box.previousSibling.previousSibling.value = parseInt(count) + 1;
+//         });
+//     });
+// }
+//
+// function decreaseCounter() {
+//     const boxes2 = document.querySelectorAll('.minusbutton');
+//     boxes2.forEach(box2 => {
+//         box2.addEventListener('click', function() {
+//             let count = box2.previousSibling.previousSibling.previousSibling.previousSibling.value;
+//             if(count>1) {
+//             box2.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+//             }else{
+//                 alert("최소 수량은 1개 입니다.");
+//             }
+//         });
+//     });
+// }
+//
+// });
 
-function increaseCounter() {
-    const boxes = document.querySelectorAll('.plusbutton');
-    boxes.forEach(box => {
-        box.addEventListener('click', function increaseCounter() {
-            let count = box.previousSibling.previousSibling.value;
-            console.log(cont);
-            box.previousSibling.previousSibling.value = parseInt(count) + 1;
+document.addEventListener('DOMContentLoaded', function() {
+    // increaseCounter 함수 등록
+    const plusButtons = document.querySelectorAll('.plusbutton');
+    plusButtons.forEach(plusButton => {
+        plusButton.addEventListener('click', function() {
+            let count = plusButton.previousSibling.previousSibling.value;
+            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
         });
     });
-}
-const boxes2 = document.querySelectorAll('.minusbutton');
 
-boxes2.forEach(box => {
-    box.addEventListener('click', function handleClick() {
-
-        let count = box.previousSibling.previousSibling.previousSibling.value;
-        if(count>1) {
-            box.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-        }else{
-            alert("최소 수량은 1개 입니다.");
-        }
+    // decreaseCounter 함수 등록
+    const minusButtons = document.querySelectorAll('.minusbutton');
+    minusButtons.forEach(minusButton => {
+        minusButton.addEventListener('click', function() {
+            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            if (count > 1) {
+                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+            } else {
+                alert("최소 수량은 1개 입니다.");
+            }
+        });
     });
 });
