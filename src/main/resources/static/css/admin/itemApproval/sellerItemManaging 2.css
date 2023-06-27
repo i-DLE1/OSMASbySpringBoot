@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* nav 영역 */
+nav ul{
+    list-style: none;
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+}
+
+nav ul li{
+    display: inline;
+    letter-spacing: .2em;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: black;
+    line-height: 3em;
+    text-transform: uppercase;
+}
+
+/* 권한 페이지 넘어가는 거..*/
+.containerbox {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px;
+    justify-content: center; /* 가로로 가운데 정렬합니다 */
+    align-items: center; /* 수직으로 가운데 정렬 */
+}
+
+.box {
+    width: 200px;
+    height: 50px;
+    background-color: #D9D9D9;
+    list-style: none;
+    display: inline;
+    margin: 3px; /* 각 박스 사이의 간격을 조정할 수 있습니다 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.box:hover {
+    background-color: #89724C;
+}
+
+/* 판매자 리스트 박스 */
+.product {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.image-container {
+    margin-right: 80px;
+}
+
+.image-container img {
+    width: 300px;
+    height: auto;
+    margin-left: 80px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* 맨 오른쪽으로 정렬 */
+    margin-left: auto; /* 맨 오른쪽으로 이동 */
+    margin-right: 15px; /* 조금 왼쪽으로 이동 */
+}
+
+.seller-name {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.sale-description {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.buy-button,
+.add-to-cart-button {
+    padding: 10px 20px;
+    background-color: #bea376;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-right: 5px; /* 버튼 사이의 간격을 조정 */
+}
+
+.buy-button:hover,
+.add-to-cart-button:hover {
+    background-color: #89724C;
+}
+
+
+.box2 {
+    padding: 10px 20px;
+    background-color: #D9D9D9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-left: auto; /* 맨 오른쪽으로 이동 */
+    margin-right: 70px; /* 조금 왼쪽으로 이동 */
+    pointer-events: none; /* 클릭 효과 비활성화 */
+}
+
+/* 아랫단 숫자 페이지 */
+.pagenation {
+    margin-top: 3em;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.pagenation li {
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+}
+
+.pagenation li:hover,
+.pagenation li:hover a {
+    background-color: #bea376;
+    color: white !important;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagenation li a {
+    color: black; /* 숫자 글씨 색상을 변경하려면 원하는 색상으로 설정하세요 */
+    text-decoration: none;
+}

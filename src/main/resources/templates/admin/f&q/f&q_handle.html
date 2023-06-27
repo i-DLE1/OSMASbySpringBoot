@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>f&q_handle(상담문의처리)</title>
+  <link rel="stylesheet" href="../css/adminbasicstyle.css">
+  <link rel="stylesheet" href="../css/adminmainstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <script>
+    function toggleDropdown(event) {
+      var dropdown = document.getElementById("dropdownContent");
+      dropdown.classList.toggle("slide-open");
+    }
+
+    $(document).ready(function() {
+      $('#toggleBtn').click(function() {
+        $('.member-list').toggleClass('active');
+      });
+    });
+
+    window.addEventListener("click", function (event) {
+      var dropdown = document.getElementById("dropdownContent");
+      var targetElement = event.target;
+
+      if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
+        dropdown.classList.remove("slide-open");
+      }
+    });
+  </script>
+</head>
+
+<body>
+
+
+
+<!-- 상단 타이틀 : F&Q 상담 문의 처리 -->
+<div class="notice">
+  <p style="text-align: right; margin-right: 1132px; padding-top: 10px; font-weight: bold; font-size: 18px;">F&Q</p>
+  <p style="text-align: right; margin-right: 1091px; font-size: 14px; direction: rtl;">상담 문의 처리</p>
+</div>
+
+<br>
+<br>
+
+<!-- 본문 : 조회 리스트 -->
+
+<table id="user-table">
+  <thead>
+  <tr>
+    <th>  </th>
+    <th colspan="6">
+      <label for="start-date">시작일:</label>
+      <input type="date" id="start-date" name="start-date">
+
+      <span class="date-separator"></span>
+
+      <label for="end-date">종료일:</label>
+      <input type="date" id="end-date" name="end-date">
+      <br>
+      <br>
+      <button id="search-button">검색</button>
+      <button id="reset-button">초기화</button>
+    </th>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <th scope="col" style="width: 40px;">전체</th>
+    <th scope="col" style="width: 100px;">답변완료</th>
+    <th scope="col" colspan="3">미답변</th>
+    <th>
+      <label for="status-filter">답변유무</label>
+      <select id="status-filter">
+        <option value="all">전체</option>
+        <option value="completed">답변완료</option>
+        <option value="unanswered">미답변</option>
+      </select>
+    </th>
+    <th></th>
+  </tr>
+  <tr>
+    <th></th>
+    <th>번호</th>
+    <th>제목</th>
+    <th>닉네임</th>
+    <th>등록일시</th>
+    <th>상태</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>001</td>
+    <td>계정문의</td>
+    <td>이땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>미답변</td>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>002</td>
+    <td>판매문의</td>
+    <td>김땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>미답변</td>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>003</td>
+    <td>기타문의</td>
+    <td>정땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>미답변</td>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>004</td>
+    <td>계정문의</td>
+    <td>구땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>답변</td>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>005</td>
+    <td>판매문의</td>
+    <td>홍땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>답변</td>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="checkbox"></td>
+    <td>006</td>
+    <td>기타문의</td>
+    <td>박땡땡</td>
+    <td>2023/05/03 13:50</td>
+    <td>미답변</td>
+    </td>
+  </tr>
+  <!-- 추가적인 사용자 데이터 행을 여기에 추가할 수 있습니다 -->
+  </tbody>
+</table>
+</div>
+</div>
+<br>
+<br>
+<button id="load-more-btn" onclick="loadMoreUsers()" style="display: block; margin: 0 auto;">더보기</button>
+
+<br>
+<br>
+</div>
+
+<br>
+<br>
+<br>
+
+
+</main>
+</body>
+
+</html>
