@@ -1,25 +1,38 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.service.ProejctServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/seller/")
 public class SellerController {
-    
+
+    private final ProejctServiceImpl proejctService;
+
+    public SellerController(ProejctServiceImpl proejctService) {
+        this.proejctService = proejctService;
+    }
+
     @GetMapping("/projectList")
-    public String getProjectList(@RequestParam(required = false) String listType,
+    public String getProjectList(@RequestParam(required = false) Optional<String> listType,
                                  @RequestParam(required = false) String searchType,
                                  @RequestParam(required = false) String search,
                                  Model model){
+
         System.out.println("listType = " + listType);
         System.out.println("searchType = " + searchType);
         System.out.println("search = " + search);
+//        System.out.println("proejctService = " + proejctService.selectAllProject());
 
 
         String resultlistType = "";
-        switch (listType){
+        switch (listType.orElse("")){
             case "all" :
                 resultlistType = "전체조회";
                 break;
@@ -39,9 +52,14 @@ public class SellerController {
                 resultlistType = "전체조회";
         }
 
+        List<ProjectDTO> projectList = proejctService.selectAllByAccount(1);
+
         model.addAttribute("listType",resultlistType);
         model.addAttribute("userName","seller01"); // 사용자명
         model.addAttribute("search",search);
+        model.addAttribute("projectList",projectList);
+
+        System.out.println("proejctService = " + projectList );
         return "/seller/sellerProjectList";
     }
 

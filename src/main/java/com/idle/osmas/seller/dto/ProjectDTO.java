@@ -2,6 +2,7 @@ package com.idle.osmas.seller.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.idle.osmas.member.dto.MemberDTO;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.lang.Nullable;
@@ -21,8 +22,6 @@ public class ProjectDTO {
 
     private String title; // 제목
 
-    private String subTitle; // 부제목
-
     private String content; // 컨텐츠
 
     private LocalDate startDate; // 프로젝트 시작일
@@ -37,9 +36,15 @@ public class ProjectDTO {
 
     private Integer views; // 뷰 수
 
+//    private int refMemberNo;
+
+//    private int refCategoryNo;
+
     private ProjectCategoryDTO category;
 
-//    private MemberDTO member; DTO추가되면 수정
+
+
+    private MemberDTO member;
 
     private  List<ProjectFAQDTO> projectFAQList;
 

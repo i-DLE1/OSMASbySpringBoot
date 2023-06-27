@@ -50,27 +50,32 @@
                         </thead>
                         <tbody id="customerProjectList">
                             <!-- javacript 반복 구간 -->
-                            <!-- 타임 리프 반복 시작 -->
-    <!--                        <th:block th:each="item, index : ${itemList}">-->
-    <!--                        <tr>-->
-    <!--                            <th:block th:object="${item}">-->
-    <!--                            <th th:text="${index}"></th>-->
-    <!--                            <td th:text="*{item.title}"></td>-->
-    <!--                            <td th:text="*{item.targetAmount}"></td>-->
-    <!--                            <td th:text="*{item.currentAmount}"></td>-->
-    <!--                            <td th:text="*{item.startDate}"></td>-->
-    <!--                            <td th:text="*{item.endDate}"></td>-->
-    <!--                            <td th:text="*{item.status}"></td>-->
-    <!--                            <td>-->
-    <!--                                <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{item.id})|">-->
-    <!--                                <input value="수정" class="cus-button" type="button" th:onclick="|projectModify(*{item.id})|">-->
-    <!--                                <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{item.id})|">-->
-    <!--                                <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{item.id})|">-->
-    <!--                            </td>-->
-    <!--                            </th:block>-->
-    <!--                        </tr>-->
-    <!--                        </th:block>-->
-                            <!-- 타임 리프 끝 -->
+
+                            <th:block th:each="item, index : ${projectList}">
+                            <tr>
+                                <th:block th:object="${item}">
+                                <th th:text="${index.index+1}"></th>
+                                <td th:text="*{title}"></td>
+                                <td th:text="*{targetAmount}"></td>
+                                <td th:text="*{currentAmount}"></td>
+                                <td th:text="|*{startDate} ~ *{endDate}|"></td>
+                                <td>
+                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'CANCEL'}">취소</span>
+                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'TEMPORARY'}">임시저장</span>
+                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'REJECTED'}">거절</span>
+                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'ONGOING'}">진행중</span>
+                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'CLOSED'}">종료</span>
+                                </td>
+                                <td>
+                                    <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{no})|">
+                                    <input value="수정" class="cus-button" type="button" th:onclick="|projectModify(*{no})|">
+                                    <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{no})|">
+                                    <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{no})|">
+                                </td>
+                                </th:block>
+                            </tr>
+                            </th:block>
+
                         </tbody>
                         </tbody>
                     </table>
@@ -84,7 +89,7 @@
         <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
         <script src="/js/seller/sellerPage.js"></script>
         <script>
-            customerProjectList();
+            // customerProjectList();
             activePage();
         </script>
     </body>
