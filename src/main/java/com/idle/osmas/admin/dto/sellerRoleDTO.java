@@ -31,5 +31,5 @@ public class sellerRoleDTO {
 
     private String reportNo; //통신판매업신고번호
 
-    private List<sellerRoleFileDTO> FileList; //신청한 파일 목록
+    private List<sellerRoleFileDTO>  fileList; //신청한 파일 목록
 }
