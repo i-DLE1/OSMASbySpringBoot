@@ -16,11 +16,11 @@ function removeItemButton(funcName){
 
 function fqaLoadDummy() {
     let data = [
-        {title : "1", body:"2"},
-        {title : "타이틀2", body:"내용물 222"},
-        {title : "타이틀3", body:"내용물 333"},
-        {title : "타이틀4", body:"내용물 444"},
-        {title : "타이틀5", body:"내용물 555"},
+        {title : "1", content:"2"},
+        {title : "타이틀2", content:"내용물 222"},
+        {title : "타이틀3", content:"내용물 333"},
+        {title : "타이틀4", content:"내용물 444"},
+        {title : "타이틀5", content:"내용물 555"},
     ];
 
     fqaLoadList(data);
@@ -55,8 +55,8 @@ function fqaLoadList(data) {
                             <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}" value="${item.title}"/>
                         </div>
                         <div class="mt-4">
-                            <label class="sub-title" for="body${faqListCount}">내용</label>
-                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="body${faqListCount}" name="body" >${item.body}</textarea>
+                            <label class="sub-title" for="content${faqListCount}">내용</label>
+                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${faqListCount}" name="content" >${item.content}</textarea>
                         </div>
                     </div>
                 </div>
@@ -73,9 +73,9 @@ function fqaLoadList(data) {
 
 $("#fqaAdd").click(function (){
     let titleVal = $(`#title${faqListCount-1}`).val();
-    let bodyVal = $(`#body${faqListCount-1}`).val();
+    let contentVal = $(`#content${faqListCount-1}`).val();
 
-    if(titleVal === "" || bodyVal === ""){
+    if(titleVal === "" || contentVal === ""){
         alert("입력 되지 않은 필드가 존재합니다.");
         return;
     }
@@ -93,8 +93,8 @@ $("#fqaAdd").click(function (){
                             <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}"/>
                         </div>
                         <div class="mt-4">
-                            <label class="sub-title" for="body${faqListCount}" >내용</label>
-                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="body${faqListCount}" name="body"></textarea>
+                            <label class="sub-title" for="content${faqListCount}" >내용</label>
+                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${faqListCount}" name="content"></textarea>
                         </div>
                     </div>
                     ${removeItemButton("faqItemRemove")}
@@ -112,13 +112,13 @@ $("#fqaAdd").click(function (){
 $("#productAdd").click(function (){
     let $nameVal = $(`#name${productCount-1}`).val();
     let $sizeVal = $(`#size${productCount-1}`).val();
-    let $countVal = $(`#count${productCount-1}`).val();
-    let $moneyVal = $(`#money${productCount-1}`).val();
-    let $bodyVal = $(`#body${productCount-1}`).val();
-    let $shippingStartVal = $(`#shippingStart${productCount-1}`).val();
-    let $shippingFeeVal = $(`#shippingFee${productCount-1}`).val();
+    let $maxQuantityVal = $(`#maxQuantity${productCount-1}`).val();
+    let $priceVal = $(`#price${productCount-1}`).val();
+    let $introductionVal = $(`#introduction${productCount-1}`).val();
+    // let $shippingStartVal = $(`#shippingStart${productCount-1}`).val();
+    // let $shippingFeeVal = $(`#shippingFee${productCount-1}`).val();
 
-    if($nameVal === "" || $sizeVal === ""|| $countVal === ""|| $moneyVal === ""|| $bodyVal === ""|| $shippingStartVal === ""|| $shippingFeeVal === ""){
+    if($nameVal === "" || $sizeVal === ""|| $maxQuantityVal === ""|| $priceVal === ""|| $introductionVal === ""){
         alert("입력 되지 않은 필드가 존재합니다.");
         return;
     }
@@ -137,31 +137,35 @@ $("#productAdd").click(function (){
                             <label class="sub-title" for="size">사이즈</label>
                             <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}">
                         </div>
-                        <div class="col-2">
-                            <label for="count" class="sub-title">수량</label>
-                            <input class="w-100 input-box" type="number" id="count${productCount}" name="count${productCount}">
-                        </div>
+                        
                         <div class="col-3">
                             <label for="money" class="sub-title">금액</label>
-                            <input class="w-100 input-box" type="number" id="money${productCount}" name="money${productCount}">
+                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price">
+<!--                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price${productCount}">-->
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label for="body" class="sub-title">설명</label>
-                            <input class="w-100 input-box" type="text" id="body${productCount}" name="body${productCount}">
+                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction">
+<!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}">-->
                         </div>
-                        <div class="col-3">
-                            <label for="shippingStart" class="sub-title">배송시작</label>
-                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}">
+                        <div class="col-2">
+                            <label for="count" class="sub-title">수량</label>
+                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity">
+<!--                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity${productCount}">-->
                         </div>
-                        <div class="col-3">
-                            <label for="shippingFee" class="sub-title">배송비</label>
-                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}">
-                        </div>
+<!--                        <div class="col-3">-->
+<!--                            <label for="shippingStart" class="sub-title">배송시작</label>-->
+<!--                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}">-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            <label for="shippingFee" class="sub-title">배송비</label>-->
+<!--                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}">-->
+<!--                        </div>-->
                     </div>
                 </div>
-                ${removeItemButton("productItemRemove")};
+                ${removeItemButton("productItemRemove")}
             </div>
             <div>
                 <hr class="line">
@@ -195,11 +199,11 @@ function productInfoListDummy() {
 
 function productItemDummy() {
     let data = [
-        {name : "상품명1", size:"150", count : 1, money:10000, body: "상세내용1", shippingStart : "2023-01-01", shppingFee: 3000},
-        {name : "상품명2", size:"160", count : 2, money:1000, body: "상세내용2", shippingStart : "2023-02-01", shppingFee: 2500},
-        {name : "상품명3", size:"200", count : 3, money:100, body: "상세내용3", shippingStart : "2023-03-01", shppingFee: 1000},
-        {name : "상품명4", size:"70", count : 4, money:1000, body: "상세내용4", shippingStart : "2023-04-01", shppingFee: 0},
-        {name : "상품명5", size:"75", count : 5, money:20000, body: "상세내용5", shippingStart : "2023-05-01", shppingFee: 100},
+        {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1"},
+        {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2"},
+        {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3"},
+        {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4"},
+        {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5"},
     ];
     productItemLoad(data);
 }
@@ -229,35 +233,40 @@ function productItemLoad(data){
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
-                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name${productCount}" value=${item.name}>
+                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name" value=${item.name}>
+<!--                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name${productCount}" value=${item.name}>-->
                         </div>
                         <div class="col-4">
                             <label class="sub-title" for="size">사이즈</label>
-                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}" value=${item.size}>
+                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size" value=${item.size}>
+<!--                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}" value=${item.size}>-->
                         </div>
                         
                         <div class="col-3">
-                            <label for="money" class="sub-title">금액</label>
-                            <input class="w-100 input-box" type="number" id="money${productCount}" name="money${productCount}" value=${item.money}>
+                            <label for="price" class="sub-title">금액</label>
+                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price" value=${item.price}>
+<!--                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price${productCount}" value=${item.price}>-->
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
-                            <label for="body" class="sub-title">설명</label>
-                            <input class="w-100 input-box" type="text" id="body${productCount}" name="body${productCount}" value=${item.body}>
+                            <label for="introduction" class="sub-title">설명</label>
+                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction" value=${item.introduction}>
+<!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}" value=${item.body}>-->
                         </div>
                         <div class="col-2">
-                            <label for="count" class="sub-title">수량</label>
-                            <input class="w-100 input-box" type="number" id="count${productCount}" name="count${productCount}" value=${item.count}>
+                            <label for="maxQuantity" class="sub-title">수량</label>
+                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity" value=${item.maxQuantity}>
+<!--                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity${productCount}" value=${item.count}>-->
                         </div>
 <!--                        <div class="col-3">-->
 <!--                            <label for="shippingStart" class="sub-title">배송시작</label>-->
 <!--                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}" value=${item.shippingStart}>-->
 <!--                        </div>-->
-                        <div class="col-3">
-                            <label for="shippingFee" class="sub-title">배송비</label>
-                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}" value=${item.shppingFee}>
-                        </div>
+<!--                        <div class="col-3">-->
+<!--                            <label for="shippingFee" class="sub-title">배송비</label>-->
+<!--                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}" value=${item.shppingFee}>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 
@@ -300,15 +309,10 @@ function productInfoList(data) {
             .append($(`<th>`).addClass( "col-1").text("수량"))
             .append($(`<td>`).addClass( "col-1").text(item.count));
         $("#projectEndList").append($tr);
-
     })
 }
 
-function newsRegist(){
-    this.preventDefault();
-    $("#newsList").html("");
-    newsList();
-}
+
 
 function indexCheckConfirm() {
     let check1 = $("#check1").prop('checked');
@@ -332,35 +336,7 @@ function indexCheckConfirm() {
     })
 }
 
-function projectInitRegist() {
-    let title = $("#title").val()
-    let content = $("#content").val()
-    let startDate = $("#startDate").val()
-    let endDate = $("#endDate").val()
-    let money = $("#money").val()
-    let json12 = JSON.stringify({title,content,startDate,endDate,money})
-    console.log(json12)
 
-    $.ajax({
-        url : '/seller/regist/project2',
-        contentType : 'application/json',
-        data : json12,
-        // data: {title,content,startDate,endDate,money},
-        type : 'post',
-
-        success : function (data){
-            if(data === 'success'){
-                location.href='/seller/regist/project3'
-            }else {
-                alert("입력 되지 않은 필수 항목이 존재합니다.");
-            }
-        },
-        error : function (error){
-            console.log(error)
-        }
-
-    })
-}
 
 
 const suneditor = (minHeight, maxHeight) => {
@@ -431,4 +407,133 @@ function previewImage(ele) {
         $(ele).siblings("label").children().prop("src",e.target.result)
     };
     img.readAsDataURL(ele.files[0]);
+}
+
+function projectInitRegist(temporary) {
+    let title = $("#title").val()
+    let subTitle = $("#content").val()
+    let startDate = $("#startDate").val()
+    let endDate = $("#endDate").val()
+    let targetAmount = $("#money").val()
+
+    $.ajax({
+        url : '/seller/regist/project2',
+        contentType : 'application/json; charset=utf-8;',
+        data : JSON.stringify({title,subTitle,startDate,endDate,targetAmount}),
+        type : 'post',
+        success : function (data){
+            if(data === 'success'){
+                if(temporary){
+                    alert("임시저장이 완료 됐습니다.")
+                }else {
+                    location.href='/seller/regist/project3'
+                }
+            }else {
+                alert("입력 되지 않은 필수 항목이 존재합니다.");
+            }
+        },
+        error : function (error){
+            console.log(error)
+        }
+
+    })
+}
+
+
+
+function registProject3() {
+    let productListLength =$("#productList").children("div").length;
+    let dataList = [];
+    for(let i = 1 ; i < productListLength+1; i++){
+        const name = $("#name"+i).val()
+        const size = $("#size"+i).val()
+        const price = $("#price"+i).val()
+        const introduction = $("#introduction"+i).val()
+        const maxQuantity = $("#maxQuantity"+i).val()
+
+        if(name === '' || size === '' || price === '' || introduction === '' || maxQuantity === '') break;
+
+        dataList = [...dataList, {name,size,price,introduction,maxQuantity}]
+    }
+    $.ajax({
+        url : '/seller/regist/project3',
+        type : 'post',
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(dataList),
+        success : function (success) {
+            console.log(success)
+        },
+        error: function (error){
+            console.log(error)
+        }
+    })
+}
+
+function registProject4() {
+    let content = $($("#suneditor_content").children("div")
+        .children("div")[3]).children("div")
+        .html();
+
+    $.ajax({
+        url : "/seller/regist/project4",
+        type : "post",
+        contentType : "application/json; charset=utf-8;",
+        data : JSON.stringify({content}),
+        success : function (success){
+            console.log(success)
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
+}
+
+function registProject5() {
+    let faqListLength =$("#faqList").children("div").length;
+    let dataList = [];
+
+    for(let i = 1 ; i < faqListLength+1; i++){
+        const title = $("#title"+i).val()
+        const content = $("#content"+i).val()
+        const registDate = new Date();
+
+        if(title === '' || content === '' ) break;
+
+        dataList = [...dataList, {title, content, registDate}]
+    }
+    console.log(dataList)
+    $.ajax({
+        url : '/seller/regist/project5',
+        type : 'post',
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(dataList),
+        success : function (success) {
+            console.log(success)
+        },
+        error: function (error){
+            console.log(error)
+        }
+    })
+
+}
+function registProject6(){
+    let title = $("#title").val();
+    let content = $($("#suneditor_content").children("div")
+                                            .children("div")[3]).children("div")
+                                                                .html();
+    let registDate = new Date();
+    let deleteYN = 'N'
+
+    $.ajax({
+        url : "/seller/regist/project6",
+        type : "post",
+        contentType : "application/json; charset=utf-8;",
+        data : JSON.stringify({title, content, registDate, deleteYN}),
+        success : function (success){
+            location.href = '/seller/regist/project6'
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
 }
