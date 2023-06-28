@@ -83,8 +83,8 @@ nav ul li a{
     margin-bottom: 10px;
 }
 
-.buy-button,
-.add-to-cart-button {
+.goButton,
+.noButton {
     padding: 10px 20px;
     background-color: #bea376;
     color: #fff;
@@ -96,8 +96,8 @@ nav ul li a{
     margin-right: 5px; /* 버튼 사이의 간격을 조정 */
 }
 
-.buy-button:hover,
-.add-to-cart-button:hover {
+.goButton:hover,
+.noButton:hover {
     background-color: #89724C;
 }
 

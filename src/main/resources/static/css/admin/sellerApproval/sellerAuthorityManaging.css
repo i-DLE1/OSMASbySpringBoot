@@ -85,8 +85,8 @@ nav ul li a{
     margin-bottom: 10px;
 }
 
-.buy-button,
-.add-to-cart-button {
+.goButton,
+.noButton {
     padding: 10px 20px;
     background-color: #bea376;
     color: #fff;
@@ -99,8 +99,8 @@ nav ul li a{
 
 }
 
-.buy-button:hover,
-.add-to-cart-button:hover {
+.goButton:hover,
+.noButton:hover {
     background-color: #89724C;
 
 }
@@ -163,4 +163,40 @@ nav ul li a{
 }
 .btn5:hover{
     background: #b68149;
+}
+
+/*버튼 알림 폼*/
+.notification-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.send-button,
+.close-button {
+
+}
+
+.reasonText {
+    width: 200px;
+    height: 200px;
+    border: solid 1px black;
 }
