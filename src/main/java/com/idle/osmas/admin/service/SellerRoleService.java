@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface SellerRoleService {
 
-    List<SellerRoleDTO> selectAllsellerRole(); // 회원 번호로 판매자 권한 신청한 모든 회원들의 정보 리스트 조회(권한 코드 1)
+    List<SellerRoleDTO> selectAllApplyRole();  //권한 코드를 1만 가지고 있는 사람 조회
+
+    List<SellerRoleDTO> sellerAllRole(); //권한 코드 1과 2를 모두 가지고 있는 사람 조회(모든 판매자)
 }
