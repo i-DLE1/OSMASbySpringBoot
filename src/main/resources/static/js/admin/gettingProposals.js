@@ -1,15 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const goButtons = document.querySelectorAll('.goButton');
-    const noButtons = document.querySelectorAll('.noButton');
+    const buttonAlarms = document.querySelectorAll('.buttonAlarm');
 
-    goButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // 알림 메시지 표시
-            alert('권한이 회수되었습니다!');
-        });
-    });
-
-    noButtons.forEach(button => {
+    buttonAlarms.forEach(button => {
         button.addEventListener('click', () => {
             const product = button.closest('.product');
             const sellerName = product.querySelector('.seller-name').textContent;
@@ -17,11 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const notificationForm = document.createElement('div');
             notificationForm.classList.add('notification-form');
 
+            const defaultReason = '요청주신 제안을 확인했습니다.';
+
             notificationForm.innerHTML = `
-                <h4>권한 회수 보류 알림</h4>
+                <h4>제안 확인 메시지</h4>
                 <p>판매자: ${sellerName}</p>
                 <div class="form-content">
-                    <textarea class="reasonText" placeholder="내용을 입력하세요"></textarea>
+                    <textarea class="reasonText" placeholder="내용을 입력하세요">${defaultReason}</textarea>
                     <div class="button-container">
                         <button class="send-button">전송</button>
                         <button class="close-button">닫기</button>
@@ -38,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reasonText.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' && !event.shiftKey) {
                     event.preventDefault();
-                    const currentCursorPosition = reasonText.selectionStart;
-                    reasonText.value = reasonText.value.slice(0, currentCursorPosition) + '\n' + reasonText.value.slice(currentCursorPosition);
+                    reasonText.value += '\n';
                 }
             });
 
