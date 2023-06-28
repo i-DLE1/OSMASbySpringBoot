@@ -13,6 +13,17 @@ public class MemberServiceImpl implements MemberService{
         this.mapper = mapper;
     }
 
+    @Override
+    public boolean selectMemberById(String id) {
+        String result = mapper.selectMemberById(id);
+        return result != null? true : false;
+    }
+
+    @Override
+    public boolean selectMemberByNickname(String nickname) {
+        String result = mapper.selectMemberByNickname(nickname);
+        return result != null? true : false;
+    }
 
     @Override
     @Transactional
@@ -24,6 +35,7 @@ public class MemberServiceImpl implements MemberService{
         } else{
             System.out.println("회원가입 실패");
         }
-
     }
+
+
 }

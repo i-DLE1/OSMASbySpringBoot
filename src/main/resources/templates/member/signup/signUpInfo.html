@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!--    <script src="/js/member/signUp.js"></script>-->
 </head>
 
 <body>
@@ -24,67 +25,102 @@
     <h2 class="signup_h2">회원정보입력</h2>
     <form th:action="@{/member/signup/signUpInfo}" method="post">
         <label for="id">아이디</label>
-        <span class="condition">영문또는 숫자로 4자~12자로 입력해주세요.</span>
+        <span class="condition">영문또는 숫자로 5자~20자로 입력해주세요.</span>
         <div class="signup_info">
             <input type="text" name="id" id="id" placeholder="아이디" required>
             <button type="button" id="idCheck">확인</button>
         </div>
-        <script>
-            $("#idCheck").click(function () {
-                const id = $("#id").val();
-                $.ajax({
-                    url: "/member/idDupCheck",
-                    type: "post",
-                    data: {id: id},
-                    success: function (data) {
-                        alert(data)
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    }
-                });
-            });
-        </script>
+
         <label for="nickName">닉네임</label>
         <span class="condition">한글기준 2자~8자. 영문기준 4자~16자로 입력해주세요</span>
         <div class="signup_info">
-            <input type="text" name="nickname" id="nickName" placeholder="닉네임" required>
-            <button type="button">확인</button>
+            <input type="text" name="nickname" id="nickname" placeholder="닉네임" required>
+            <button type="button" id="nicknameCheck">확인</button>
         </div>
+
         <label for="pwd">비밀번호</label>
         <span class="condition">영문,숫자 혼합하여 8자~15자로 입렬해주세요</span>
         <div class="signup_info">
             <input type="password" name="pwd" id="pwd" placeholder="비밀번호" required>
         </div>
+
         <label for="name">이름</label>
         <div class="signup_info">
             <input type="text" name="name" id="name" placeholder="이름" required>
         </div>
+
         <label for="pNum">휴대전화번호</label>
+        <span class="condition">'-'을 포함하여 숫자로 입력해주세요</span>
         <div class="signup_info">
             <input type="tel" name="phone" id="pNum" placeholder="휴대전화번호" required>
         </div>
+
         <label for="birthDate">생년월일</label>
+        <span class="condition">생년월일은 8자리 숫자로 입력해주세요.</span>
         <div class="signup_info">
-            <input type="date" name="birth" id="birthDate" placeholder="생년월일 8자리" required>
+            <input type="text" name="birth" id="birthDate" placeholder="생년월일 8자리" required>
         </div>
+
         <label for="email">이메일</label>
         <div class="signup_info">
             <input type="email" name="email" id="email" placeholder="이메일 입력" required>
             <button type="button">전송</button>
         </div>
+
         <label>인증번호</label>
         <div class="signup_info">
             <input type="text" name="emailNum" placeholder="인증번호" id="emailNum">
             <button type="button">확인</button>
         </div>
-        <p class="error_message" id="id_con">
-            아이디 형식이 올바르지 않습니다.
-        </p>
+
         <div class="container_button">
             <button type="submit" class="btn_submit">가입</button>
         </div>
     </form>
 </div>
+
+<script>
+    $("#idCheck").click(function () {
+        const id = $("#id").val();
+        $.ajax({
+            url: "/member/idDupCheck",
+            type: "post",
+            data: {id: id},
+            success: function (data) {
+                alert(data)
+                if (data == '중복된 아이디가 있습니다') {
+                    $('#id').val('');
+                }
+            },
+            error: function (error) {
+                alert(error)
+            }
+        });
+    });
+
+    $("#id").mouseleave(function (){
+        const id = $("#id").val();
+        var idCheck =
+    })
+
+    $("#nicknameCheck").click(function () {
+        const nickname = $("#nickname").val();
+        $.ajax({
+            url: "/member/nickDupCheck",
+            type: "post",
+            data: {nickname: nickname},
+            success: function (data) {
+                alert(data)
+                if (data == '중복된 닉네임 있습니다') {
+                    $('#id').val('');
+                }
+            },
+            error: function (error) {
+                alert(error)
+            }
+        });
+    });
+
+</script>
 </body>
 </html>

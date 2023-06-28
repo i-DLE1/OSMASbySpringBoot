@@ -4,5 +4,12 @@ import com.idle.osmas.member.dto.MemberDTO;
 
 public interface MemberService {
 
+    // 회원 가입용
     public void signUpMember(MemberDTO member);
+
+    // 회원 조회용
+    public boolean selectMemberById(String id);
+
+    public boolean selectMemberByNickname(String nickname);
+
 }

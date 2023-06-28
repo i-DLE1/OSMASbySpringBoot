@@ -27,4 +27,16 @@
         )
     </insert>
 
+    <select id="selectMemberById" resultType="string">
+    SELECT
+            A.ID
+      FROM TBL_MEMBER A
+     WHERE A.ID = #{id}
+    </select>
+    <select id="selectMemberByNickname" resultType="string">
+        SELECT
+            A.NICKNAME
+        FROM TBL_MEMBER A
+        WHERE A.NICKNAME = #{nickname}
+    </select>
 </mapper>
