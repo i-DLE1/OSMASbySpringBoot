@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/footerCategory")
-public class footerCategory {
+public class footerCategoryController {
 
     @GetMapping("OSAMSIntroduction")
     public void OSAMSIntroduction(){}

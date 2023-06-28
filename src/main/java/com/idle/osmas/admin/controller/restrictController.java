@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("admin/restrict")
-public class restrict {
+public class restrictController {
 
     @GetMapping("restrict_receive")
     public void restrict_receive(){}

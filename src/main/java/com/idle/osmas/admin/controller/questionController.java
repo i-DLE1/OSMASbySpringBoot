@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/question")
-public class question {
+public class questionController {
 
     @GetMapping("advice")
     public void advice(){}
