@@ -5,7 +5,7 @@
 
 <mapper namespace="com.idle.osmas.admin.dao.sellerRoleMapper">
 
-    <resultMap type="sellerRoleDTO" id="sellerRoleResultMap">
+    <resultMap id="sellorRoleResultMap" type="com.idle.osmas.admin.dao.sellerRoleMapper">
         <id property="memberNo" column="REF_MEMBER_NO"/>
         <result property="accountNo" column="ACCOUNT_NO"/>
         <result property="registNo" column="REGIST_NO"/>
@@ -19,3 +19,4 @@
 
         <!-- <collection property="fileList" resultMap="fileListResultMap"/> -->
     </resultMap>
+</mapper>
