@@ -1,10 +1,14 @@
 package com.idle.osmas.seller.service;
 
-import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.SalesDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 public interface SalesService {
 
-    public ProjectDTO selectProjectByNo(int no);
+    public List<SalesDTO> selectAllProject();
+    public SalesDTO selectProjectByNo(int no);
 
 
 }

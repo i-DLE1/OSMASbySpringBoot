@@ -1,10 +1,13 @@
 package com.idle.osmas.seller.dao;
 
-import com.idle.osmas.seller.dto.ProductDTO;
-import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.SalesDTO;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+@Mapper
 public interface SalesMapper {
 
-    ProjectDTO selectProjectByNo(int no);
+    List<SalesDTO> selectAllProject();
+    SalesDTO selectProjectByNo(int no);
 
 }

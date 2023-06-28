@@ -28,7 +28,14 @@
     </nav>
 
     <div class="contentsbottom">
-        <h1>test</h1>
+        <tr th:each="sales: ${ salesList }">
+            <td th:text="${ sales.no}"></td>
+            <td th:text="${ sales.title}"></td>
+        </tr>
+
+            <div th:if="${salesDTO}" class="title">
+              <div class="text" th:text="${salesDTO.title}"></div>
+            </div>
         <img class="productimage" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
     </div>
 </body>
