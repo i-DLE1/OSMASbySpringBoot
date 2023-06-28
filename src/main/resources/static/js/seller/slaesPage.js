@@ -85,32 +85,6 @@ function displaySelectedOptions() {
         option2.value="";
     }
 }
-// document.addEventListener('DOMContentLoaded', function() {
-// function increaseCounter() {
-//     const boxes = document.querySelectorAll('.plusbutton');
-//     boxes.forEach(box => {
-//         box.addEventListener('click', function() {
-//             let count = box.previousSibling.previousSibling.value;
-//             box.previousSibling.previousSibling.value = parseInt(count) + 1;
-//         });
-//     });
-// }
-//
-// function decreaseCounter() {
-//     const boxes2 = document.querySelectorAll('.minusbutton');
-//     boxes2.forEach(box2 => {
-//         box2.addEventListener('click', function() {
-//             let count = box2.previousSibling.previousSibling.previousSibling.previousSibling.value;
-//             if(count>1) {
-//             box2.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-//             }else{
-//                 alert("최소 수량은 1개 입니다.");
-//             }
-//         });
-//     });
-// }
-//
-// });
 
 document.addEventListener('DOMContentLoaded', function() {
     // increaseCounter 함수 등록
@@ -135,3 +109,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+// 현재금액/목표금액 퍼센트구하기
+function calcPercent(){
+    var currentAmount = parseInt(document.getElementById("currentAmount").textContent) ;
+    var targetAmount = parseInt(document.getElementById("targetAmount").textContent);
+    var calcAmount = document.getElementById("calcAmount");
+    var gauge1 = document.getElementById("progress-gauge1");
+
+    var calcResult = (currentAmount/targetAmount)*100;
+    calcAmount.textContent = calcResult;
+    gauge1.style.width = calcResult + "%";
+}
+
+// 종료일자-시작일자 일자구하기
+function calcBetweenDate(){
+    var startDate = new Date(document.getElementById("startDate").textContent);
+    var currentDate = new Date();
+    var endDate = new Date(document.getElementById("endDate").textContent);
+    var calcDate = document.getElementById("calcDate");
+    var gauge2 = document.getElementById("progress-gauge2");
+
+    var timeDiff = Math.abs(endDate.getTime() - currentDate.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime());
+    var diffDays2 = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    calcDate.textContent = diffDays;
+    gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
+}
+
+function clearText() {
+    var donation = document.getElementById("donation");
+
+    donation.value ="";
+
+}

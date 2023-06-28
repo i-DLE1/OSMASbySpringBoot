@@ -7,16 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
 <script src="/js/seller/slaesPage.js"></script>
 
-<div class="contents">
+<div class="contents" th:if="${salesDTO}">
     <div class="top">
       <div class="categorybox"><div class="text">의류</div></div>
-      <div class="title"><div class="text">장애인-비장애 누구나 입는 '유니버셜' 의류</div></div>
-  <!--    <div th:if="${salesDTO}" class="title">-->
-  <!--      <div class="text" th:text="${salesDTO.title}"></div>-->
-  <!--    </div>-->
+      <div class="title">
+        <div class="text" th:text="${salesDTO.title}"></div> <!--프로젝트 제목-->
+      </div>
       <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
     </div>
-</div>
 
   <div class="product">
     <!-- <div class="productimg"><img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진"></div> -->
@@ -40,18 +38,18 @@
       <div class="optiontop">
         <div class="optiontitle">목표금액</div>
         <div class="optiontop-sub">
-          <div>600,000</div>
+          <div th:text="${salesDTO.currentAmount}" id="currentAmount"></div> <!--현재금액-->
           <div>원 /</div>
-          <div>1,000,000</div>
+          <div th:text="${salesDTO.targetAmount}" id="targetAmount"></div> <!--목표액-->
           <div>원</div>
         </div>
       </div>
 
       <div class="progress-bar-container">
         <div class="progress-bar">
-          <div class="progress-gauge1"></div>
+          <div id="progress-gauge1"></div>
           <div class="progresstext">
-            <di >60</di>
+            <div id="calcAmount"></div>
             <div>% 달성중</div>
           </div>
         </div>
@@ -62,15 +60,17 @@
         <div class="optiontitle">남은날짜</div>
         <div class="optiontop-sub">
           <div>펀딩기간 : </div>
-          <div>2023.06.01 ~ 2023.06.15</div>
+          <div id="startDate" th:text="${salesDTO.startDate}"></div>
+          <div>~</div>
+          <div id="endDate" th:text="${salesDTO.endDate}"></div>
         </div>
       </div>
 
       <div class="progress-bar-container">
         <div class="progress-bar">
-          <div class="progress-gauge2"></div>
+          <div id="progress-gauge2"></div>
           <div class="progresstext">
-            <div>10</div>
+            <div id="calcDate"></div>
             <div>일 남았습니다</div>
           </div>
         </div>
@@ -83,7 +83,7 @@
       <div class="optionmiddle">
         <input type="checkbox" style="width: 30px;">
         <div class="optiontext" style="margin-left: -75px; margin-top: 5px" >옵션선택 없이 후원</div>
-        <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;">
+        <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;" onclick="clearText()">
         <div class="optiontext">원</div>
       </div>
 
@@ -91,9 +91,7 @@
         <div class="optiontext">옵션1</div>
         <select class="optiontext" id="selectbox1" onchange="addNewDiv()">
           <option value=""></option>
-          <option value="블랙">블랙</option>
-          <option value="레드">레드</option>
-          <option value="블루">블루</option>
+          <option th:each="option: ${ optionList }" th:text="${ option.name}"></option>
         </select>
       </div>
 
@@ -101,9 +99,7 @@
         <div class="optiontext">옵션2</div>
         <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
           <option value=""></option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L" >L</option>
+          <option th:each="option: ${ optionList }" th:text="${ option.productSize}"></option>
         </select>
       </div>
 
@@ -126,27 +122,13 @@
           <button class="minusbutton">-</button>
         </div>
 
-
-<!--        <div class="optionmiddle">-->
-<!--          <div class="optiontext">선택2</div>-->
-<!--          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>-->
-<!--          <div class="optiontext">수량</div>-->
-<!--          <input class="optiontext" id="optionamount" type="text" value="1" >-->
-<!--          <button class="button" id="plusbutton">+</button>-->
-<!--          <button class="button" id="minusbutton">-</button>-->
-<!--        </div>-->
-<!--        <div class="optionmiddle">-->
-<!--          <div class="optiontext">선택3</div>-->
-<!--          <input class="optiontext" id="optioncheck" type="text" value="기본값" readonly>-->
-<!--          <div class="optiontext">수량</div>-->
-<!--          <input class="optiontext" id="optionamount" type="text" value="1" >-->
-<!--          <button class="button" id="plusbutton">+</button>-->
-<!--          <button class="button" id="minusbutton">-</button>-->
-<!--        </div>-->
-
       </div>
     </div>
   </div>
-
+</div>
 </body>
+<script>
+  calcPercent();
+  calcBetweenDate();
+</script>
 </html>

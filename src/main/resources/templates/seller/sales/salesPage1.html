@@ -18,25 +18,26 @@
 
     <nav>
         <ul>
-            <li class="selectedpage"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage1'">상품내용</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage2'">프로젝트정보</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage3'">Q/A</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage4'">FAQ</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage5'">새소식</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage6'">판매자정보</a></li>
+            <li class="selectedpage"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage1?no=20'">상품내용</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage2?no=20'">프로젝트정보</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage3?no=20'">Q/A</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage4?no=20'">FAQ</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage5?no=20'">새소식</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage6?no=20'">판매자정보</a></li>
         </ul>
     </nav>
 
     <div class="contentsbottom">
-<!--        <tr th:each="sales: ${ salesList }">-->
-<!--            <td th:text="${ sales.no}"></td>-->
-<!--            <td th:text="${ sales.title}"></td>-->
-<!--        </tr>-->
-
             <div th:if="${salesDTO}" class="title">
-              <div class="text" th:text="${salesDTO.title}"></div>
+              <div class="text" th:text="${salesDTO.content}"></div>
             </div>
-        <img class="productimage" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
+
+        <div class="image-container">
+            <img class="image2" src="/images/seller/sales/sales1.PNG" alt="Image">
+            <div class="zoom">
+                <img src="/images/seller/sales/sales1.PNG" alt="Zoomed Image">
+            </div>
+        </div>
     </div>
 </body>
 

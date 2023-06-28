@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.seller.dto.OptionDTO;
 import com.idle.osmas.seller.dto.SalesDTO;
 import com.idle.osmas.seller.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,35 +23,68 @@ public class SalesPageController {
         this.salesService = salesService;
     }
 
-//    @GetMapping ("/fragments/product")
-//    public String SalesInfo(Model model, @RequestParam("no") int no){
-//        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-//        model.addAttribute("salesDTO", salesDTO);
-//        return "/seller/fragments/product";
-//    }
+    @GetMapping ("/fragments/product")
+    public String SalesInfo(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/fragments/product";
+    }
 
     @GetMapping ("/sales/salesPage1")
     public String salesPage1(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
         model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
         return "/seller/sales/salesPage1";
     }
 
-//    @GetMapping("/sales/salesPage1")
-//    public String salesPage1(Model model){
-//        List<SalesDTO> salesList = salesService.selectAllProject();
-//        model.addAttribute("salesList", salesList);
-//        return "/seller/sales/salesPage1";
-//    }
-    @GetMapping("/sales/salesPage2")
-    public void salesPage2(){}
-    @GetMapping("/sales/salesPage3")
-    public void salesPage3(){}
-    @GetMapping("/sales/alesPage4")
-    public void salesPage4(){}
-    @GetMapping("/sales/salesPage5")
-    public void salesPage5(){}
-    @GetMapping("/sales/salesPage6")
-    public void salesPage6(){}
+    @GetMapping ("/sales/salesPage2")
+    public String salesPage2(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/sales/salesPage2";
+    }
+
+    @GetMapping ("/sales/salesPage3")
+    public String salesPage3(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/sales/salesPage3";
+    }
+
+    @GetMapping ("/sales/salesPage4")
+    public String salesPage4(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/sales/salesPage4";
+    }
+
+    @GetMapping ("/sales/salesPage5")
+    public String salesPage5(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/sales/salesPage5";
+    }
+
+    @GetMapping ("/sales/salesPage6")
+    public String salesPage6(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectAllOption();
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        return "/seller/sales/salesPage6";
+    }
+
 
 }
