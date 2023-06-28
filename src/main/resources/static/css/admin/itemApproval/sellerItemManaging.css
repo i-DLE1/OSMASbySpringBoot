@@ -142,3 +142,42 @@ nav ul li a{
     color: black; /* 숫자 글씨 색상을 변경하려면 원하는 색상으로 설정하세요 */
     text-decoration: none;
 }
+
+/*버튼 알림 폼*/
+.notification-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    margin-right: 95px;
+    margin-bottom: 5px;
+}
+
+.button-container button {
+    margin: 0 5px;
+}
+
+.reasonText {
+    width: 200px;
+    height: 200px;
+    border: solid 1px black;
+}

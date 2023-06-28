@@ -171,9 +171,11 @@ nav ul li a{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 300px;
 }
 
 .form-content {
@@ -187,12 +189,13 @@ nav ul li a{
 .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 25px;
+    margin-right: 95px;
+    margin-bottom: 5px;
 }
 
-.send-button,
-.close-button {
-
+.button-container button {
+    margin: 0 5px;
 }
 
 .reasonText {
