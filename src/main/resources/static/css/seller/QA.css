@@ -84,10 +84,10 @@ body{
 }
 
 #qa-answer-area label:nth-child(1){
-    width: 435px;
+    width: 450px;
     position: absolute;
     text-align: right;
-    top: 490px;
+    top: 395px;
     color: #884A3B;
 }
 

@@ -121,7 +121,7 @@ const screenCenterPopup = (popupWidth, popupHeight) =>{
 // 화면 위치 끝
 
 function qaPopup(e){
-    window.open(`./projectDetail/qaAnwer?id=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
+    window.open(`./projectDetail/qaAnswer?id=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
 }
 
 function popupCancel(id) {
@@ -199,26 +199,26 @@ function activePage() {
         case '/seller/projectList?listType=cancel' :
             $("#cusCancelMenu").addClass('active-page') ;
             $("#cusCancel").addClass('active-page') ;
-            $titleSpan.text('취소');
+            // $titleSpan.text('취소');
             break;
 
         case '/seller/projectQnAList' :
         case '/seller/projectQnAList?listType=all' :
             $("#qaAllMenu").addClass('active-page') ;
             $("#qaAll").addClass('active-page') ;
-            $titleSpan.text('전체조회');
+            // $titleSpan.text('전체조회');
             break;
 
         case '/seller/projectQnAList?listType=wait' :
             $("#qaWaitMenu").addClass('active-page') ;
             $("#qaWait").addClass('active-page') ;
-            $titleSpan.text('답변 대기중');
+            // $titleSpan.text('답변 대기중');
             break;
 
         case '/seller/projectQnAList?listType=complete' :
             $("#qaCompleteMenu").addClass('active-page') ;
             $("#qaComplete").addClass('active-page') ;
-            $titleSpan.text('완료');
+            // $titleSpan.text('완료');
             break;
 
         case '/seller/orderList?listType=all' :

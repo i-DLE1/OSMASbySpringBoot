@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.dto;
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.PaymentDTO;
 import lombok.*;
 
 import java.security.spec.RSAOtherPrimeInfo;
@@ -20,8 +21,10 @@ public class ProjectQnADTO {
 
     private MemberDTO member;
 
+    private ProjectQnAAnswerDTO projectQnAAnswer; // 답변
 
-    //    private ProjectQnAAnswerDTO projectQnAAnswer; // 답변
+    private ProjectDTO project;
 
+    private PaymentDTO payment;
 
 }

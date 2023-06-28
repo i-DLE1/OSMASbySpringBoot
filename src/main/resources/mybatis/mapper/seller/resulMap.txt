@@ -1,10 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.idle.osmas.seller.dao.ProjectMapper">
-    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+<resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
         <id property="no" column="NO"/>
         <result property="id" column="ID"/>
         <result property="pwd" column="PWD"/>
@@ -74,7 +68,7 @@
         <result property="type" column="TYPE"/>
         <result property="deleteYN" column="DELETE_YN"/>
     </resultMap>
-    
+
     <resultMap id="projectNewsResultMap" type="com.idle.osmas.seller.dto.ProjectNewsDTO">
         <id property="no" column="NO"/>
         <result property="title" column="TITLE"/>
@@ -119,37 +113,3 @@
          <result property="status" column="STATUS"/>
          <result property="size" column="PRODUCT_SIZE"/>
     </resultMap>
-
-    <select id="selectAllProject" resultMap="projectResultMap">
-        SELECT NO,
-               TITLE,
-               CONTENT,
-               REGIST_DATE,
-               START_DATE,
-               END_DATE,
-               TARGET_AMOUNT,
-               CURRENT_AMOUNT,
-               VIEWS,
-               REF_MEMBER_NO,
-               REF_CATEGORY_NO
-        FROM TBL_PRJ
-    </select>
-
-    <select id="selectAllByAccount" resultMap="projectResultMap" parameterType="_int">
-        SELECT PRJ.NO, PRJ.TITLE, PRJ.CONTENT,
-               PRJ.REGIST_DATE, PRJ.TARGET_AMOUNT, PRJ.CURRENT_AMOUNT,
-               TPP2.REGIST_DATE, TPP2.STATUS, PRJ.START_DATE, PRJ.END_DATE,
-               TPP2.CONTENT, TM.NAME, TM.PHONE,
-               TM.ID, TM.STATUS
-          FROM TBL_PRJ PRJ
-          JOIN (SELECT *
-               FROM TBL_PRJ_PROGRESS
-               WHERE NO = (SELECT MAX(NO)
-                           FROM TBL_PRJ_PROGRESS
-                           WHERE REF_PRJ_NO = 0)
-               ) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
-          JOIN TBL_MEMBER TM ON TM.NO = ${refMemberNo}
-    </select>
-
-
-</mapper>
