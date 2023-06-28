@@ -1,6 +1,6 @@
 package com.idle.osmas.admin.dto;
 
-public enum permissionRoleStatus {
+public enum PermissionRoleStatus {
 
     SCREENING, //신청중
 

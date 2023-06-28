@@ -29,9 +29,23 @@
 
     <h4 style="color: rgb(168, 164, 164); text-align: center;">판매자 권한 부여를 기다리고 있습니다.</h4>
     <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
+        <div class="content-container">
+            <tr>
+            <th class="seller-name">판매자 이름</th>
+            <th class="apply-content">신청 내용</th>
+            </tr>
+            <tr th:each="seller: ${ sellerApply }">
+                <th th:text="${ seller.memberNo }" class="apply-content"></th> <!-- 신청자 번호 -->
+                <td th:text="${ seller.name }" class="seller-name"></td> <!-- 회사명 -->
+            </tr>
         </div>
+        <div class="button-container">
+            <button class="goButton">권한 부여</button>
+            <button class="noButton" style="margin-right: 60px;">부여 보류</button>
+        </div>
+    </div>
+
+    <div class="product">
         <div class="content-container">
             <h3 class="seller-name">판매자 이름</h3>
             <p class="apply-content">신청 내용</p>
@@ -43,9 +57,6 @@
     </div>
 
     <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
         <div class="content-container">
             <h3 class="seller-name">판매자 이름</h3>
             <p class="apply-content">신청 내용</p>
@@ -57,9 +68,6 @@
     </div>
 
     <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
         <div class="content-container">
             <h3 class="seller-name">판매자 이름</h3>
             <p class="apply-content">신청 내용</p>
@@ -71,23 +79,6 @@
     </div>
 
     <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="apply-content">신청 내용</p>
-        </div>
-        <div class="button-container">
-            <button class="goButton">권한 부여</button>
-            <button class="noButton" style="margin-right: 60px;">부여 보류</button>
-        </div>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
         <div class="content-container">
             <h3 class="seller-name">판매자 이름</h3>
             <p class="apply-content">신청 내용</p>

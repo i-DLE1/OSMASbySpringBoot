@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class sellerRoleDTO {
+public class SellerRoleDTO {
 
     private String accountNo; //계좌번호
 
@@ -31,5 +31,5 @@ public class sellerRoleDTO {
 
     private String reportNo; //통신판매업신고번호
 
-    private List<sellerRoleFileDTO>  fileList; //신청한 파일 목록
+    private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록
 }

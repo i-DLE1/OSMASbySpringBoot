@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class termsDTO {
+public class TermsDTO {
 
     private int no; //약관번호
 
@@ -18,7 +18,7 @@ public class termsDTO {
 
     private LocalDate registDate; //생성날짜
 
-    private termsDivisionCode classifyCode; //구분코드
+    private TermsDivisionCode classifyCode; //구분코드
 
     private int termsIndex; //순번....이뭐지
 

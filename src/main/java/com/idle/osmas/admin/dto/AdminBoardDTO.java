@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class adminBoardDTO {
+public class AdminBoardDTO {
 
     private int no;  // index
 
@@ -23,7 +23,7 @@ public class adminBoardDTO {
 
     private LocalDate modifyDate; // 게시판 수정일
 
-    private adminBoardDivisionCode classifyCode; //구분코드
+    private AdminBoardDivisionCode classifyCode; //구분코드
 
     private MemberDTO memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
 

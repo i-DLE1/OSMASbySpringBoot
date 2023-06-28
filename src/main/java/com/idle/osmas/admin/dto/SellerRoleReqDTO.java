@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class sellerRoleReqDTO {
+public class SellerRoleReqDTO {
 
     private int no; //판매자권한신청코드
 

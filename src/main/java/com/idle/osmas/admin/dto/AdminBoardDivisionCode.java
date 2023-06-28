@@ -1,6 +1,6 @@
 package com.idle.osmas.admin.dto;
 
-public enum adminBoardDivisionCode {
+public enum AdminBoardDivisionCode {
 
     NOTICE, //공지사항
 

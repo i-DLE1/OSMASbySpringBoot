@@ -5,13 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin/question")
-public class questionController {
+@RequestMapping("/admin/adminCategory")
+public class AdminCategoryController {
 
-    @GetMapping("advice")
-    public void advice(){}
+    @GetMapping("fundingRanking")
+    public void fundingRanking(){}
 
-    @GetMapping("handle")
-    public void handle(){}
-
+    @GetMapping("gettingProposals")
+    public void gettingProposals(){}
 }
