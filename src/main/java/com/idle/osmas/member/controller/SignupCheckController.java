@@ -1,23 +1,21 @@
 package com.idle.osmas.member.controller;
 
-import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.service.EmailServiceImpl;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/member")
-public class DupCheckController {
+public class SignupCheckController {
 
     private final MemberServiceImpl memberService;
+    private final EmailServiceImpl emailService;
 
-    public DupCheckController(MemberServiceImpl memberService){
+    public SignupCheckController(MemberServiceImpl memberService,EmailServiceImpl emailService){
         this.memberService = memberService;
+        this.emailService = emailService;
     }
     @PostMapping("/idDupCheck")
     @ResponseBody
@@ -42,5 +40,11 @@ public class DupCheckController {
             result = "중복된 닉네임 있습니다";
         }
         return result;
+    }
+
+    @PostMapping("/email")
+    @ResponseBody
+    public String emailSend(@RequestParam("email") String email){
+    String result = emailService.mailSend(email);
     }
 }

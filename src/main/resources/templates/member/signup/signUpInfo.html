@@ -61,8 +61,8 @@
 
         <label for="email">이메일</label>
         <div class="signup_info">
-            <input type="email" name="email" id="email" placeholder="이메일 입력" th:onchange="emailReg()">
-            <button type="button">전송</button>
+            <input type="email" name="email" id="email" placeholder="이메일 입력">
+            <button th:onclick="emailSend()">전송</button>
         </div>
 
         <label>인증번호</label>
@@ -158,7 +158,6 @@
             $('#phone').focus();
         }
     }
-
     function birthReg(){
         const birth = $('#birth').val();
         let birthCheck = /^(19[0-9][0-9]|20\d{2})(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
@@ -166,6 +165,27 @@
             alert('다시 입력해주세요.')
             $('#birth').val('');
             $('#birth').focus();
+        }
+    }
+
+    function emailSend(){
+        const email = $('#email').val();
+        let emailCheck =  /^[a-z][a-z0-9_-]{3,11}@([a-z\d\.-]+)\.([a-z\.]{2,6})$/;
+        if(!emailCheck.test(email)){
+            alert('다시 입력해주세요')
+            $('#email').val('');
+            $('#email').focus();
+        }else{
+            $.ajax({
+               url:"/member/email",
+                type: "post",
+                date:{email:email},
+                success : function (data){
+                   alert('이메일 보내기 선공')
+                }error : function (error){
+                   alert('오류입니다.')
+                }
+            });
         }
     }
 </script>
