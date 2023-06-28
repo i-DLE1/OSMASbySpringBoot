@@ -1,6 +1,6 @@
 package com.idle.osmas.admin.dto;
 
-public enum termsDivisionCode {
+public enum TermsDivisionCode {
 
     GENERAL, //일반
 

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class termsHistoryDTO {
+public class TermsHistoryDTO {
 
     private int no; //변경이력코드
 
@@ -18,6 +18,6 @@ public class termsHistoryDTO {
 
     private LocalDate lastDate; //변경날짜
 
-    private termsDTO termsNo; //약관번호
+    private TermsDTO termsNo; //약관번호
 
 }

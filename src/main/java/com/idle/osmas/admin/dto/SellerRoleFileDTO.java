@@ -9,11 +9,11 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class sellerRoleFileDTO {
+public class SellerRoleFileDTO {
 
     private int no; //판매자정보파일번호
 
-    private sellerRoleFileDivisionCode idCode; //구분 코드
+    private SellerRoleFileDivisionCode idCode; //구분 코드
 
     private String originName; //원본파일명
 

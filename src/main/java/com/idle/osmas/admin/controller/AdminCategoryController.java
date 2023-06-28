@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/adminCategory")
-public class adminCategoryController {
+public class AdminCategoryController {
 
     @GetMapping("fundingRanking")
     public void fundingRanking(){}

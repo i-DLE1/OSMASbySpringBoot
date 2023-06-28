@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/itemApproval")
-public class itemApprovalController {
+public class ItemApprovalController {
 
     @GetMapping("waitingItem")
     public void waitingItem(){}

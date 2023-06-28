@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class adminBoardFileDTO {
+public class AdminBoardFileDTO {
 
     private int no; //관리자게시판파일번호
 
@@ -22,5 +22,5 @@ public class adminBoardFileDTO {
 
     private char deteleYN; //삭제여부
 
-    private adminBoardDTO adminBoardNo; //게시판 번호
+    private AdminBoardDTO adminBoardNo; //게시판 번호
 }

@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.idle.osmas.admin.dao.sellerRoleMapper">
+<mapper namespace="com.idle.osmas.admin.dao.SellerRoleMapper">
 
-    <resultMap id="sellorRoleResultMap" type="com.idle.osmas.admin.dao.sellerRoleMapper">
+    <resultMap id="sellorRoleResultMap" type="com.idle.osmas.admin.dto.SellerRoleDTO">
         <id property="memberNo" column="REF_MEMBER_NO"/>
         <result property="accountNo" column="ACCOUNT_NO"/>
         <result property="registNo" column="REGIST_NO"/>
@@ -19,4 +19,23 @@
 
         <!-- <collection property="fileList" resultMap="fileListResultMap"/> -->
     </resultMap>
+
+    <select id="selectAllRole" resultMap="sellorRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO
+        FROM TBL_SELLER_ROLE S
+                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE R.REF_MEMBER_ROLE_CODE = 1 AND NOT EXISTS (
+            SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+    </select>
 </mapper>

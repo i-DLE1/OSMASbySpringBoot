@@ -1,6 +1,6 @@
 package com.idle.osmas.admin.dto;
 
-public enum sellerRoleFileDivisionCode {
+public enum SellerRoleFileDivisionCode {
 
     LICENSE, //사업자등록증
 

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("admin/user_management")
-public class user_managementController {
+public class User_managementController {
 
     @GetMapping("full_inquiry")
     public void full_inquiry(){}

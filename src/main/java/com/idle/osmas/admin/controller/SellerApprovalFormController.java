@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/sellerApprovalForm")
-public class sellerApprovalFormController {
+public class SellerApprovalFormController {
 
     @GetMapping("formMain")
     public void formMain(){}

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/*")
-public class adminMainController {
+public class AdminMainController {
 
     @GetMapping(value = {"/admin"})
     public String adminMain () {
