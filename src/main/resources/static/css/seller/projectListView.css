@@ -7,7 +7,6 @@ body{
 .project-list-main{
     display: grid;
     place-items: center;
-    margin: 3em 6em 0 6em;
 }
 
 .container-project-list-view{
@@ -17,8 +16,8 @@ body{
 }
 
 .menu-list-project-view{
+    margin: 3em 0 4em 0;
     width: 100%;
-    margin: 5em 0 5em 0;
     display: flex;
     justify-content: center;
 }
@@ -39,20 +38,25 @@ body{
     width: 100%;
     display: flex;
     justify-content: center;
+    margin: 0 0 10em 0;
 }
-.proejct-list-tag-selection{
+.project-list-tag-selection{
     vertical-align: middle;
     display: inline-block;
     text-align: center;
-    padding: 7px 15px 7px 15px;
-    background-color: white;
-    border: 1px solid #884A3B;
-    color: #884A3B;
-    border-radius: 15px;
+    padding: 8px 18px 8px 18px;
+    color: white;
+    background: #cca77f;
+    border-radius: 5px;
     font-size: 15px;
     font-weight: 500;
+    margin: 10px 10px 10px 10px;
 }
-.proejct-list-tag-selection-active{
+.project-list-tag-selection:hover{
+    background: #b68149;
+}
+.project-list-tag-selection-active{
+    background: #884A3B;
     color: white;
-    background-color: #884A3B;
+
 }

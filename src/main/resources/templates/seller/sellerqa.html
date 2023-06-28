@@ -10,10 +10,10 @@
   <main class="main">
     <div class="main-header">
       <div>
-        <h1 class="h1-title">프로젝트 Q/A - <span>전체조회</span></h1>
+        <h1 class="h1-title">프로젝트 Q/A - <span th:text="${listType}">전체조회</span></h1>
       </div>
       <div>
-        <h5><span>판매자</span>님 환영합니다.</h5>
+        <h5><span th:text="${userName}">판매자</span>님 환영합니다.</h5>
       </div>
     </div>
 
@@ -27,14 +27,14 @@
             <div class="row col">
 <!--              <form id="searchForm" action="/seller/projectQnAList" method="get">-->
                 <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
-                  <option value="title">프로젝트명</option>
-                  <option value="customer">작성자</option>
-                  <option value="question">질문</option>
-                  <option value="phone">연락처</option>
-                  <option value="product-option">상품옵션</option>
-                  <option value="pay-method">결제수단</option>
+                  <option value="title" th:selected="title == ${searchType}">프로젝트명</option>
+                  <option value="customer" th:selected="customer == ${searchType}">작성자</option>
+                  <option value="question" th:selected="question == ${searchType}">질문</option>
+                  <option value="phone"  th:selected="phone == ${searchType}">연락처</option>
+                  <option value="product-option"  th:selected="product-option == ${searchType}">상품옵션</option>
+                  <option value="pay-method"  th:selected="pay-method == ${searchType}">결제수단</option>
                 </select>
-                <input type="text" class="search-bar col" id="search" name="search">
+                <input type="text" class="search-bar col" id="search" name="search" th:placeholder="${search}">
                 <button class="search-btn col ms-2 me-2" onclick="projectSearch()" >검색</button>
 <!--              </form>-->
             </div>

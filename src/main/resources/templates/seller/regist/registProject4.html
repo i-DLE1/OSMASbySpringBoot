@@ -7,12 +7,12 @@
         <main class="main">
             <h1 class="h1-title">상품 상세정보 등록</h1>
             <div style="display:flex; justify-content:center;width: 100%">
-                <textarea id="content" style="width: 1120px; "></textarea>
+                <textarea id="content" style="width: 1120px; " th:text="${content}"></textarea>
             </div>
         </main>
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
-            <input class="footer-btn" type="button" value="다음" />
+            <input class="footer-btn" type="button" value="다음" onclick="registProject4()"/>
         </footer>
         <script src="/js/seller/registProject.js"></script>
         <script>suneditor(500,'auto')</script>

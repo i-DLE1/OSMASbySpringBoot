@@ -1,6 +1,9 @@
 package com.idle.osmas.admin.dto;
 
+import com.idle.osmas.member.dto.MemberDTO;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,9 +25,11 @@ public class sellerRoleDTO {
 
     private String address; //주소
 
-    //private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
+    private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
 
     private String bank; //은행
 
     private String reportNo; //통신판매업신고번호
+
+    private List<sellerRoleFileDTO>  fileList; //신청한 파일 목록
 }

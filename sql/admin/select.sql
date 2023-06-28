@@ -1,0 +1,35 @@
+--판매자 권한 내용 신청자만 보기(사용자 권한만 가진 사람)
+--나중에 파일에 관한 내용도 넣어줘야함
+SELECT
+    S.ACCOUNT_NO,
+    S.REGIST_NO,
+    S.NAME,
+    S.CALL_NUMBER,
+    S.RPRSN,
+    S.ADDRESS,
+    S.REF_MEMBER_NO,
+    S.BANK,
+    S.REPORT_NO
+FROM TBL_SELLER_ROLE S
+         JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+         JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+WHERE R.REF_MEMBER_ROLE_CODE = 1 AND NOT EXISTS (
+    SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+);
+
+--판매자 권한 내용 전체 보기(사용자 권한과 판매자 권한을 가진 사람)
+--나중에 파일에 관한 내용도 넣어줘야함
+SELECT
+    S.ACCOUNT_NO,
+    S.REGIST_NO,
+    S.NAME,
+    S.CALL_NUMBER,
+    S.RPRSN,
+    S.ADDRESS,
+    S.REF_MEMBER_NO,
+    S.BANK,
+    S.REPORT_NO
+FROM TBL_SELLER_ROLE S
+         JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+         JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+WHERE R.REF_MEMBER_ROLE_CODE = 1;

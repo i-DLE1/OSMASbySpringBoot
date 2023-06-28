@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http:/www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +15,6 @@
 <main>
     <div class="logo">
         <a href="/">
-
             <img src="/images/member/logo.png" alt="">
         </a>
     </div>
@@ -36,9 +35,10 @@
 <!--                    <input type="checkbox" id="keep" name="idkeep">-->
 <!--                    <label for="keep">로그인 상태 유지</label>-->
 <!--                </div>-->
+
                 <div class="error_message">
-                    아이디 또는 비밀번호를 잘못입력했습니다. <br>
-                    입력하신 내용을 다시 확인해주세요.
+                    <p th:if="${error}" th:text="${exception}">
+                    </p>
                 </div>
                 <div class="container_button">
                     <button type="submit" class="ok_button">로그인</button>
@@ -54,7 +54,7 @@
                 <a href="../findinfo/findpwd.html">비밀번호 찾기</a>
             </li>
             <li>
-                <a href="../signup/signUp.html">회원가입</a>
+                <a href="/member/signup/signUp">회원가입</a>
             </li>
         </ul>
 

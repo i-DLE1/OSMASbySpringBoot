@@ -1,4 +1,5 @@
 package com.idle.osmas.seller.dto;
+import com.idle.osmas.member.dto.MemberDTO;
 import lombok.*;
 
 import java.security.spec.RSAOtherPrimeInfo;
@@ -17,7 +18,8 @@ public class ProjectQnADTO {
 
     private LocalDate registDate; // 등록일자
 
-//    private MemberDTO member; DTO 추가되면 수
+    private MemberDTO member;
+
 
     //    private ProjectQnAAnswerDTO projectQnAAnswer; // 답변
 

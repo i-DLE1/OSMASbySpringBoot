@@ -175,25 +175,25 @@ function activePage() {
         case '/seller/projectList?listType=all' :
             $("#cusAllMenu").addClass('active-page') ;
             $("#cusAll").addClass('active-page') ;
-            $titleSpan.text('전체조회');
+            // $titleSpan.text('전체조회');
             break;
 
         case '/seller/projectList?listType=screening' :
             $("#cusScreenMenu").addClass('active-page') ;
             $("#cusScreen").addClass('active-page') ;
-            $titleSpan.text('심사중');
+            // $titleSpan.text('심사중');
             break;
 
         case '/seller/projectList?listType=processing' :
             $("#cusProcessMenu").addClass('active-page') ;
             $("#cusProcess").addClass('active-page') ;
-            $titleSpan.text('진행중');
+            // $titleSpan.text('진행중');
             break;
 
         case '/seller/projectList?listType=refuse' :
             $("#cusRefuseMenu").addClass('active-page') ;
             $("#cusRefuse").addClass('active-page') ;
-            $titleSpan.text('반려');
+            // $titleSpan.text('반려');
             break;
 
         case '/seller/projectList?listType=cancel' :
