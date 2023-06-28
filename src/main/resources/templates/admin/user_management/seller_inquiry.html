@@ -11,30 +11,55 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script>
-    function toggleDropdown(event) {
-      var dropdown = document.getElementById("dropdownContent");
-      dropdown.classList.toggle("slide-open");
-    }
-
-    $(document).ready(function() {
-      $('#toggleBtn').click(function() {
-        $('.member-list').toggleClass('active');
-      });
-    });
-
-    window.addEventListener("click", function (event) {
-      var dropdown = document.getElementById("dropdownContent");
-      var targetElement = event.target;
-
-      if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
-        dropdown.classList.remove("slide-open");
-      }
-    });
-  </script>
 </head>
-
 <body>
+
+<header id="header">
+  <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+  <div class="adminLogin">
+    <h4>관리자님 환영합니다!</h4>
+    <button>로그아웃</button>
+  </div>
+
+  <!-- 상단 카테고리 -->
+  <div class="notice">
+    <img class="notice_header" src="../resource/img/logo.png" style="display:block; margin: 0 auto; width:180px; height:130px;">
+    <nav>
+      <ul>
+        <li class="category">
+          <button class="gugu" onclick="toggleDropdown()">카테고리</button>
+        </li>
+
+        <div class="slide-content" id="dropdownContent">
+          <div style="text-align: center;">
+            <img src="../../static/image/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+          </div>
+
+          <a href="" onclick="toggleDropdown(event)">관리자 마이페이지</a>
+          <a href=".fundingRanking.html">현재 펀딩 순위</a>
+          <a href="./waitingAuthorization.html">판매자 권한 관리</a>
+          <a href="./waitingItem.html">상품 승인 관리</a>
+          <a href="./gettingProposals.html">제안받기</a>
+          <a href="../notice/notice_fullview.html">공지사항 관리</a>
+          <a href="./full_inquiry.html">회원 관리</a>
+          <a href="../restrict/restrict_receive.html">신고 및 제재</a>
+          <a href="./f&q_handle.html">상담 문의 처리</a>
+          <a href="./f&q_advice.html">도움말</a>
+        </div>
+
+        <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
+        <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
+        <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
+        <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
+        <li class="search">
+          <input type="text" placeholder="검색할 내용을 입력해주세요">
+        </li>
+      </ul>
+    </nav>
+</header>
+
 
 
 <!-- 상단 타이틀 : 회원관리-판매 회원 조회 -->
@@ -151,6 +176,9 @@
 </nav>
 </div>
 
+<footer >
+  <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 
 </main>
 </body>
