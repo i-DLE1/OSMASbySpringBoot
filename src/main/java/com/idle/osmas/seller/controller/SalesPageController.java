@@ -22,12 +22,12 @@ public class SalesPageController {
         this.salesService = salesService;
     }
 
-    @GetMapping ("/fragments/product")
-    public String SalesInfo(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        return "/seller/fragments/product";
-    }
+//    @GetMapping ("/fragments/product")
+//    public String SalesInfo(Model model, @RequestParam("no") int no){
+//        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+//        model.addAttribute("salesDTO", salesDTO);
+//        return "/seller/fragments/product";
+//    }
 
     @GetMapping ("/sales/salesPage1")
     public String salesPage1(Model model, @RequestParam("no") int no){

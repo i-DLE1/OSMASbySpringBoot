@@ -33,7 +33,7 @@
         FROM TBL_PRJ
     </select>
 
-    <select id="selectProjectByNo" resultMap="projectResultMap">
+    <select id="selectProjectByNo" resultMap="projectResultMap" parameterType="_int">
         SELECT
             NO,
             TITLE,
@@ -47,7 +47,7 @@
             REF_MEMBER_NO,
             REF_CATEGORY_NO
         FROM TBL_PRJ
-        WHERE NO = #{ no };
+        WHERE NO = #{ no }
     </select>
 
 </mapper>
