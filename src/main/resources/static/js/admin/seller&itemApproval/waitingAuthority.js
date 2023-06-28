@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             notificationForm.innerHTML = `
                 <h4>권한 부여 보류 알림</h4>
-                <p>판매자: ${sellerName}</p>
+                <p>신청자: ${sellerName}</p>
                 <div class="form-content">
                     <textarea class="reasonText" placeholder="내용을 입력하세요"></textarea>
                     <div class="button-container">

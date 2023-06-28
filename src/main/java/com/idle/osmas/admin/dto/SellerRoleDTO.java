@@ -25,11 +25,15 @@ public class SellerRoleDTO {
 
     private String address; //주소
 
-    private MemberDTO memberNo; //회원번호 -->일케 가져오는거 맞는지
+    private int memberNo; //회원번호 -->일케 가져오는거 맞는지
 
     private String bank; //은행
 
     private String reportNo; //통신판매업신고번호
+
+    private String memberId; //회원 아이디 --> 이거 번호랑 짝꿍
+
+    private MemberDTO member; //멤버........담기.....
 
     private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록
 }

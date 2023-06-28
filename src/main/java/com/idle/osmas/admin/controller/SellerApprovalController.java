@@ -21,9 +21,11 @@ public class SellerApprovalController {
     public SellerApprovalController(SellerRoleService sellerRoleService){
         this.sellerRoleService = sellerRoleService;
     }
+
+    //권한 코드를 1만 가지고 있는 사람 조회
     @GetMapping("waitingAuthority")
     public String sellerAllApply(Model model){
-        List<SellerRoleDTO> sellerApply = sellerRoleService.selectAllsellerRole();
+        List<SellerRoleDTO> sellerApply = sellerRoleService.selectAllApplyRole();
 
         model.addAttribute("sellerApply", sellerApply);
 
@@ -40,7 +42,13 @@ public class SellerApprovalController {
     public void holdingRetrieve(){}
 
     @GetMapping("succesAuthority")
-    public void succesAuthority(){}
+    public String sellerAllRole(Model model){
+        List<SellerRoleDTO> sellerAll = sellerRoleService.sellerAllRole();
+
+        model.addAttribute("sellerAll", sellerAll);
+
+        return "/admin/sellerApproval/succesAuthority";
+    }
 
     @GetMapping("succesRetrieve")
     public void succesRetrieve(){}
