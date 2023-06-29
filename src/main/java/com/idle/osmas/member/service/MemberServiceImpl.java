@@ -30,6 +30,7 @@ public class MemberServiceImpl implements MemberService{
         String result = mapper.selectMemberByEmail(email);
         return result != null? true : false;
     }
+    // 이메일로 아이디를 찾은후 이메일 전송
 
     @Override
     @Transactional

@@ -14,6 +14,8 @@ public interface MemberMapper {
 
     int insertRole(); // 회원 가입시 User권한 자동 부여
 
+    String selectIdByEmail(String email);
+
 
 
 }

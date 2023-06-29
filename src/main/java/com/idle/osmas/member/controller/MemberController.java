@@ -2,6 +2,7 @@ package com.idle.osmas.member.controller;
 
 
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.service.EmailServiceImpl;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -20,9 +24,13 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final MemberServiceImpl memberService;
 
-    public MemberController(PasswordEncoder passwordEncoder, MemberServiceImpl memberService){
+    private final EmailServiceImpl emailService;
+
+    public MemberController(PasswordEncoder passwordEncoder, MemberServiceImpl memberService,
+                            EmailServiceImpl emailService){
         this.passwordEncoder = passwordEncoder;
         this.memberService = memberService;
+        this.emailService = emailService;
     }
     @GetMapping("/login/login")
     public void memberLoginForm(@RequestParam(value = "error",required = false) String error,
@@ -68,11 +76,16 @@ public class MemberController {
     public void findId(){}
     // email로 id 찾기
     @PostMapping("/findinfo/findid")
-    public String findId(HttpServletRequest request){
-        memberService.selectMemberByEmail(request.getParameter("email"));
+    public String findId(@RequestParam("email") String email, Model m) throws MessagingException, UnsupportedEncodingException {
+        System.out.println(email);
+        String result = emailService.selectIdByEmail(email);
+        m.addAttribute("result",result);
         return "/member/findinfo/findsuccess";
     }
 
     @GetMapping("/findinfo/findpwd")
     public void findPwd(){}
+
+    @GetMapping("/findinfo/findsuccess")
+    public void findsuccess(){}
 }

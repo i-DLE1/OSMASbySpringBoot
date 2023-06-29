@@ -1,6 +1,7 @@
 package com.idle.osmas.member.service;
 
 
+import com.idle.osmas.member.dao.MemberMapper;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -17,9 +18,11 @@ import java.util.Random;
 public class EmailServiceImpl implements EmailService{
 
     private final JavaMailSender mailSender;
+    private final MemberMapper mapper;
 
-    public EmailServiceImpl(JavaMailSender mailSender){
+    public EmailServiceImpl(JavaMailSender mailSender,MemberMapper mapper){
         this.mailSender = mailSender;
+        this.mapper = mapper;
     }
     private static final String ADMIN_ADDRESS = "asdq1523@naver.com";
     private static final String ADMIN_NAME = "HEOYUIL";
@@ -53,5 +56,39 @@ public class EmailServiceImpl implements EmailService{
         }
         System.out.println("메일 보내기 완");
         return result+"";
+    }
+
+    // 이메일로 아이디를 찾은 후
+    @Override
+    public String selectIdByEmail(String email) throws MessagingException, UnsupportedEncodingException {
+        String result = "이메일로 아이디를 전송했습니다";
+        String id = mapper.selectIdByEmail(email);
+        if(id == null){
+            return result = "이 이메일로 회원 가입한 아이디는 없습니다.";
+        }
+        MimeMessage message = mailSender.createMimeMessage();
+        message.addRecipients(RecipientType.TO,email);
+        message.setSubject("OSMAS 아이디 메일 전송합니다");
+        String msgg = "";
+        msgg += "<div style='margin:100px;'>";
+        msgg += "<h1> 안녕하세요</h1>";
+        msgg += "<h1> OSMAS입니다</h1>";
+        msgg += "<br>";
+        msgg += "<p>아이디 입니다<p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "id : <strong>";
+        msgg += id + "</strong><div><br/>";
+        msgg += "</div>";
+        message.setText(msgg,"utf-8","html");
+        message.setFrom(new InternetAddress(ADMIN_ADDRESS,ADMIN_NAME));
+        try{
+            mailSender.send(message);
+        }catch (MailException e){
+            e.printStackTrace();
+            throw new IllegalArgumentException();
+        }
+        return result;
     }
 }
