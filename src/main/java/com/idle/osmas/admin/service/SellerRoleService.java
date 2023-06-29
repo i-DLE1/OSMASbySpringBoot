@@ -16,5 +16,7 @@ public interface SellerRoleService {
 
     List<SellerRoleDTO> selectHoldingRoleRetrieve(); // 권한 회수 보류자
 
+    List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
+
 
 }

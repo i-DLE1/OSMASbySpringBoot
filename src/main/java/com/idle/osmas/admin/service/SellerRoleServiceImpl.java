@@ -40,4 +40,9 @@ public class SellerRoleServiceImpl implements SellerRoleService {
         return sellerRoleMapper.selectHoldingRoleRetrieve();
     }   //권한 회수 보류자
 
+    @Override
+    public List<SellerRoleDTO> selectSuccessRoleRetrieve() {
+        return sellerRoleMapper.selectSuccessRoleRetrieve();
+    }   //권한 회수 완료자
+
 }

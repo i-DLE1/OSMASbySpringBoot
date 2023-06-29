@@ -70,6 +70,12 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesRetrieve")
-    public void succesRetrieve(){}
+    public String succesRetrieve(Model model){
+        List<SellerRoleDTO> successRetrieve = sellerRoleService.selectSuccessRoleRetrieve();
+
+        model.addAttribute("successRetrieve", successRetrieve);
+
+        return "/admin/sellerApproval/succesRetrieve";
+    }
 
 }

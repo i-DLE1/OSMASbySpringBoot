@@ -17,4 +17,6 @@ public interface SellerRoleMapper {
     List<SellerRoleDTO> selectApplyRoleRetrieve(); // 권한 회수 신청자
 
     List<SellerRoleDTO> selectHoldingRoleRetrieve(); // 권한 회수 보류자
+
+    List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
 }
