@@ -12,3 +12,4 @@ public interface SellerRoleMapper {
 
     List<SellerRoleDTO> sellerAllRole(); //권한 코드 1과 2를 모두 가지고 있는 사람 조회(모든 판매자)
 }
+

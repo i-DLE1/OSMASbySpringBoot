@@ -2,17 +2,15 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.idle.osmas.admin.dao.AdminBoardMapper">
 
-    <resultMap id="adminBoardResultMap" type="com.idle.osmas.admin.dto.adminBoardDTO">
+    <resultMap id="adminBoardResultMap" type="com.idle.osmas.admin.dto.AdminBoardDTO">
         <id property="no" column="NO"/>
         <result property="title" column="TITLE"/>
         <result property="content" column="CONTENT"/>
         <result property="registDate" column="REGIST_DATE"/>
         <result property="modifyDate" column="MODIFY_DATE"/>
         <result property="classifyCode" column="CLASSIFY_CODE"/>
-        <result property="memberNo" column="REF_MEMBER_NO"/>
         <result property="deleteYN" column="DELETE_YN"/>
 
     </resultMap>
