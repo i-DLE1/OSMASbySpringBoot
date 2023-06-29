@@ -28,21 +28,24 @@ body{
     text-align: center;
 }
 
-.image-container {
-    margin-right: 80px;
-}
-
-.image-container img {
-    width: 300px;
-    height: auto;
-    margin-left: 80px;
-}
-
 .button-container {
     display: flex;
     justify-content: flex-end; /* 맨 오른쪽으로 정렬 */
     margin-left: auto; /* 맨 오른쪽으로 이동 */
     margin-right: 15px; /* 조금 왼쪽으로 이동 */
+}
+
+.product {
+    display: flex;
+    align-items: flex-start; /* 수직 정렬을 위해 flex-start로 설정 */
+    text-align: center;
+}
+
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 수직 정렬을 위해 flex-start로 설정 */
+    margin-left: 20px; /* 제안 제목과 제안한 사람 사이의 간격을 조정 */
 }
 
 .seller-name {
@@ -65,7 +68,8 @@ body{
     font-size: 16px;
     margin-bottom: 5px;
     margin-left: auto; /* 맨 오른쪽으로 이동 */
-    margin-right: 70px; /* 조금 왼쪽으로 이동 */
+    margin-right: 120px; /* 조금 왼쪽으로 이동 */
+    margin-top: 25px;
 }
 
 .buttonAlarm:hover {
@@ -109,4 +113,15 @@ body{
     width: 250px;
     height: 150px;
     border: solid 1px black;
+}
+
+.spann {
+    margin-bottom: 50px;
+}
+
+.separator {
+    width: 85%; /* 줄의 길이를 조절할 수 있는 값으로 변경 */
+    margin: 10px auto; /* 가운데 정렬을 위해 margin 값 수정 */
+    border: none;
+    border-top: 1px solid #ddd;
 }
