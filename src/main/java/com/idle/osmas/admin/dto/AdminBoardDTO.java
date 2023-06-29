@@ -1,5 +1,6 @@
 package com.idle.osmas.admin.dto;
 
+import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.member.dto.MemberDTO;
 import lombok.*;
 
@@ -27,6 +28,6 @@ public class AdminBoardDTO {
 
     private MemberDTO memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
 
-    private char deteleYN; //삭제여부
+    private char deleteYN; //삭제여부
 
 }

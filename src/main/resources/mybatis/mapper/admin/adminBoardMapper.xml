@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.AdminBoardMapper">
+
+    <resultMap id="adminBoardResultMap" type="com.idle.osmas.admin.dto.adminBoardDTO">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="classifyCode" column="CLASSIFY_CODE"/>
+        <result property="memberNo" column="REF_MEMBER_NO"/>
+        <result property="deleteYN" column="DELETE_YN"/>
+
+    </resultMap>
+
+    <select id="getAllAdminBoards" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD
+
+    </select>
+
+    <select id="getAdminBoardsByCategory" resultMap="adminBoardResultMap">
+        SELECT
+        S.NO,
+        S.TITLE,
+        S.CONTENT,
+        S.REGIST_DATE,
+        S.MODIFY_DATE,
+        S.CLASSIFY_CODE,
+        S.REF_MEMBER_NO,
+        S.DELETE_YN
+        FROM TBL_ADMIN_BOARD
+        WHERE CLASSIFY_CODE =
+        <choose>
+            <when test="category == '전체보기'">
+                'A'
+            </when>
+            <when test="category == '이벤트'">
+                'B'
+            </when>
+            <when test="category == '공지사항'">
+                'C'
+            </when>
+            <when test="category == '보도자료'">
+                'D'
+            </when>
+        </choose>
+    </select>
+
+</mapper>
