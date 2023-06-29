@@ -19,9 +19,9 @@
         <h1 style="text-align: center;">요청 받은 제안입니다.</h1>
         <div th:each="get, iterStat: ${ proposalAll }">
             <div class="product">
-                <div class="content-container">
+                <div class="content-container" style="margin-left: 180px">
                     <h3 class="seller-name" th:text="${ get.title }">제안 제목</h3>
-                    <p class="apply-content" th:text="${ get.refMemberNo }">제안한 사람</p>
+                    <p class="apply-content" th:text="${ get.memberId }">제안한 사람</p>
                 </div>
                 <button class="buttonAlarm">확인 메세지 보내기</button>
             </div>

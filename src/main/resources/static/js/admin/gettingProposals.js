@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => {
             const product = button.closest('.product');
             const sellerName = product.querySelector('.seller-name').textContent;
+            const sellerID = product.querySelector('.apply-content').textContent;
 
             const notificationForm = document.createElement('div');
             notificationForm.classList.add('notification-form');
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             notificationForm.innerHTML = `
                 <h4>제안 확인 메시지</h4>
-                <p>판매자: ${sellerName}</p>
+                <p> ${sellerID}: ${sellerName}</p>
                 <div class="form-content">
                     <textarea class="reasonText" placeholder="내용을 입력하세요">${defaultReason}</textarea>
                     <div class="button-container">
