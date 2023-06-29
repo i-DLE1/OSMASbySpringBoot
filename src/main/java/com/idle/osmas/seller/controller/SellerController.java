@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/seller/")
+@RequestMapping("/seller")
 public class SellerController {
 
     private final SellerPageServiceImpl sellerPageService;
@@ -53,10 +53,14 @@ public class SellerController {
         return resultListType;
     }
 
+
     @GetMapping("/projectList")
     public String getProjectList(@RequestParam(required = false) Optional<String> listType,
                                  @RequestParam(required = false) String search,
                                  Model model){
+        if(listType.isEmpty()){
+            return "redirect:/seller/projectList?listType=all";
+        }
 
         Map<String, Object> searchCriteria = new HashMap<>();
         searchCriteria.put("listType", listType.get().toString().toUpperCase());
@@ -90,6 +94,9 @@ public class SellerController {
                                     @RequestParam(required = false) String search,
                                     Model model){
 
+        if(listType.isEmpty()){
+            return "redirect:/seller/projectQnAList?listType=all";
+        }
 
         Map<String, Object> searchCriteria = new HashMap<>();
 

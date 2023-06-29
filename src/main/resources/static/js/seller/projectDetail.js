@@ -53,7 +53,6 @@ $("#qa-answer").on("input",function (){
 
 function qaAnswerSubmit(submitType) {
     const content = $("#qa-answer").val();
-    console.log(content)
     const queryStr = new URLSearchParams(location.search);
     $.ajax({
         url : `/seller/projectDetail/qaAnswer?id=${queryStr.get('id')}&submitType=${submitType}`,
@@ -68,3 +67,22 @@ function qaAnswerSubmit(submitType) {
         }
     })
 }
+
+function projectRetrySubmit(){
+    const content = $("#retry-body").val();
+    const queryStr = new URLSearchParams(location.search);
+    $.ajax({
+        url : `seller/projectDetail/retry?id=${queryStr}`,
+        type : "post",
+        data : content,
+        contentType: "application/json; charset=utf-8",
+        success : function (success){
+            console.log(success);
+        },
+        error : function (error){
+            console.log(error);
+        }
+    })
+}
+
+

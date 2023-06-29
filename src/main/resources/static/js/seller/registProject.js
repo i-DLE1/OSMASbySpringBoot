@@ -281,6 +281,48 @@ function productItemLoad(data){
     productAddSubItem(productCount);
 }
 
+function subCategory(mainCategoryCode, data){
+    $('#subCategory').html("")
+    const $select = $('<select>').addClass('select-box').attr("id",'subCategoryCode').attr('name','subCategory')
+    const $option = $('<option>').text('전체').val(mainCategoryCode);
+    $select.append($option)
+
+    data.forEach(e=>{
+        const $option = $('<option>').text(e.name).val(e.no)
+        $select.append($option)
+    })
+    $('#subCategory').append($select);
+}
+
+function getMainCategoryCode(){
+    $("#mainCategory").bind("change",function (){
+        const mainCategoryCode = $("#mainCategory").val()
+
+        if(mainCategoryCode === ''){
+            $('#subCategory').html("")
+            return;
+        }
+
+        $.ajax({
+            url : `/seller/regist/getSubCategory?mainCategoryCode=${mainCategoryCode}`,
+            success : function (success) {
+                subCategory(mainCategoryCode, success);
+            },
+            error : function (error){
+                console.log(error);
+            }
+        })
+
+    })
+}
+function subMainCategoryCode(){
+    $("#subCategoryCode").bind("change",function () {
+        const subCategoryCode = $("#subCategoryCode").val()
+        console.log(subCategoryCode)
+    })
+}
+
+
 
 // 타임리프 대체 예정
 function newsList(data){
@@ -415,11 +457,15 @@ function projectInitRegist(temporary) {
     let startDate = $("#startDate").val()
     let endDate = $("#endDate").val()
     let targetAmount = $("#money").val()
+    let mainCategoryCode= $("#mainCategory").val()
+    let subCategoryCode= $("#subCategoryCode").val()
+    let category = {no : subCategoryCode};
+
 
     $.ajax({
         url : '/seller/regist/project2',
         contentType : 'application/json; charset=utf-8;',
-        data : JSON.stringify({title,subTitle,startDate,endDate,targetAmount}),
+        data : JSON.stringify({title,subTitle,startDate,endDate,targetAmount,category }),
         type : 'post',
         success : function (data){
             if(data === 'success'){
@@ -537,3 +583,4 @@ function registProject6(){
         }
     })
 }
+

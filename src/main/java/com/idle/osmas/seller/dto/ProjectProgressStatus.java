@@ -4,7 +4,10 @@ public enum ProjectProgressStatus {
     SCREENING,
     TEMPORARY,
     REJECTED,
+
+    REQUEST,
+
     CANCEL,
-    ONGOING,
+    PROCESSING,
     CLOSED
 }

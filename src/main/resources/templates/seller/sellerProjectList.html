@@ -58,11 +58,7 @@
                                 <td th:text="*{currentAmount}"></td>
                                 <td th:text="|*{startDate} ~ *{endDate}|"></td>
                                 <td>
-                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'CANCEL'}">취소</span>
-                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'TEMPORARY'}">임시저장</span>
-                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'REJECTED'}">거절</span>
-                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'ONGOING'}">진행중</span>
-                                    <span th:if="*{projectProgressList.get(0).status.toString() == 'CLOSED'}">종료</span>
+                                    <th:block th:replace="/seller/fragments/sellerFrag :: progressStatus(*{projectProgressList.get(0).status.toString()})"></th:block>
                                 </td>
                                 <td>
                                     <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{no})|">

@@ -10,7 +10,7 @@
     <main>
         <div class="display-center">
             <h1 class="h1-title">반려 사유</h1>
-            <textarea id="result" class="retry-textarea" name="result" rows="6" disabled></textarea>
+            <textarea id="result" class="retry-textarea" name="result" rows="6" disabled th:text="${projectProgress.content}"></textarea>
         </div>
         <br>
         <div class="display-center">
@@ -24,9 +24,9 @@
     </main>
     <footer class="footer">
         <input type="button" value="닫기" class="footer-btn" onclick="window.close()">
-        <input type="button" value="재심사요청" class="footer-btn">
+        <input type="button" value="재심사요청" class="footer-btn" onclick="projectRetrySubmit()">
     </footer>
     <script src="/js/seller/projectDetail.js"></script>
-    <script></script>
+    </th:block>
 </body>
 </html>

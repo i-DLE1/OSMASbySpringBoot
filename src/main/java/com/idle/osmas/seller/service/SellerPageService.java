@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectProgressDTO;
 import com.idle.osmas.seller.dto.ProjectQnAAnswerDTO;
 import com.idle.osmas.seller.dto.ProjectQnADTO;
 
@@ -18,5 +19,8 @@ public interface SellerPageService {
     int insertProjectQnAAnswer(Map<String, Object> insertData);
 
     int updateProjectQnAAnswer(Map<String, Object> updateData);
+
+    ProjectDTO selectByProjectId(int no);
+
 
 }
