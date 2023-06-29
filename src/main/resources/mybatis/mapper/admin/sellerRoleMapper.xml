@@ -15,11 +15,11 @@
         <result property="address" column="ADDRESS"/>
         <result property="bank" column="BANK"/>
         <result property="reportNo" column="REPORT_NO"/>
+        <result property="alert" column="ALERT"/>
         <result property="memberId" column="ID"/>
-
     </resultMap>
 
-    <!-- 권한 코드를 1만 가지고 있는 사람 조회 -->
+    <!-- 권한 코드를 1만 가지고 있는 사람 조회(판매자 권한 신청자) -->
     <select id="selectAllApplyRole" resultMap="sellerRoleResultMap">
         SELECT
             S.ACCOUNT_NO,
@@ -31,16 +31,42 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID
+            M.ID,
+            S.ALERT
         FROM TBL_SELLER_ROLE S
                  JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
                  JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
         WHERE R.REF_MEMBER_ROLE_CODE = 1 AND NOT EXISTS (
             SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
         )
+          AND S.ALERT IS NULL
     </select>
 
-    <!-- 권한 코드를 가지고 있는 모든 사람 조회(전체 판매자) -->
+    <!-- 권한 코드를 1만 가지고 있으면서 ALERT이 NULL값이 아닌 사람 조회(판매자 권한 보류자) -->
+    <select id="selectAllHoldingRole" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            S.ALERT
+        FROM TBL_SELLER_ROLE S
+                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE R.REF_MEMBER_ROLE_CODE = 1
+          AND NOT EXISTS (
+            SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND S.ALERT IS NOT NULL
+    </select>
+
+    <!-- 권한 코드를 가지고 있는 모든 사람 조회(전체 판매자 권한 성공자) -->
     <select id="sellerAllRole" resultMap="sellerRoleResultMap">
         SELECT DISTINCT
             S.ACCOUNT_NO,

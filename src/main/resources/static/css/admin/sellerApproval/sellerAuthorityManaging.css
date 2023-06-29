@@ -68,13 +68,20 @@ nav ul li a{
 .seller-name {
     font-size: 18px;
     margin-bottom: 5px;
-    margin-left: 250px;
+    margin-left: 230px;
 }
 
 .apply-content {
     font-size: 14px;
     margin-bottom: 10px;
-    margin-left: 250px;
+    margin-left: 230px;
+}
+
+.alert-content {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center; /* 수정: 가운데 정렬 */
+    margin-left: 200px;
 }
 
 .goButton,
@@ -108,7 +115,7 @@ nav ul li a{
     font-size: 16px;
     margin-bottom: 5px;
     margin-left: auto; /* 맨 오른쪽으로 이동 */
-    margin-right: 70px; /* 조금 왼쪽으로 이동 */
+    margin-right: 200px; /* 조금 왼쪽으로 이동 */
     pointer-events: none; /* 클릭 효과 비활성화 */
 }
 

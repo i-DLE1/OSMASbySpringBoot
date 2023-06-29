@@ -33,6 +33,8 @@ public class SellerRoleDTO {
 
     private String memberId; //회원 아이디 --> 이거 번호랑 짝꿍
 
+    private String alert; //보류 메세지 (보류 걸러내는용)
+
     private MemberDTO member; //멤버........담기.....
 
     private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록

@@ -36,7 +36,13 @@ public class SellerApprovalController {
     public void waitingRetrieve(){}
 
     @GetMapping("holdingAuthority")
-    public void holdingAuthority(){}
+    public String holdingAuthority(Model model){
+        List<SellerRoleDTO> sellerHolding = sellerRoleService.selectAllHoldingRole();
+
+        model.addAttribute("sellerHolding", sellerHolding);
+
+        return "/admin/sellerApproval/holdingAuthority";
+    }
 
     @GetMapping("holdingRetrieve")
     public void holdingRetrieve(){}
