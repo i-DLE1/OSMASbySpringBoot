@@ -41,14 +41,13 @@
             B.MODIFY_DATE AS BOARD_MODIFY_DATE,
             B.DELETE_YN AS BOARD_DELETE_YN,
             B.CLASSIFY_CODE AS BOARD_CLASSIFY_CODE,
-            M.MEMBER_NO AS MEMBER_NO,
-            M.MEMBER_NAME AS MEMBER_NAME,
-            M.MEMBER_EMAIL AS MEMBER_EMAIL
+            M.NO AS MEMBER_NO,
+            M.NAME AS MEMBER_NAME,
+            M.EMAIL AS EMAIL
         FROM TBL_ADMIN_BOARD_FILE F
-            JOIN TBL_ADMIN_BOARD B ON F.ADMIN_BOARD_NO = B.NO
-            JOIN TBL_MEMBER M ON B.MEMBER_NO = M.MEMBER_NO
+            JOIN TBL_ADMIN_BOARD B ON F.REF_ADMIN_BOARD_NO = B.NO
+            JOIN TBL_MEMBER M ON B.NO = M.NO;
     </select>
-
 
     <select id="getAdminBoardsByCategory" resultMap="adminBoardResultMap">
         SELECT
@@ -60,22 +59,21 @@
         S.CLASSIFY_CODE,
         S.REF_MEMBER_NO,
         S.DELETE_YN
-        FROM TBL_ADMIN_BOARD
-        WHERE CLASSIFY_CODE =
+        FROM TBL_ADMIN_BOARD S
+        WHERE
         <choose>
-            <when test="category == '전체보기'">
-                'A'
+            <when test="category == 'a'">
+                S.CLASSIFY_CODE = 'a'  -- 공지사항
             </when>
-            <when test="category == '이벤트'">
-                'B'
+            <when test="category == 'b'">
+                S.CLASSIFY_CODE = 'b'  -- 이벤트
             </when>
-            <when test="category == '공지사항'">
-                'C'
-            </when>
-            <when test="category == '보도자료'">
-                'D'
+            <when test="category == 'c'">
+                S.CLASSIFY_CODE = 'c'  -- 보도자료
             </when>
         </choose>
     </select>
+
+
 
 </mapper>
