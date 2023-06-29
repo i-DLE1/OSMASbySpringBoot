@@ -66,7 +66,7 @@
         WHERE NO = #{ no }
     </select>
 
-    <select id="selectCategoryByNo" resultMap="optionResultMap" >
+    <select id="selectAllOption" resultMap="optionResultMap" >
         SELECT
             NO,
             NAME,
@@ -78,7 +78,7 @@
         FROM TBL_PRODUCT
     </select>
 
-    <select id="selectAllOption" resultMap="categoryResultMap" parameterType="_int">
+    <select id="selectCategoryByNo" resultMap="categoryResultMap" parameterType="_int">
         SELECT
             NO,
             SUB_NO,

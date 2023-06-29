@@ -28,7 +28,7 @@ public class SalesPageController {
     public String SalesInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
-        CategoryDTO categoryDTO = salesService.selectCategorynameByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
         model.addAttribute("categoryDTO", categoryDTO);
@@ -39,8 +39,10 @@ public class SalesPageController {
     public String salesPage1(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage1";
     }
 
@@ -48,8 +50,10 @@ public class SalesPageController {
     public String salesPage2(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage2";
     }
 
@@ -57,8 +61,10 @@ public class SalesPageController {
     public String salesPage3(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage3";
     }
 
@@ -66,8 +72,10 @@ public class SalesPageController {
     public String salesPage4(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage4";
     }
 
@@ -75,8 +83,10 @@ public class SalesPageController {
     public String salesPage5(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage5";
     }
 
@@ -84,8 +94,10 @@ public class SalesPageController {
     public String salesPage6(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/salesPage6";
     }
 
