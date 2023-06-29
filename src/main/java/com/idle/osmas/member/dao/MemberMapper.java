@@ -5,5 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberMapper {
-    int insertMember(MemberDTO member);
+
+    String selectMemberById(String id);
+    String selectMemberByNickname(String nickname);
+    int insertMember(MemberDTO member); // 회원 가입 용
+
+    int insertRole(); // 회원 가입시 User권한 자동 부여
+
+
+
 }
