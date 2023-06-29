@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 @Controller
 @RequestMapping("/member")
 public class SignupCheckController {
@@ -44,7 +47,8 @@ public class SignupCheckController {
 
     @PostMapping("/email")
     @ResponseBody
-    public String emailSend(@RequestParam("email") String email){
+    public String emailSend(@RequestParam("email") String email) throws MessagingException, UnsupportedEncodingException {
     String result = emailService.mailSend(email);
+    return result;
     }
 }

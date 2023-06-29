@@ -1,5 +1,10 @@
 package com.idle.osmas.member.service;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 public interface EmailService {
-    public String mailSend(String email);
+    public String mailSend(String email) throws MessagingException, UnsupportedEncodingException;
+
+
 }

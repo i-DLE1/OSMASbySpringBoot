@@ -37,7 +37,7 @@
         </div>
 
         <label for="pwd">비밀번호</label>
-        <span class="condition">영문,숫자 혼합하여 8자~15자로 입렬해주세요</span>
+        <span class="condition">영문,숫자 혼합하여 6자~15자로 입렬해주세요</span>
         <div class="signup_info">
             <input type="password" name="pwd" id="pwd" placeholder="비밀번호" required th:onchange="pwdReg()">
         </div>
@@ -61,16 +61,17 @@
 
         <label for="email">이메일</label>
         <div class="signup_info">
-            <input type="email" name="email" id="email" placeholder="이메일 입력">
+            <input type="text" name="email" id="email" placeholder="이메일 입력" required>
             <button th:onclick="emailSend()">전송</button>
         </div>
 
         <label>인증번호</label>
+        <span class="condition">인증번호는 4자리 숫자입니다.</span>
         <div class="signup_info">
-            <input type="text" name="emailNum" placeholder="인증번호" id="emailNum">
-            <button type="button">확인</button>
+            <input type="text" name="emailNum" placeholder="인증번호" id="emailNum" required>
+            <button th:onclick="eamilOk()">확인</button>
         </div>
-
+        <input th:type="text" th:id="emailCheck" style="display: none">
         <div class="container_button">
             <button type="submit" id="signupBtn" class="btn_submit">가입</button>
         </div>
@@ -81,7 +82,7 @@
     // id중복 및 유효성 검사
     function idReg() {
         const id = $("#id").val();
-        let idCheck = /^[a-zA-Z0-9/]{5,20}$/;
+        let idCheck = /^[a-zA-Z0-9]{5,20}$/;
         if (!idCheck.test(id)) {
             alert("아이디는 영문또는 숫자로 5자~20자로 입력해주세요.")
             $("#id").val('');
@@ -92,8 +93,8 @@
                 type: "post",
                 data: {id: id},
                 success: function (data) {
-                    alert(data)
                     if (data == '중복된 아이디가 있습니다') {
+                        alert(data)
                         $('#id').val('');
                         $("#id").focus();
                     }
@@ -117,8 +118,8 @@
                 type: "post",
                 data: {nickname: nickname},
                 success: function (data) {
-                    alert(data)
                     if (data == '중복된 닉네임 있습니다') {
+                        alert(data)
                         $('#nickname').val('');
                         $("#nickname").focus();
                     }
@@ -131,13 +132,11 @@
     }
     function  pwdReg(){
         const pwd = $('#pwd').val();
-        let pwdCheck = /^[0-9a-zA-Z]{8,15}$/;
+        let pwdCheck = /^[0-9a-zA-Z]{6,15}$/;
         if(!pwdCheck.test(pwd)){
             alert('비밀번호는 영문,숫자 혼합하여 8자~15자로 입력해주세요')
             $('#pwd').val('');
             $('#pwd').focus();
-        }else{
-            alert('사용가능한 비밀번호 입니다.');
         }
     }
     function nameReg(){
@@ -170,7 +169,7 @@
 
     function emailSend(){
         const email = $('#email').val();
-        let emailCheck =  /^[a-z][a-z0-9_-]{3,11}@([a-z\d\.-]+)\.([a-z\.]{2,6})$/;
+        let emailCheck =  /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
         if(!emailCheck.test(email)){
             alert('다시 입력해주세요')
             $('#email').val('');
@@ -179,13 +178,27 @@
             $.ajax({
                url:"/member/email",
                 type: "post",
-                date:{email:email},
+                data:{email : email},
                 success : function (data){
-                   alert('이메일 보내기 선공')
-                }error : function (error){
-                   alert('오류입니다.')
+                   alert('이메일에 인증번호를 보냈습니다')
+                   $('#emailCheck').val(data);
+                },error : function (error){
+                    alert('이메일을 다시 확인해주세요')
                 }
+
             });
+        }
+    }
+
+    function eamilOk(){
+        const emailNum = $('#emailNum').val();
+        const emailCheck = $('#emailCheck').val();
+        if(emailNum == emailCheck){
+            alert('인증에 성공했습니다')
+        }else{
+            alert('인증에 실패했습니다')
+            $('#emailNum').val('');
+            $('#emailNum').focus();
         }
     }
 </script>
