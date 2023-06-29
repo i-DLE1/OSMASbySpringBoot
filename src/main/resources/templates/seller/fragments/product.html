@@ -96,17 +96,21 @@
       </div>
 
       <div class="optionmiddle">
-        <div class="optiontext">옵션2</div>
+        <div class="optiontext" >옵션2</div>
         <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
           <option value=""></option>
-          <option th:each="option: ${ optionList }" th:text="${ option.productSize} + '(' + ${option.price} + '원)'"></option>
+          <option th:each="option: ${ optionList }">
+            <span th:text="${ option.productSize} + '   ('"></span>
+            <span class="optionprice" th:text="${option.price}"></span>
+            <span>원)</span>
+          </option>
         </select>
       </div>
 
       <div class="optiontop">
         <div class="optiontitle">선택옵션 확인</div>
         <div class="optiontop-sub" style="margin-bottom: 10px">
-          <div class="optiontext" id="totalamount">0</div>
+          <div class="optiontext" id="totalamount"></div>
           <div class="optiontext" id="amounttext">원</div>
           <button id="orderbutton" type="submit">후원하기</button>
         </div>
@@ -120,8 +124,8 @@
           <input class="optionamount" type="text" value="1" style="font-size: 20px" >
           <button class="plusbutton">+</button>
           <button class="minusbutton">-</button>
+<!--          <input clsss="optionmoney" type="text" readonly style="font-size: 20px">-->
         </div>
-
       </div>
     </div>
   </div>

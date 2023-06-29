@@ -34,6 +34,7 @@ function setOptionValues() {
     resultInput.value = result;
 }
 
+// 옵션1 두번째 선택시부터
 function addNewDiv() {
     var option1 = document.getElementById("selectbox1");
     var option2 = document.getElementById("selectbox2");
@@ -68,23 +69,42 @@ function addNewDiv() {
     }
 }
 
-
+// 옵션2 선택시
 function displaySelectedOptions() {
-
     var option1 = document.getElementById("selectbox1");
     var option2 = document.getElementById("selectbox2");
     const inputbox =  document.querySelectorAll('.optioncheck');
+    // const optionmoneybox =  document.querySelectorAll('.optionmoney');
+    // var totalamount = document.getElementById("totalamount");
 
     if(option1.value !== ""){
         var result = option1.value + " - " + option2.value;
         inputbox[inputbox.length-1].value = result;
+
         option1.value="";
         option2.value="";
     } else {
         alert("옵션1을 선택해주세요.")
         option2.value="";
     }
+
+    // 토탈금액 계산
+    // var totalamount = document.getElementById("totalamount");
+    // const inputbox2 =  document.querySelectorAll('.optioncheck');
+    // var  sum = 0;
+    //
+    // for (var  i=0; i< inputbox2.length ; i++){
+    //     sum += parseInt(inputbox2[i].value);
+    //     console.log(inputbox2[i].value);
+    //     console.log(sum);
+    // }
+    //
+    // totalamount.value = sum;
+    // calcMoney();
 }
+
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // increaseCounter 함수 등록
@@ -144,13 +164,17 @@ function calcBetweenDate(){
     var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime()); // 총진행기간
     var diffDays2 = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
 
-    if(diffDays >= 0) {
+    if(diffDays >= 0 && currentDate.getTime() < endDate.getTime() && currentDate.getTime() > startDate.getTime()) {
         calcDate.textContent = diffDays;
         gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
-    } else {
+    } else if(currentDate.getTime() > endDate.getTime()) {
         calcDate.textContent = "종료되었습니다";
         calcDatetext.textContent = "";
         gauge2.style.width = 100 + "%";
+    } else {
+        calcDate.textContent = "진행예정입니다";
+        calcDatetext.textContent = "";
+        gauge2.style.width = 0 + "%";
     }
 
 }
@@ -159,5 +183,12 @@ function clearText() {
     var donation = document.getElementById("donation");
 
     donation.value ="";
+
+}
+
+
+// 금액합산기능
+function calcMoney() {
+
 
 }
