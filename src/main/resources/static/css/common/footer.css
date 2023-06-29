@@ -1,0 +1,49 @@
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* footer영역 */
+footer {
+    clear: both;
+    background-color: #5b4612;
+    color: white;
+    padding: 1em 0px;
+}
+
+.right {
+    color: white;
+    text-align: right;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 200px 200px auto;
+}
+
+.container2 {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.container3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 30px;
+    padding-right: 20px;
+}
+
+.guide {
+    padding: 10px;
+}
+
+.call {
+    text-align: center;
+    margin: 0%;
+}
+
+footer a {
+    text-decoration: none;
+    color: white;
+}

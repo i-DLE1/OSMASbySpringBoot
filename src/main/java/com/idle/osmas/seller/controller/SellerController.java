@@ -1,65 +1,76 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.seller.dto.ProjectDTO;
-import com.idle.osmas.seller.service.ProejctServiceImpl;
+import com.idle.osmas.seller.dto.ProjectQnAAnswerDTO;
+import com.idle.osmas.seller.dto.ProjectQnADTO;
+import com.idle.osmas.seller.service.SellerPageServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/seller/")
 public class SellerController {
 
-    private final ProejctServiceImpl proejctService;
+    private final SellerPageServiceImpl sellerPageService;
 
-    public SellerController(ProejctServiceImpl proejctService) {
-        this.proejctService = proejctService;
+    public SellerController(SellerPageServiceImpl sellerPageService) {
+        this.sellerPageService = sellerPageService;
+    }
+
+    public String listType(Optional<String> listType){
+        String resultListType = "";
+        switch (listType.orElse("")){
+            case "all" :
+                resultListType = "전체조회";
+                break;
+            case "screening" :
+                resultListType = "심사중";
+                break;
+            case "processing" :
+                resultListType = "진행중";
+                break;
+            case "refuse" :
+                resultListType = "반려";
+                break;
+            case "cancel" :
+                resultListType = "취소";
+                break;
+            case "wait" :
+                resultListType = "답변대기중";
+                break;
+            case "complete" :
+                resultListType = "완료";
+                break;
+            default:
+                resultListType = "전체조회";
+        }
+        return resultListType;
     }
 
     @GetMapping("/projectList")
     public String getProjectList(@RequestParam(required = false) Optional<String> listType,
-                                 @RequestParam(required = false) String searchType,
                                  @RequestParam(required = false) String search,
                                  Model model){
 
-        System.out.println("listType = " + listType);
-        System.out.println("searchType = " + searchType);
-        System.out.println("search = " + search);
-//        System.out.println("proejctService = " + proejctService.selectAllProject());
+        Map<String, Object> searchCriteria = new HashMap<>();
+        searchCriteria.put("listType", listType.get().toString().toUpperCase());
+        searchCriteria.put("search", search);
+        searchCriteria.put("userId", "admin01");
 
+        List<ProjectDTO> projectList = sellerPageService.selectByProgressAndSearchProjectManagement(searchCriteria);
 
-        String resultlistType = "";
-        switch (listType.orElse("")){
-            case "all" :
-                resultlistType = "전체조회";
-                break;
-            case "screening" :
-                resultlistType = "심사중";
-                break;
-            case "processing" :
-                resultlistType = "진행중";
-                break;
-            case "refuse" :
-                resultlistType = "반려";
-                break;
-            case "cancel" :
-                resultlistType = "취소";
-                break;
-            default:
-                resultlistType = "전체조회";
-        }
-
-        List<ProjectDTO> projectList = proejctService.selectAllByAccount(1);
-
-        model.addAttribute("listType",resultlistType);
+        String defaultSearch = search == null ? "검색할 프로젝트 명을 입력하세요" : search;
+        model.addAttribute("listType", listType(listType));
         model.addAttribute("userName","seller01"); // 사용자명
-        model.addAttribute("search",search);
+        model.addAttribute("search",defaultSearch);
         model.addAttribute("projectList",projectList);
 
-        System.out.println("proejctService = " + projectList );
         return "/seller/sellerProjectList";
     }
 
@@ -74,32 +85,27 @@ public class SellerController {
     }
 
     @GetMapping("/projectQnAList")
-    public String getProjectQnAList(@RequestParam(required = false) String listType,
+    public String getProjectQnAList(@RequestParam(required = false) Optional<String> listType,
                                     @RequestParam(required = false) String searchType,
                                     @RequestParam(required = false) String search,
                                     Model model){
-        System.out.println("listType = " + listType);
-        System.out.println("searchType= " + searchType);
-        System.out.println("search = " + search);
 
-        String resultlistType = "";
 
-        switch (listType){
-            case "all" :
-                resultlistType = "전체조회";
-                break;
-            case "wait" :
-                resultlistType = "답변대기중";
-                break;
-            case "complete" :
-                resultlistType = "완료";
-                break;
-        }
+        Map<String, Object> searchCriteria = new HashMap<>();
 
-        model.addAttribute("listType", resultlistType);
-        model.addAttribute("userName","seller01"); // 사용자명
+        searchCriteria.put("listType",listType.get().toString());
+        searchCriteria.put("searchType",searchType);
+        searchCriteria.put("search", search);
+        searchCriteria.put("userId", "admin01");
+
+        List<ProjectQnADTO> projectQnAList = sellerPageService.selectByListTypeAndSearchProjectQnA(searchCriteria);
+
+        String defaultSearch = search == null ? "검색할 프로젝트 명을 입력하세요" : search;
+        model.addAttribute("listType", listType(listType));
+        model.addAttribute("userName","admin01"); // 사용자명
         model.addAttribute("search",search);
         model.addAttribute("searchType",searchType);
+        model.addAttribute("projectQnAList", projectQnAList);
         return "/seller/sellerqa";
     }
 

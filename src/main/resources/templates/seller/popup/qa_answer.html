@@ -8,27 +8,27 @@
     </head>
     <body class="body">
         <div>
-            <div style="margin-top: 2em;">
-                <label for="title" class="label">제목</label>
-                <textarea type="text" id="title" name="title" class="textarea" disabled></textarea>
-                <hr class="qa-line" />
             <div style="margin-top: 2em">
-                <label for="content" class="label">내용</label>
-                <textarea class="textarea" type="text" id="content" name="content" rows="2" disabled > </textarea>
+                <label for="content" class="label">질문 내용</label>
+                <textarea class="textarea" type="text" id="content" name="content" rows="5" disabled  th:text="${projectQnA.content}"></textarea>
                 <hr class="qa-line" />
             </div>
             <div id="qa-answer-area" style="margin-top: 2em">
                 <label><span>0</span>/1000</label>
-                <label for="qa-answer" class="label">답변</label>
-                <textarea class="textarea" type="text" id="qa-answer" name="answer" rows="5"> </textarea>
+                <label th:for="qa-answer" class="label">답변</label>
+                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content == null}"></textarea>
+                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content != null}" th:text="${projectQnA.projectQnAAnswer.content}"></textarea>
                 <hr class="qa-line" />
             </div>
             <footer class="footer">
                 <input class="footer-btn" type="button" value="취소" onclick="window.close()" />
-                <input class="footer-btn" type="button" value="등록" />
+
+                <input th:if="${projectQnA.projectQnAAnswer?.content == null}" class="footer-btn" type="button" value="등록" onclick="qaAnswerSubmit('regist')"/>
+                <input th:if="${projectQnA.projectQnAAnswer?.content != null}" class="footer-btn" type="button" value="수정" onclick="qaAnswerSubmit('modify')"/>
             </footer>
         </div>
             <script src="/js/seller/projectDetail.js"></script>
+
     </body>
 
 </html>

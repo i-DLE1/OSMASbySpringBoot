@@ -49,3 +49,22 @@ $("#qa-answer").on("input",function (){
     console.log($(this).siblings("label")[0])
     $(this).siblings("label").children("span").text(this.value.length)
 })
+
+
+function qaAnswerSubmit(submitType) {
+    const content = $("#qa-answer").val();
+    console.log(content)
+    const queryStr = new URLSearchParams(location.search);
+    $.ajax({
+        url : `/seller/projectDetail/qaAnswer?id=${queryStr.get('id')}&submitType=${submitType}`,
+        type : "post",
+        contentType : "application/json; charset=utf-8;",
+        data : content,
+        success : function (success) {
+            window.close()
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
+}
