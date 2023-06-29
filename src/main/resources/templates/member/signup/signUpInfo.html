@@ -56,29 +56,42 @@
         <label for="birth">생년월일</label>
         <span class="condition">생년월일은 8자리 숫자로 입력해주세요.</span>
         <div class="signup_info">
-            <input type="text" name="birth" id="birth" placeholder="생년월일 8자리" required th:onchange="birthReg()">
+            <input type="text" name="birthString" id="birth" placeholder="생년월일 8자리" required th:onchange="birthReg()">
         </div>
 
         <label for="email">이메일</label>
         <div class="signup_info">
             <input type="text" name="email" id="email" placeholder="이메일 입력" required>
-            <button th:onclick="emailSend()">전송</button>
+            <button type="button" th:onclick="emailSend()">전송</button>
         </div>
 
         <label>인증번호</label>
         <span class="condition">인증번호는 4자리 숫자입니다.</span>
         <div class="signup_info">
             <input type="text" name="emailNum" placeholder="인증번호" id="emailNum" required>
-            <button th:onclick="eamilOk()">확인</button>
+            <button type="button" th:onclick="eamilOk()">확인</button>
         </div>
         <input th:type="text" th:id="emailCheck" style="display: none">
+
         <div class="container_button">
-            <button type="submit" id="signupBtn" class="btn_submit">가입</button>
+            <button type="submit" id="signupBtn" class="btn_submit" disabled>가입</button>
         </div>
     </form>
 </div>
 
 <script>
+    function eamilOk(){
+        const emailNum = $('#emailNum').val();
+        const emailCheck = $('#emailCheck').val();
+        if(emailNum == emailCheck){
+            alert('인증에 성공했습니다')
+            $('#signupBtn').removeAttr('disabled')
+        }else{
+            alert('인증에 실패했습니다')
+            $('#emailNum').val('');
+            $('#emailNum').focus();
+        }
+    }
     // id중복 및 유효성 검사
     function idReg() {
         const id = $("#id").val();
@@ -190,17 +203,6 @@
         }
     }
 
-    function eamilOk(){
-        const emailNum = $('#emailNum').val();
-        const emailCheck = $('#emailCheck').val();
-        if(emailNum == emailCheck){
-            alert('인증에 성공했습니다')
-        }else{
-            alert('인증에 실패했습니다')
-            $('#emailNum').val('');
-            $('#emailNum').focus();
-        }
-    }
 </script>
 </body>
 </html>

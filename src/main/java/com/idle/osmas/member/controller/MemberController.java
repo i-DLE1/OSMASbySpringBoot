@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -34,11 +38,26 @@ public class MemberController {
     public void goSignUp2(){}
 
     @PostMapping("/signup/signUpInfo")
-    public String signUpMember(@ModelAttribute MemberDTO member){
+    public String signUpMember(@ModelAttribute MemberDTO member, HttpServletRequest request) throws Exception {
+        String stringBirth =request.getParameter("birthString");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmdd"); // date 타입으로 변경
+        SimpleDateFormat birthFormat = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date utilBirth = null;
 
+        try {
+            utilBirth = dateFormat.parse(stringBirth);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        stringBirth= birthFormat.format(utilBirth);
+        java.sql.Date birth = java.sql.Date.valueOf(stringBirth);
+
+        System.out.println(birth);
+
+        member.setBirth(birth);
         member.setPwd(passwordEncoder.encode(member.getPwd()));
 
         memberService.signUpMember(member);
-        return "redirect:./signUpSuccess";
+        return "redirect:/";
     }
 }

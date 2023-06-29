@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.idle.osmas.member.dao.MemberMapper">
+
     <insert id="insertMember" parameterType="com.idle.osmas.member.dto.MemberDTO">
         INSERT INTO TBL_MEMBER A(
             A.No
@@ -11,8 +12,10 @@
           , A.NAME
           , A.PHONE
           , A.EMAIL
+          , A.BIRTH
           , A.REGIST_DATE
           , A.NICKNAME
+          , A.STATUS
         )
         VALUES
         (
@@ -22,9 +25,22 @@
         , #{name}
         , #{phone}
         , #{email}
+        , #{birth}
         , SYSDATE
         , #{nickname}
+        , 'USE'
         )
+    </insert>
+
+    <insert id="insertRole">
+        insert into TBL_ROLE_LIST A(
+             A.REF_MEMBER_ROLE_CODE
+          ,  A.REF_MEMBER_NO
+        )
+         VALUES
+        (
+            1,SEQ_TBL_MEMBER_NO.CURRVAL
+             )
     </insert>
 
     <select id="selectMemberById" resultType="string">
