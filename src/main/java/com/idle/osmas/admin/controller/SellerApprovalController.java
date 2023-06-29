@@ -2,7 +2,6 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.dto.SellerRoleDTO;
 import com.idle.osmas.admin.service.SellerRoleService;
-import com.idle.osmas.admin.service.SellerRoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -14,77 +14,22 @@
 </header>
 
 <middle>
-    <h1 style="text-align: center;">요청 받은 제안입니다.</h1>
 
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">제안 제목</h3>
-            <p class="sale-description">제안 내용</p>
-        </div>
-        <button class="buttonAlarm">확인 메세지 보내기</button>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">제안 제목</h3>
-            <p class="sale-description">제안 내용</p>
-        </div>
-        <button class="buttonAlarm">확인 메세지 보내기</button>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">제안 제목</h3>
-            <p class="sale-description">제안 내용</p>
-        </div>
-        <button class="buttonAlarm">확인 메세지 보내기</button>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">제안 제목</h3>
-            <p class="sale-description">제안 내용</p>
-        </div>
-        <button class="buttonAlarm">확인 메세지 보내기</button>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">제안 제목</h3>
-            <p class="sale-description">제안 내용</p>
-        </div>
-        <button class="buttonAlarm">확인 메세지 보내기</button>
-    </div>
-
-
-
-    <!-- pagenation start -->
     <div>
-        <ul class="pagenation">
-            <li><a href=#><</a></li>
-            <li><a href=#>1</a></li>
-            <li><a href=#>2</a></li>
-            <li><a href=#>3</a></li>
-            <li><a href=#>4</a></li>
-            <li><a href=#>5</a></li>
-            <li><a href=#>></a></li>
-        </ul>
+        <h1 style="text-align: center;">요청 받은 제안입니다.</h1>
+        <div th:each="get, iterStat: ${ proposalAll }">
+            <div class="product">
+                <div class="content-container">
+                    <h3 class="seller-name" th:text="${ get.title }">제안 제목</h3>
+                    <p class="apply-content" th:text="${ get.refMemberNo }">제안한 사람</p>
+                </div>
+                <button class="buttonAlarm">확인 메세지 보내기</button>
+            </div>
+            <hr class="separator" th:if="${not iterStat.last}">
+        </div>
     </div>
+    <div class="spann"></div>
+
 </middle>
 
 <footer >
