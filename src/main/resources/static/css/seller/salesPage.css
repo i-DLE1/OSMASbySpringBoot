@@ -194,17 +194,17 @@ nav ul li a{
 }
 
 #progress-gauge1 {
+    width: 0px;
     height: 100%;
-    /* background-color: #fcd15d; */
     background-color: #ffeac6;
-    transition: width 0.5s ease-in-out;
+    transition: width 5s ease-in-out;
 }
 
 #progress-gauge2 {
+    width: 0px;
     height: 100%;
-    /* background-color: #f37e69; */
     background-color: #ffeac6;
-    transition: width 0.5s ease-in-out;
+    transition: width 5s ease-in-out;
 }
 
 #orderbutton{

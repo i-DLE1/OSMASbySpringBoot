@@ -9,7 +9,7 @@
 
 <div class="contents" th:if="${salesDTO}">
     <div class="top">
-      <div class="categorybox"><div class="text">의류</div></div>
+      <div class="categorybox"><div class="text" th:text="${categodyDTO.name}"></div></div>
       <div class="title">
         <div class="text" th:text="${salesDTO.title}"></div> <!--프로젝트 제목-->
       </div>
@@ -71,7 +71,7 @@
           <div id="progress-gauge2"></div>
           <div class="progresstext">
             <div id="calcDate"></div>
-            <div>일 남았습니다</div>
+            <div id="calcDatetext">일 남았습니다</div>
           </div>
         </div>
       </div>

@@ -115,13 +115,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // 현재금액/목표금액 퍼센트구하기
 function calcPercent(){
     var currentAmount = parseInt(document.getElementById("currentAmount").textContent) ;
+    var currentAmounttext = document.getElementById("currentAmount");
     var targetAmount = parseInt(document.getElementById("targetAmount").textContent);
+    var targetAmounttext = document.getElementById("targetAmount");
     var calcAmount = document.getElementById("calcAmount");
     var gauge1 = document.getElementById("progress-gauge1");
 
     var calcResult = (currentAmount/targetAmount)*100;
-    calcAmount.textContent = calcResult;
+    calcAmount.textContent = calcResult.toFixed(1);
     gauge1.style.width = calcResult + "%";
+
+    currentAmounttext.textContent = currentAmount.toLocaleString();
+    targetAmounttext.textContent = targetAmount.toLocaleString();
 }
 
 // 종료일자-시작일자 일자구하기
@@ -130,16 +135,24 @@ function calcBetweenDate(){
     var currentDate = new Date();
     var endDate = new Date(document.getElementById("endDate").textContent);
     var calcDate = document.getElementById("calcDate");
+    var calcDatetext = document.getElementById("calcDatetext");
     var gauge2 = document.getElementById("progress-gauge2");
 
-    var timeDiff = Math.abs(endDate.getTime() - currentDate.getTime());
+    var timeDiff = Math.abs(endDate.getTime() - currentDate.getTime()); // 남은날짜
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-    var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime());
+    var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime()); // 총진행기간
     var diffDays2 = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
 
-    calcDate.textContent = diffDays;
-    gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
+    if(diffDays >= 0) {
+        calcDate.textContent = diffDays;
+        gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
+    } else {
+        calcDate.textContent = "종료되었습니다";
+        calcDatetext.textContent = "";
+        gauge2.style.width = 100 + "%";
+    }
+
 }
 
 function clearText() {

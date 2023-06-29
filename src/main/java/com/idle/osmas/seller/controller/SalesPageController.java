@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.seller.dto.CategoryDTO;
 import com.idle.osmas.seller.dto.OptionDTO;
 import com.idle.osmas.seller.dto.SalesDTO;
 import com.idle.osmas.seller.service.SalesService;
@@ -27,8 +28,10 @@ public class SalesPageController {
     public String SalesInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectAllOption();
+        CategoryDTO categoryDTO = salesService.selectCategorynameByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/fragments/product";
     }
 

@@ -27,6 +27,12 @@
         <result property="productSize" column="PRODUCT_SIZE"/>
     </resultMap>
 
+    <resultMap type="com.idle.osmas.seller.dto.CategoryDTO" id="categoryResultMap">
+        <id property="no" column="NO"/>
+        <result property="subNo" column="SUB_NO"/>
+        <result property="name" column="NAME"/>
+    </resultMap>
+
     <select id="selectAllProject" resultMap="salesResultMap">
         SELECT
             NO,
@@ -60,7 +66,7 @@
         WHERE NO = #{ no }
     </select>
 
-    <select id="selectAllOption" resultMap="optionResultMap" >
+    <select id="selectCategoryByNo" resultMap="optionResultMap" >
         SELECT
             NO,
             NAME,
@@ -70,6 +76,18 @@
             STATUS,
             PRODUCT_SIZE
         FROM TBL_PRODUCT
+    </select>
+
+    <select id="selectAllOption" resultMap="categoryResultMap" parameterType="_int">
+        SELECT
+            NO,
+            SUB_NO,
+            NAME
+        FROM TBL_CATEGORY
+        WHERE NO = (SELECT
+            REF_CATEGORY_NO
+            FROM TBL_PRJ
+            WHERE NO = #{ no })
     </select>
 
 </mapper>
