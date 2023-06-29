@@ -9,7 +9,7 @@
 
 <div class="contents" th:if="${salesDTO}">
     <div class="top">
-      <div class="categorybox"><div class="text" th:text="${categodyDTO.name}"></div></div>
+      <div class="categorybox"><div class="text" th:text="${categoryDTO.name}"></div></div>
       <div class="title">
         <div class="text" th:text="${salesDTO.title}"></div> <!--프로젝트 제목-->
       </div>
@@ -99,7 +99,7 @@
         <div class="optiontext">옵션2</div>
         <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
           <option value=""></option>
-          <option th:each="option: ${ optionList }" th:text="${ option.productSize}"></option>
+          <option th:each="option: ${ optionList }" th:text="${ option.productSize} + '(' + ${option.price} + '원)'"></option>
         </select>
       </div>
 
