@@ -36,7 +36,8 @@
         </p>
         <form th:action="@{/member/findinfo/findid}" method="post">
             <div>
-                <input type="text" name="email" id="email" class="input_text" placeholder="이메일 입력" required th:onchange="emailOk()">
+                <input type="text" name="email" id="email" class="input_text" placeholder="이메일 입력" required
+                       th:onchange="emailOk()">
             </div>
             <p class="error_message">
             </p>
@@ -68,7 +69,7 @@
             $('#email').val('');
             $('#email').focus();
             $('.ok_button')
-        }else{
+        } else {
             $('.error_message').text('');
             $('.ok_button').removeAttr('disabled')
 

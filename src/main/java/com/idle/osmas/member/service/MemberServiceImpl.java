@@ -12,7 +12,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberServiceImpl(MemberMapper mapper){
         this.mapper = mapper;
     }
-
+    // 중복검사용
     @Override
     public boolean selectMemberById(String id) {
         String result = mapper.selectMemberById(id);
