@@ -30,4 +30,14 @@ public class SellerRoleServiceImpl implements SellerRoleService {
         return sellerRoleMapper.sellerAllRole();
     } //권한 코드 1과 2를 모두 가지고 있는 사람 조회(모든 판매자)
 
+    @Override
+    public List<SellerRoleDTO> selectApplyRoleRetrieve() {
+        return sellerRoleMapper.selectApplyRoleRetrieve();
+    }   //권한 회수 신청자
+
+    @Override
+    public List<SellerRoleDTO> selectHoldingRoleRetrieve() {
+        return sellerRoleMapper.selectHoldingRoleRetrieve();
+    }   //권한 회수 보류자
+
 }

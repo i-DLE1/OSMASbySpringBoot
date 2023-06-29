@@ -33,7 +33,14 @@ public class SellerApprovalController {
     }
 
     @GetMapping("waitingRetrieve")
-    public void waitingRetrieve(){}
+    public String waitingRetrieve(Model model){
+        List<SellerRoleDTO> sellerApplyRetrieve = sellerRoleService.selectApplyRoleRetrieve();
+
+        model.addAttribute("sellerApplyRetrieve", sellerApplyRetrieve);
+
+        return "/admin/sellerApproval/waitingRetrieve";
+
+    }
 
     @GetMapping("holdingAuthority")
     public String holdingAuthority(Model model){
@@ -45,7 +52,13 @@ public class SellerApprovalController {
     }
 
     @GetMapping("holdingRetrieve")
-    public void holdingRetrieve(){}
+    public String holdingRetrieve(Model model){
+        List<SellerRoleDTO> HoldingRetrieve = sellerRoleService.selectHoldingRoleRetrieve();
+
+        model.addAttribute("HoldingRetrieve", HoldingRetrieve);
+
+        return "/admin/sellerApproval/holdingRetrieve";
+    }
 
     @GetMapping("succesAuthority")
     public String sellerAllRole(Model model){

@@ -13,4 +13,8 @@ public interface SellerRoleMapper {
     List<SellerRoleDTO> selectAllHoldingRole(); //권한 코드가 1이고 알람이 null이 아닌 사람 조회
 
     List<SellerRoleDTO> sellerAllRole(); //권한 코드 1과 2를 모두 가지고 있는 사람 조회(모든 판매자)
+
+    List<SellerRoleDTO> selectApplyRoleRetrieve(); // 권한 회수 신청자
+
+    List<SellerRoleDTO> selectHoldingRoleRetrieve(); // 권한 회수 보류자
 }

@@ -33,7 +33,9 @@ public class SellerRoleDTO {
 
     private String memberId; //회원 아이디 --> 이거 번호랑 짝꿍
 
-    private String alert; //보류 메세지 (보류 걸러내는용)
+    private String alert; //보류 메세지 (보류 걸러내는용) --> 이거 권한 승인되면 null값으로 다시 바꿔줘야함
+
+    private int retrieve; //권한 회수 신청(0이면 신청X 1이면 신청) 나중에 회수 되어도 1로 냅두기
 
     private MemberDTO member; //멤버........담기.....
 

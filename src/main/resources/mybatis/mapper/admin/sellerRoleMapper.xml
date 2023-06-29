@@ -16,6 +16,7 @@
         <result property="bank" column="BANK"/>
         <result property="reportNo" column="REPORT_NO"/>
         <result property="alert" column="ALERT"/>
+        <result property="retrieve" column="RETRIEVE"/>
         <result property="memberId" column="ID"/>
     </resultMap>
 
@@ -78,11 +79,63 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID
+            M.ID,
+            S.RETRIEVE
+        FROM
+        TBL_SELLER_ROLE S
+        JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+        JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+        JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+        WHERE
+        S.RETRIEVE IS NULL
+    </select>
+
+    <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 1인 사람 조회(판매자 권한 회수 신청자) -->
+    <select id="selectApplyRoleRetrieve" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            S.ALERT,
+            S.RETRIEVE
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
                 JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
                 JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+        WHERE
+            S.RETRIEVE = 1
+    </select>
+
+    <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 1이며 ALERT이 NULL값이 아닌 사람 조회(판매자 권한 회수 보류자) -->
+    <select id="selectHoldingRoleRetrieve" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            S.ALERT,
+            S.RETRIEVE
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+        WHERE
+            S.RETRIEVE = 1
+          AND S.ALERT IS NOT NULL
     </select>
 </mapper>
