@@ -44,12 +44,31 @@ function addNewDiv() {
     if (resultParagraph.value !== "") {
         var clonedDiv = originalDiv.cloneNode(true);
         container.appendChild(clonedDiv);
+
+        const plusButton = clonedDiv.querySelector('.plusbutton');
+        plusButton.addEventListener('click', function() {
+            let count = plusButton.previousSibling.previousSibling.value;
+            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
+        });
+
+        const minusButton = clonedDiv.querySelector('.minusbutton');
+        minusButton.addEventListener('click', function() {
+            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            if (count > 1) {
+                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+            } else {
+                alert("최소 수량은 1개 입니다.");
+            }
+        });
+
         const optioncheck =  document.querySelectorAll('.optioncheck');
         optioncheck[optioncheck.length-1].value = "";
         const optionamount =  document.querySelectorAll('.optionamount');
         optionamount[optionamount.length-1].value = 1;
     }
 }
+
+
 function displaySelectedOptions() {
 
     var option1 = document.getElementById("selectbox1");
@@ -67,26 +86,78 @@ function displaySelectedOptions() {
     }
 }
 
-function increaseCounter() {
-    const boxes = document.querySelectorAll('.plusbutton');
-    boxes.forEach(box => {
-        box.addEventListener('click', function increaseCounter() {
-            let count = box.previousSibling.previousSibling.value;
-            console.log(cont);
-            box.previousSibling.previousSibling.value = parseInt(count) + 1;
+document.addEventListener('DOMContentLoaded', function() {
+    // increaseCounter 함수 등록
+    const plusButtons = document.querySelectorAll('.plusbutton');
+    plusButtons.forEach(plusButton => {
+        plusButton.addEventListener('click', function() {
+            let count = plusButton.previousSibling.previousSibling.value;
+            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
         });
     });
-}
-const boxes2 = document.querySelectorAll('.minusbutton');
 
-boxes2.forEach(box => {
-    box.addEventListener('click', function handleClick() {
-
-        let count = box.previousSibling.previousSibling.previousSibling.value;
-        if(count>1) {
-            box.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-        }else{
-            alert("최소 수량은 1개 입니다.");
-        }
+    // decreaseCounter 함수 등록
+    const minusButtons = document.querySelectorAll('.minusbutton');
+    minusButtons.forEach(minusButton => {
+        minusButton.addEventListener('click', function() {
+            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            if (count > 1) {
+                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+            } else {
+                alert("최소 수량은 1개 입니다.");
+            }
+        });
     });
 });
+
+
+
+// 현재금액/목표금액 퍼센트구하기
+function calcPercent(){
+    var currentAmount = parseInt(document.getElementById("currentAmount").textContent) ;
+    var currentAmounttext = document.getElementById("currentAmount");
+    var targetAmount = parseInt(document.getElementById("targetAmount").textContent);
+    var targetAmounttext = document.getElementById("targetAmount");
+    var calcAmount = document.getElementById("calcAmount");
+    var gauge1 = document.getElementById("progress-gauge1");
+
+    var calcResult = (currentAmount/targetAmount)*100;
+    calcAmount.textContent = calcResult.toFixed(1);
+    gauge1.style.width = calcResult + "%";
+
+    currentAmounttext.textContent = currentAmount.toLocaleString();
+    targetAmounttext.textContent = targetAmount.toLocaleString();
+}
+
+// 종료일자-시작일자 일자구하기
+function calcBetweenDate(){
+    var startDate = new Date(document.getElementById("startDate").textContent);
+    var currentDate = new Date();
+    var endDate = new Date(document.getElementById("endDate").textContent);
+    var calcDate = document.getElementById("calcDate");
+    var calcDatetext = document.getElementById("calcDatetext");
+    var gauge2 = document.getElementById("progress-gauge2");
+
+    var timeDiff = Math.abs(endDate.getTime() - currentDate.getTime()); // 남은날짜
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime()); // 총진행기간
+    var diffDays2 = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
+
+    if(diffDays >= 0) {
+        calcDate.textContent = diffDays;
+        gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
+    } else {
+        calcDate.textContent = "종료되었습니다";
+        calcDatetext.textContent = "";
+        gauge2.style.width = 100 + "%";
+    }
+
+}
+
+function clearText() {
+    var donation = document.getElementById("donation");
+
+    donation.value ="";
+
+}

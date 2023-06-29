@@ -6,8 +6,8 @@ server:
 # oracle config
 spring:
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@oracle.coffit.site:1521:xe
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:oracle:thin:@oracle.coffit.site:1521:xe
     username: C##OSMAS
     password: OSMAS
 

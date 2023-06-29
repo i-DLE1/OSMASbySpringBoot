@@ -193,20 +193,18 @@ nav ul li a{
     font-weight: bold;
 }
 
-.progress-gauge1 {
-    width: 60%;
+#progress-gauge1 {
+    width: 0px;
     height: 100%;
-    /* background-color: #fcd15d; */
     background-color: #ffeac6;
-    transition: width 0.5s ease-in-out;
+    transition: width 5s ease-in-out;
 }
 
-.progress-gauge2 {
-    width: 33%;
+#progress-gauge2 {
+    width: 0px;
     height: 100%;
-    /* background-color: #f37e69; */
     background-color: #ffeac6;
-    transition: width 0.5s ease-in-out;
+    transition: width 5s ease-in-out;
 }
 
 #orderbutton{
@@ -460,4 +458,43 @@ option{
 }
 input{
     font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+
+
+
+ .image-container {
+     position: relative;
+     display: inline-block;
+ }
+
+.image-container .image2 {
+    display: block;
+}
+
+.image-container .zoom {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.image-container:hover .zoom {
+    visibility: visible;
+    opacity: 1;
+}
+
+.image-container .zoom img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
