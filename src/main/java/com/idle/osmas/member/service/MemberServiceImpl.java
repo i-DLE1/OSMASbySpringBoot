@@ -26,6 +26,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public boolean selectMemberByEmail(String email) {
+        String result = mapper.selectMemberByEmail(email);
+        return result != null? true : false;
+    }
+
+    @Override
     @Transactional
     public void signUpMember(MemberDTO member) throws Exception {
         System.out.println(member);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:ht="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,21 +16,22 @@
 <body>
 <div class="logo">
     <a href="/">
+
         <img src="/images/member/logo.png" alt="">
     </a>
 </div>
     <div class="content">
-    <p class="sign_con">
-        사용자님<br>
-        가입을 축하드려요
-    </p>
+    <p th:text="|${param.nickname}님|"class="sign_con"></p>
+        <p class="sign_con">
+            가입을 축하드려요.
+        </p>
         <div class="container_button">
-            <div><a href="../login/signin.html">
+            <div><a href="/member/login/login">
                     <button class="ok_button" id="button1">로그인 하기</button>
                 </a>
             </div>
             <div>
-                <a href="../../../static/index.html">
+                <a href="/">
                     <button class="ok_button">홈 화면 가기 하기</button></a>
             </div>
         </div>

@@ -31,10 +31,10 @@
                     <input type="password" name="pwd" id="pw" placeholder="비밀번호" class="input_text" required>
                 </div>
 
-<!--                <div class="keep_check">-->
-<!--                    <input type="checkbox" id="keep" name="idkeep">-->
-<!--                    <label for="keep">로그인 상태 유지</label>-->
-<!--                </div>-->
+                <!--                <div class="keep_check">-->
+                <!--                    <input type="checkbox" id="keep" name="idkeep">-->
+                <!--                    <label for="keep">로그인 상태 유지</label>-->
+                <!--                </div>-->
 
                 <div class="error_message">
                     <p th:if="${error}" th:text="${exception}">
@@ -48,16 +48,16 @@
 
         <ul class="find_info">
             <li>
-                <a href="../findinfo/findid.html">아이디 찾기</a>
+                <a href="/member/findinfo/findid">아이디 찾기</a>
             </li>
             <li>
-                <a href="../findinfo/findpwd.html">비밀번호 찾기</a>
+                <a href="/member/findinfo/findpwd">비밀번호 찾기</a>
             </li>
             <li>
                 <a href="/member/signup/signUp">회원가입</a>
             </li>
         </ul>
-
+    </div>
 </main>
 </body>
 

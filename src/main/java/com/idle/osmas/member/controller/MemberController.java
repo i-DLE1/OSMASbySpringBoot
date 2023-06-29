@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -36,9 +37,10 @@ public class MemberController {
 
     @GetMapping("/signup/signUpInfo")
     public void goSignUp2(){}
-
+    @GetMapping("/signup/signUpSuccess")
+    public void goSignUp3(){}
     @PostMapping("/signup/signUpInfo")
-    public String signUpMember(@ModelAttribute MemberDTO member, HttpServletRequest request) throws Exception {
+    public String signUpMember(@ModelAttribute MemberDTO member, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
         String stringBirth =request.getParameter("birthString");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmdd"); // date 타입으로 변경
         SimpleDateFormat birthFormat = new SimpleDateFormat("yyyy-mm-dd");
@@ -58,6 +60,19 @@ public class MemberController {
         member.setPwd(passwordEncoder.encode(member.getPwd()));
 
         memberService.signUpMember(member);
-        return "redirect:/";
+        rttr.addAttribute("nickname",member.getNickname());
+        return "redirect:/member/signup/signUpSuccess";
     }
+
+    @GetMapping("/findinfo/findid")
+    public void findId(){}
+    // email로 id 찾기
+    @PostMapping("/findinfo/findid")
+    public String findId(HttpServletRequest request){
+        memberService.selectMemberByEmail(request.getParameter("email"));
+        return "/member/findinfo/findsuccess";
+    }
+
+    @GetMapping("/findinfo/findpwd")
+    public void findPwd(){}
 }

@@ -27,7 +27,7 @@
         <label for="id">아이디</label>
         <span class="condition">영문또는 숫자를 혼합하여 5자~20자로 입력해주세요.</span>
         <div class="signup_info">
-            <input type="text" name="id" id="id" placeholder="아이디" required onchange="idReg()">
+            <input type="text" name="id" id="id" placeholder="아이디" required th:onchange="idReg()">
         </div>
 
         <label for="nickName">닉네임</label>
@@ -61,7 +61,7 @@
 
         <label for="email">이메일</label>
         <div class="signup_info">
-            <input type="text" name="email" id="email" placeholder="이메일 입력" required>
+            <input type="text" name="email" id="email" placeholder="이메일 입력" required th:onchange="emailReg()">
             <button type="button" th:onclick="emailSend()">전송</button>
         </div>
 
@@ -117,6 +117,32 @@
                 }
             });
         }
+    }
+    function emailReg(){
+        const email = $('#email').val();
+        let emailCheck =  /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+        if(!emailCheck.test(email)){
+            alert('다시 입력해주세요')
+            $('#email').val('');
+            $('#email').focus();
+        }else{
+            $.ajax({
+                url: "/member/emailDupCheck",
+                type: "post",
+                data: {email: email},
+                success: function (data) {
+                    if (data == '중복된 이메일이 있습니다') {
+                        alert(data)
+                        $('#email').val('');
+                        $("#email").focus();
+                    }
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            });
+        }
+
     }
     function nickReg() {
         const nickname = $("#nickname").val();
@@ -182,12 +208,6 @@
 
     function emailSend(){
         const email = $('#email').val();
-        let emailCheck =  /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-        if(!emailCheck.test(email)){
-            alert('다시 입력해주세요')
-            $('#email').val('');
-            $('#email').focus();
-        }else{
             $.ajax({
                url:"/member/email",
                 type: "post",
@@ -200,7 +220,7 @@
                 }
 
             });
-        }
+
     }
 
 </script>

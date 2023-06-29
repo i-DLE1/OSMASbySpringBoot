@@ -44,6 +44,18 @@ public class SignupCheckController {
         }
         return result;
     }
+    @PostMapping("/emailDupCheck")
+    @ResponseBody
+    public String checkEmailDUplication(@RequestParam("email") String email){
+        String result = "사용 가능한 이메일입니다";
+        System.out.println(email);
+        if("".equals(email)){
+            result = "이메일을 입력 해주세요.";
+        } else if(memberService.selectMemberByEmail(email)){
+            result = "중복된 이메일이 있습니다";
+        }
+        return result;
+    }
 
     @PostMapping("/email")
     @ResponseBody
