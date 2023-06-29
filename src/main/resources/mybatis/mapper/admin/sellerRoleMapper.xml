@@ -112,6 +112,7 @@
                 JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
         WHERE
             S.RETRIEVE = 1
+          AND S.ALERT IS NULL
     </select>
 
     <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 1이며 ALERT이 NULL값이 아닌 사람 조회(판매자 권한 회수 보류자) -->
