@@ -281,3 +281,6 @@ buildNumber.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,intellij,macos,eclipse,visualstudiocode
+
+#savedFiles
+src/main/resources/static/files/

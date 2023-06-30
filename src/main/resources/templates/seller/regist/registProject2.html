@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+    <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></h}}ead>
     <body>
     <header th:replace="~{/seller/fragments/registProjectFrag :: process('','active-process','','','','','')}"></header>
         <main class="main">
@@ -8,7 +8,8 @@
             <div class="row mt-2">
                 <div>
                     <label class="sub-title" for="title">프로젝트 제목<span class="required-item">*</span></label>
-                    <input class="input-box w-100" type="text" name="title" id="title" />
+                    <input class="input-box w-100" type="text" name="title" th:id="title" th:if="${temporaryProject?.title == null}"/>
+                    <input class="input-box w-100" type="text" name="title" th:id="title" th:if="${temporaryProject?.title != null}" th:value="${temporaryProject?.title}"/>
                 </div>
             </div>
             <div class="row mt-3">
@@ -19,7 +20,6 @@
                         <th:block th:each="category : ${mainCategory}">
                             <option th:value="${category.no}" th:text="${category.name}"></option>
                         </th:block>
-
                     </select>
                     <span id="subCategory">
                         <!-- javacript for each -->
@@ -34,23 +34,18 @@
 
                 </div>
             </div>
-<!--            <br>-->
-<!--            <div class="row">-->
-<!--                <div>-->
-<!--                    <label for="content" class="sub-title">프로젝트 설명<span class="required-item">*</span></label>-->
-<!--                    <input type="text" class="input-box w-100" id="content" name="content" />-->
-<!--                </div>-->
-<!--            </div>-->
             <br>
             <div class="row">
                 <div class="row w-75 mt-3">
                     <div class="col">
                         <label for="startDate" class="sub-title">프로젝트 시작<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" id="startDate" name="startDate"/>
+                        <input type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:if="${temporaryProject?.startDate == null}"/>
+                        <input type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:if="${temporaryProject?.startDate != null}" th:value="${temporaryProject.startDate}" />
                     </div>
                     <div class="col">
                         <label for="endDate" class="sub-title">프로젝트 종료<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" id="endDate" name="endDate"/>
+                        <input type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:if="${temporaryProject.endDate == null}"/>
+                        <input type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:if="${temporaryProject.endDate !=null}" th:value="${temporaryProject.endDate}"/>
                     </div>
                 </div>
             </div>
@@ -58,7 +53,8 @@
             <div class="row">
                 <div>
                     <label for="money" class="sub-title">펀딩 목표 금액(최소 100,000원 이상)<span class="required-item">*</span></label>
-                    <input type="number"  class="input-box w-100" id="money" name="money"/>
+                    <input type="number"  class="input-box w-100" th:id="money" name="money" th:if="${temporaryProject.targetAmount == null}"/>
+                    <input type="number"  class="input-box w-100" th:id="money" name="money" th:if="${temporaryProject.targetAmount != null}" th:value="${temporaryProject.targetAmount}"/>
                 </div>
             </div>
         </main>

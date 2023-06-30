@@ -298,6 +298,16 @@ function orderRefund() {
     }
 }
 
+function deleteProject(){
+    let deleteConfirm = confirm("프로젝트를 삭제하시겠습니까?")
+    if(deleteConfirm){
+        let deleteConfirmRetry = confirm("삭제할 경우 프로젝트 복구는 불가능합니다.\n정말 삭제하시겠습니까?")
+    }else {
+
+    }
+}
+
+
 function cancelSubmit() {
     let content = $("#cancel-content").val();
     let id = new URLSearchParams(location.search).get('id');

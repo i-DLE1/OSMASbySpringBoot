@@ -1,6 +1,6 @@
 let faqListCount = 1;
 let productCount = 1;
-
+let registProductList = [];
 
 function removeItemButton(funcName){
     let $div = $("<div>").attr("id","subItem");
@@ -128,6 +128,7 @@ $("#productAdd").click(function (){
         `<div id="addItemProductIndex${productCount}">
             <div id="productSubIndex${productCount}" class="add-item-product-col-2">
                 <div id="item">
+                    <input id="productNo${productCount}" hidden value="0"/>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
@@ -149,6 +150,13 @@ $("#productAdd").click(function (){
                             <label for="body" class="sub-title">설명</label>
                             <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction">
 <!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}">-->
+                        </div>
+                        <div class="col-2">
+                            <label for="status" class="sub-title">상품선택</label>
+                            <select class="w-100 select-box" id="status${productCount}" name="status">
+                                <option value="AVAILABLE" selected>선택가능</option>
+                                <option value="NOT_AVAILABLE" >선택불가</option>
+                            </select>
                         </div>
                         <div class="col-2">
                             <label for="count" class="sub-title">수량</label>
@@ -199,11 +207,11 @@ function productInfoListDummy() {
 
 function productItemDummy() {
     let data = [
-        {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1"},
-        {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2"},
-        {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3"},
-        {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4"},
-        {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5"},
+        {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1", status:"NOT_AVAILABLE"},
+        {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2", status:"AVAILABLE"},
+        {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3", status:"NOT_AVAILABLE"},
+        {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4", status:"AVAILABLE"},
+        {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5", status:"NOT_AVAILABLE"},
     ];
     productItemLoad(data);
 }
@@ -225,11 +233,13 @@ function productAddSubItem(productCount) {
 }
 
 function productItemLoad(data){
+    console.log(data)
     data.forEach(item => {
         let text=
         `<div id="addItemProductIndex${productCount}">
             <div id="productSubIndex${productCount}">
                 <div id="item">
+                    <input id="productNo${productCount}" hidden value="${item.no}"/>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
@@ -253,6 +263,13 @@ function productItemLoad(data){
                             <label for="introduction" class="sub-title">설명</label>
                             <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction" value=${item.introduction}>
 <!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}" value=${item.body}>-->
+                        </div>
+                        <div class="col-2">
+                            <label for="status" class="sub-title">상품선택</label>
+                            <select class="w-100 select-box" id="status${productCount}" name="status">
+                                <option value="AVAILABLE" ${item.status == 'AVAILABLE' ?  'selected' : ''}>선택가능</option>
+                                <option value="NOT_AVAILABLE" ${item.status == 'NOT_AVAILABLE' ?  'selected' : ''} >선택불가</option>
+                            </select>
                         </div>
                         <div class="col-2">
                             <label for="maxQuantity" class="sub-title">수량</label>
@@ -354,8 +371,6 @@ function productInfoList(data) {
     })
 }
 
-
-
 function indexCheckConfirm() {
     let check1 = $("#check1").prop('checked');
     let check2 = $("#check2").prop('checked');
@@ -377,9 +392,6 @@ function indexCheckConfirm() {
         }
     })
 }
-
-
-
 
 const suneditor = (minHeight, maxHeight) => {
     SUNEDITOR.create('content', {
@@ -405,17 +417,21 @@ const suneditor = (minHeight, maxHeight) => {
     })
 }
 
-function project2LoadData() {
-
-}
-
-function project2LoadDate() {
-
-}
-
+//temporary : boolean
 function project3LoadData() {
-    productItemDummy();
-    // productItemLoad(data)
+
+    $.ajax({
+        url : '/seller/regist/project3ProductGetdata',
+        type : "get",
+        success : function (success) {
+            console.log(success)
+            registProductList = [...success];
+            productItemLoad(success)
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
 }
 
 function project3Confirm() {
@@ -457,7 +473,6 @@ function projectInitRegist(temporary) {
     let startDate = $("#startDate").val()
     let endDate = $("#endDate").val()
     let targetAmount = $("#money").val()
-    let mainCategoryCode= $("#mainCategory").val()
     let subCategoryCode= $("#subCategoryCode").val()
     let category = {no : subCategoryCode};
 
@@ -487,25 +502,46 @@ function projectInitRegist(temporary) {
 
 
 
-function registProject3() {
+// temporary : boolean
+function registProject3(temporary) {
+    let formData = new FormData();
     let productListLength =$("#productList").children("div").length;
     let dataList = [];
+
+    formData.append("presentFile",$("#presentImg")[0].files[0])
+    formData.append("thumbnailFile",$("#thumbnailImg")[0].files[0])
+
+    let files = $(".file")
+
+    for(let i = 0 ; i < files.length; i++ ){
+        formData.append("fileList",files[i].files[0])
+    }
+
     for(let i = 1 ; i < productListLength+1; i++){
+        const no = $("#productNo"+i).val()
         const name = $("#name"+i).val()
         const size = $("#size"+i).val()
         const price = $("#price"+i).val()
         const introduction = $("#introduction"+i).val()
         const maxQuantity = $("#maxQuantity"+i).val()
+        const status = $("#status"+i).val()
 
         if(name === '' || size === '' || price === '' || introduction === '' || maxQuantity === '') break;
 
-        dataList = [...dataList, {name,size,price,introduction,maxQuantity}]
+        dataList = [...dataList, {no, name, size, price, introduction, maxQuantity, status}]
     }
+    let data = {new : dataList, old : registProductList}
+    formData.append("productList", new Blob([JSON.stringify(data)],{type:"application/json; charset=utf-8;"}));
+
     $.ajax({
         url : '/seller/regist/project3',
         type : 'post',
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(dataList),
+        contentType : false,
+        processData : false,
+        enctype : 'multipart/form-data',
+        // contentType: "application/json; charset=utf-8",
+        // data : JSON.stringify({new : dataList, old : registProductList}),
+        data : formData,
         success : function (success) {
             console.log(success)
         },

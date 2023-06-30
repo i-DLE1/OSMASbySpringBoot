@@ -7,39 +7,39 @@
             <h1 class="h1-title">상품 이미지 등록</h1>
             <div class="image-upload-list" >
                     <div>
-                        <label for="file1" >
+                        <label for="presentImg" >
                             <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'" >
                             <div class="image-upload-description">대표이미지</div>
                         </label>
-                        <input id="file1" name="file1" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png" />
+                        <input id="presentImg" name="file1"type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png" />
                     </div>
                     <div>
-                        <label for="file2" >
+                        <label for="thumbnailImg" >
                             <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">썸네일</div>
                         </label>
-                        <input id="file2" name="file2" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                        <input id="thumbnailImg" name="file2" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file3" >
                             <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
-                        <input id="file3" name="file3" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                        <input id="file3" name="file3" type="file" class="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file4" >
                             <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
-                        <input id="file4" name="file4" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                        <input id="file4" name="file4" type="file" style="display: none" class="file" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file5" >
                             <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
-                        <input id="file5" name="file5" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
+                        <input id="file5" name="file5" type="file" style="display: none" class="file" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                 </div>
             </div>
@@ -55,12 +55,13 @@
                         <img src="/images/seller/regist/additem.png" width="40px" height="40px" >
                     </button>
                 </div>
-            </div>P
+            </div>
         </main>
         <!-- 하단 버튼 시작 -->
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
-            <input class="footer-btn" type="button" value="다음" onclick="registProject3()" />
+            <input class="footer-btn" type="button" value="임시저장" onclick="registProject3(true)" />
+            <input class="footer-btn" type="button" value="다음" onclick="registProject3(false)" />
         </footer>
         <!-- 하단 버튼 끝 -->
 

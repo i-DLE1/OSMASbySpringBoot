@@ -58,13 +58,24 @@
                                 <td th:text="*{currentAmount}"></td>
                                 <td th:text="|*{startDate} ~ *{endDate}|"></td>
                                 <td>
-                                    <th:block th:replace="/seller/fragments/sellerFrag :: progressStatus(*{projectProgressList.get(0).status.toString()})"></th:block>
+                                    <th:block th:replace="/seller/fragments/sellerFrag :: progressStatus(*{projectProgress.status.toString()})"></th:block>
                                 </td>
                                 <td>
+                                    <th:block th:if="${item.projectProgress.status.toString() == 'CLOSED' or item.projectProgress.status.toString() == 'PROCESSING'}">
                                     <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{no})|">
+                                    </th:block>
+                                    <th:block th:if="${item.projectProgress.status.toString() == 'TEMPORARY' or item.projectProgress.status.toString() == 'REJECTED' or item.projectProgress.status.toString() == 'PROCESSING'}">
                                     <input value="수정" class="cus-button" type="button" th:onclick="|projectModify(*{no})|">
+                                    </th:block>
+                                    <th:block th:if="${item.projectProgress.status.toString()== 'REJECTED'}">
                                     <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{no})|">
+                                    </th:block>
+                                    <th:block th:if="${item.projectProgress.status.toString() == 'REJECTED' or item.projectProgress.status.toString() == 'PROCESSING'}">
                                     <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{no})|">
+                                    </th:block>
+                                    <th:block th:if="${item.projectProgress.status.toString()== 'TEMPORARY'}">
+                                    <input value="삭제" class="cus-button" type="button" th:onclick="|deleteProject(*{no})|">
+                                    </th:block>
                                 </td>
                                 </th:block>
                             </tr>
