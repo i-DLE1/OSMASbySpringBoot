@@ -12,7 +12,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberServiceImpl(MemberMapper mapper){
         this.mapper = mapper;
     }
-
+    // 중복검사용
     @Override
     public boolean selectMemberById(String id) {
         String result = mapper.selectMemberById(id);
@@ -24,6 +24,13 @@ public class MemberServiceImpl implements MemberService{
         String result = mapper.selectMemberByNickname(nickname);
         return result != null? true : false;
     }
+
+    @Override
+    public boolean selectMemberByEmail(String email) {
+        String result = mapper.selectMemberByEmail(email);
+        return result != null? true : false;
+    }
+    // 이메일로 아이디를 찾은후 이메일 전송
 
     @Override
     @Transactional
