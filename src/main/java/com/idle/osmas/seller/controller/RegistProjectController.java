@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.seller.dto.*;
+import com.idle.osmas.seller.service.RegistProjectService;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,21 @@ import java.util.*;
 @Controller
 @RequestMapping("/seller/regist/*")
 public class RegistProjectController {
+
+    private final RegistProjectService registProjectService;
+
+    public RegistProjectController(RegistProjectService registProjectService) {
+        this.registProjectService = registProjectService;
+    }
+
+    @GetMapping("getSubCategory")
+    @ResponseBody
+    public List<CategoryDTO> getSubCategory(@RequestParam Integer mainCategoryCode){
+
+        List<CategoryDTO> subCategory = registProjectService.selectByCategoryType(mainCategoryCode);
+        System.out.println("subCategory = " + subCategory);
+        return subCategory;
+    }
 
     @GetMapping("project1")
     public String getProjectTerms(@RequestParam(required = false) Integer id, Model model){
@@ -39,7 +55,10 @@ public class RegistProjectController {
 
     @GetMapping("project2")
     public String getProjectRegist(@RequestParam(required = false) Integer id, Model model){
-        System.out.println("id = " + id);
+
+        List<CategoryDTO> categoryList = registProjectService.selectByCategoryType(null);
+
+        model.addAttribute("mainCategory",categoryList);
         return "/seller/regist/registProject2";
     }
     
@@ -52,11 +71,16 @@ public class RegistProjectController {
             Optional<LocalDate> startDate = Optional.ofNullable(project.getStartDate());
             Optional<LocalDate> endDate = Optional.ofNullable(project.getEndDate());
             Optional<Long> targetAmount = Optional.ofNullable(project.getTargetAmount());
+            Optional<Integer> category = Optional.ofNullable(project.getCategory().getNo());
 
             if (title.length() == 0 ) return "fail";
             if (startDate.isEmpty() ) return "fail";
             if (endDate.isEmpty() ) return "fail";
+            if (category.isEmpty()) return "fail";
             if (targetAmount.isEmpty() || targetAmount.get() < 100000 ) return "fail";
+
+            project.setProjectProgress(ProjectProgressDTO.builder().status(ProjectProgressStatus.TEMPORARY).build());
+            registProjectService.temporaryInsertProject(project);
 
             return "success";
     }

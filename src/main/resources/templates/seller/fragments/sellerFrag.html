@@ -77,4 +77,12 @@
 </div>
 </th:block>
 
+<th:block th:fragment="progressStatus(status)" >
+  <span th:if="${status == 'CANCEL'}">취소</span>
+  <span th:if="${status == 'TEMPORARY'}">임시저장</span>
+  <span th:if="${status == 'REJECTED'}">거절</span>
+  <span th:if="${status == 'PROCESSING'}">진행중</span>
+  <span th:if="${status == 'CLOSED'}">종료</span>
+</th:block>
+
 </html>

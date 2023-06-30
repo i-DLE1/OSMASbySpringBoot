@@ -16,4 +16,5 @@ public class SuggestDTO {
     private String status;
     private java.sql.Date modifyDate;
     private int refCategoryNo;
+    private String memberId;
 }

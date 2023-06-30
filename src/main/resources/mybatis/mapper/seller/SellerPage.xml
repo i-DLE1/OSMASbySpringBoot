@@ -90,7 +90,7 @@
         <result property="content" column="TBL_PRJ_PROGRESS_CONTENT"/>
         <result property="registDate" column="TBL_PRJ_PROGRESS_REGIST_DATE"/>
         <result property="status" column="TBL_PRJ_PROGRESS_STATUS"/>
-        <result property="projectNo" column="TBL_PRJ_PROGRESS_REF_PRJ_NO"/>
+        <result property="refProjectNo" column="TBL_PRJ_PROGRESS_REF_PRJ_NO"/>
 <!--        <association property="projectNo" resultMap="projectResultMap"/>-->
     </resultMap>
 
@@ -147,15 +147,11 @@
            FROM TBL_PRJ PRJ
            JOIN (SELECT *
                  FROM TBL_PRJ_PROGRESS
-                 WHERE NO = (SELECT MAX(NO)
-                 FROM TBL_PRJ_PROGRESS
-                 WHERE REF_PRJ_NO IN (
-                     SELECT PRJ2.NO FROM TBL_PRJ PRJ2
-                     JOIN TBL_MEMBER TM2 ON TM2.NO = PRJ2.REF_MEMBER_NO
-                    WHERE TM2.ID = #{userId}
-                    )
-                 )
-          )TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+                 WHERE NO = (SELECT MAX(NO) AS NO
+                             FROM TBL_PRJ_PROGRESS
+                             GROUP BY REF_PRJ_NO
+                             ))
+                 TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
            JOIN TBL_MEMBER TM ON TM.NO = PRJ.REF_MEMBER_NO
           WHERE TM.ID = #{userId}
             <if test="!listType.equalsIgnoreCase('all')">
@@ -253,6 +249,7 @@
         (SEQ_TBL_PRJ_QNA_ANSWER_NO.nextval, #{content}, SYSDATE,
          #{no}, ${memberNo})
     </insert>
+
     <update id="updateProjectQnAAnswer" parameterType="map">
         UPDATE TBL_PRJ_QNA_ANSWER TPQA
            SET TPQA.CONTENT = #{content}
@@ -262,5 +259,22 @@
                           WHERE TPQ.NO = #{no})
     </update>
 
+    <select id="selectByProjectId" resultMap="projectResultMap" parameterType="_int">
+        SELECT PRJ.NO AS TBL_PRJ_NO ,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+               TPP2.STATUS AS TBL_PRJ_PROGRESS_STATUS,
+               TPP2.CONTENT AS TBL_PRJ_PROGRESS_CONTENT
+          FROM TBL_PRJ PRJ
+          JOIN (SELECT *
+          FROM TBL_PRJ_PROGRESS
+         WHERE NO = (SELECT MAX(NO) AS NO
+                       FROM TBL_PRJ_PROGRESS
+                      GROUP BY REF_PRJ_NO)) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+           AND PRJ.NO = #{no}
+    </select>
 
 </mapper>

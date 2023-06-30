@@ -125,7 +125,7 @@ function qaPopup(e){
 }
 
 function popupCancel(id) {
-    window.open(`./projectDetail/cancel?id=${id}`,"popup",`${screenCenterPopup(450, 850)}, resizable=no, name=projectCancel, location=no`);
+    window.open(`./projectDetail/cancel?id=${id}`,"popup",`${screenCenterPopup(450, 650)}, resizable=no, name=projectCancel, location=no`);
 }
 
 function popupStatics(id){
@@ -296,4 +296,23 @@ function orderRefund() {
     } else {
         alert('취소하셨습니다.');
     }
+}
+
+function cancelSubmit() {
+    let content = $("#cancel-content").val();
+    let id = new URLSearchParams(location.search).get('id');
+    console.log(id)
+
+    $.ajax({
+        url : `/seller/projectDetail/cancel?id=${id}`,
+        type : "post",
+        contentType : "application/json; charset=utf-8;",
+        data : content,
+        success : function (success){
+            location.reload()
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
 }

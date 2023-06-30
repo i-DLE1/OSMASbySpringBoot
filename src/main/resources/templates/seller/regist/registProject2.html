@@ -11,6 +11,29 @@
                     <input class="input-box w-100" type="text" name="title" id="title" />
                 </div>
             </div>
+            <div class="row mt-3">
+                <div id="category">
+                    <label class="sub-title">카테고리 선택<span class="required-item">*</span></label><br>
+                    <select id="mainCategory" class="select-box" name="mainCategory">
+                        <option th:value="null" th:text="선택" selected></option>
+                        <th:block th:each="category : ${mainCategory}">
+                            <option th:value="${category.no}" th:text="${category.name}"></option>
+                        </th:block>
+
+                    </select>
+                    <span id="subCategory">
+                        <!-- javacript for each -->
+<!--                        <th:block th:if="">-->
+<!--                            <select id="subCategoryCode" class="select-box" name="subCategory">-->
+<!--                                <th:block th:each="category : ${subCategory}">-->
+<!--                                    <option th:value="${category.no}" th:text="${category.name}"></option>-->
+<!--                                </th:block>-->
+<!--                            </select>-->
+<!--                        </th:block>-->
+                    </span>
+
+                </div>
+            </div>
 <!--            <br>-->
 <!--            <div class="row">-->
 <!--                <div>-->
@@ -49,5 +72,9 @@
         </footer>
         <!-- 하단 버튼 끝 -->
         <script src="/js/seller/registProject.js"></script>
+        <script>
+            getMainCategoryCode();
+            subMainCategoryCode();
+        </script>
     </body>
 </html>

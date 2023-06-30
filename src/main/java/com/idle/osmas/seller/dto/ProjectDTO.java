@@ -36,13 +36,11 @@ public class ProjectDTO {
 
     private Integer views; // 뷰 수
 
-//    private int refMemberNo;
+    private int refMemberNo;
 
-//    private int refCategoryNo;
+    private int refCategoryNo;
 
     private ProjectCategoryDTO category;
-
-
 
     private MemberDTO member;
 
@@ -50,7 +48,7 @@ public class ProjectDTO {
 
     private List<ProjectFileDTO> projectFileList;
 
-    private List<ProjectProgressDTO> projectProgressList;
+    private ProjectProgressDTO projectProgress;
 
     private List<ProjectNewsDTO> projectNewsList;
 

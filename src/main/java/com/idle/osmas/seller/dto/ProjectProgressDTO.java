@@ -5,11 +5,11 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 public class ProjectProgressDTO {
 
     private int no; // pk
@@ -20,6 +20,6 @@ public class ProjectProgressDTO {
 
     private ProjectProgressStatus status; // 진행상태
 
-    private int projectNo;
+    private int refProjectNo;
 
 }

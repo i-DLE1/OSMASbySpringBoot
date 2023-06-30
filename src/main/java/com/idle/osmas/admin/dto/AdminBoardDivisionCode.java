@@ -2,9 +2,11 @@ package com.idle.osmas.admin.dto;
 
 public enum AdminBoardDivisionCode {
 
-    NOTICE, //공지사항
+    FULLVIEW, //전체보기(CLASSIFY_CODE:A)
 
-    EVENT, //이벤트
+    NOTICE, //공지사항(CLASSIFY_CODE:B)
 
-    NEWS; //보도자료
+    EVENT, //이벤트(CLASSIFY_CODE:C)
+
+    NEWS; //보도자료(CLASSIFY_CODE:D)
 }

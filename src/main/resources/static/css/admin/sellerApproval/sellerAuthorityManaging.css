@@ -68,13 +68,20 @@ nav ul li a{
 .seller-name {
     font-size: 18px;
     margin-bottom: 5px;
-    margin-left: 250px;
+    margin-left: 230px;
 }
 
 .apply-content {
     font-size: 14px;
     margin-bottom: 10px;
-    margin-left: 250px;
+    margin-left: 230px;
+}
+
+.alert-content {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center; /* 수정: 가운데 정렬 */
+    margin-left: 200px;
 }
 
 .goButton,
@@ -108,53 +115,8 @@ nav ul li a{
     font-size: 16px;
     margin-bottom: 5px;
     margin-left: auto; /* 맨 오른쪽으로 이동 */
-    margin-right: 70px; /* 조금 왼쪽으로 이동 */
+    margin-right: 200px; /* 조금 왼쪽으로 이동 */
     pointer-events: none; /* 클릭 효과 비활성화 */
-}
-
-/* 아랫단 숫자 페이지 */
-.pagenation {
-    margin-top: 3em;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-
-}
-
-.pagenation li {
-    padding: 5px 10px 5px 10px;
-    margin: 5px;
-}
-
-.pagenation li:hover,
-.pagenation li:hover a {
-    background-color: #bea376;
-    color: white !important;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.pagenation li a {
-    color: black; /* 숫자 글씨 색상을 변경하려면 원하는 색상으로 설정하세요 */
-    text-decoration: none;
-}
-
-.btn5{
-    color: white;
-    background: #cca77f;
-
-    border: none;
-    font-size: 15px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-.btn5:hover{
-    background: #b68149;
 }
 
 /*버튼 알림 폼*/
@@ -201,4 +163,8 @@ nav ul li a{
     border-top: 1px solid #ccc;
     margin: 10px auto;
     max-width: 80%;
+}
+
+.spann {
+    margin-bottom: 50px;
 }

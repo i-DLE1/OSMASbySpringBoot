@@ -17,14 +17,11 @@
         <result property="status" column="STATUS"/>
         <result property="introduction" column="INTRODUCTION"/>
         <result property="dropReason" column="DROP_REASON"/>
-
         <collection property="memberRoleList" resultMap="memberRoleListResultMap"/>
     </resultMap>
-
     <resultMap id="memberRoleListResultMap" type="com.idle.osmas.member.dto.RoleListDTO">
         <id property="refMemberRoleCode" column="REF_MEMBER_ROLE_CODE"/>
         <id property="refMemberNo" column="REF_MEMBER_NO"/>
-
         <association property="memberRole" resultMap="memberRoleResultMap"/>
     </resultMap>
     <resultMap id="memberRoleResultMap" type="com.idle.osmas.member.dto.MemberRoleDTO">

@@ -2,7 +2,6 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.dto.SellerRoleDTO;
 import com.idle.osmas.admin.service.SellerRoleService;
-import com.idle.osmas.admin.service.SellerRoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,13 +32,32 @@ public class SellerApprovalController {
     }
 
     @GetMapping("waitingRetrieve")
-    public void waitingRetrieve(){}
+    public String waitingRetrieve(Model model){
+        List<SellerRoleDTO> sellerApplyRetrieve = sellerRoleService.selectApplyRoleRetrieve();
+
+        model.addAttribute("sellerApplyRetrieve", sellerApplyRetrieve);
+
+        return "/admin/sellerApproval/waitingRetrieve";
+
+    }
 
     @GetMapping("holdingAuthority")
-    public void holdingAuthority(){}
+    public String holdingAuthority(Model model){
+        List<SellerRoleDTO> sellerHolding = sellerRoleService.selectAllHoldingRole();
+
+        model.addAttribute("sellerHolding", sellerHolding);
+
+        return "/admin/sellerApproval/holdingAuthority";
+    }
 
     @GetMapping("holdingRetrieve")
-    public void holdingRetrieve(){}
+    public String holdingRetrieve(Model model){
+        List<SellerRoleDTO> HoldingRetrieve = sellerRoleService.selectHoldingRoleRetrieve();
+
+        model.addAttribute("HoldingRetrieve", HoldingRetrieve);
+
+        return "/admin/sellerApproval/holdingRetrieve";
+    }
 
     @GetMapping("succesAuthority")
     public String sellerAllRole(Model model){
@@ -51,6 +69,12 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesRetrieve")
-    public void succesRetrieve(){}
+    public String succesRetrieve(Model model){
+        List<SellerRoleDTO> successRetrieve = sellerRoleService.selectSuccessRoleRetrieve();
+
+        model.addAttribute("successRetrieve", successRetrieve);
+
+        return "/admin/sellerApproval/succesRetrieve";
+    }
 
 }

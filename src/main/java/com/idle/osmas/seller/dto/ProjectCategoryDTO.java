@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 public class ProjectCategoryDTO {
 
-    private int no; // PK
+    private Integer no; // PK
 
     private Integer subNo;
 

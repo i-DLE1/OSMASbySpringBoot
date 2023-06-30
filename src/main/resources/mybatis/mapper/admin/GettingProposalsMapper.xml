@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.GettingProposalsMapper">
+
+    <resultMap id="GettingProposalsResultMap" type="com.idle.osmas.member.dto.SuggestDTO">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+        <result property="status" column="STATUS"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="refCategoryNo" column="REF_CATEGORY_NO"/>
+        <result property="memberId" column="ID"/>
+    </resultMap>
+
+    <!-- 보낸 제안 확인하기-->
+    <select id="gettingProposalsAll" resultMap="GettingProposalsResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.REF_MEMBER_NO,
+            S.STATUS,
+            S.MODIFY_DATE,
+            S.REF_CATEGORY_NO,
+            M.ID
+        FROM TBL_SUGGEST S
+                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_CATEGORY C ON S.REF_CATEGORY_NO = C.NO
+    </select>
+</mapper>
