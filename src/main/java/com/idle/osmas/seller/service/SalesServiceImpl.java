@@ -27,10 +27,9 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
-    public List<OptionDTO> selectAllOption() {
-        return salesMapper.selectAllOption();
+    public List<OptionDTO> selectOptionByNo(int no) {
+        return salesMapper.selectOptionByNo(no);
     }
-
     @Override
     public CategoryDTO selectCategoryByNo(int no) {
         return salesMapper.selectCategoryByNo(no);

@@ -11,6 +11,6 @@ public interface SalesMapper {
 
     List<SalesDTO> selectAllProject();
     SalesDTO selectProjectByNo(int no);
-    List<OptionDTO> selectAllOption();
+    List<OptionDTO> selectOptionByNo(int no);
     CategoryDTO selectCategoryByNo(int no);
 }
