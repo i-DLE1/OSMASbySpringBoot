@@ -18,5 +18,7 @@ public interface SellerRoleService {
 
     List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
 
+    int grant(String sellerId);
+
 
 }

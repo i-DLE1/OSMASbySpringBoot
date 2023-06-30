@@ -1,6 +1,7 @@
 package com.idle.osmas.admin.dto;
 
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.MemberRoleDTO;
 import lombok.*;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class SellerRoleDTO {
     private MemberDTO member; //멤버...
 
     private PermissionRoleDTO reason; //사유
+
+    private MemberRoleDTO role;
 
     private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록
 }

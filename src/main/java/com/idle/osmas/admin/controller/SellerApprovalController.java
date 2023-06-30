@@ -19,13 +19,13 @@ public class SellerApprovalController {
     private final SellerRoleService sellerRoleService;
 
     @Autowired
-    public SellerApprovalController(SellerRoleService sellerRoleService){
+    public SellerApprovalController(SellerRoleService sellerRoleService) {
         this.sellerRoleService = sellerRoleService;
     }
 
     //권한 코드를 1만 가지고 있는 사람 조회
     @GetMapping("waitingAuthority")
-    public String sellerAllApply(Model model){
+    public String sellerAllApply(Model model) {
         List<SellerRoleDTO> sellerApply = sellerRoleService.selectAllApplyRole();
 
         model.addAttribute("sellerApply", sellerApply);
@@ -34,7 +34,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("waitingRetrieve")
-    public String waitingRetrieve(Model model){
+    public String waitingRetrieve(Model model) {
         List<SellerRoleDTO> sellerApplyRetrieve = sellerRoleService.selectApplyRoleRetrieve();
 
         model.addAttribute("sellerApplyRetrieve", sellerApplyRetrieve);
@@ -44,7 +44,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("holdingAuthority")
-    public String holdingAuthority(Model model){
+    public String holdingAuthority(Model model) {
         List<SellerRoleDTO> sellerHolding = sellerRoleService.selectAllHoldingRole();
 
         model.addAttribute("sellerHolding", sellerHolding);
@@ -53,7 +53,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("holdingRetrieve")
-    public String holdingRetrieve(Model model){
+    public String holdingRetrieve(Model model) {
         List<SellerRoleDTO> HoldingRetrieve = sellerRoleService.selectHoldingRoleRetrieve();
 
         model.addAttribute("HoldingRetrieve", HoldingRetrieve);
@@ -62,7 +62,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesAuthority")
-    public String sellerAllRole(Model model){
+    public String sellerAllRole(Model model) {
         List<SellerRoleDTO> sellerAll = sellerRoleService.sellerAllRole();
 
         model.addAttribute("sellerAll", sellerAll);
@@ -71,7 +71,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesRetrieve")
-    public String succesRetrieve(Model model){
+    public String succesRetrieve(Model model) {
         List<SellerRoleDTO> successRetrieve = sellerRoleService.selectSuccessRoleRetrieve();
 
         model.addAttribute("successRetrieve", successRetrieve);
@@ -80,24 +80,15 @@ public class SellerApprovalController {
     }
 
     @PostMapping("grantPermission")
-    public String grantPermission(@RequestParam("sellerId") String sellerId) {
-        // 판매자 아이디를 기반으로 권한 부여 작업 수행
-        // 예시: TBL_ROLE_LIST의 REF_MEMBER_ROLE_CODE에 2 추가, PERMISSION_STATUS를 APPROVAL로 업데이트
+    public String grantPermission(@RequestParam("sellerId") String sellerId, Model model) {
+        model.addAttribute("sellerId", sellerId);
 
-        // 예시: 판매자 아이디로 판매자 정보 조회
-        SellerRoleDTO seller = sellerRoleService.selectSellerBySellerId(sellerId);
+        int result = sellerRoleService.grant(sellerId);
 
-        //TBL_ROLE_LIST에 권한 추가 + TBL_PERMISSION_ROLE의 PERMISSION_STATUS 값 변경
-        int result = sellerRoleService.addRoleToList(seller.getMemberNo(), 2);
-
-        int updateResult = sellerRoleService.updatePermissionStatus(seller.getMemberNo(), "APPROVAL");
-
-        // 권한 부여 성공 여부에 따라 리다이렉트 또는 에러 페이지 반환
-        if (result > 0 && updateResult > 0) {
-            return "redirect:/admin/sellerApproval/successAuthority";
+        if (result > 0) {
+            return "redirect:/admin/sellerApproval/waitingAuthority";
         } else {
             return "redirect:/admin/errorPage";
         }
     }
-
 }
