@@ -69,4 +69,18 @@
         FROM TBL_MEMBER A
         WHERE A.EMAIL = #{email}
     </select>
+
+    <select id="selectPwdByEmail" resultType="string">
+        SELECT
+            A.PWD
+        FROM TBL_MEMBER A
+        WHERE A.EMAIL = #{email}
+    </select>
+    
+    <update id="updatePwd" parameterType="com.idle.osmas.member.dto.MemberDTO">
+        UPDATE
+               TBL_MEMBER A
+           SET A.PWD = #{pwd}
+         WHERE A.EMAIL = #{email}
+    </update>
 </mapper>

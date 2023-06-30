@@ -16,6 +16,10 @@ public interface MemberMapper {
 
     String selectIdByEmail(String email);
 
+    String selectPwdByEmail(String email);
+
+    int updatePwd(MemberDTO member);
+
 
 
 }

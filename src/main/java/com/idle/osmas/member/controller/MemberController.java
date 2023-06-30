@@ -86,6 +86,15 @@ public class MemberController {
     @GetMapping("/findinfo/findpwd")
     public void findPwd(){}
 
+    @PostMapping("/findinfo/findpwd")
+    public String findPwd(@RequestParam("email") String email, Model m) throws Exception {
+        System.out.println(email);
+        String result = emailService.selectPwdByEmail(email);
+        m.addAttribute("result", result);
+        return "/member/findinfo/findsuccess";
+    }
+
+
     @GetMapping("/findinfo/findsuccess")
     public void findsuccess(){}
 }
