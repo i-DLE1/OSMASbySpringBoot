@@ -3,6 +3,7 @@ package com.idle.osmas.admin.service;
 import com.idle.osmas.admin.dao.SellerRoleMapper;
 import com.idle.osmas.admin.dto.SellerRoleDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,4 +46,20 @@ public class SellerRoleServiceImpl implements SellerRoleService {
         return sellerRoleMapper.selectSuccessRoleRetrieve();
     }   //권한 회수 완료자
 
+    @Override
+    @Transactional
+    public int grant(String sellerId) {
+        int result1 = sellerRoleMapper.addRoleToSeller(sellerId);
+        System.out.println("result1 : " + result1);
+        int result2 =sellerRoleMapper.changeSellerRoleState(sellerId);
+        System.out.println("result2 : " + result2);
+
+        int result = 0;
+
+        // sellerRoleMapper의 작업 수행 후 결과를 result 변수에 할당
+        if ((result1 > 0) && (result2 > 0)) {
+            result = 1;
+        }
+        return result;
+    }
 }

@@ -1,7 +1,10 @@
 package com.idle.osmas.admin.dao;
 
 import com.idle.osmas.admin.dto.SellerRoleDTO;
+import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.MemberRoleDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +22,11 @@ public interface SellerRoleMapper {
     List<SellerRoleDTO> selectHoldingRoleRetrieve(); // 권한 회수 보류자
 
     List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
+
+    int addRoleToSeller(String sellerId);
+
+    int changeSellerRoleState(String sellerId);
+
+
+
 }
