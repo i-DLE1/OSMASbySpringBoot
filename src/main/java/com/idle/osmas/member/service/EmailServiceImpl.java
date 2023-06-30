@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
@@ -99,6 +100,7 @@ public class EmailServiceImpl implements EmailService{
     }
 
     @Override
+    @Transactional
     public String selectPwdByEmail(String email) throws Exception {
        MemberDTO member = new MemberDTO();
         char[] pwdSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
