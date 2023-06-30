@@ -25,17 +25,15 @@ public class SellerRoleDTO {
 
     private String address; //주소
 
-    private int memberNo; //회원번호 -->일케 가져오는거 맞는지
+    private int memberNo; //회원번호
 
     private String bank; //은행
 
     private String reportNo; //통신판매업신고번호
 
-    private String alert; //보류 메세지 (보류 걸러내는용) --> 이거 권한 승인되면 null값으로 다시 바꿔줘야함
-
-    private int retrieve; //권한 회수 신청(0이면 신청X 1이면 신청) 나중에 회수 되어도 1로 냅두기
-
     private MemberDTO member; //멤버...
+
+    private PermissionRoleDTO reason; //사유
 
     private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록
 }
