@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +14,9 @@
 </head>
 
 <div class="board">
+    <header id="header">
+        <th:block th:include="~{/common/fragments/header}"></th:block>
+    </header>
     <h1>후원한 프로젝트 목록</h1>
     <div style="text-align: end;">
         <span class="btn_myreview">
@@ -47,7 +50,7 @@
                 
             </div>
             <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='./reviewwrite2.html'">작성하기</button>
+                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
             </div>
         </ul>
         <ul class="review_list">
@@ -76,7 +79,7 @@
                 
             </div>
             <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='./ReviewWrite2.html'">작성하기</button>
+                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
             </div>
         </ul>
         <ul class="review_list">
@@ -105,7 +108,7 @@
                 
             </div>
             <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='./reviewwrite2.html'">작성하기</button>
+                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
             </div>
         </ul>
     </div>
@@ -126,5 +129,8 @@
             1 2 3 45
         </sapn>
     </nav>
+    <footer>
+        <th:block th:include="~{/common/fragments/footer}"></th:block>
+    </footer>
 </div>
 </html>

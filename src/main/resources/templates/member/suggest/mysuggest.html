@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,15 +26,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
     
+    
 </head>
 <body>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
     <div class="board">
     <h1>제안하기</h1>
     <div style="text-align: end;">
         <span class="btn_myreview ">
-            <a href="./mysuggest.html">나의 제안보기</a>
+            <a href="./suggest.html">전체 글보기</a>
         </span>
-          <button style="height: 46px;" onclick="location.href='./sugwrite.html'">제안쓰기</button>
+        <button style="height: 46px;" onclick="location.href='suggestWrite.html'">제안쓰기</button>
     </div>
     <table style="margin-top: 20px;">
       <tr>
@@ -67,6 +72,9 @@
             1 2 3 45
         </sapn>
     </nav>
+        <footer>
+            <th:block th:include="~{/common/fragments/footer}"></th:block>
+        </footer>
 </div>
 </body>
 </html>
