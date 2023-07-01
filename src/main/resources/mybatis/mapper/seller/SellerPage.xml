@@ -31,12 +31,12 @@
         <result property="views" column="VIEWS"/>
 <!--        <result property="refMemberNo" column="REF_MEMBER_NO"/>-->
 <!--        <result property="refCategoryNo" column="REF_CATEGORY_NO"/>-->
-
+        <association property="projectProgress" resultMap="projectProgressResultMap"/>
         <collection property="member" resultMap="memberResultMap"/>
 <!--        <collection property="category" resultMap="projectCategoryResultMap"/>-->
 <!--        <collection property="projectFileList" resultMap="projectFileResultMap"/>-->
 <!--        <collection property="projectFAQList" resultMap="projectFAQResultMap"/>-->
-        <collection property="projectProgressList" resultMap="projectProgressResultMap"/>
+
 <!--        <collection property="projectNewsList" resultMap="projectNewsResultMap"/>-->
 <!--        <collection property="projectQnAList" resultMap="projectQnAResultMap"/>-->
     </resultMap>
@@ -147,7 +147,7 @@
            FROM TBL_PRJ PRJ
            JOIN (SELECT *
                  FROM TBL_PRJ_PROGRESS
-                 WHERE NO = (SELECT MAX(NO) AS NO
+                 WHERE NO  IN (SELECT MAX(NO) AS NO
                              FROM TBL_PRJ_PROGRESS
                              GROUP BY REF_PRJ_NO
                              ))
@@ -271,10 +271,10 @@
           FROM TBL_PRJ PRJ
           JOIN (SELECT *
           FROM TBL_PRJ_PROGRESS
-         WHERE NO = (SELECT MAX(NO) AS NO
+         WHERE NO IN (SELECT MAX(REF_PRJ_NO) AS REF_PRJ_NO
                        FROM TBL_PRJ_PROGRESS
                       GROUP BY REF_PRJ_NO)) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
-           AND PRJ.NO = #{no}
+           AND PRJ.NO = ${no}
     </select>
 
 </mapper>

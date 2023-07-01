@@ -54,6 +54,16 @@ nav ul li a{
     height: 50px;
 }
 
+.categoryboxtext {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: pre-line;
+}
+
+
+
 .title {
     font-size: 35px;
     font-weight: bold;

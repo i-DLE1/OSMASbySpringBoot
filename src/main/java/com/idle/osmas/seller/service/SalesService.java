@@ -12,7 +12,7 @@ public interface SalesService {
     public List<SalesDTO> selectAllProject();
     public SalesDTO selectProjectByNo(int no);
 
-    public List<OptionDTO> selectAllOption();
+    public List<OptionDTO> selectOptionByNo(int no);
 
     public CategoryDTO selectCategoryByNo(int no);
 

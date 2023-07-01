@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -17,13 +19,13 @@ public class SellerApprovalController {
     private final SellerRoleService sellerRoleService;
 
     @Autowired
-    public SellerApprovalController(SellerRoleService sellerRoleService){
+    public SellerApprovalController(SellerRoleService sellerRoleService) {
         this.sellerRoleService = sellerRoleService;
     }
 
     //권한 코드를 1만 가지고 있는 사람 조회
     @GetMapping("waitingAuthority")
-    public String sellerAllApply(Model model){
+    public String sellerAllApply(Model model) {
         List<SellerRoleDTO> sellerApply = sellerRoleService.selectAllApplyRole();
 
         model.addAttribute("sellerApply", sellerApply);
@@ -32,7 +34,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("waitingRetrieve")
-    public String waitingRetrieve(Model model){
+    public String waitingRetrieve(Model model) {
         List<SellerRoleDTO> sellerApplyRetrieve = sellerRoleService.selectApplyRoleRetrieve();
 
         model.addAttribute("sellerApplyRetrieve", sellerApplyRetrieve);
@@ -42,7 +44,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("holdingAuthority")
-    public String holdingAuthority(Model model){
+    public String holdingAuthority(Model model) {
         List<SellerRoleDTO> sellerHolding = sellerRoleService.selectAllHoldingRole();
 
         model.addAttribute("sellerHolding", sellerHolding);
@@ -51,7 +53,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("holdingRetrieve")
-    public String holdingRetrieve(Model model){
+    public String holdingRetrieve(Model model) {
         List<SellerRoleDTO> HoldingRetrieve = sellerRoleService.selectHoldingRoleRetrieve();
 
         model.addAttribute("HoldingRetrieve", HoldingRetrieve);
@@ -60,7 +62,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesAuthority")
-    public String sellerAllRole(Model model){
+    public String sellerAllRole(Model model) {
         List<SellerRoleDTO> sellerAll = sellerRoleService.sellerAllRole();
 
         model.addAttribute("sellerAll", sellerAll);
@@ -69,7 +71,7 @@ public class SellerApprovalController {
     }
 
     @GetMapping("succesRetrieve")
-    public String succesRetrieve(Model model){
+    public String succesRetrieve(Model model) {
         List<SellerRoleDTO> successRetrieve = sellerRoleService.selectSuccessRoleRetrieve();
 
         model.addAttribute("successRetrieve", successRetrieve);
@@ -77,4 +79,16 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/succesRetrieve";
     }
 
+    @PostMapping("grantPermission")
+    public String grantPermission(@RequestParam("sellerId") String sellerId, Model model) {
+        model.addAttribute("sellerId", sellerId);
+
+        int result = sellerRoleService.grant(sellerId);
+
+        if (result > 0) {
+            return "redirect:/admin/sellerApproval/waitingAuthority";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
 }

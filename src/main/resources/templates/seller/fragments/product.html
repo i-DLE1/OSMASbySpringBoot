@@ -9,7 +9,7 @@
 
 <div class="contents" th:if="${salesDTO}">
     <div class="top">
-      <div class="categorybox"><div class="text" th:text="${categoryDTO.name}"></div></div>
+      <div class="categorybox"><div class="categoryboxtext" th:text="${categoryDTO.name}"></div></div>
       <div class="title">
         <div class="text" th:text="${salesDTO.title}"></div> <!--프로젝트 제목-->
       </div>
@@ -81,9 +81,9 @@
       </div>
 
       <div class="optionmiddle">
-        <input type="checkbox" style="width: 30px;">
+        <input type="checkbox" id="donationck" style="width: 30px;">
         <div class="optiontext" style="margin-left: -75px; margin-top: 5px" >옵션선택 없이 후원</div>
-        <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;" onclick="clearText()">
+        <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;" onclick="clearText()" oninput="checkNumericInput(this)">
         <div class="optiontext">원</div>
       </div>
 
@@ -96,10 +96,14 @@
       </div>
 
       <div class="optionmiddle">
-        <div class="optiontext">옵션2</div>
+        <div class="optiontext" >옵션2</div>
         <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
           <option value=""></option>
-          <option th:each="option: ${ optionList }" th:text="${ option.productSize} + '(' + ${option.price} + '원)'"></option>
+          <option th:each="option: ${ optionList }">
+            <span th:text="${ option.productSize} + '   ('"></span>
+            <span class="optionprice" th:text="${option.price}"></span>
+            <span>원)</span>
+          </option>
         </select>
       </div>
 
@@ -120,8 +124,8 @@
           <input class="optionamount" type="text" value="1" style="font-size: 20px" >
           <button class="plusbutton">+</button>
           <button class="minusbutton">-</button>
+          <input class="optionmoney" type="text" style="font-size: 20px" hidden="hidden">
         </div>
-
       </div>
     </div>
   </div>

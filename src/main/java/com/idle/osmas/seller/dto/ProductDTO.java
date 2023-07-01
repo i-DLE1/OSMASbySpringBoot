@@ -22,7 +22,7 @@ public class ProductDTO {
 
     private int maxQuantity; // 최대수량
 
-//    private ProductStatus status; // 상품 주문 가능 상태
+    private ProductStatus status; // 상품 주문 가능 상태
 
     private String size; // 상품 사이즈
 

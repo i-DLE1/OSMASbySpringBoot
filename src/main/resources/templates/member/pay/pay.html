@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,6 +25,9 @@
 </head>
 
 <body>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
     <div class="board" style="width: 500px;">
         <form action="">
             <h2>상품 정보</h2>
@@ -63,7 +66,7 @@
                 <div class="paycontent">
                     예상 전달일 :
                     <span>6월 28일</span>
-                </div class="paycontent">
+                </div>
 
             </section>
             <section>
@@ -90,9 +93,9 @@
                     <div class="address_new">
                         <input type="text" id="sample6_postcode" placeholder="우편번호" style="width: 100px;">
                         <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-                        <input type="text" id="sample6_address" placeholder="주소" style="width: 314px;""><br>
-                        <input type=" text" id="sample6_detailAddress" placeholder="상세주소" style="width: 200px;"">
-                        <input type=" text" id="sample6_extraAddress" placeholder="참고항목" style="width: 100px;"">
+                        <input type="text" id="sample6_address" placeholder="주소" style="width: 314px;"><br>
+                        <input type=" text" id="sample6_detailAddress" placeholder="상세주소" style="width: 200px;">
+                        <input type=" text" id="sample6_extraAddress" placeholder="참고항목" style="width: 100px;">
                     </div>
                     <div class=" address_existing" style="display:none;">
                         <ul>
@@ -121,7 +124,7 @@
                         이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다. </div>
                     <br>
                     <input type="checkbox" id="chk_box2">
-                    <label for="chk_box2" style="margin-left: 0px;""> 후원 유의사항 확인</label>
+                    <label for="chk_box2" style="margin-left: 0px;"> 후원 유의사항 확인</label>
                     <span style=" float: right;">보기</span>
                         <div style="margin-left: 25px; margin-top: 10px;">
                             후원은 구매가 아닌 창의적인 계획에 자금을 지원하는 일입니다.
@@ -186,6 +189,9 @@
             }).open();
         }
     </script>
+<footer>
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 </body>
 
 </html>

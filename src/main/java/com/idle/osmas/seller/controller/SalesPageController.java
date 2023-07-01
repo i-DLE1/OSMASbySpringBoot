@@ -27,7 +27,7 @@ public class SalesPageController {
     @GetMapping ("/fragments/product")
     public String SalesInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -38,7 +38,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage1")
     public String salesPage1(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -49,7 +49,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage2")
     public String salesPage2(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -60,7 +60,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage3")
     public String salesPage3(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -71,7 +71,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage4")
     public String salesPage4(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -82,7 +82,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage5")
     public String salesPage5(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
@@ -93,7 +93,7 @@ public class SalesPageController {
     @GetMapping ("/sales/salesPage6")
     public String salesPage6(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectAllOption();
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);

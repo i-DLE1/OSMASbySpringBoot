@@ -54,4 +54,6 @@ public class ProjectDTO {
 
     private List<ProjectQnADTO> projectQnAList;
 
+    private List<ProductDTO> productList;
+
 }

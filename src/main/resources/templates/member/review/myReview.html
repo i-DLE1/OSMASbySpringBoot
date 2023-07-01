@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,14 +14,17 @@
 </head>
 
 <body>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
     <div class="board">
         <h1>나의 후기</h1>
         <div style="text-align: end;">
             <span class="btn_myreview">
-                <a href="./Review.html">전체 후기보기</a>
+                <a href="review.html">전체 후기보기</a>
             </span>
             <span class="btn_review">
-                <a href="./ReviewWrite.html">후기쓰기</a>
+                <a href="reviewSelect.html">후기쓰기</a>
             </span>
         </div>
         <div>
@@ -134,6 +137,9 @@
             </sapn>
         </nav>
     </div>
+<footer>
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 </body>
 
 </html>

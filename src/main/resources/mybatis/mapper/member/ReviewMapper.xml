@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.idle.osmas.member.dao.ReviewMapper">
+<!--  <resultMap id="reviewResultMap" type="com.idle.osmas.member.dto.ReviewsDTO">-->
+<!--      <id property="refDeliveryStatusCode" column="REF_DELIVERY_STATUS_CODE"/>-->
+<!--      <result property="refProjectName" column="TITLE"/>-->
+<!--      <result property="nickname" column="NICKNAME"/>-->
+<!--      <result property="content" column="CONTENT"/>-->
+<!--      <result property="title" column="REVIEW_TITLE"/>-->
+<!--      <result property="registDate" column="REGIST_DATE"/>-->
+<!--      <result property="modifyDate" column="MODIFY_DATE"/>-->
+<!--      <result property="deteleYn" column="DETELE_YN"/>-->
+<!--  </resultMap>-->
+
+<!--    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">-->
+<!--        SELECT-->
+<!--                COUNT(*)-->
+<!--        FROM TBL_REVIEW A-->
+<!--        <if test="searchCondition == 'nickname'">-->
+<!--            JOIN TBL_MEMBER B ON (A.REF_MEMBER_NO = B.NO)-->
+<!--        </if>-->
+<!--        <if test="searchCondition == 'projectTitle'">-->
+<!--            JOIN TBL_DELIVERY_STATUS C ON(A.REF_DELIVERY_STATUS_CODE = C.NO)-->
+<!--            JOIN TBL_SHIPPING_TRACK_INFO D ON(C.REF_SHIPPING_TRACK_INFO_NO = D.NO)-->
+<!--            JOIN TBL_PAYMENT E ON(D.REF_PAYMENT_NO = E.CODE)-->
+<!--            JOIN TBL_PAYMENT_HISTORY F ON(E.CODE = F.REF_PAYMENT_NO)-->
+<!--            JOIN TBL_SPONSORED_PRJ G ON(F.REF_SPONSORED_PRJ_NO = G.NO)-->
+<!--            JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)-->
+<!--            JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)-->
+<!--        </if>-->
+<!--        <where>-->
+<!--            <if test="searchCondition == 'projectTitle'">-->
+<!--                I.TITLE = #{searchValue}-->
+<!--            </if>-->
+<!--            <if test="searchCondition == 'nickname'">-->
+<!--                B.NICKNAME = #{searchValue}-->
+<!--            </if>-->
+<!--            <if test="searchCondition == 'title'">-->
+<!--                A.TITLE = #{searchValue}-->
+<!--            </if>-->
+<!--            AND A.DELETE_YN = 'N'-->
+<!--        </where>-->
+<!--    </select>-->
+
+<!--    <select id="selectReviewList" resultType="reviewResultMap">-->
+<!--        SELECT-->
+<!--               A.-->
+<!--          FROM-->
+<!--    </select>-->
+</mapper>

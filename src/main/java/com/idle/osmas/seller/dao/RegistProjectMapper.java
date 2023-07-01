@@ -1,11 +1,14 @@
 package com.idle.osmas.seller.dao;
 
 import com.idle.osmas.seller.dto.CategoryDTO;
+import com.idle.osmas.seller.dto.ProductDTO;
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectFileType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface RegistProjectMapper {
@@ -23,8 +26,29 @@ public interface RegistProjectMapper {
 //    List<CategoryDTO> selectAllCategory();
     List<CategoryDTO> selectByCategoryType(@Param("categoryNo") Integer categoryNo);
 
+    ProjectDTO selectTemporaryByUserId(String userId);
+
     int temporaryInsertProject(ProjectDTO projectDTO);
 
     int temporaryInsertProjectProgress(ProjectDTO projectDTO);
+
+    int temporaryInsertProjectProduct(ProductDTO product);
+
+    int temporaryInsertProjectProductList(@Param("projectNo") int projectNo ,@Param("productNo") int productNo);
+
+    int temporaryUpdateProjectProduct(ProductDTO product);
+
+    ProductDTO selectProjectProduct(int productNo);
+
+    int deleteProjectProduct(int productNo);
+
+    int deleteProjectProductList(int productNo);
+
+    int insertProjectFile(@Param("fileType") ProjectFileType fileType,
+                          @Param("originFile") String originFile,
+                          @Param("savedFile") String savedFile,
+                          @Param("deleteYN") String deleteYN,
+                          @Param("projectNo") int projectNo);
+
 
 }
