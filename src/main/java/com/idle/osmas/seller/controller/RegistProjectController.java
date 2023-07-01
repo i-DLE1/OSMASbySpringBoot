@@ -5,19 +5,17 @@ import com.idle.osmas.seller.service.RegistProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.standard.expression.OrExpression;
+import org.thymeleaf.templateparser.raw.IRawHandler;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,16 +24,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/seller/regist/*")
 public class RegistProjectController {
 
-
-
-    @Value("${customSaveFileDirectoryPath}")
-    String savedFileDriectoryPath;
     private final RegistProjectService registProjectService;
+
+    private final ImageFileController imageFileController;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public RegistProjectController(RegistProjectService registProjectService) {
+    public RegistProjectController(RegistProjectService registProjectService, ImageFileController imageFileController) {
         this.registProjectService = registProjectService;
+        this.imageFileController = imageFileController;
     }
 
     @GetMapping("getSubCategory")
@@ -74,7 +71,8 @@ public class RegistProjectController {
     public String getProjectRegist(@RequestParam(required = false) Integer id, Model model, Principal userId){
 
 //        ProjectDTO tempProject = registProjectService.selectTemporaryByUserId(userId.getName());
-        ProjectDTO tempProject = registProjectService.selectTemporaryByUserId("admin01");
+        int projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+        ProjectDTO tempProject = registProjectService.selectTemporaryProjectInfoByProjectNo(projectNo);
         List<CategoryDTO> categoryList = registProjectService.selectByCategoryType(null);
 
         if(tempProject != null) {
@@ -114,65 +112,40 @@ public class RegistProjectController {
     @GetMapping("project3ProductGetdata")
     @ResponseBody
     public List<ProductDTO> getProjectProductData(){
-        ProjectDTO tempProject = registProjectService.selectTemporaryByUserId("admin01");
-        log.info("tempProject = " + tempProject);
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
 
-        // 파일 다시 클라로 표시하기
+        log.info("project = " + projectNo);
 
-        return tempProject.getProductList();
+        return registProjectService.selectTemporaryProductListByProjectNo(projectNo);
     }
+    @GetMapping("project3ProductGetImg")
+    @ResponseBody
+    public List<ProjectFileDTO> getProjectImg(){
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
 
+        log.info("project = " + projectNo);
 
-    public void registFile(ProjectFileType fileType, MultipartFile file) throws IOException {
-        if(file.getSize() > 0){
-            String originFileName = file.getOriginalFilename();
-
-            log.info("originFileName = " + originFileName);
-
-            String ext = originFileName.substring(originFileName.lastIndexOf("."));
-
-            log.info("ext = " + ext);
-
-            String savedFileName = UUID.randomUUID().toString().replace("-","")+ext;
-
-            File savedFile = new File(savedFileDriectoryPath+"/"+savedFileName);
-            file.transferTo(savedFile);
-
-            int result = 0;
-
-            ProjectDTO tempProject = registProjectService.selectTemporaryByUserId("admin01");
-            result = registProjectService.insertProjectFile(fileType,originFileName,savedFileName,"N",tempProject.getNo());
-
-            if (result > 0){
-                log.info("파일이 정상으로 저장 됐습니다.");
-            }else {
-                log.info("정상적으로 ");
-                savedFile.delete();
-            }
-
-        }
+        return registProjectService.selectTemporaryProjectFileListByProjectNo(projectNo);
     }
-
 
     @PostMapping(value = "project3")
     @ResponseBody
     public String postProjectProductRegist(@RequestPart("productList") Map<String, List<ProductDTO>> productList,
-                                           MultipartFile presentFile,
-                                           MultipartFile thumbnailFile,
-                                           List<MultipartFile> fileList,
+                                           @RequestPart(required = false) MultipartFile presentFile,
+                                           @RequestPart(required = false) MultipartFile thumbnailFile,
+                                           @RequestPart(required = false) List<MultipartFile> fileList,
                                            Model model, Principal user){
 
         try {
-            registFile(ProjectFileType.REPRESENT, presentFile);
-            registFile(ProjectFileType.THUMBNAIL, thumbnailFile);
+
+            imageFileController.registFile(ProjectFileType.REPRESENT, presentFile);
+            imageFileController.registFile(ProjectFileType.THUMBNAIL, thumbnailFile);
             for (MultipartFile file : fileList) {
-                registFile(ProjectFileType.CONTENT, file);
+                imageFileController.registFile(ProjectFileType.CONTENT, file);
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.info("저장 실패"+e);
-
-            throw new RuntimeException(e);
         }
 
         List<ProductDTO> deleteProductList = productList.get("old")
@@ -180,15 +153,14 @@ public class RegistProjectController {
                         .stream().noneMatch(newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
 
-        ProjectDTO tempProject = registProjectService.selectTemporaryByUserId("admin01");
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
 
 
-        if(tempProject == null){
+        if(projectNo == null){
             // 수정 페이지
         }else {
             registProjectService.deleteProjectProduct(deleteProductList);
             registProjectService.temporaryInsertProjectProduct(productList.get("new"),"admin01");
-
         }
 
         return "success";
@@ -196,33 +168,59 @@ public class RegistProjectController {
 
     @GetMapping("project4")
     public String getProjectProductDetail(@RequestParam(required = false) Integer id, Model model){
-        System.out.println("id = " + id);
-        model.addAttribute("content","<h1>text</h1>"); // 웹에디터 기본값
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+        if(projectNo != null){
+            ProjectDTO project = registProjectService.selectTemporaryProjectInfoByProjectNo(projectNo);
+            model.addAttribute("project" ,project); // 웹에디터 기본값
+        }
         return "/seller/regist/registProject4";
     }
     
     @PostMapping("project4")
     @ResponseBody
     public String postProjectProductDetail(@RequestBody ProjectDTO project, Model model){
-        System.out.println("project.content = " + project.getContent());
-
+        log.info("project.content = " + project);
+        registProjectService.updateProjectContent(project);
         return "success";
     }
 
     @GetMapping("project5")
     public String getProjectFAQ(@RequestParam(required = false) Integer id, Model model){
-        System.out.println("id = " + id);
 
 
         return "/seller/regist/registProject5";
     }
+    @GetMapping("project5GetData")
+    @ResponseBody
+    public List<ProjectFAQDTO> getProjectFaqData(@RequestParam(required = false) Integer id){
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+        registProjectService.selectTemporaryProjectFaqByProjectNo(projectNo);
+        return registProjectService.selectTemporaryProjectFaqByProjectNo(projectNo);
+    }
+
 
     @PostMapping("project5")
     @ResponseBody
-    public String postProjectFAQ(@RequestBody List<ProjectFAQDTO> projectFAQList, Model model){
-        System.out.println("projectFAQList = " + projectFAQList);
-        projectFAQList.forEach(e->{
-            System.out.println("e = " + e);
+    public String postProjectFAQ(@RequestBody Map<String,List<ProjectFAQDTO>> projectFAQList, Model model){
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+
+        List<ProjectFAQDTO> deleteProjectFaq = projectFAQList.get("old")
+                .stream().filter(oldE-> projectFAQList.get("new")
+                        .stream().noneMatch(newE -> oldE.getNo() == newE.getNo()) )
+                .collect(Collectors.toList());
+        log.info("deleteProjectFaq = " + deleteProjectFaq);
+
+        if(deleteProjectFaq != null) registProjectService.deleteProjectFAQ(deleteProjectFaq);
+
+        log.info("projectFAQList = " + projectFAQList);
+        projectFAQList.get("new").forEach(e->{
+            if(e.getNo() == 0) {
+                registProjectService.insertProjectFAQ(projectNo, e);
+            }else {
+                registProjectService.updateProjectFAQ(e);
+            }
+
+
         });
         return "success";
     }
@@ -234,10 +232,61 @@ public class RegistProjectController {
         model.addAttribute("newsList","test");
         return "/seller/regist/registProject6";
     }
+
+    @GetMapping("project6GetData")
+    @ResponseBody
+    public List<ProjectNewsDTO> getProjectNEWSData(@RequestParam(required = false) Integer id){
+        int projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+        List<ProjectNewsDTO> projectNewsList= registProjectService.selectProjectNewsListByProjectNo(projectNo);
+
+        projectNewsList.stream().map(e->{
+            String afterString = e.getContent()
+                    .replaceAll("<([^>]+)>", "")
+                    .replaceAll("&nbsp;", "");
+//                    .substring(0,14);
+            e.setContent(afterString);
+            return e;
+        }).collect(Collectors.toList());
+        return projectNewsList;
+    }
+
+    @GetMapping("projectNews")
+    @ResponseBody
+    public ProjectNewsDTO ProjectNews(Integer no){
+        return registProjectService.selectProjectNewsByProjectNewsNo(no);
+    }
+
+    @GetMapping("deleteProjectNews")
+    @ResponseBody
+    public String deletePojectNews(Integer no){
+        System.out.println("no = " + no);
+        int result = registProjectService.deleteProjectNews(no);
+        if(result > 0){
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    @PostMapping("modifyProjectNews")
+    @ResponseBody
+    public String modifyPojectNews(@RequestBody  ProjectNewsDTO projectNews){
+        System.out.println("projectNews = " + projectNews);
+        int result = registProjectService.updateProjectNews(projectNews);
+        if(result > 0){
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+
     @PostMapping("project6")
     @ResponseBody
-    public String postProjectNEWS(@RequestBody ProjectNewsDTO projectNewsDTO, Model model){
+    public String postProjectNEWS(@RequestBody ProjectNewsDTO projectNewsDTO, Integer id, Model model){
         System.out.println("projectNewsDTO = " + projectNewsDTO);
+        Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+        registProjectService.insertProjectNews(projectNo, projectNewsDTO);
         return "success";
     }
 
@@ -256,5 +305,7 @@ public class RegistProjectController {
         // proejct 상태 변경
         return "success";
     }
+
+
 
 }

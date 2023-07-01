@@ -1,6 +1,8 @@
 let faqListCount = 1;
 let productCount = 1;
 let registProductList = [];
+let registProductImgList = [];
+let registFaqList = [];
 
 function removeItemButton(funcName){
     let $div = $("<div>").attr("id","subItem");
@@ -50,6 +52,7 @@ function fqaLoadList(data) {
             <div>
                 <div id="faqSubIndex${faqListCount}" >
                     <div>
+                    <input id="faqNo${faqListCount}" value="${item.no}" hidden=/>
                         <div>
                             <label class="sub-title" for="title${faqListCount}">제목</label>
                             <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}" value="${item.title}"/>
@@ -88,6 +91,7 @@ $("#fqaAdd").click(function (){
             <div>
                 <div id="faqSubIndex${faqListCount}" class="add-item-faq-col-2">
                     <div>
+                        <input id="faqNo${faqListCount}" value="0" hidden/>
                         <div>
                             <label class="sub-title" for="title${faqListCount}">제목</label>
                             <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}"/>
@@ -115,8 +119,6 @@ $("#productAdd").click(function (){
     let $maxQuantityVal = $(`#maxQuantity${productCount-1}`).val();
     let $priceVal = $(`#price${productCount-1}`).val();
     let $introductionVal = $(`#introduction${productCount-1}`).val();
-    // let $shippingStartVal = $(`#shippingStart${productCount-1}`).val();
-    // let $shippingFeeVal = $(`#shippingFee${productCount-1}`).val();
 
     if($nameVal === "" || $sizeVal === ""|| $maxQuantityVal === ""|| $priceVal === ""|| $introductionVal === ""){
         alert("입력 되지 않은 필드가 존재합니다.");
@@ -233,7 +235,7 @@ function productAddSubItem(productCount) {
 }
 
 function productItemLoad(data){
-    console.log(data)
+
     data.forEach(item => {
         let text=
         `<div id="addItemProductIndex${productCount}">
@@ -344,12 +346,18 @@ function subMainCategoryCode(){
 // 타임리프 대체 예정
 function newsList(data){
     data.forEach((item,index)=>{
-        let $tr = $(`<tr>`);
+        let $deleteBtn = $('<input>').addClass("cus-button")
+            .attr("value","삭제")
+            .attr("type","button")
+            .attr("onclick",`deleteProjectNews(${item.no})`)
+        let $td = $('<td>').append($deleteBtn)
+        let $tr = $(`<tr>`).attr("onclick",`loadProjectFaq(${item.no})`);
         $tr.append($(`<th>`).text(index+1))
             .append($(`<td>`).text(item.title))
-            .append($(`<td>`).text(item.body))
-            .append($(`<td>`).text(item.startDate))
-            .append($(`<td>`).text(item.endDate));
+            .append($(`<td>`).text(item.content))
+            .append($(`<td>`).text(item.registDate))
+            .append($(`<td>`).text(item.modifyDate))
+            .append($td);
         $("#newsList").append($tr);
     });
 }
@@ -419,14 +427,28 @@ const suneditor = (minHeight, maxHeight) => {
 
 //temporary : boolean
 function project3LoadData() {
-
     $.ajax({
         url : '/seller/regist/project3ProductGetdata',
         type : "get",
         success : function (success) {
             console.log(success)
+            let productList = [...success]
             registProductList = [...success];
-            productItemLoad(success)
+            productItemLoad(productList)
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
+
+    $.ajax({
+        url : '/seller/regist/project3ProductGetImg',
+        type : "get",
+        success : function (success) {
+            console.log(success)
+            let productImgList = [...success]
+            registProductImgList = [...success];
+            loadProductImg(productImgList)
         },
         error : function (error){
             console.log(error)
@@ -446,17 +468,37 @@ function project4LoadData() {
 function project4Confirm() {
 
 }
-function project5LoadDate(){
-    fqaLoadDummy(); // 더미데이터 로드
-    //fqaLoadList(data)
+function project5LoadData(){
+    let queryId = new URLSearchParams(location.search).get('id')
+    $.ajax({
+        url : '/seller/regist/project5GetData',
+        type : "get",
+        success : function (success) {
+            registFaqList = [...success];
+            fqaLoadList(success);
+        },
+        error : function (error){
+            console.log(error);
+        }
+    })
+
+
 }
 
 function project5Confirm() {
 
 }
 function project6LoadData() {
-    newsListDummy();
-    //newsList(data)
+    $.ajax({
+        url : "/seller/regist/project6GetData",
+        success : function (succuess) {
+            newsList(succuess)
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
+
 }
 
 function previewImage(ele) {
@@ -467,6 +509,80 @@ function previewImage(ele) {
     img.readAsDataURL(ele.files[0]);
 }
 
+function loadProductImg(imgFileList){
+    let rootUrl = location.origin+'/files/seller/project/';
+    console.log(rootUrl+imgFileList[0].changeName)
+    let legnth = imgFileList.length
+    $("#present").prop("src",rootUrl+imgFileList[0].changeName)
+    $("#thumbnail").prop("src",rootUrl+imgFileList[1].changeName)
+    $("#imgfile0").prop("src",rootUrl+imgFileList[2].changeName)
+    $("#imgfile1").prop("src",rootUrl+imgFileList[3].changeName)
+    $("#imgfile2").prop("src",rootUrl+imgFileList[4].changeName)
+    console.log(imgFileList)
+
+}
+
+function loadProjectFaq(no){
+    $.ajax({
+        url: `/seller/regist/projectNews?no=${no}`,
+        success : function (success) {
+            $("#title").val(success.title);
+            $($("#suneditor_content").children("div")
+                .children("div")[3]).children("div")
+                .html("");
+            $($("#suneditor_content").children("div")
+                .children("div")[3]).children("div")
+                .html(success.content);
+            $("#newsSumbit").attr("onclick",`modifyProjectNews(${no})`).val("수정");
+        } ,
+        error : function (error) {
+        }
+    })
+}
+
+function deleteProjectNews(no){
+    console.log(no)
+    $.ajax({
+        url : `/seller/regist/deleteProjectNews?no=${no}`,
+        success : function (success){
+            alert("정삭적으로 삭제되었습니다.")
+            location.reload();
+        },
+        error : function (error){
+            alert("삭제에 실패했습니다.")
+        }
+    })
+}
+
+function modifyProjectNews(no){
+    let title = $("#title").val();
+    let content = $($("#suneditor_content").children("div")
+        .children("div")[3]).children("div")
+        .html();
+    
+    $.ajax({
+        url: `/seller/regist/modifyProjectNews`,
+        type : 'post',
+        contentType : 'application/json; charset=utf-8;',
+        data : JSON.stringify({no, title, content}),
+        success : function (success) {
+            alert("수정이 완료됐습니다.")
+            location.reload();
+        },
+        error : function (error) {
+            alert("수정이 실패했습니다.")
+        }
+        
+    })
+}
+
+function initProjectNews() {
+    $("#title").val("");
+    $($("#suneditor_content").children("div")
+        .children("div")[3]).children("div")
+        .html("");
+}
+
 function projectInitRegist(temporary) {
     let title = $("#title").val()
     let subTitle = $("#content").val()
@@ -475,7 +591,6 @@ function projectInitRegist(temporary) {
     let targetAmount = $("#money").val()
     let subCategoryCode= $("#subCategoryCode").val()
     let category = {no : subCategoryCode};
-
 
     $.ajax({
         url : '/seller/regist/project2',
@@ -508,13 +623,13 @@ function registProject3(temporary) {
     let productListLength =$("#productList").children("div").length;
     let dataList = [];
 
-    formData.append("presentFile",$("#presentImg")[0].files[0])
-    formData.append("thumbnailFile",$("#thumbnailImg")[0].files[0])
+        formData.append("presentFile",$("#presentImg")[0].files[0])
+        formData.append("thumbnailFile",$("#thumbnailImg")[0].files[0])
 
     let files = $(".file")
 
     for(let i = 0 ; i < files.length; i++ ){
-        formData.append("fileList",files[i].files[0])
+        formData.append("fileList",files[i].files[0])// }
     }
 
     for(let i = 1 ; i < productListLength+1; i++){
@@ -530,7 +645,7 @@ function registProject3(temporary) {
 
         dataList = [...dataList, {no, name, size, price, introduction, maxQuantity, status}]
     }
-    let data = {new : dataList, old : registProductList}
+    let data = {new : dataList, old : registProductList, oldImg : registProductImgList}
     formData.append("productList", new Blob([JSON.stringify(data)],{type:"application/json; charset=utf-8;"}));
 
     $.ajax({
@@ -555,12 +670,13 @@ function registProject4() {
     let content = $($("#suneditor_content").children("div")
         .children("div")[3]).children("div")
         .html();
+    let no =  $("#no").val();
 
     $.ajax({
         url : "/seller/regist/project4",
         type : "post",
         contentType : "application/json; charset=utf-8;",
-        data : JSON.stringify({content}),
+        data : JSON.stringify({no, content}),
         success : function (success){
             console.log(success)
         },
@@ -578,17 +694,18 @@ function registProject5() {
         const title = $("#title"+i).val()
         const content = $("#content"+i).val()
         const registDate = new Date();
+        const no = $("#faqNo"+i).val();
 
         if(title === '' || content === '' ) break;
 
-        dataList = [...dataList, {title, content, registDate}]
+        dataList = [...dataList, {no, title, content, registDate}]
     }
     console.log(dataList)
     $.ajax({
         url : '/seller/regist/project5',
         type : 'post',
         contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(dataList),
+        data : JSON.stringify({old : registFaqList, new : dataList}),
         success : function (success) {
             console.log(success)
         },
@@ -603,14 +720,11 @@ function registProject6(){
     let content = $($("#suneditor_content").children("div")
                                             .children("div")[3]).children("div")
                                                                 .html();
-    let registDate = new Date();
-    let deleteYN = 'N'
-
     $.ajax({
         url : "/seller/regist/project6",
         type : "post",
         contentType : "application/json; charset=utf-8;",
-        data : JSON.stringify({title, content, registDate, deleteYN}),
+        data : JSON.stringify({title, content}),
         success : function (success){
             location.href = '/seller/regist/project6'
         },

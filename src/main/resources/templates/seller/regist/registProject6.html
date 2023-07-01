@@ -10,7 +10,7 @@
             <div style="height: 550px;">
                 <div class="w-100">
                     <label for="title" class="sub-title">제목</label>
-                    <input type="text" class="input-box w-100" id="title" name="title" th:value="${newsList}" />
+                    <input type="text" class="input-box w-100" id="title" name="title"/>
                 </div>
                 <div class="mt-4">
                     <div style="height: 300px; width: 100%; display: flex; justify-content: center;">
@@ -18,8 +18,8 @@
                     </div>
                 </div>
                 <div class="footer">
-                    <input class="footer-btn" type="button" value="취소" />
-                    <input class="footer-btn" type="button" value="등록" onclick="registProject6()" />
+                    <input class="footer-btn" type="button" value="취소" onclick="initProjectNews()" />
+                    <input id="newsSumbit" class="footer-btn" type="button" value="등록" onclick="registProject6()" />
                 </div>
             </div>
             <!-- 게시글 등록 끝 -->
@@ -31,6 +31,7 @@
                         <td class="col-5">내용</td>
                         <td class="col">작성일자</td>
                         <td class="col">마지막수정일자</td>
+                        <td class="col">기능</td>
                     </tr>
                 </thead>
                 <tbody id="newsList">

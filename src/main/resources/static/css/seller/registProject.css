@@ -223,3 +223,17 @@ body {
     text-align: center;
     margin: 0 50px 0 0;
 }
+
+.cus-button {
+    border: 1px solid #cca77f;
+    font-size: 15px;
+    color:#cca77f;
+    background-color: white ;
+    border-radius: 7px;
+    margin: 0 5px 0 5px;
+}
+.cus-button:hover{
+    border: 1px solid #b68149;
+    background: #b68149;
+    color: white;
+}
