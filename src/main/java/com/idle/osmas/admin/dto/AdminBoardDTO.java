@@ -5,6 +5,7 @@ import com.idle.osmas.member.dto.MemberDTO;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,10 +25,11 @@ public class AdminBoardDTO {
 
     private LocalDate modifyDate; // 게시판 수정일
 
-    private AdminBoardDivisionCode classifyCode; //구분코드
+    private String classifyCode; //구분코드
 
     private MemberDTO memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
 
     private char deleteYN; //삭제여부
 
+    private List<AdminBoardFileDTO> fileList;
 }
