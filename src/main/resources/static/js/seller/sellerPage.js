@@ -133,7 +133,7 @@ function popupStatics(id){
 }
 
 function projectModify(id){
-    window.open(`../createProject/index?id=${id}`,"popup");
+    window.open(`/seller/regist/project1?no=${id}`,"popup");
 }
 function popupRetry(id){
     window.open(`./projectDetail/retry?id=${id}`,"popup",`${screenCenterPopup(500,600)}, resizable=no, name=projectRetry, location=no`);

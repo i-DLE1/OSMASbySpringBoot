@@ -7,8 +7,8 @@
         <main class="main">
             <h1 class="h1-title">상품 상세정보 등록</h1>
             <div style="display:flex; justify-content:center;width: 100%">
-                <input id="no"  th:value="${project.no}" hidden>
-                <textarea id="content" style="width: 1120px; " th:text="${project.content}"></textarea>
+                <input id="no" th:value="${project?.no}" hidden>
+                <textarea id="content" style="width: 1120px; " th:text="${project?.content}"></textarea>
             </div>
         </main>
         <footer class="footer">

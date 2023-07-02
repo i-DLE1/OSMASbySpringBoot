@@ -11,58 +11,60 @@ import java.util.Map;
 @Mapper
 public interface RegistProjectMapper {
 
-    List<CategoryDTO> selectByCategoryType(@Param("categoryNo") Integer categoryNo);
+    boolean existProjectByProjectNo (int projectNo, String userId);
+
+    List<CategoryDTO> selectByCategoryType(Integer categoryNo);
 
     Integer selectTemporaryProjectNoByUserId(String userId);
 
-    ProjectDTO selectTemporaryProjectInfoByProjectNo(int projectNo);
+    ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId);
 
-    List<ProductDTO> selectTemporaryProductListByProjectNo(int projectNo);
+    List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId);
 
-    List<ProjectFileDTO> selectTemporaryProjectFileListByProjectNo(int projectNo);
+    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId);
 
+    int selectMemberNoById(String userId);
 
-    int temporaryInsertProject(ProjectDTO projectDTO);
+    int insertProject(ProjectDTO projectDTO);
 
-    int temporaryInsertProjectProgress(ProjectDTO projectDTO);
+    int insertTemporaryProject(ProjectDTO projectDTO);
 
-    int temporaryInsertProjectProduct(ProductDTO product);
+    int insertProjectProgress(ProjectDTO projectDTO);
 
-    int temporaryInsertProjectProductList(@Param("projectNo") int projectNo ,@Param("productNo") int productNo);
+    int insertProjectProduct(ProductDTO product);
 
-    int temporaryUpdateProjectProduct(ProductDTO product);
+    int insertProjectProductList(int projectNo , int productNo);
+
+    int updateProjectProduct(ProductDTO product);
 
     int deleteProjectProduct(int productNo);
 
     int deleteProjectProductList(int productNo);
 
-    int insertProjectFile(@Param("fileType") ProjectFileType fileType,
-                          @Param("originFile") String originFile,
-                          @Param("savedFile") String savedFile,
-                          @Param("deleteYN") String deleteYN,
-                          @Param("projectNo") int projectNo);
+    int insertProjectFile(ProjectFileType fileType, String originFile,
+                          String savedFile, String deleteYN,
+                          int projectNo);
 
-    ProjectFileDTO selectByProjectSaveFileName(@Param("saveFileName") String saveFileName,
-                                               @Param("projectNo") int projectNo);
+    ProjectFileDTO selectByProjectSaveFileName(String saveFileName, int projectNo);
 
 
-    int updateProjectContent(@Param("no") int no,
-                             @Param("content") String content);
+    int updateProjectContent(int no, String content);
 
-    int insertProjectFAQ(@Param("projectRefNo") int projectRefNo,
-                         @Param("projectFaq") ProjectFAQDTO projectFAQ);
+    int insertProjectFAQ(int projectRefNo, ProjectFAQDTO projectFaq);
     int updateProjectFAQ(ProjectFAQDTO projectFAQ);
 
     int deleteProjectFAQ(int no);
 
-    List<ProjectFAQDTO> selectTemporaryProjectFaqByProjectNo(int projectNo);
+    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId);
 
-    List<ProjectNewsDTO> selectProjectNewsListByProjectNo(int projectNo);
-    ProjectNewsDTO selectProjectNewsByProjectNewsNo(int no);
+    List<ProjectNewsDTO> selectProjectNewsListByProjectNo(int projectNo, String userId);
+    ProjectNewsDTO selectProjectNewsByProjectNewsNo(int no, String userId);
 
     int insertProjectNews(int projectNo, ProjectNewsDTO projectNews);
 
     int deleteProjectNews(int projectNewsNo);
 
     int updateProjectNews(ProjectNewsDTO projectNews);
+
+    ProjectDTO selectProjectByProjectNo(int projectNo, String userId);
 }

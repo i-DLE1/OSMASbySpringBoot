@@ -54,8 +54,8 @@
                                 <th:block th:object="${item}">
                                 <th th:text="${stat.index+1}"></th>
                                 <td th:text="*{title}"></td>
-                                <td th:text="*{targetAmount}"></td>
-                                <td th:text="*{currentAmount}"></td>
+                                <td th:text="*{#numbers.formatInteger(targetAmount,0,'COMMA')}"></td>
+                                <td th:text="*{#numbers.formatInteger(currentAmount,0,'COMMA')}"></td>
                                 <td th:text="|*{startDate} ~ *{endDate}|"></td>
                                 <td>
                                     <th:block th:replace="/seller/fragments/sellerFrag :: progressStatus(*{projectProgress.status.toString()})"></th:block>

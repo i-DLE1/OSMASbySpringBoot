@@ -26,7 +26,4 @@ public class ProductDTO {
 
     private String size; // 상품 사이즈
 
-
-
-
 }

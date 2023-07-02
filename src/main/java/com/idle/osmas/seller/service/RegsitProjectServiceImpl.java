@@ -11,8 +11,14 @@ import java.util.List;
 @Service
 public class RegsitProjectServiceImpl implements RegistProjectService {
 
+
     private final RegistProjectMapper registProjectMapper;
     private int result;
+
+    @Override
+    public boolean existProjectByProjectNo(int projectNo,String userId) {
+        return registProjectMapper.existProjectByProjectNo(projectNo, userId);
+    }
 
     public RegsitProjectServiceImpl(RegistProjectMapper registProjectMapper) {
         this.registProjectMapper = registProjectMapper;
@@ -24,10 +30,15 @@ public class RegsitProjectServiceImpl implements RegistProjectService {
     }
 
     @Override
-    public int temporaryInsertProject(ProjectDTO project) {
-        int projectResult = registProjectMapper.temporaryInsertProject(project);
+    public int selectMemberNoById(String userId) {
+        return registProjectMapper.selectMemberNoById(userId);
+    }
+
+    @Override
+    public int insertProject(ProjectDTO project) {
+        int projectResult = registProjectMapper.insertProject(project);
         System.out.println("projectResult = " + project);
-        int progressResult = registProjectMapper.temporaryInsertProjectProgress(project);
+        int progressResult = registProjectMapper.insertProjectProgress(project);
         System.out.println("result = " + project.getNo());
 
         if (projectResult + progressResult == 2) return 1;
@@ -35,20 +46,24 @@ public class RegsitProjectServiceImpl implements RegistProjectService {
     }
 
     @Override
-    public ProjectDTO selectTemporaryProjectInfoByProjectNo(int projectNo) {
-
-        return registProjectMapper.selectTemporaryProjectInfoByProjectNo(projectNo);
+    public int insertTemporaryProject(ProjectDTO projectDTO) {
+        return registProjectMapper.insertTemporaryProject(projectDTO);
     }
 
     @Override
-    public int temporaryInsertProjectProduct(List<ProductDTO> productList, String userId) {
+    public ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId) {
+
+        return registProjectMapper.selectProjectInfoByProjectNo(projectNo, userId);
+    }
+
+    @Override
+    public int insertProjectProduct(List<ProductDTO> productList, String userId, int projectNo) {
         productList.forEach( e ->{
             if(e.getNo() == 0){
-                registProjectMapper.temporaryInsertProjectProduct(e);
-                int projectNo =  registProjectMapper.selectTemporaryProjectNoByUserId(userId);
-                registProjectMapper.temporaryInsertProjectProductList(projectNo, e.getNo());
+                registProjectMapper.insertProjectProduct(e);
+                registProjectMapper.insertProjectProductList(projectNo, e.getNo());
             }else {
-                registProjectMapper.temporaryUpdateProjectProduct(e);
+                registProjectMapper.updateProjectProduct(e);
             }
         });
 
@@ -70,30 +85,31 @@ public class RegsitProjectServiceImpl implements RegistProjectService {
         return registProjectMapper.insertProjectFile(fileType, originFile, savedFile, deleteYN, projectNo);
     }
 
+
     @Override
     public ProjectFileDTO selectByProjectSaveFileName(String saveFileName, int projectNo) {
         return registProjectMapper.selectByProjectSaveFileName(saveFileName, projectNo);
     }
 
     @Override
-    public int selectTemporaryProjectNoByUserId(String userId) {
+    public Integer selectTemporaryProjectNoByUserId(String userId) {
         return registProjectMapper.selectTemporaryProjectNoByUserId(userId);
     }
 
     @Override
-    public List<ProductDTO> selectTemporaryProductListByProjectNo(int projectNo) {
-        return registProjectMapper.selectTemporaryProductListByProjectNo(projectNo);
+    public List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId) {
+        return registProjectMapper.selectProductListByProjectNo(projectNo, userId);
     }
 
     @Override
-    public List<ProjectFileDTO> selectTemporaryProjectFileListByProjectNo(int projectNo) {
-        return registProjectMapper.selectTemporaryProjectFileListByProjectNo(projectNo);
+    public List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId) {
+        return registProjectMapper.selectProjectFileListByProjectNo(projectNo, userId);
     }
 
     @Override
-    public int updateProjectContent(ProjectDTO project) {
+    public int updateProjectContent(ProjectDTO project, Integer no) {
 
-        return registProjectMapper.updateProjectContent(53, project.getContent());
+        return registProjectMapper.updateProjectContent(no, project.getContent());
     }
 
     @Override
@@ -122,18 +138,18 @@ public class RegsitProjectServiceImpl implements RegistProjectService {
     }
 
     @Override
-    public List<ProjectFAQDTO> selectTemporaryProjectFaqByProjectNo(int projectNo) {
-        return registProjectMapper.selectTemporaryProjectFaqByProjectNo(projectNo);
+    public List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId) {
+        return registProjectMapper.selectProjectFaqByProjectNo(projectNo, userId);
     }
 
     @Override
-    public List<ProjectNewsDTO> selectProjectNewsListByProjectNo(int projectNo) {
-        return registProjectMapper.selectProjectNewsListByProjectNo(projectNo);
+    public List<ProjectNewsDTO> selectProjectNewsListByProjectNo(int projectNo, String userId) {
+        return registProjectMapper.selectProjectNewsListByProjectNo(projectNo, userId);
     }
 
     @Override
-    public ProjectNewsDTO selectProjectNewsByProjectNewsNo(int no) {
-        return registProjectMapper.selectProjectNewsByProjectNewsNo(no);
+    public ProjectNewsDTO selectProjectNewsByProjectNewsNo(int no, String userId) {
+        return registProjectMapper.selectProjectNewsByProjectNewsNo(no, userId);
     }
 
     @Override
@@ -149,5 +165,10 @@ public class RegsitProjectServiceImpl implements RegistProjectService {
     @Override
     public int updateProjectNews(ProjectNewsDTO projectNews) {
         return registProjectMapper.updateProjectNews(projectNews);
+    }
+
+    @Override
+    public ProjectDTO selectProjectByProjectNo(int projectNo, String userId) {
+        return registProjectMapper.selectProjectByProjectNo(projectNo, userId);
     }
 }

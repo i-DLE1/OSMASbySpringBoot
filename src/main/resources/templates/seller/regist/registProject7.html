@@ -10,19 +10,25 @@
                     <tbody>
                         <tr class="row">
                             <th class="col-3">프로젝트명</th>
-                            <td class="col">이름 </td>
+                            <td class="col" th:text="${projectInfo.title}"></td>
                         </tr>
                         <tr class="row">
                             <th class="col-3">프로젝트 설명</th>
-                            <td class="col">어쩌구 저쩌구</td>
+                            <td class="col" th:text="${projectInfo.content}"></td>
+                        </tr>
+                        <tr class="row">
+                            <th class="col-3">카테고리</th>
+                            <td class="col" th:text="${projectInfo.category.name}"></td>
                         </tr>
                         <tr class="row">
                             <th class="col-3">프로젝트 기간</th>
-                            <td class="col">2023-01-01 ~ 2023-10-01</td>
+                            <td class="col">
+                                <span th:text="${projectInfo.startDate}"></span> ~ <span th:text="${projectInfo.endDate}"></span>
+                            </td>
                         </tr>
                         <tr class="row">
-                            <th class="col-3">펀딩 목표 금액</th>
-                            <td class="col">100,000,000 </td>
+                            <th class="col-3">펀딩 목표 금액(원)</th>
+                            <td class="col" th:text="${#numbers.formatInteger(projectInfo.targetAmount,0,'COMMA')}">100,000,000 </td>
                         </tr>
                     </tbody>
                 </table>
@@ -32,16 +38,16 @@
                 <table class="end-table">
                     <tbody id="projectEndList">
                         <!--  javascript -->
-<!--                        <tr th:each="item : ${productList}">-->
-<!--                            <th class="col-1">상품명</th>-->
-<!--                            <td class="col" th:value="${item.title}"></td>-->
-<!--                            <th class="col-1">사이즈</th>-->
-<!--                            <td class="col" th:value="${item.size}"></td>-->
-<!--                            <th class="col-2">가격(원)</th>-->
-<!--                            <td class="col" th:value="${item.amount}"></td>-->
-<!--                            <th class="col-1">최대수량</th>-->
-<!--                            <td class="col-1" th:value="${item.count}"></td>-->
-<!--                        </tr>-->
+                        <tr class="row" th:each="item : ${projectInfo.productList}">
+                            <th class="col-1">상품명</th>
+                            <td class="col" th:text="${item.name}"></td>
+                            <th class="col-1">사이즈</th>
+                            <td class="col" th:text="${item.size}"></td>
+                            <th class="col-2">가격(원)</th>
+                            <td class="col" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}"></td>
+                            <th class="col-1">최대수량</th>
+                            <td class="col-1" th:text="${#numbers.formatInteger(item.maxQuantity,0,'COMMA')}"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -50,10 +56,10 @@
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
             <input class="footer-btn" type="button" value="미리보기" />
-            <input class="footer-btn" type="button" value="심사요청" />
+            <input class="footer-btn" type="button" value="심사요청" onclick="registProjectComplete()" />
         </footer>
         <!-- 하단 버튼 끝 -->
         <script src="/js/seller/registProject.js"></script>
-        <script>productInfoListDummy()</script>
+<!--        <script>productInfoListDummy()</script>-->
     </body>
 </html>

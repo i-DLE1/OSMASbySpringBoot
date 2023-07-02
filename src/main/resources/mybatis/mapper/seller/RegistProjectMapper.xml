@@ -111,7 +111,7 @@
     </select>
 
 
-    <select id="selectTemporaryProjectInfoByProjectNo" resultMap="projectResultMap">
+    <select id="selectProjectInfoByProjectNo" resultMap="projectResultMap">
         SELECT PRJ.NO AS TBL_PRJ_NO,
                PRJ.TITLE AS TBL_PRJ_TITLE,
                PRJ.CONTENT AS TBL_PRJ_CONTENT,
@@ -121,10 +121,16 @@
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT
           FROM TBL_PRJ PRJ
+        <if test="userId != null">
+          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO
+        </if>
          WHERE PRJ.NO = ${projectNo}
+        <if test="userId != null">
+          AND TM.ID = #{userId}
+        </if>
     </select>
 
-    <select id="selectTemporaryProductListByProjectNo" resultMap="productListResultMap">
+    <select id="selectProductListByProjectNo" resultMap="productListResultMap">
         SELECT TP.NO AS TBL_PRODUCT_NO,
                TP.NAME AS TBL_PRODUCT_NAME,
                TP.INTRODUCTION AS TBL_PRODUCT_INTRODUCTION,
@@ -137,7 +143,7 @@
         WHERE REF_PRJ_NO = ${projectNo}
     </select>
 
-    <select id="selectTemporaryProjectFileListByProjectNo" resultMap="projectFileResultMap">
+    <select id="selectProjectFileListByProjectNo" resultMap="projectFileResultMap">
         SELECT TPF.NO AS TBL_PRJ_FILE_NO,
                TPF.TYPE AS TBL_PRJ_FILE_TYPE,
                TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
@@ -172,23 +178,41 @@
          WHERE SUB_NO = #{categoryNo}
         </if>
     </select>
+    
+    <select id="selectMemberNoById" parameterType="com.idle.osmas.member.dto.MemberDTO" resultType="_int">
+        SELECT TM.NO
+          FROM TBL_MEMBER TM
+         WHERE TM.ID = #{id}
+    </select>
 
-    <insert id="temporaryInsertProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertTemporaryProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO TBL_PRJ PRJ
+        (PRJ.NO, PRJ.REGIST_DATE, PRJ.REF_MEMBER_NO)
+        VALUES
+        (SEQ_TBL_PRJ_NO.nextval, SYSDATE, ${member.no})
+        <selectKey resultType="_int" order="AFTER" keyProperty="no">
+            SELECT SEQ_TBL_PRJ_NO.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_PRJ PRJ
         (PRJ.NO, PRJ.TITLE, PRJ.REGIST_DATE,
         PRJ.START_DATE, PRJ.END_DATE, PRJ.TARGET_AMOUNT,
-        PRJ.REF_MEMBER_NO, PRJ.REF_CATEGORY_NO)
+        PRJ.CURRENT_AMOUNT, PRJ.VIEWS, PRJ.REF_MEMBER_NO,
+        PRJ.REF_CATEGORY_NO)
         VALUES
         (SEQ_TBL_PRJ_NO.nextval, '${title}', SYSDATE,
         '${startDate}', '${endDate}',${targetAmount},
-        1, ${category.no})
+         0, 0, 1,
+         ${category.no})
 
         <selectKey resultType="_int" order="AFTER" keyProperty="no">
             SELECT SEQ_TBL_PRJ_NO.currval FROM DUAL
         </selectKey>
     </insert>
 
-    <insert id="temporaryInsertProjectProgress">
+    <insert id="insertProjectProgress">
         INSERT INTO TBL_PRJ_PROGRESS TPP
         (TPP.NO, TPP.REGIST_DATE, TPP.STATUS,
         TPP.REF_PRJ_NO)
@@ -198,7 +222,7 @@
     </insert>
 
 
-    <insert id="temporaryInsertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_PRODUCT TP
         (TP.NO, TP.NAME, TP.INTRODUCTION,
          TP.PRICE, TP.MAX_QUANTITY, TP.STATUS,
@@ -212,14 +236,14 @@
         </selectKey>
     </insert>
     
-    <insert id="temporaryInsertProjectProductList">
+    <insert id="insertProjectProductList">
         INSERT INTO TBL_PRJ_PRODUCT_LIST TPPL
         (TPPL.NO, TPPL.REF_PRJ_NO, TPPL.REF_PRODUCT_NO)
         VALUES
         (SEQ_TBL_PRJ_PRODUCT_LIST_NO.nextval,#{projectNo},#{productNo})
     </insert>
 
-    <update id="temporaryUpdateProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
+    <update id="updateProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
         UPDATE TBL_PRODUCT TP
            SET TP.NAME = '${name}',
                 TP.INTRODUCTION = '${introduction}',
@@ -280,7 +304,7 @@
          WHERE RPJ.NO = ${no}
     </update>
 
-    <select id="selectTemporaryProjectFaqByProjectNo" resultMap="projectFAQResultMap">
+    <select id="selectProjectFaqByProjectNo" resultMap="projectFAQResultMap">
         SELECT TPF.NO AS TBL_PRJ_FAQ_NO,
                TPF.REF_PRJ_NO AS TBL_PRJ_FAQ_REF_PRJ_NO,
                TPF.TITLE AS TBL_PRJ_FAQ_TITLE,
@@ -358,5 +382,32 @@
                TPNI.MODIFY_DATE = SYSDATE
          WHERE TPNI.NO = #{no}
     </update>
+    
+    <select id="selectProjectByProjectNo" resultMap="projectResultMap">
+        SELECT PRJ.NO AS TBL_PRJ_NO,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.CONTENT AS TBL_PRJ_CONTENT,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               TP.NAME AS TBL_PRODUCT_NAME,
+               TP.PRICE AS TBL_PRODUCT_PRICE,
+               TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
+               TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
+               TC.NAME AS TBL_CATEGORY_NAME
+          FROM TBL_PRJ PRJ
+          JOIN TBL_PRJ_PRODUCT_LIST TPPL ON PRJ.NO = TPPL.REF_PRJ_NO
+          JOIN TBL_PRODUCT TP ON TP.NO = TPPL.REF_PRODUCT_NO
+          JOIN TBL_CATEGORY TC ON TC.NO = PRJ.REF_CATEGORY_NO
+         WHERE PRJ.NO = #{projectNo}
+    </select>
+
+    <select id="existProjectByProjectNo" resultType="boolean">
+        SELECT PRJ.NO
+          FROM TBL_PRJ PRJ
+          JOIN TBL_MEMBER TM ON TM.NO = PRJ.REF_MEMBER_NO
+         WHERE PRJ.NO = #{projectNo}
+           AND TM.ID = #{userId}
+    </select>
 </mapper>
 

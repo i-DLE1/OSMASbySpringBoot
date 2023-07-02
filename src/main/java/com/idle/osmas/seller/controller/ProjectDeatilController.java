@@ -1,8 +1,7 @@
 package com.idle.osmas.seller.controller;
 
-import com.idle.osmas.common.exception.seller.ProjectRetryException;
+import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.seller.dto.*;
-import com.idle.osmas.seller.service.ProjectProgressService;
 import com.idle.osmas.seller.service.ProjectProgressServiceImpl;
 import com.idle.osmas.seller.service.SellerPageServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -115,7 +114,7 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("retry")
-    public String retry(@RequestParam int id, Model model) throws ProjectRetryException {
+    public String retry(@RequestParam int id, Model model) throws AccessAuthorityException {
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(id, ProjectProgressStatus.REJECTED);
 
@@ -125,7 +124,7 @@ public class ProjectDeatilController {
             }
             return "/seller/popup/retry";
         } catch (NullPointerException e) {
-            throw new ProjectRetryException("선택하신 프로젝트는 재심사 대상이 아닙니다.");
+            throw new AccessAuthorityException("선택하신 프로젝트는 재심사 대상이 아닙니다.");
         }
     }
 

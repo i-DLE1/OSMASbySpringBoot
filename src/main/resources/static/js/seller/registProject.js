@@ -184,39 +184,39 @@ $("#productAdd").click(function (){
     $("#productList").append(text);
     productCount++;
 })
-
-function newsListDummy() {
-    let data = [
-        {title:"title1", body:"body11111",startDate:"2023-01-01",endDate:"2032-10-10"},
-        {title:"title2", body:"body22222",startDate:"2023-02-01",endDate:"2032-10-10"},
-        {title:"title3", body:"body33333",startDate:"2023-03-01",endDate:"2032-10-10"},
-        {title:"title4", body:"body44444",startDate:"2023-04-01",endDate:"2032-10-10"},
-    ];
-    newsList(data);
-}
-
-function productInfoListDummy() {
-    let data = [
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-        {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-    ];
-    productInfoList(data);
-}
-
-function productItemDummy() {
-    let data = [
-        {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1", status:"NOT_AVAILABLE"},
-        {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2", status:"AVAILABLE"},
-        {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3", status:"NOT_AVAILABLE"},
-        {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4", status:"AVAILABLE"},
-        {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5", status:"NOT_AVAILABLE"},
-    ];
-    productItemLoad(data);
-}
+//
+// function newsListDummy() {
+//     let data = [
+//         {title:"title1", body:"body11111",startDate:"2023-01-01",endDate:"2032-10-10"},
+//         {title:"title2", body:"body22222",startDate:"2023-02-01",endDate:"2032-10-10"},
+//         {title:"title3", body:"body33333",startDate:"2023-03-01",endDate:"2032-10-10"},
+//         {title:"title4", body:"body44444",startDate:"2023-04-01",endDate:"2032-10-10"},
+//     ];
+//     newsList(data);
+// }
+//
+// function productInfoListDummy() {
+//     let data = [
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
+//     ];
+//     productInfoList(data);
+// }
+//
+// function productItemDummy() {
+//     let data = [
+//         {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1", status:"NOT_AVAILABLE"},
+//         {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2", status:"AVAILABLE"},
+//         {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3", status:"NOT_AVAILABLE"},
+//         {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4", status:"AVAILABLE"},
+//         {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5", status:"NOT_AVAILABLE"},
+//     ];
+//     productItemLoad(data);
+// }
 
 function productItemRemove(){
     productCount--;
@@ -235,7 +235,6 @@ function productAddSubItem(productCount) {
 }
 
 function productItemLoad(data){
-
     data.forEach(item => {
         let text=
         `<div id="addItemProductIndex${productCount}">
@@ -297,7 +296,9 @@ function productItemLoad(data){
         $("#productList").append(text);
         productCount++
     })
-    productAddSubItem(productCount);
+    if (productCount > 2) {
+        productAddSubItem(productCount);
+    }
 }
 
 function subCategory(mainCategoryCode, data){
@@ -379,27 +380,6 @@ function productInfoList(data) {
     })
 }
 
-function indexCheckConfirm() {
-    let check1 = $("#check1").prop('checked');
-    let check2 = $("#check2").prop('checked');
-    $.ajax({
-        url : '/seller/regist/project1',
-        type : 'post',
-        data : {check1, check2},
-        success : function (data) {
-
-            console.log(data)
-            if(data === 'success'){
-                location.href='/seller/regist/project2'
-            }else {
-                alert("필수 항목에 체크를 하지 않았습니다.");
-            }
-        },
-        error : function (error) {
-            console.log(error)
-        }
-    })
-}
 
 const suneditor = (minHeight, maxHeight) => {
     SUNEDITOR.create('content', {
@@ -427,8 +407,9 @@ const suneditor = (minHeight, maxHeight) => {
 
 //temporary : boolean
 function project3LoadData() {
+    let no = new URLSearchParams(location.search).get('no')
     $.ajax({
-        url : '/seller/regist/project3ProductGetdata',
+        url : '/seller/regist/project3ProductGetdata'  + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
             console.log(success)
@@ -442,7 +423,8 @@ function project3LoadData() {
     })
 
     $.ajax({
-        url : '/seller/regist/project3ProductGetImg',
+
+        url : '/seller/regist/project3ProductGetImg' + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
             console.log(success)
@@ -456,22 +438,10 @@ function project3LoadData() {
     })
 }
 
-function project3Confirm() {
-
-}
-
-function project4LoadData() {
-    newsListDummy();
-    //newsList(data)
-}
-
-function project4Confirm() {
-
-}
 function project5LoadData(){
-    let queryId = new URLSearchParams(location.search).get('id')
+    let no = new URLSearchParams(location.search).get('no')
     $.ajax({
-        url : '/seller/regist/project5GetData',
+        url : '/seller/regist/project5GetData' + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
             registFaqList = [...success];
@@ -484,13 +454,10 @@ function project5LoadData(){
 
 
 }
-
-function project5Confirm() {
-
-}
 function project6LoadData() {
+    let no = new URLSearchParams(location.search).get('no')
     $.ajax({
-        url : "/seller/regist/project6GetData",
+        url : "/seller/regist/project6GetData" + (no === null ?  '' : `?no=${no}`),
         success : function (succuess) {
             newsList(succuess)
         },
@@ -583,6 +550,40 @@ function initProjectNews() {
         .html("");
 }
 
+function ajaxCsrfSet() {
+    let token = $("meta[name='_csrf']").attr("content");
+    let header = $("meta[name='_csrf_header']").attr("content");
+
+    console.log(token)
+    console.log(header)
+
+    $(document).ajaxSend(function (e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+}
+
+
+function indexCheckConfirm() {
+    let check1 = $("#check1").prop('checked');
+    let check2 = $("#check2").prop('checked');
+    $.ajax({
+        url : '/seller/regist/project1',
+        type : 'post',
+        data : {check1, check2},
+        success : function (data) {
+            if(data === 'success'){
+                let no = new URLSearchParams(location.search).get('no')
+                location.href='/seller/regist/project2' + (no === null ?  '' : `?no=${no}`);
+            }else {
+                alert("필수 항목에 체크를 하지 않았습니다.");
+            }
+        },
+        error : function (error) {
+            console.log(error)
+        }
+    })
+}
+
 function projectInitRegist(temporary) {
     let title = $("#title").val()
     let subTitle = $("#content").val()
@@ -602,7 +603,8 @@ function projectInitRegist(temporary) {
                 if(temporary){
                     alert("임시저장이 완료 됐습니다.")
                 }else {
-                    location.href='/seller/regist/project3'
+                    let no = new URLSearchParams(location.search).get('no')
+                    location.href='/seller/regist/project3' + (no === null ?  '' : `?no=${no}`);
                 }
             }else {
                 alert("입력 되지 않은 필수 항목이 존재합니다.");
@@ -619,14 +621,13 @@ function projectInitRegist(temporary) {
 
 // temporary : boolean
 function registProject3(temporary) {
-    let formData = new FormData();
-    let productListLength =$("#productList").children("div").length;
     let dataList = [];
-
+    let formData = new FormData();
         formData.append("presentFile",$("#presentImg")[0].files[0])
         formData.append("thumbnailFile",$("#thumbnailImg")[0].files[0])
-
     let files = $(".file")
+    let productListLength =$("#productList").children("div").length;
+    let no = new URLSearchParams(location.search).get('no')
 
     for(let i = 0 ; i < files.length; i++ ){
         formData.append("fileList",files[i].files[0])// }
@@ -649,16 +650,18 @@ function registProject3(temporary) {
     formData.append("productList", new Blob([JSON.stringify(data)],{type:"application/json; charset=utf-8;"}));
 
     $.ajax({
-        url : '/seller/regist/project3',
+        url : '/seller/regist/project3' + (no === null ?  '' : `?no=${no}`),
         type : 'post',
         contentType : false,
         processData : false,
         enctype : 'multipart/form-data',
-        // contentType: "application/json; charset=utf-8",
-        // data : JSON.stringify({new : dataList, old : registProductList}),
         data : formData,
         success : function (success) {
-            console.log(success)
+            if(temporary){
+                alert("임시저장이 완료 됐습니다.")
+            }else {
+                location.href='/seller/regist/project4' + (no === null ?  '' : `?no=${no}`);
+            }
         },
         error: function (error){
             console.log(error)
@@ -666,19 +669,25 @@ function registProject3(temporary) {
     })
 }
 
-function registProject4() {
+function registProject4(temporary) {
+    let no = new URLSearchParams(location.search).get('no')
     let content = $($("#suneditor_content").children("div")
         .children("div")[3]).children("div")
         .html();
-    let no =  $("#no").val();
+    let projectNo =  $("#no").val();
 
     $.ajax({
-        url : "/seller/regist/project4",
+        url : "/seller/regist/project4" + (no === null ?  '' : `?no=${no}`),
         type : "post",
         contentType : "application/json; charset=utf-8;",
-        data : JSON.stringify({no, content}),
+        data : JSON.stringify({no:projectNo, content}),
         success : function (success){
-            console.log(success)
+            if(temporary){
+                alert("임시저장이 완료 됐습니다.")
+            }else {
+                let no = new URLSearchParams(location.search).get('no')
+                location.href='/seller/regist/project5' + (no === null ?  '' : `?no=${no}`);
+            }
         },
         error : function (error){
             console.log(error)
@@ -686,7 +695,8 @@ function registProject4() {
     })
 }
 
-function registProject5() {
+function registProject5(temporary) {
+    let no = new URLSearchParams(location.search).get('no')
     let faqListLength =$("#faqList").children("div").length;
     let dataList = [];
 
@@ -700,14 +710,18 @@ function registProject5() {
 
         dataList = [...dataList, {no, title, content, registDate}]
     }
-    console.log(dataList)
+
     $.ajax({
-        url : '/seller/regist/project5',
+        url : '/seller/regist/project5' + (no === null ?  '' : `?no=${no}`),
         type : 'post',
         contentType: "application/json; charset=utf-8",
         data : JSON.stringify({old : registFaqList, new : dataList}),
         success : function (success) {
-            console.log(success)
+            if(temporary){
+                alert("임시저장이 완료 됐습니다.")
+            }else {
+                location.href='/seller/regist/project6' + (no === null ?  '' : `?no=${no}`);
+            }
         },
         error: function (error){
             console.log(error)
@@ -716,21 +730,44 @@ function registProject5() {
 
 }
 function registProject6(){
+    let no = new URLSearchParams(location.search).get('no')
     let title = $("#title").val();
     let content = $($("#suneditor_content").children("div")
-                                            .children("div")[3]).children("div")
-                                                                .html();
+                                            .children("div")[3])
+                                            .children("div")
+                                            .html();
     $.ajax({
-        url : "/seller/regist/project6",
+        url : "/seller/regist/project6" + (no === null ?  '' : `?no=${no}`),
         type : "post",
         contentType : "application/json; charset=utf-8;",
         data : JSON.stringify({title, content}),
         success : function (success){
-            location.href = '/seller/regist/project6'
+            location.reload()
         },
         error : function (error){
             console.log(error)
         }
     })
+}
+function nextProject7() {
+    let no = new URLSearchParams(location.search).get('no')
+    location.href = '/seller/regist/project7' + (no === null ?  '' : `?no=${no}`)
+}
+
+function registProjectComplete(){
+    let no = new URLSearchParams(location.search).get('no')
+
+    $.ajax({
+        url : `/seller/regist/projectRegist` + (no === null ?  '' : `?no=${no}`),
+        type : 'get',
+        success : function (success) {
+            alert("성공적으로 프로젝트가 등록되었습니다.\n심사 승인 후 프로젝트가 시작될 수 있습니다.")
+            location.href = `/seller/projectList`;
+        },
+        error : function (error){
+            console.log(error)
+        }
+    })
+
 }
 
