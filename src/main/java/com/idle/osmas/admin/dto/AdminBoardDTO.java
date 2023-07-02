@@ -27,9 +27,19 @@ public class AdminBoardDTO {
 
     private String classifyCode; //구분코드
 
-    private MemberDTO memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
+    private List<MemberDTO> memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
 
     private char deleteYN; //삭제여부
 
     private List<AdminBoardFileDTO> fileList;
+
+    private String category;
+
+    public String getCategory(){
+        return category;
+    }
+
+    public void setCategory(String category){
+        this.category = category;
+    }
 }

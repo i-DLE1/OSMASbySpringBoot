@@ -3,7 +3,6 @@ package com.idle.osmas.admin.controller;
 import com.idle.osmas.admin.dao.AdminBoardMapper;
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +26,7 @@ public class User_noticeController {
         String category = "notice_article";
         List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
         model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_article";
+        return "/admin/user_notice/notice_article";
     }
 
     @GetMapping("notice_content")
@@ -36,8 +34,7 @@ public class User_noticeController {
         String category = "notice_content";
         List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
         model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_content";
+        return "/admin/user_notice/notice_content";
     }
 
     @GetMapping("notice_event")
@@ -45,27 +42,21 @@ public class User_noticeController {
         String category = "notice_event";
         List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
         model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_event";
+        return "/admin/user_notice/notice_event";
     }
-
-    @GetMapping("notice_fullview")
-    public String notice_fullview(Model model){
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAllAdminBoards();
-        model.addAttribute("adminBoards",adminBoards);
-
-        return "admin/user_notice/notice_fullview";
-
-
-    }
-
 
     @GetMapping("notice_notice")
     public String notice_notice(Model model) {
         String category = "notice_notice";
         List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
         model.addAttribute("adminBoards", adminBoards);
+        return "/admin/user_notice/notice_notice";
+    }
 
-        return "admin/user_notice/notice_notice";
+    @GetMapping("notice_fullview")
+    public String notice_fullview(Model model){
+        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAllAdminBoards();
+        model.addAttribute("adminBoards",adminBoards);
+        return "/admin/user_notice/notice_fullview";
     }
 }
