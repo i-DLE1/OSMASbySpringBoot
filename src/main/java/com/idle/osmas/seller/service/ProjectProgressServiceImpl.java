@@ -29,12 +29,10 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
     public ProjectProgressDTO progressLastStatusById(int projectNo, ProjectProgressStatus status) {
         ProjectProgressDTO lastPorjectStatus = projectProgressMapper.progressLastStatusById(projectNo, status);
 
-        System.out.println("lastPorejctStatus = " + lastPorjectStatus);
-
         if(lastPorjectStatus.getStatus().equals(ProjectProgressStatus.REJECTED)){
             return projectProgressMapper.progressLastStatusById(projectNo, status) ;
         }else {
-            return null;
+            return lastPorjectStatus;
         }
     }
 

@@ -3,6 +3,8 @@ package com.idle.osmas.seller.controller;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
+import com.idle.osmas.seller.service.ProjectFileService;
+import com.idle.osmas.seller.service.ProjectService;
 import com.idle.osmas.seller.service.RegistProjectService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
@@ -32,11 +34,17 @@ public class ImageFileController {
     @Value("${customSaveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
 
-    public ImageFileController(RegistProjectService registProjectService) {
-        this.registProjectService = registProjectService;
-    }
-
     private final RegistProjectService registProjectService;
+
+    private final ProjectService projectService;
+
+    private final ProjectFileService projectFileService;
+
+    public ImageFileController(RegistProjectService registProjectService, ProjectService projectService, ProjectFileService projectFileService) {
+        this.registProjectService = registProjectService;
+        this.projectService = projectService;
+        this.projectFileService = projectFileService;
+    }
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -57,8 +65,8 @@ public class ImageFileController {
 
             int result = 0;
 
-            Integer projectNo = registProjectService.selectTemporaryProjectNoByUserId("admin01");
-            result = registProjectService.insertProjectFile(fileType,originFileName,savedFileName,"N",projectNo);
+            Integer projectNo = projectService.selectTemporaryProjectNoByUserId("admin01");
+            result = projectFileService.insertProjectFile(fileType,originFileName,savedFileName,"N",projectNo);
 
             if (result > 0){
                 log.info("파일이 정상으로 저장 됐습니다.");
@@ -73,7 +81,7 @@ public class ImageFileController {
     @GetMapping(value = "/seller/project/{file}")
     public ResponseEntity<?> fileLoads(@PathVariable String file) {
 
-        ProjectFileDTO projectFile =  registProjectService.selectByProjectSaveFileName(file, 53);
+        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file, 53);
 
         Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
         log.info("saveFile"+ saveFile.toString());

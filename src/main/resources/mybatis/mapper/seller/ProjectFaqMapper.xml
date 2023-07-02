@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectFAQMapper">
+
+    <resultMap id="projectFAQResultMap" type="com.idle.osmas.seller.dto.ProjectFAQDTO">
+        <id property="no" column="TBL_PRJ_FAQ_NO"/>
+        <result property="projectNo" column="TBL_PRJ_FAQ_REF_PRJ_NO"/>
+        <result property="title" column="TBL_PRJ_FAQ_TITLE"/>
+        <result property="content" column="TBL_PRJ_FAQ_CONTENT"/>
+        <result property="registDate" column="TBL_PRJ_FAQ_REGIST_DATE"/>
+    </resultMap>
+
+    <select id="selectProjectFaqByProjectNo" resultMap="projectFAQResultMap">
+        SELECT TPF.NO AS TBL_PRJ_FAQ_NO,
+               TPF.REF_PRJ_NO AS TBL_PRJ_FAQ_REF_PRJ_NO,
+               TPF.TITLE AS TBL_PRJ_FAQ_TITLE,
+               TPF.CONTENT AS TBL_PRJ_FAQ_CONTENT,
+               TPF.REGIST_DATE AS TBL_PRJ_FAQ_REGIST_DATE
+        FROM TBL_PRJ_FAQ TPF
+        WHERE TPF.REF_PRJ_NO = #{projectNo}
+    </select>
+
+    <insert id="insertProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
+        INSERT INTO TBL_PRJ_FAQ TPF
+        (TPF.NO, TPF.REF_PRJ_NO, TPF.TITLE,
+         TPF.CONTENT, TPF.REGIST_DATE)
+        VALUES
+            (SEQ_TBL_PRJ_FAQ_NO.nextval, #{projectRefNo}, #{projectFaq.title},
+             #{projectFaq.content}, SYSDATE)
+    </insert>
+
+    <update id="updateProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
+        UPDATE TBL_PRJ_FAQ TPF
+        SET TPF.CONTENT = #{content},
+            TPF.TITLE = #{title}
+        WHERE TPF.NO = ${no}
+    </update>
+
+    <delete id="deleteProjectFAQ" parameterType="_int">
+        DELETE TBL_PRJ_FAQ
+        WHERE NO = #{no}
+    </delete>
+
+    <delete id="deleteProjectFaqByProjectNo">
+            DELETE TBL_PRJ_FAQ TPF
+            WHERE TPF.REF_PRJ_NO = #{projectNo}
+    </delete>
+</mapper>

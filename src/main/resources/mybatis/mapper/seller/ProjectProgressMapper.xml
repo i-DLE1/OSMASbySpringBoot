@@ -34,4 +34,8 @@
             (SEQ_TBL_PRJ_PROGRESS_NO.nextval, SYSDATE, #{status}, #{content}, #{refProjectNo})
     </insert>
 
+    <delete id="deleteProjectProgressByProjectNo">
+        DELETE TBL_PRJ_PROGRESS TPP
+        WHERE TPP.NO = #{projectNo}
+    </delete>
 </mapper>

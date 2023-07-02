@@ -3,14 +3,11 @@ package com.idle.osmas.seller.controller;
 import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.MemberDTO;
 import com.idle.osmas.seller.dto.*;
-import com.idle.osmas.seller.service.ProjectProgressService;
-import com.idle.osmas.seller.service.RegistProjectService;
+import com.idle.osmas.seller.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
@@ -25,7 +22,18 @@ public class RegistProjectController {
 
     private final RegistProjectService registProjectService;
 
+    private final ProjectService projectService;
+
     private final ProjectProgressService projectProgressService;
+
+    private final ProductService productService;
+
+    private final ProjectFileService projectFileService;
+
+    private final ProjectCategoryService projectCategoryService;
+    private final ProjectFAQService projectFAQService;
+
+    private final ProjectNewsService projectNewsService;
 
     private final ImageFileController imageFileController;
 
@@ -33,9 +41,15 @@ public class RegistProjectController {
 
     private final DecimalFormat moneyStringFormat = new DecimalFormat("###,###");
 
-    public RegistProjectController(RegistProjectService registProjectService, ProjectProgressService projectProgressService, ImageFileController imageFileController) {
+    public RegistProjectController(RegistProjectService registProjectService, ProjectService projectService, ProjectProgressService projectProgressService, ProductService productService, ProjectFileService projectFileService, ProjectCategoryService projectCategoryService, ProjectFAQService projectFAQService, ProjectNewsService projectNewsService, ImageFileController imageFileController) {
         this.registProjectService = registProjectService;
+        this.projectService = projectService;
         this.projectProgressService = projectProgressService;
+        this.productService = productService;
+        this.projectFileService = projectFileService;
+        this.projectCategoryService = projectCategoryService;
+        this.projectFAQService = projectFAQService;
+        this.projectNewsService = projectNewsService;
         this.imageFileController = imageFileController;
     }
 
@@ -43,7 +57,7 @@ public class RegistProjectController {
     @ResponseBody
     public List<CategoryDTO> getSubCategory(@RequestParam Integer mainCategoryCode){
 
-        List<CategoryDTO> subCategory = registProjectService.selectByCategoryType(mainCategoryCode);
+        List<CategoryDTO> subCategory = projectCategoryService.selectByCategoryType(mainCategoryCode);
         log.info("subCategory = " + subCategory);
         return subCategory;
     }
@@ -52,7 +66,7 @@ public class RegistProjectController {
     public String getProjectTerms(@RequestParam(required = false) Integer no, Model model, Principal principal){
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         String term1 = "약관1";
@@ -74,38 +88,37 @@ public class RegistProjectController {
     }
     @PostMapping("project1")
     @ResponseBody
-    public String postProjectTerms(Model model
-            , @RequestParam boolean check1, @RequestParam boolean check2, Principal principal) throws AccessAuthorityException {
+    public String postProjectTerms(@RequestParam boolean check1, @RequestParam boolean check2,
+                                   @RequestParam(required = false) Integer no,
+                                   Principal principal) throws AccessAuthorityException {
 
-        String result = "";
+        if(!(check1 && check2)) return "fail";
+        if(no == null) {
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
+        }
+        if(no != null) return "success";
 
-        if(check1 && check2){
-            MemberDTO member = new MemberDTO();
+        MemberDTO member = new MemberDTO();
 //            member.setNo(registProjectService.selectMemberNoById(principal.getName()));
 
-            int memberNo = registProjectService.selectMemberNoById("admin01");
+        int memberNo = registProjectService.selectMemberNoById("admin01");
 
-            member.setNo(memberNo);
+        member.setNo(memberNo);
 
-            System.out.println("member = " + member);
-            ProjectDTO tempProject;
-            tempProject = ProjectDTO.builder()
-                    .member(member)
-                    .build();
-            registProjectService.insertTemporaryProject(tempProject);
+        ProjectDTO tempProject;
+        tempProject = ProjectDTO.builder()
+                .member(member)
+                .build();
+        projectService.insertTemporaryProject(tempProject);
 
-            projectProgressService.insertProjectProgressStatus(
-                    ProjectProgressDTO.builder()
-                            .content("")
-                            .status(ProjectProgressStatus.TEMPORARY)
-                            .refProjectNo(tempProject.getNo())
-                            .build());
-            result = "success";
-        }else{
-            result = "fail";
-        }
+        projectProgressService.insertProjectProgressStatus(
+                ProjectProgressDTO.builder()
+                        .content("")
+                        .status(ProjectProgressStatus.TEMPORARY)
+                        .refProjectNo(tempProject.getNo())
+                        .build());
 
-        return result;
+        return "success";
     }
 
     @GetMapping("project2")
@@ -113,18 +126,18 @@ public class RegistProjectController {
 
         System.out.println("principal = " + principal);
 
-        List<CategoryDTO> categoryList = registProjectService.selectByCategoryType(null);
+        List<CategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         ProjectDTO project = null;
 
         if(no != null) {
 //            ProjectDTO project = registProjectService.selectProjectInfoByProjectNo(no,principal.getName());
-            project = registProjectService.selectProjectInfoByProjectNo(no,"admin01");
+            project = projectService.selectProjectInfoByProjectNo(no,"admin01");
         }
 
         if(project == null ) throw new AccessAuthorityException("접근 권한이 없습니다.");
@@ -137,7 +150,7 @@ public class RegistProjectController {
 
     @PostMapping(value = "project2")
     @ResponseBody
-    public String postProjectIRegist(@RequestBody ProjectDTO project, Model model,Principal principal){
+    public String postProjectIRegist(@RequestBody ProjectDTO project, Integer no, Principal principal){
 
         System.out.println("principal = " + principal);
         if (project == null) return "fail";
@@ -154,8 +167,13 @@ public class RegistProjectController {
         if (category == null) return "fail";
         if (targetAmount == null || targetAmount < 100000 ) return "fail";
 
-        project.setProjectProgress(ProjectProgressDTO.builder().status(ProjectProgressStatus.TEMPORARY).build());
-        registProjectService.insertProject(project);
+        if(no == null){
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
+            project.setProjectProgress(ProjectProgressDTO.builder().status(ProjectProgressStatus.TEMPORARY).build());
+        }
+        project.setNo(no);
+
+        projectService.updateProjectInfo(project);
 
         return "success";
     }
@@ -167,12 +185,12 @@ public class RegistProjectController {
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         if(no != null) {
 //            project = registProjectService.selectProjectByProjectNo(no.get(), principal.getName());
-            existProject = registProjectService.existProjectByProjectNo(no, "admin01") ;
+            existProject = projectService.existProjectByProjectNo(no, "admin01") ;
         }
 
         if (!existProject) throw new AccessAuthorityException("수정할 프로젝트가 존재하지 않습니다.");
@@ -184,10 +202,10 @@ public class RegistProjectController {
     @ResponseBody
     public List<ProductDTO> getProjectProductData(@RequestParam(required = false) Integer no){
         if(no == null){
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
         List<ProductDTO> productList = new ArrayList<>();
-        productList = registProjectService.selectProductListByProjectNo(no,null);
+        productList = productService.selectProductListByProjectNo(no,null);
         if(productList.size() == 0){
             productList.add(ProductDTO.builder().no(0).name("").introduction("").size("").build());
         }
@@ -197,7 +215,7 @@ public class RegistProjectController {
     @ResponseBody
     public List<ProjectFileDTO> getProjectImg(@RequestParam(required = false) Integer no){
         if(no == null){
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         if(no == null){
@@ -205,7 +223,7 @@ public class RegistProjectController {
             templist.add(ProjectFileDTO.builder().build());
             return templist;
         }else {
-            return registProjectService.selectProjectFileListByProjectNo(no,null);
+            return projectFileService.selectProjectFileListByProjectNo(no,null);
         }
     }
 
@@ -219,7 +237,7 @@ public class RegistProjectController {
 
         if(no == null) {
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         if(no == null) return "fail";
@@ -229,9 +247,9 @@ public class RegistProjectController {
                         .stream().noneMatch(newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
 
-        registProjectService.deleteProjectProduct(deleteProductList);
+        productService.deleteProjectProduct(deleteProductList);
 //        registProjectService.insertProjectProduct(productList.get("new"),principal.getName(),no);
-        registProjectService.insertProjectProduct(productList.get("new"),"admin01",no);
+        productService.insertProjectProduct(productList.get("new"),"admin01",no);
 
         try {
             imageFileController.registFile(ProjectFileType.REPRESENT, presentFile);
@@ -254,13 +272,13 @@ public class RegistProjectController {
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         ProjectDTO project = null;
         if(no != null){
 //        ProjectDTO project = registProjectService.selectProjectInfoByProjectNo(no,principal.getName());
-        project = registProjectService.selectProjectInfoByProjectNo(no,null);
+        project = projectService.selectProjectInfoByProjectNo(no,null);
         }
 
         if (project == null) throw new AccessAuthorityException("등록중인 프로젝트가 없습니다.");
@@ -276,12 +294,12 @@ public class RegistProjectController {
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         if(no == null) return "fail";
 
-        registProjectService.updateProjectContent(project, no);
+        projectService.updateProjectContent(no, project);
         return "success";
     }
 
@@ -289,13 +307,13 @@ public class RegistProjectController {
     public String getProjectFAQ(@RequestParam(required = false) Integer no, Principal principal) throws AccessAuthorityException {
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
         boolean existProject = false;
 
         if(no != null){
 //            project = registProjectService.selectProjectByProjectNo(no,principal.getName());
-            existProject = registProjectService.existProjectByProjectNo(no,"amdin01");
+            existProject = projectService.existProjectByProjectNo(no,"admin01");
         }
 
         if(!existProject) throw new AccessAuthorityException("수정가는 한 프로젝트가 존재하지 않습니다.");
@@ -308,14 +326,14 @@ public class RegistProjectController {
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
         if(no == null){
             List<ProjectFAQDTO> tempProjectFaqList = new ArrayList<>();
             tempProjectFaqList.add(ProjectFAQDTO.builder().no(0).content("").title("").build());
             return tempProjectFaqList;
         }
-        return registProjectService.selectProjectFaqByProjectNo(no,null);
+        return projectFAQService.selectProjectFaqByProjectNo(no,null);
     }
 
 
@@ -325,16 +343,16 @@ public class RegistProjectController {
                                  @RequestParam(required = false) Integer no, Principal principal){
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         if(no == null) return "fail";
 
         for (ProjectFAQDTO e : projectFAQList.get("new")) {
             if (e.getNo() == 0) {
-                registProjectService.insertProjectFAQ(no, e);
+                projectFAQService.insertProjectFAQ(no, e);
             } else {
-                registProjectService.updateProjectFAQ(e);
+                projectFAQService.updateProjectFAQ(e);
             }
         }
 
@@ -344,7 +362,7 @@ public class RegistProjectController {
                 .collect(Collectors.toList());
         log.info("deleteProjectFaq = " + deleteProjectFaq);
 
-        if(deleteProjectFaq.size() != 0 ) registProjectService.deleteProjectFAQ(deleteProjectFaq);
+        if(deleteProjectFaq.size() != 0 ) projectFAQService.deleteProjectFAQ(deleteProjectFaq);
 
         log.info("projectFAQList = " + projectFAQList);
 
@@ -358,14 +376,14 @@ public class RegistProjectController {
                                  Model model, Principal principal) throws AccessAuthorityException {
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
         boolean existProject = false;
 
         if(no != null){
 //            existProject = registProjectService.existProjectByProjectNo(no, principal.getName());
-            existProject = registProjectService.existProjectByProjectNo(no, "admin01");
+            existProject = projectService.existProjectByProjectNo(no, "admin01");
         }
 
         if(!existProject) throw new AccessAuthorityException("등록 및 수정 가능한 프로젝트가 없습니다");
@@ -379,10 +397,10 @@ public class RegistProjectController {
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
-        List<ProjectNewsDTO> projectNewsList= registProjectService.selectProjectNewsListByProjectNo(no,null);
+        List<ProjectNewsDTO> projectNewsList= projectNewsService.selectProjectNewsListByProjectNo(no,null);
 
         if(projectNewsList.size() == 0) return projectNewsList;
 
@@ -401,14 +419,14 @@ public class RegistProjectController {
     @GetMapping("projectNews")
     @ResponseBody
     public ProjectNewsDTO ProjectNews(Integer no){
-        return registProjectService.selectProjectNewsByProjectNewsNo(no,null);
+        return projectNewsService.selectProjectNewsByProjectNewsNo(no,null);
     }
 
     @GetMapping("deleteProjectNews")
     @ResponseBody
     public String deletePojectNews(Integer no){
 
-        int result = registProjectService.deleteProjectNews(no);
+        int result = projectNewsService.deleteProjectNews(no);
 
         if(result > 0) return "success";
 
@@ -418,7 +436,7 @@ public class RegistProjectController {
     @PostMapping("modifyProjectNews")
     @ResponseBody
     public String modifyPojectNews(@RequestBody  ProjectNewsDTO projectNews){
-        int result = registProjectService.updateProjectNews(projectNews);
+        int result = projectNewsService.updateProjectNews(projectNews);
 
         if(result > 0) return "success";
 
@@ -433,10 +451,10 @@ public class RegistProjectController {
         System.out.println("principal = " + principal);
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
-        int result = registProjectService.insertProjectNews(no, projectNewsDTO);
+        int result = projectNewsService.insertProjectNews(no, projectNewsDTO);
 
         if(result > 0) return "success";
 
@@ -446,14 +464,13 @@ public class RegistProjectController {
     @GetMapping("project7")
     public String getProjectInfo(@RequestParam(required = false) Integer no,
                                  Model model){
-//        System.out.println("principal = " + principal);
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
-            no = registProjectService.selectTemporaryProjectNoByUserId("admin01");
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
 
 
-        ProjectDTO project = registProjectService.selectProjectByProjectNo(no,null);
+        ProjectDTO project = projectService.selectProjectByProjectNo(no,null);
 
         String afterString = project.getContent()
                 .replaceAll("<([^>]+)>", "")
@@ -468,8 +485,16 @@ public class RegistProjectController {
 
     @GetMapping("projectRegist")
     @ResponseBody
-    public String projectRegist(@RequestParam int no, Model model){
+    public String projectRegist(@RequestParam(required = false) Integer no){
         System.out.println("no = " + no);
+
+        if(no==null){
+            no = projectService.selectTemporaryProjectNoByUserId("admin01");
+        }
+
+        ProjectProgressDTO currentProjectProgress = projectProgressService.progressLastStatusById(no,null);
+        System.out.println("currentProjectProgress = " + currentProjectProgress);
+        if(!currentProjectProgress.getStatus().equals(ProjectProgressStatus.TEMPORARY)) return "success";
 
         ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
@@ -477,7 +502,7 @@ public class RegistProjectController {
                 .status(ProjectProgressStatus.SCREENING).content("심사요청").build();
 
         projectProgressService.insertProjectProgressStatus(projectProgress);
-        // proejct 상태 변경
+
         return "success";
     }
 

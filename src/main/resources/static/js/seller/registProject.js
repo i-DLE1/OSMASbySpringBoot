@@ -16,18 +16,6 @@ function removeItemButton(funcName){
     return $("<div>").append($div).html();
 }
 
-function fqaLoadDummy() {
-    let data = [
-        {title : "1", content:"2"},
-        {title : "타이틀2", content:"내용물 222"},
-        {title : "타이틀3", content:"내용물 333"},
-        {title : "타이틀4", content:"내용물 444"},
-        {title : "타이틀5", content:"내용물 555"},
-    ];
-
-    fqaLoadList(data);
-}
-
 function faqAddSubItem(faqListCount) {
     const elementText = removeItemButton("faqItemRemove");
     $(`#faqSubIndex${faqListCount-1}`).addClass("add-item-faq-col-2")
@@ -163,16 +151,7 @@ $("#productAdd").click(function (){
                         <div class="col-2">
                             <label for="count" class="sub-title">수량</label>
                             <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity">
-<!--                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity${productCount}">-->
                         </div>
-<!--                        <div class="col-3">-->
-<!--                            <label for="shippingStart" class="sub-title">배송시작</label>-->
-<!--                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}">-->
-<!--                        </div>-->
-<!--                        <div class="col-3">-->
-<!--                            <label for="shippingFee" class="sub-title">배송비</label>-->
-<!--                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}">-->
-<!--                        </div>-->
                     </div>
                 </div>
                 ${removeItemButton("productItemRemove")}
@@ -184,39 +163,6 @@ $("#productAdd").click(function (){
     $("#productList").append(text);
     productCount++;
 })
-//
-// function newsListDummy() {
-//     let data = [
-//         {title:"title1", body:"body11111",startDate:"2023-01-01",endDate:"2032-10-10"},
-//         {title:"title2", body:"body22222",startDate:"2023-02-01",endDate:"2032-10-10"},
-//         {title:"title3", body:"body33333",startDate:"2023-03-01",endDate:"2032-10-10"},
-//         {title:"title4", body:"body44444",startDate:"2023-04-01",endDate:"2032-10-10"},
-//     ];
-//     newsList(data);
-// }
-//
-// function productInfoListDummy() {
-//     let data = [
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//         {title : "어쩌구 저쩌구", size:"70", money:"200,000", count:12},
-//     ];
-//     productInfoList(data);
-// }
-//
-// function productItemDummy() {
-//     let data = [
-//         {name : "상품명1", size:"150", maxQuantity : 1, price:10000, introduction: "상세내용1", status:"NOT_AVAILABLE"},
-//         {name : "상품명2", size:"160", maxQuantity : 2, price:1000, introduction: "상세내용2", status:"AVAILABLE"},
-//         {name : "상품명3", size:"200", maxQuantity : 3, price:100, introduction: "상세내용3", status:"NOT_AVAILABLE"},
-//         {name : "상품명4", size:"70", maxQuantity : 4, price:1000, introduction: "상세내용4", status:"AVAILABLE"},
-//         {name : "상품명5", size:"75", maxQuantity : 5, price:20000, introduction: "상세내용5", status:"NOT_AVAILABLE"},
-//     ];
-//     productItemLoad(data);
-// }
 
 function productItemRemove(){
     productCount--;
@@ -245,25 +191,21 @@ function productItemLoad(data){
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
                             <input class="w-100 input-box" type="text" id="name${productCount}" name="name" value=${item.name}>
-<!--                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name${productCount}" value=${item.name}>-->
                         </div>
                         <div class="col-4">
                             <label class="sub-title" for="size">사이즈</label>
                             <input class="w-100 input-box" type="text" id="size${productCount}" name="size" value=${item.size}>
-<!--                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}" value=${item.size}>-->
                         </div>
                         
                         <div class="col-3">
                             <label for="price" class="sub-title">금액</label>
                             <input class="w-100 input-box" type="number" id="price${productCount}" name="price" value=${item.price}>
-<!--                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price${productCount}" value=${item.price}>-->
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label for="introduction" class="sub-title">설명</label>
                             <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction" value=${item.introduction}>
-<!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}" value=${item.body}>-->
                         </div>
                         <div class="col-2">
                             <label for="status" class="sub-title">상품선택</label>
@@ -275,16 +217,7 @@ function productItemLoad(data){
                         <div class="col-2">
                             <label for="maxQuantity" class="sub-title">수량</label>
                             <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity" value=${item.maxQuantity}>
-<!--                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity${productCount}" value=${item.count}>-->
                         </div>
-<!--                        <div class="col-3">-->
-<!--                            <label for="shippingStart" class="sub-title">배송시작</label>-->
-<!--                            <input class="w-100 input-box" type="date" id="shippingStart${productCount}" name="shippingStart${productCount}" value=${item.shippingStart}>-->
-<!--                        </div>-->
-<!--                        <div class="col-3">-->
-<!--                            <label for="shippingFee" class="sub-title">배송비</label>-->
-<!--                            <input class="w-100 input-box" type="number" id="shippingFee${productCount}" name="shippingFee${productCount}" value=${item.shppingFee}>-->
-<!--                        </div>-->
                     </div>
                 </div>
                 
@@ -362,24 +295,6 @@ function newsList(data){
         $("#newsList").append($tr);
     });
 }
-
-// 타임리프 대체 예정
-function productInfoList(data) {
-    data.forEach((item,index)=>{
-        let $tr = $(`<tr>`);
-        $tr.addClass("row")
-            .append($(`<th>`).addClass( "col-1").text("상품명"))
-            .append($(`<td>`).addClass( "col").text(item.title))
-            .append($(`<th>`).addClass( "col-1").text("사이즈"))
-            .append($(`<td>`).addClass( "col").text(item.size))
-            .append($(`<th>`).addClass( "col-2").text("가격(원)"))
-            .append($(`<td>`).addClass( "col").text(item.money))
-            .append($(`<th>`).addClass( "col-1").text("수량"))
-            .append($(`<td>`).addClass( "col-1").text(item.count));
-        $("#projectEndList").append($tr);
-    })
-}
-
 
 const suneditor = (minHeight, maxHeight) => {
     SUNEDITOR.create('content', {
@@ -585,6 +500,7 @@ function indexCheckConfirm() {
 }
 
 function projectInitRegist(temporary) {
+    let no = new URLSearchParams(location.search).get('no')
     let title = $("#title").val()
     let subTitle = $("#content").val()
     let startDate = $("#startDate").val()
@@ -594,7 +510,7 @@ function projectInitRegist(temporary) {
     let category = {no : subCategoryCode};
 
     $.ajax({
-        url : '/seller/regist/project2',
+        url : '/seller/regist/project2' + (no === null ?  '' : `?no=${no}`),
         contentType : 'application/json; charset=utf-8;',
         data : JSON.stringify({title,subTitle,startDate,endDate,targetAmount,category }),
         type : 'post',
@@ -603,7 +519,7 @@ function projectInitRegist(temporary) {
                 if(temporary){
                     alert("임시저장이 완료 됐습니다.")
                 }else {
-                    let no = new URLSearchParams(location.search).get('no')
+
                     location.href='/seller/regist/project3' + (no === null ?  '' : `?no=${no}`);
                 }
             }else {
@@ -616,8 +532,6 @@ function projectInitRegist(temporary) {
 
     })
 }
-
-
 
 // temporary : boolean
 function registProject3(temporary) {

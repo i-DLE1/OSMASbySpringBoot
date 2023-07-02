@@ -10,13 +10,15 @@ import java.util.List;
 @Mapper
 public interface ProjectFileMapper {
 
-    List<ProjectFileDTO> selectAllProjectFile(int projectNo);
+    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId);
 
-    List<ProjectFileDTO> selectByType(int projectNo, ProjectFileType projectFileType);
+    int insertProjectFile(ProjectFileType fileType, String originFile,
+                          String savedFile, String deleteYN,
+                          int projectNo);
 
-    int insertProjectFile(ProjectFileDTO projectFile);
+    ProjectFileDTO selectByProjectSaveFileName(String saveFileName, int projectNo);
 
-
+    int deleteProjectFilesByProjectNo(int projectNo);
 
 
 }

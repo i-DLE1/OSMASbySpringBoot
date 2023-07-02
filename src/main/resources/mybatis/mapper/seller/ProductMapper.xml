@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProductMapper">
+    <resultMap id="productListResultMap" type="com.idle.osmas.seller.dto.ProductDTO">
+        <id property="no" column="TBL_PRODUCT_NO"/>
+        <result property="name" column="TBL_PRODUCT_NAME"/>
+        <result property="introduction" column="TBL_PRODUCT_INTRODUCTION"/>
+        <result property="price" column="TBL_PRODUCT_PRICE"/>
+        <result property="maxQuantity" column="TBL_PRODUCT_MAX_QUANTITY"/>
+        <result property="status" column="TBL_PRODUCT_STATUS"/>
+        <result property="size" column="TBL_PRODUCT_PRODUCT_SIZE"/>
+    </resultMap>
+
+    <select id="selectProductListByProjectNo" resultMap="productListResultMap">
+        SELECT TP.NO AS TBL_PRODUCT_NO,
+               TP.NAME AS TBL_PRODUCT_NAME,
+               TP.INTRODUCTION AS TBL_PRODUCT_INTRODUCTION,
+               TP.PRICE AS TBL_PRODUCT_PRICE,
+               TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
+               TP.STATUS AS TBL_PRODUCT_STATUS,
+               TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE
+          FROM TBL_PRODUCT TP
+          JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRODUCT_NO = TP.NO
+         WHERE REF_PRJ_NO = ${projectNo}
+    </select>
+
+<!--    <select id="selectProjectProduct" parameterType="_int" resultMap="productListResultMap">-->
+<!--        SELECT TP.NO AS TBL_PRODUCT_NO,-->
+<!--               TP.NAME AS TBL_PRODUCT_NAME,-->
+<!--               TP.INTRODUCTION AS TBL_PRODUCT_INTRODUCTION,-->
+<!--               TP.PRICE AS TBL_PRODUCT_PRICE,-->
+<!--               TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,-->
+<!--               TP.STATUS AS TBL_PRODUCT_STATUS,-->
+<!--               TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE-->
+<!--          FROM TBL_PRODUCT TP-->
+<!--         WHERE TP.NO = ${productNo}-->
+<!--    </select>-->
+
+    <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO TBL_PRODUCT TP
+        (TP.NO, TP.NAME, TP.INTRODUCTION,
+        TP.PRICE, TP.MAX_QUANTITY, TP.STATUS,
+        TP.PRODUCT_SIZE)
+        VALUES
+        (SEQ_TBL_PRODUCT_NO.nextval, '${name}', '${introduction}',
+        ${price}, ${maxQuantity}, '${status}',
+        '${size}')
+        <selectKey resultType="_int" order="AFTER" keyProperty="no">
+            SELECT SEQ_TBL_PRODUCT_NO.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertProjectProductList">
+        INSERT INTO TBL_PRJ_PRODUCT_LIST TPPL
+            (TPPL.NO, TPPL.REF_PRJ_NO, TPPL.REF_PRODUCT_NO)
+        VALUES
+            (SEQ_TBL_PRJ_PRODUCT_LIST_NO.nextval,#{projectNo},#{productNo})
+    </insert>
+
+    <update id="updateProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
+        UPDATE TBL_PRODUCT TP
+        SET TP.NAME = '${name}',
+            TP.INTRODUCTION = '${introduction}',
+            TP.PRICE = ${price},
+            TP.MAX_QUANTITY =${maxQuantity},
+            TP.STATUS = '${status}',
+            TP.PRODUCT_SIZE ='${size}'
+        WHERE TP.NO = ${no}
+    </update>
+
+    <delete id="deleteProjectProductList" parameterType="_int">
+        DELETE TBL_PRJ_PRODUCT_LIST TPPL
+         WHERE TPPL.REF_PRODUCT_NO = #{productNo}
+    </delete>
+
+    <delete id="deleteProductListByProjectNo">
+        DELETE TBL_PRJ_PRODUCT_LIST TPPL
+         WHERE TPPL.REF_PRJ_NO = #{projectNo}
+    </delete>
+    <delete id="deleteProductByProductNo">
+        DELETE TBL_PRODUCT TP
+         WHERE TP.NO = #{productNo}
+    </delete>
+</mapper>
