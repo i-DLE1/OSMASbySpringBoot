@@ -2,6 +2,9 @@ package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dto.ProjectDTO;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ProjectService {
     Integer selectTemporaryProjectNoByUserId(String userId);
 
@@ -10,6 +13,8 @@ public interface ProjectService {
     ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId);
 
     ProjectDTO selectProjectByProjectNo(int projectNo, String userId);
+
+    List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);
 
     int insertTemporaryProject(ProjectDTO project);
 

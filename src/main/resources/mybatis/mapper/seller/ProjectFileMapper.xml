@@ -19,19 +19,18 @@
                TPF.TYPE AS TBL_PRJ_FILE_TYPE,
                TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
                TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
-        FROM TBL_PRJ_FILE TPF
-        WHERE REF_PRJ_NO = ${projectNo}
-           OR TPF.DELETE_YN = 'N'
+          FROM TBL_PRJ_FILE TPF
+         WHERE REF_PRJ_NO = ${projectNo}
+           AND TPF.DELETE_YN = 'N'
     </select>
 
     <select id="selectByProjectSaveFileName" resultMap="projectFileResultMap">
         SELECT TPF.TYPE AS TBL_PRJ_FILE_TYPE,
                TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
                TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
-        FROM TBL_PRJ_FILE TPF
-        WHERE TPF.REF_PRJ_NO = '${projectNo}'
-          AND TPF.DELETE_YN ='N'
-          AND TPF.CHANGE_NAME = '${saveFileName}'
+          FROM TBL_PRJ_FILE TPF
+         WHERE TPF.DELETE_YN ='N'
+           AND TPF.CHANGE_NAME = '${saveFileName}'
     </select>
 
     <insert id="insertProjectFile" >

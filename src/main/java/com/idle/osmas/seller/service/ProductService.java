@@ -10,7 +10,7 @@ public interface ProductService {
 
     int deleteProductByProductNo(int productNo);
 
-    int insertProjectProduct(List<ProductDTO> productList, String userId, int projectNo);
+    int insertProjectProduct(List<ProductDTO> productList, int projectNo);
 
     int deleteProjectProduct(List<ProductDTO> productList);
 

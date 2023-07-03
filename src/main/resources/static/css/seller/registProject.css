@@ -218,10 +218,19 @@ body {
 }
 
 .select-box{
-    width: 150px;
-    height: 40px;
+    width: 170px;
+    padding: 10px;
+    margin: 0 20px 0 0;
     text-align: center;
-    margin: 0 50px 0 0;
+    appearance: none;
+    outline-style: none;
+    border: 1px solid rgba(0, 0, 0, 0.3) ;
+    border-radius: 3px;
+}
+
+.select-box:focus{
+    border: 2px solid #C49A6C;
+    border-radius: 3px;
 }
 
 .cus-button {

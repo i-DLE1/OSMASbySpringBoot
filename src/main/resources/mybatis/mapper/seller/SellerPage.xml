@@ -254,9 +254,9 @@
         UPDATE TBL_PRJ_QNA_ANSWER TPQA
            SET TPQA.CONTENT = #{content}
          WHERE TPQA.NO = (SELECT TPQA2.NO
-                           FROM TBL_PRJ_QNA_ANSWER TPQA2
-                           JOIN TBL_PRJ_QNA TPQ ON TPQ.NO = TPQA2.PRJ_QNA_CODE
-                          WHERE TPQ.NO = #{no})
+                            FROM TBL_PRJ_QNA_ANSWER TPQA2
+                            JOIN TBL_PRJ_QNA TPQ ON TPQ.NO = TPQA2.PRJ_QNA_CODE
+                           WHERE TPQ.NO = #{no})
     </update>
 
     <select id="selectByProjectId" resultMap="projectResultMap" parameterType="_int">
@@ -270,10 +270,11 @@
                TPP2.CONTENT AS TBL_PRJ_PROGRESS_CONTENT
           FROM TBL_PRJ PRJ
           JOIN (SELECT *
-          FROM TBL_PRJ_PROGRESS
-         WHERE NO IN (SELECT MAX(REF_PRJ_NO) AS REF_PRJ_NO
-                       FROM TBL_PRJ_PROGRESS
-                      GROUP BY REF_PRJ_NO)) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+                  FROM TBL_PRJ_PROGRESS
+                 WHERE NO IN (SELECT MAX(NO) AS REF_PRJ_NO
+                                FROM TBL_PRJ_PROGRESS
+                                GROUP BY REF_PRJ_NO)
+         ) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
            AND PRJ.NO = ${no}
     </select>
 

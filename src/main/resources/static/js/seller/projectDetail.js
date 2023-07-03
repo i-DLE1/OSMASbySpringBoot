@@ -70,9 +70,9 @@ function qaAnswerSubmit(submitType) {
 
 function projectRetrySubmit(){
     const content = $("#retry-body").val();
-    const queryStr = new URLSearchParams(location.search);
+    const no = new URLSearchParams(location.search).get('no');
     $.ajax({
-        url : `seller/projectDetail/retry?id=${queryStr}`,
+        url : `seller/projectDetail/retry?no=${no}`,
         type : "post",
         data : content,
         contentType: "application/json; charset=utf-8",

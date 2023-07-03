@@ -3,6 +3,9 @@ package com.idle.osmas.seller.dao;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface ProjectMapper {
 
@@ -13,6 +16,9 @@ public interface ProjectMapper {
     ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId);
 
     ProjectDTO selectProjectByProjectNo(int projectNo, String userId);
+
+
+    List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);
 
     int insertTemporaryProject(ProjectDTO projectDTO);
 

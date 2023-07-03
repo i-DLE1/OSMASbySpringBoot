@@ -1,55 +1,5 @@
 let projectListCount = 1;
 
-function customerProjectList(filter){
-    $("#customerProjectList").html("");
-    // 더미 데이터
-    let projectList = [
-        {id: 1, title : "title1",money:"100,100,000", currentMoney:"900,900",startDate:"2023-01-01",endDate:"2023-10-10",state:"진행중"},
-        {id: 2, title : "title2",money:"100,100,000", currentMoney:"900,900",startDate:"2023-01-01",endDate:"2023-10-10",state:"진행중"},
-        {id: 10, title : "title2",money:"100,100,000", currentMoney:"900,900",startDate:"2023-01-01",endDate:"2023-10-10",state:"진행중"},
-        {id: 15, title : "title3",money:"100,100,000", currentMoney:"900,900",startDate:"2023-01-01",endDate:"2023-10-10",state:"진행중"},
-    ];
-
-    projectList.forEach((item ,index)=>{
-        let $tr = $("<tr>").attr("id",item.id);
-        let $td = $("<td>");
-
-        let $inputStatics = $("<input>").addClass("cus-button")
-                                        .attr("value","통계")
-                                        .attr("type","button")
-                                        .attr("onclick",`popupStatics(${item.id})`);
-        $td.append($inputStatics);
-
-        let $inputModify = $("<input>").addClass("cus-button")
-                                        .attr("value","수정")
-                                        .attr("type","button")
-                                        .attr("onclick",`projectModify(${item.id})`);
-        $td.append($inputModify);
-
-        let $inputRetry = $("<input>").addClass("cus-button")
-                                        .attr("value","재심사")
-                                        .attr("type","button")
-                                        .attr("onclick",`popupRetry(${item.id})`);
-        $td.append($inputRetry);
-
-        let $inputCancel = $("<input>").addClass("cus-button")
-                                        .attr("value","취소")
-                                        .attr("type","button")
-                                        .attr("onclick",`popupCancel(${item.id})`);
-        $td.append($inputCancel);
-
-        $tr.append($("<th>").text(index+1));
-        $tr.append($("<td>").text(item.title));
-        $tr.append($("<td>").text(item.money));
-        $tr.append($("<td>").text(item.currentMoney));
-        $tr.append($("<td>").text(`${item.startDate} ~ ${item.endDate}`));
-        $tr.append($("<td>").text(item.state));
-        $tr.append($td);
-
-        $("#customerProjectList").append($tr);
-    })
-}
-
 function projectOrderList(filter){
     $("#projectOrderList").html("");
 
@@ -80,34 +30,6 @@ function projectOrderList(filter){
     })
 }
 
-function proejctQAList(filter){
-    $("#customerQAList").html("");
-
-    // 더미 데이터
-    let projectList = [
-        {id : 1,  title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-        {id : 8, title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-        {id : 12, title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-        {id : 20, title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-        {id : 100, title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-        {id : 12, title : "title2",  accountID : "홍길동", content : "내내용ㅇ요ㅐ요ㅐ애ㅛ애ㅛ내요내", phone:"010-1111-2222",option:"옵션1",money:"40,000",payment:"카드", createDate:"2023-01-23",state:"완료"},
-    ];
-    projectList.forEach((item,index)=>{
-        let $tr = $("<tr>").attr("onclick","qaPopup(this)").attr("id",`${item.id}`);
-        $tr.append($("<th>").text(index+1)); // 인덱스 번호
-        $tr.append($("<td>").text(item.title)); // 프로젝트명
-        $tr.append($("<td>").text(item.accountID)); // 작성자 아이디
-        $tr.append($("<td>").text(item.content)); // 내용 일부
-        $tr.append($("<td>").text(item.phone)); // 연락처
-        $tr.append($("<td>").text(item.option)); // 상품옵션
-        $tr.append($("<td>").text(item.money)); // 결제금액
-        $tr.append($("<td>").text(item.payment)); // 결제수단
-        $tr.append($("<td>").text(item.createDate)); // 생성날짜
-        $tr.append($("<td>").text(item.state)); // 상태
-        $("#customerQAList").append($tr);
-    })
-}
-
 // 화면 위치 시작
 const screenCenterPopup = (popupWidth, popupHeight) =>{
     const screenWidth = window.screen.width
@@ -125,7 +47,7 @@ function qaPopup(e){
 }
 
 function popupCancel(id) {
-    window.open(`./projectDetail/cancel?id=${id}`,"popup",`${screenCenterPopup(450, 650)}, resizable=no, name=projectCancel, location=no`);
+    window.open(`./projectDetail/cancel?no=${id}`,"popup",`${screenCenterPopup(450, 650)}, resizable=no, name=projectCancel, location=no`);
 }
 
 function popupStatics(id){
@@ -135,8 +57,8 @@ function popupStatics(id){
 function projectModify(id){
     window.open(`/seller/regist/project1?no=${id}`,"popup");
 }
-function popupRetry(id){
-    window.open(`./projectDetail/retry?id=${id}`,"popup",`${screenCenterPopup(500,600)}, resizable=no, name=projectRetry, location=no`);
+function popupRetry(no){
+    window.open(`./projectDetail/retry?no=${no}`,"popup",`${screenCenterPopup(500,600)}, resizable=no, name=projectRetry, location=no`);
 }
 function cancelTableDummyData(){
     let data =
@@ -310,11 +232,10 @@ function deleteProject(){
 
 function cancelSubmit() {
     let content = $("#cancel-content").val();
-    let id = new URLSearchParams(location.search).get('id');
-    console.log(id)
+    let no = new URLSearchParams(location.search).get('no');
 
     $.ajax({
-        url : `/seller/projectDetail/cancel?id=${id}`,
+        url : `/seller/projectDetail/cancel?no=${no}`,
         type : "post",
         contentType : "application/json; charset=utf-8;",
         data : content,

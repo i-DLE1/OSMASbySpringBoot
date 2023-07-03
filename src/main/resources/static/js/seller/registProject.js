@@ -338,11 +338,10 @@ function project3LoadData() {
     })
 
     $.ajax({
-
         url : '/seller/regist/project3ProductGetImg' + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
-            console.log(success)
+            if(success.length === 0 ) return;
             let productImgList = [...success]
             registProductImgList = [...success];
             loadProductImg(productImgList)
@@ -393,15 +392,12 @@ function previewImage(ele) {
 
 function loadProductImg(imgFileList){
     let rootUrl = location.origin+'/files/seller/project/';
-    console.log(rootUrl+imgFileList[0].changeName)
     let legnth = imgFileList.length
-    $("#present").prop("src",rootUrl+imgFileList[0].changeName)
-    $("#thumbnail").prop("src",rootUrl+imgFileList[1].changeName)
-    $("#imgfile0").prop("src",rootUrl+imgFileList[2].changeName)
-    $("#imgfile1").prop("src",rootUrl+imgFileList[3].changeName)
-    $("#imgfile2").prop("src",rootUrl+imgFileList[4].changeName)
-    console.log(imgFileList)
-
+    $("#present").prop("src",rootUrl+imgFileList[0]?.changeName)
+    $("#thumbnail").prop("src",rootUrl+imgFileList[1]?.changeName)
+    $("#imgfile0").prop("src",rootUrl+imgFileList[2]?.changeName)
+    $("#imgfile1").prop("src",rootUrl+imgFileList[3]?.changeName)
+    $("#imgfile2").prop("src",rootUrl+imgFileList[4]?.changeName)
 }
 
 function loadProjectFaq(no){
@@ -423,7 +419,6 @@ function loadProjectFaq(no){
 }
 
 function deleteProjectNews(no){
-    console.log(no)
     $.ajax({
         url : `/seller/regist/deleteProjectNews?no=${no}`,
         success : function (success){
@@ -479,15 +474,15 @@ function ajaxCsrfSet() {
 
 
 function indexCheckConfirm() {
+    let no = new URLSearchParams(location.search).get('no')
     let check1 = $("#check1").prop('checked');
     let check2 = $("#check2").prop('checked');
     $.ajax({
-        url : '/seller/regist/project1',
+        url : '/seller/regist/project1' + (no === null ?  '' : `?no=${no}`),
         type : 'post',
         data : {check1, check2},
         success : function (data) {
             if(data === 'success'){
-                let no = new URLSearchParams(location.search).get('no')
                 location.href='/seller/regist/project2' + (no === null ?  '' : `?no=${no}`);
             }else {
                 alert("필수 항목에 체크를 하지 않았습니다.");
@@ -535,10 +530,18 @@ function projectInitRegist(temporary) {
 
 // temporary : boolean
 function registProject3(temporary) {
+    let presentFile = $("#present").attr("src")
+    let thumbnailFile = $("#thumbnail").attr("src")
+
+    if(presentFile === undefined || thumbnailFile === undefined){
+        alert("대표이미지와 썸네일 이미지는 필수로 등록 해야합니다.")
+        return;
+    }
+
     let dataList = [];
     let formData = new FormData();
-        formData.append("presentFile",$("#presentImg")[0].files[0])
-        formData.append("thumbnailFile",$("#thumbnailImg")[0].files[0])
+        formData.append("presentFile",presentFile)
+        formData.append("thumbnailFile",thumbnailFile)
     let files = $(".file")
     let productListLength =$("#productList").children("div").length;
     let no = new URLSearchParams(location.search).get('no')

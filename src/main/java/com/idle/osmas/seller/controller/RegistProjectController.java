@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -55,16 +57,18 @@ public class RegistProjectController {
 
     @GetMapping("getSubCategory")
     @ResponseBody
-    public List<CategoryDTO> getSubCategory(@RequestParam Integer mainCategoryCode){
+    public List<ProjectCategoryDTO> getSubCategory(@RequestParam Integer mainCategoryCode){
 
-        List<CategoryDTO> subCategory = projectCategoryService.selectByCategoryType(mainCategoryCode);
+        List<ProjectCategoryDTO> subCategory = projectCategoryService.selectByCategoryType(mainCategoryCode);
         log.info("subCategory = " + subCategory);
         return subCategory;
     }
 
     @GetMapping("project1")
     public String getProjectTerms(@RequestParam(required = false) Integer no, Model model, Principal principal){
-        if(no == null){
+        if(no != null){
+            return "redirect:/seller/regist/project2?no="+no;
+        }else {
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
             no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
@@ -126,7 +130,7 @@ public class RegistProjectController {
 
         System.out.println("principal = " + principal);
 
-        List<CategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
+        List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
         if(no == null){
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
@@ -217,13 +221,16 @@ public class RegistProjectController {
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
+        System.out.println("no = " + no);
+        List<ProjectFileDTO> templist = new ArrayList<>();
 
         if(no == null){
-            List<ProjectFileDTO> templist = new ArrayList<>();
             templist.add(ProjectFileDTO.builder().build());
             return templist;
         }else {
-            return projectFileService.selectProjectFileListByProjectNo(no,null);
+            templist = projectFileService.selectProjectFileListByProjectNo(no,null);
+            System.out.println("templist = " + templist);
+            return templist;
         }
     }
 
@@ -239,24 +246,33 @@ public class RegistProjectController {
 //            no = registProjectService.selectTemporaryProjectNoByUserId(principal.getName());
             no = projectService.selectTemporaryProjectNoByUserId("admin01");
         }
-
         if(no == null) return "fail";
+
+//        productList.get("oldImg").stream().forEach(e->{
+//            System.out.println("e = " + e);
+//        });
 
         List<ProductDTO> deleteProductList = productList.get("old")
                 .stream().filter(oldE-> productList.get("new")
                         .stream().noneMatch(newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
 
-        productService.deleteProjectProduct(deleteProductList);
-//        registProjectService.insertProjectProduct(productList.get("new"),principal.getName(),no);
-        productService.insertProjectProduct(productList.get("new"),"admin01",no);
+        if(deleteProductList.size() != 0) {
+            productService.deleteProjectProduct(deleteProductList);
+        }
+
+        productService.insertProjectProduct(productList.get("new"), no);
+
+
 
         try {
-            imageFileController.registFile(ProjectFileType.REPRESENT, presentFile);
-            imageFileController.registFile(ProjectFileType.THUMBNAIL, thumbnailFile);
+            if(!presentFile.isEmpty()) imageFileController.registFile(ProjectFileType.REPRESENT, presentFile, no);
+            if(!thumbnailFile.isEmpty()) imageFileController.registFile(ProjectFileType.THUMBNAIL, thumbnailFile, no);
 
-            for (MultipartFile file : fileList) {
-                imageFileController.registFile(ProjectFileType.CONTENT, file);
+            if(fileList != null){
+                for (MultipartFile file : fileList) {
+                    imageFileController.registFile(ProjectFileType.CONTENT, file, no);
+                }
             }
 
         } catch (Exception e) {

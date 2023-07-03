@@ -5,13 +5,16 @@
         <title>프로젝트 관리 - 전체 조회</title>
     </head>
     <body>
+        <div id="navToggle">
+            <input id="navTogglesub" type="checkbox">
+        </div>
         <div class="main-col-2">
             <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
             <main>
                 <div class="main">
                     <div class="main-header">
                         <div>
-                            <h1 class="h1-title">프로젝트 관리 - <span th:text="${listType}">전체조회</span></h1>
+                            <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label>  프로젝트 관리 - <span th:text="${listType}"></span></h1>
                         </div>
                         <div>
                             <h5>
@@ -70,7 +73,7 @@
                                     <th:block th:if="${item.projectProgress.status.toString()== 'REJECTED'}">
                                     <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{no})|">
                                     </th:block>
-                                    <th:block th:if="${item.projectProgress.status.toString() == 'REJECTED' or item.projectProgress.status.toString() == 'PROCESSING'}">
+                                    <th:block th:if="${item.projectProgress.status.toString() == 'REJECTED' or item.projectProgress.status.toString() == 'PROCESSING' or item.projectProgress.status.toString() == 'CANCEL'}">
                                     <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{no})|">
                                     </th:block>
                                     <th:block th:if="${item.projectProgress.status.toString()== 'TEMPORARY'}">

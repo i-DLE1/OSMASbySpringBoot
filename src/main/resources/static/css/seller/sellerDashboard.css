@@ -4,12 +4,38 @@ body{
     font-family: 'Noto Sans KR', sans-serif;
     margin: 0 60px 0 0;
 }
+
 .main-col-2{
     display: grid;
     grid-template-columns: 270px auto;
+    transition: 0.5s;
+}
+
+#navToggle{
+    display: none;
+}
+
+#navToggle:has(input:checked) ~ .main-col-2>.cus-nav{
+    transform: translateX(-110%);
+    transition: 0.5s;
+}
+
+#navToggle:has(input:checked) ~ .main-col-2{
+    grid-template-columns: 0 auto;
+    transition: 0.5s;
+
+}
+#toggleLabel{
+    border: 1px solid #884A3B;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 0 12px 0 12px;
 }
 
 .cus-nav{
+    width: 270px;
+    transform: translateX(0%);
+    transition: 0.5s;
     display: block;
     justify-content: center;
     text-align: center;

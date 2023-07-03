@@ -22,7 +22,7 @@
          WHERE TPJ1.NO = (SELECT MAX(TPJ2.NO) FROM TBL_PRJ_PROGRESS TPJ2
                            WHERE TPJ2.REF_PRJ_NO = #{projectNo}
                           <if test="status != null">
-                             AND TPJ2.STATUS = ${status}
+                             AND TPJ2.STATUS = '${status}'
                           </if>
                            GROUP BY TPJ2.REF_PRJ_NO)
     </select>

@@ -29,8 +29,8 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("cancel")
-    public String getCacnel(@RequestParam int id, Model model){
-        ProjectDTO project = sellerPageService.selectByProjectId(id);
+    public String getCacnel(@RequestParam int no, Model model){
+        ProjectDTO project = sellerPageService.selectByProjectId(no);
 
         System.out.println("project = " + project);
 
@@ -42,21 +42,14 @@ public class ProjectDeatilController {
 
     @PostMapping("cancel")
     @ResponseBody
-    public String postCancel(@RequestParam Integer id, @RequestBody String content){
+    public String postCancel(@RequestParam Integer no, @RequestBody String content){
 
-        System.out.println("id = " + id);
-        System.out.println("content = " + content);
-
-        // 전달 완료 insert문 추가 예정
-
-        // find userId
-        ProjectProgressDTO projectProgress = new ProjectProgressDTO();
+        ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
                                             .status(ProjectProgressStatus.CANCEL)
                                             .content(content)
-                                            .refProjectNo(id)
+                                            .refProjectNo(no)
                                             .build();
-
 
         System.out.println("projectProgress = " + projectProgress);
 
@@ -109,23 +102,20 @@ public class ProjectDeatilController {
 
 
     @GetMapping("refuse")
-    public String refuse(@RequestParam String id){
+    public String refuse(@RequestParam String no){
         return "/seller/popup/refuse";
     }
 
     @GetMapping("retry")
-    public String retry(@RequestParam int id, Model model) throws AccessAuthorityException {
+    public String retry(@RequestParam int no, Model model) throws AccessAuthorityException {
 
-        ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(id, ProjectProgressStatus.REJECTED);
+        ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(no, ProjectProgressStatus.REJECTED);
 
-        try {
-            if (!projectProgress.getContent().isEmpty()) {
-                model.addAttribute("projectProgress", projectProgress);
-            }
-            return "/seller/popup/retry";
-        } catch (NullPointerException e) {
-            throw new AccessAuthorityException("선택하신 프로젝트는 재심사 대상이 아닙니다.");
-        }
+        if (projectProgress == null) throw new AccessAuthorityException("현재 프로젝트는 재심사 대상이 아닙니다.");
+
+        model.addAttribute("projectProgress", projectProgress);
+        return "/seller/popup/retry";
+
     }
 
     @PostMapping("retry")

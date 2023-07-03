@@ -23,8 +23,8 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     }
 
     @Override
-    public ProjectFileDTO selectByProjectSaveFileName(String saveFileName, int projectNo) {
-        return projectFileMapper.selectByProjectSaveFileName(saveFileName, projectNo);
+    public ProjectFileDTO selectByProjectSaveFileName(String saveFileName) {
+        return projectFileMapper.selectByProjectSaveFileName(saveFileName);
     }
 
     @Override

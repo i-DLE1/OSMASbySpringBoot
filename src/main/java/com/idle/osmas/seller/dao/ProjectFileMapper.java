@@ -16,7 +16,7 @@ public interface ProjectFileMapper {
                           String savedFile, String deleteYN,
                           int projectNo);
 
-    ProjectFileDTO selectByProjectSaveFileName(String saveFileName, int projectNo);
+    ProjectFileDTO selectByProjectSaveFileName(String saveFileName);
 
     int deleteProjectFilesByProjectNo(int projectNo);
 

@@ -5,12 +5,15 @@
   <title>프로젝트 관리 - Q / A</title>
 </head>
 <body>
+<div id="navToggle">
+    <input id="navTogglesub" type="checkbox">
+</div>
 <div class="main-col-2">
   <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
   <main class="main">
     <div class="main-header">
       <div>
-        <h1 class="h1-title">프로젝트 Q/A - <span th:text="${listType}">전체조회</span></h1>
+        <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label> 프로젝트 Q/A - <span th:text="${listType}">전체조회</span></h1>
       </div>
       <div>
         <h5><span th:text="${userName}">판매자</span>님 환영합니다.</h5>

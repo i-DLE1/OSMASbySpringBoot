@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int insertProjectProduct(List<ProductDTO> productList, String userId, int projectNo) {
+    public int insertProjectProduct(List<ProductDTO> productList, int projectNo) {
         productList.forEach( e ->{
             if(e.getNo() == 0){
                 productMapper.insertProjectProduct(e);

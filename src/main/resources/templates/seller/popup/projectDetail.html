@@ -11,8 +11,12 @@
         <h1 id="toggle" style="color:#884A3B; font-size: 40px; ">프로젝트 현황 및 통계</h1>
     </div>
     <!--프로젝트 정보-->
-    <div id="proToggle" class="h1-title">프로젝트 정보 <span>닫기</span></div>
-    <div class="col-2">
+    <div id="proToggle" class="h1-title">
+<!--        프로젝트 정보 <span>닫기</span>-->
+        <label for="menuToggle">프로젝트 정보</label>
+        <input type="checkbox" id="menuToggle">
+    </div>
+    <div id="menu" class="col-2">
         <div id="info">
             <div>
                 <div class="sub-title">
@@ -102,35 +106,21 @@
         </footer>
     </div>
     <script src="/js/seller/./projectDetail.js"></script>
-    <script >
-        let proToggle= true;
-        projectDetailDummyData()
+    <script>
         projectStaticListDummyData()
-        $("#proToggle").click(function (){
-            if(proToggle){
-                $("#proToggle").children("span").text("열기")
-                proToggle = !proToggle;
-            }else {
-                $("#proToggle").children("span").text("닫기")
-                proToggle = !proToggle;
-            }
-            // if(proToggle){
-            //     $("#info").addClass('translate-out')
-            //     setTimeout(()=>$("#info").addClass('display-none'),300);
-            //     proToggle = !proToggle
-            //     console.log(proToggle)
-            // }else {
-            //     $("#info").removeClass('display-none')
-            //     $("#info").addClass('translate-in');
-            //
-            //     proToggle = !proToggle
-            //     console.log(proToggle)
-            // }
+        projectDetailDummyData()
+        // let proToggle= true;
 
-            $("#info").toggle(300)
-
-            // $("#col2").addClass('col-2-0-auto')
-        })
+        // $("#proToggle").click(function (){
+        //     if(proToggle){
+        //         $("#proToggle").children("span").text("열기")
+        //         proToggle = !proToggle;
+        //     }else {
+        //         $("#proToggle").children("span").text("닫기")
+        //         proToggle = !proToggle;
+        //     }
+        //     $("#info").toggle(300)
+        // })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

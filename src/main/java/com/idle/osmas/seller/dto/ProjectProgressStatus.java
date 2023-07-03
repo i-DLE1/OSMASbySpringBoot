@@ -5,8 +5,6 @@ public enum ProjectProgressStatus {
     TEMPORARY,
     REJECTED,
 
-    REQUEST,
-
     CANCEL,
     PROCESSING,
     CLOSED,

@@ -48,8 +48,17 @@ public class ImageFileController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public void registFile(ProjectFileType fileType, MultipartFile file) throws IOException {
-        if(file.getSize() > 0){
+    /**
+     *
+     * @param fileType
+     * @param file
+     * @param projectNo
+     * @return success 1, fail 0;
+     * @throws IOException
+     */
+    public int registFile(ProjectFileType fileType, MultipartFile file, int projectNo) throws IOException {
+
+        if(file.getSize() > 0) {
             String originFileName = file.getOriginalFilename();
 
             log.info("originFileName = " + originFileName);
@@ -58,30 +67,44 @@ public class ImageFileController {
 
             log.info("ext = " + ext);
 
-            String savedFileName = UUID.randomUUID().toString().replace("-","")+ext;
+            String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
 
-            File savedFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+savedFileName);
+
+            File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
+
+            if (!savedFile.isDirectory()) savedFile.mkdirs();
+
             file.transferTo(savedFile);
 
             int result = 0;
 
-            Integer projectNo = projectService.selectTemporaryProjectNoByUserId("admin01");
-            result = projectFileService.insertProjectFile(fileType,originFileName,savedFileName,"N",projectNo);
+            result = projectFileService.insertProjectFile(fileType, originFileName, savedFileName, "N", projectNo);
 
-            if (result > 0){
+            if (result > 0) {
                 log.info("파일이 정상으로 저장 됐습니다.");
-            }else {
+                return 1;
+            } else {
                 log.info("정상적으로 ");
                 savedFile.delete();
+                return 0;
             }
+        }else {
+            return 0;
+    }
+}
 
-        }
+    public int deleteFile(String file) {
+        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
+
+        if(!deleteFile.isFile()) deleteFile.delete();
+
+        return 1;
     }
 
     @GetMapping(value = "/seller/project/{file}")
     public ResponseEntity<?> fileLoads(@PathVariable String file) {
 
-        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file, 53);
+        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
 
         Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
         log.info("saveFile"+ saveFile.toString());

@@ -2,6 +2,7 @@ package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.ProjectCategoryMapper;
 import com.idle.osmas.seller.dto.CategoryDTO;
+import com.idle.osmas.seller.dto.ProjectCategoryDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class ProjectCategoryServiceImpl implements ProjectCategoryService {
     }
 
     @Override
-    public List<CategoryDTO> selectByCategoryType(Integer categoryNo) {
+    public List<ProjectCategoryDTO> selectByCategoryType(Integer categoryNo) {
         return projectCategoryMapper.selectByCategoryType(categoryNo);
     }
 }
