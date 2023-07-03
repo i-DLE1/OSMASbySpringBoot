@@ -6,9 +6,11 @@ import com.idle.osmas.member.paging.Pagenation;
 import com.idle.osmas.member.paging.SelectCriteria;
 import com.idle.osmas.member.service.ReviewServiceImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,27 +26,30 @@ public class ReviewController {
     }
     @GetMapping("/review/review")
     public void goReview(@RequestParam(required = false) String searchCondition,
-                         @RequestParam(required = false) String searchValue,
-                         @RequestParam(value="currentPage", defaultValue = "1") int pageNo){
+                                 @RequestParam(required = false) String searchValue,
+                                 @RequestParam(value="currentPage", defaultValue = "1") int pageNo
+                        , Model m){
 
-//        Map<String, String> searchMap = new HashMap<>();
-//        searchMap.put("searchCondition" , searchCondition);
-//        searchMap.put("searchValue" ,searchValue);
-//        int totalCount = reviewService.selectTotalCount(searchMap);
-//
-//        int limit = 5;
-//
-//        int buttonAmount = 5;
-//
-//        SelectCriteria selectCriteria = null;
-//
-//        if(searchCondition != null && !"".equals(searchCondition)){
-//            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
-//        }else{
-//            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
-//        }
-//        List<ReviewsDTO> ReviewsList = reviewService.selectReviewList(selectCriteria);
+        Map<String, String> searchMap = new HashMap<>();
+        searchMap.put("searchCondition" , searchCondition);
+        searchMap.put("searchValue" ,searchValue);
+        int totalCount = reviewService.selectTotalCount(searchMap);
 
+        int limit = 10;
+
+        int buttonAmount = 5;
+
+        SelectCriteria selectCriteria = null;
+
+        if(searchCondition != null && !"".equals(searchCondition)){
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
+        }else{
+            selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
+        }
+        List<ReviewsDTO> reviewList = reviewService.selectReviewList(selectCriteria);
+
+        m.addAttribute("reviewList", reviewList);
+        m.addAttribute("selectCriteria", selectCriteria);
     }
 
 
