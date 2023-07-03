@@ -1,8 +1,6 @@
 package com.idle.osmas.seller.service;
 
-import com.idle.osmas.seller.dto.CategoryDTO;
-import com.idle.osmas.seller.dto.OptionDTO;
-import com.idle.osmas.seller.dto.SalesDTO;
+import com.idle.osmas.seller.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +13,12 @@ public interface SalesService {
     public List<OptionDTO> selectOptionByNo(int no);
 
     public CategoryDTO selectCategoryByNo(int no);
+
+    public SellerRollDTO selectSellerRollByNo(int no);
+
+    public List<QnaDTO> selectQnaListByNo(int no);
+
+    public List<FaqDTO> selectFaqListByNo(int no);
 
 
 }

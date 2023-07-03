@@ -3,6 +3,8 @@ package com.idle.osmas.seller.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,6 +23,5 @@ public class SalesDTO {
     private Integer views;
     private int refMemberNo;
     private int refCategoryNo;
-
 
 }
