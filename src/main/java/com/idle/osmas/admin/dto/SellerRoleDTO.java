@@ -38,5 +38,7 @@ public class SellerRoleDTO {
 
     private MemberRoleDTO role;
 
+    private SellerRoleReqDTO req; //판매자 신청 번호
+
     private List<SellerRoleFileDTO>  fileList; //신청한 파일 목록
 }

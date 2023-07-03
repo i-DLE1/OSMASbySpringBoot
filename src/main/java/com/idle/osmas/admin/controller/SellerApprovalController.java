@@ -23,7 +23,7 @@ public class SellerApprovalController {
         this.sellerRoleService = sellerRoleService;
     }
 
-    //권한 코드를 1만 가지고 있는 사람 조회
+    //권한 신청자 확인
     @GetMapping("waitingAuthority")
     public String sellerAllApply(Model model) {
         List<SellerRoleDTO> sellerApply = sellerRoleService.selectAllApplyRole();
@@ -33,6 +33,7 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/waitingAuthority";
     }
 
+    //권한 회수 신청자 확인
     @GetMapping("waitingRetrieve")
     public String waitingRetrieve(Model model) {
         List<SellerRoleDTO> sellerApplyRetrieve = sellerRoleService.selectApplyRoleRetrieve();
@@ -43,6 +44,7 @@ public class SellerApprovalController {
 
     }
 
+    //권한 보류자 확인
     @GetMapping("holdingAuthority")
     public String holdingAuthority(Model model) {
         List<SellerRoleDTO> sellerHolding = sellerRoleService.selectAllHoldingRole();
@@ -52,6 +54,7 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/holdingAuthority";
     }
 
+    //권한 회수 보류자 확인
     @GetMapping("holdingRetrieve")
     public String holdingRetrieve(Model model) {
         List<SellerRoleDTO> HoldingRetrieve = sellerRoleService.selectHoldingRoleRetrieve();
@@ -61,6 +64,7 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/holdingRetrieve";
     }
 
+    //권한 완료자 확인(모든 판매자)
     @GetMapping("succesAuthority")
     public String sellerAllRole(Model model) {
         List<SellerRoleDTO> sellerAll = sellerRoleService.sellerAllRole();
@@ -70,6 +74,7 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/succesAuthority";
     }
 
+    //권한 회수 완료자 확인
     @GetMapping("succesRetrieve")
     public String succesRetrieve(Model model) {
         List<SellerRoleDTO> successRetrieve = sellerRoleService.selectSuccessRoleRetrieve();
@@ -79,11 +84,43 @@ public class SellerApprovalController {
         return "/admin/sellerApproval/succesRetrieve";
     }
 
+    //권한 신청 -> 완료
     @PostMapping("grantPermission")
     public String grantPermission(@RequestParam("sellerId") String sellerId, Model model) {
         model.addAttribute("sellerId", sellerId);
 
         int result = sellerRoleService.grant(sellerId);
+
+        if (result > 0) {
+            return "redirect:/admin/sellerApproval/waitingAuthority";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
+
+    //권한 회수신청 -> 완료
+    @PostMapping("dropPermission")
+    public String dropPermission(@RequestParam("sellerId") String sellerId, Model model) {
+        model.addAttribute("sellerId", sellerId);
+
+        int result = sellerRoleService.drop(sellerId);
+
+        if (result > 0) {
+            return "redirect:/admin/sellerApproval/waitingRetrieve";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
+
+    //권한 신청 -> 보류
+    @PostMapping("holdingPermission")
+    public String holdingPermission(@RequestParam("sellerId") String sellerId, @RequestParam("reason") String reason,
+                                    @RequestParam("sellerReq") int sellerReq, Model model) {
+        model.addAttribute("sellerId", sellerId);
+        model.addAttribute("reason", reason);
+        model.addAttribute("sellerReq", sellerReq);
+
+        int result = sellerRoleService.holdingGrant(sellerId, reason, sellerReq);
 
         if (result > 0) {
             return "redirect:/admin/sellerApproval/waitingAuthority";
