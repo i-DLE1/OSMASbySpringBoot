@@ -23,7 +23,7 @@
                     <h3 class="seller-name" th:text="${ get.title }">제안 제목</h3>
                     <p class="apply-content" th:text="${ get.memberId }">제안한 사람</p>
                 </div>
-                <button class="buttonAlarm">확인 메세지 보내기</button>
+                <button class="buttonAlarm" th:data-proposal-no="${get.no}">확인 메세지 보내기</button>
             </div>
             <hr class="separator" th:if="${not iterStat.last}">
         </div>

@@ -17,6 +17,30 @@
         <result property="memberId" column="ID"/>
     </resultMap>
 
+    <resultMap id="AlertResultMap" type="com.idle.osmas.member.dto.AlertDTO">
+        <id property="no" column="NO"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+
+        <association property="refMemberNo" resultMap="memberResultMap"/>
+        <association property="refSuggestNo" resultMap="GettingProposalsResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
     <!-- 보낸 제안 확인하기-->
     <select id="gettingProposalsAll" resultMap="GettingProposalsResultMap">
         SELECT
@@ -33,4 +57,10 @@
                  JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
                  JOIN TBL_CATEGORY C ON S.REF_CATEGORY_NO = C.NO
     </select>
+
+    <!-- 제안 확인 알람 보내기 -->
+    <insert id="sendProposals">
+        INSERT INTO TBL_ALERT(CONTENT,REGIST_DATE,REF_MEMBER_NO,NO,REF_SUGGEST_NO)
+        VALUES(#{reasonText},SYSDATE,0,SEQ_TBL_ALERT_NO.NEXTVAL,#{proposalNo})
+    </insert>
 </mapper>

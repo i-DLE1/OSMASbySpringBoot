@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -33,4 +35,18 @@ public class AdminCategoryController {
 
         return "/admin/adminCategory/gettingProposals";
     }
+
+//    @PostMapping("sendingProposals")
+//    public String sendingProposals(@RequestParam("proposalNo") String proposalNo, @RequestParam("reasonText") String reasonText, Model model) {
+//        model.addAttribute("proposalNo", proposalNo);
+//        model.addAttribute("reasonText", reasonText);
+//
+//        int result = GettingProposalsService.sendProposals(proposalNo, reasonText);
+//
+//        if (result > 0) {
+//            return "redirect:/admin/adminCategory/gettingProposals";
+//        } else {
+//            return "redirect:/admin/errorPage";
+//        }
+//    }
 }
