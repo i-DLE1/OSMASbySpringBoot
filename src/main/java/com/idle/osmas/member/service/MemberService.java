@@ -14,4 +14,5 @@ public interface MemberService {
 
     public boolean selectMemberByEmail(String email);
 
+    public String selectNicknameById(String id);
 }
