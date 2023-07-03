@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('.product-image').click(function() {
-        var photoId = 20;
+        var photoId = $(this).attr('data-sales-no');
 
         $.ajax({
             url: '/seller/sales/detail',

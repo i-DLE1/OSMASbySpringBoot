@@ -364,10 +364,10 @@ nav ul li a{
 
 
 
-.selectedpage {
-    background-color: #C49A6C;
-    font-weight: bold;
-}
+/*.selectedpage {*/
+/*    background-color: #C49A6C;*/
+/*    font-weight: bold;*/
+/*}*/
 
 .contentsmiddle:hover {
     background-color: #C49A6C;

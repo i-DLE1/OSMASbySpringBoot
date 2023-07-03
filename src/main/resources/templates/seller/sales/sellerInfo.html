@@ -3,29 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>판매페이지_판매자정보</title>
-    <link rel="stylesheet" href="/css/seller/salesPage.css" >
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">   <script src="/js/seller/slaesPage.js"></script>
 </head>
 
-<header id="header">
-    <th:block th:include="~{/common/fragments/header}"></th:block>
-</header>
-
 <body>
-<th:block th:include="~{/seller/fragments/product}"></th:block>
-
-<nav>
-    <ul>
-        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage1'">상품내용</a></li>
-        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage2'">프로젝트정보</a></li>
-        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage3'">Q/A</a></li>
-        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage4'">FAQ</a></li>
-        <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage5'">새소식</a></li>
-        <li class="selectedpage"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage6'">판매자정보</a></li>
-    </ul>
-</nav>
 
 <div class="contentsbottom">
     <div>
@@ -48,8 +31,4 @@
 
 
 </body>
-
-<footer >
-    <th:block th:include="~{/common/fragments/footer}"></th:block>
-</footer>
 </html>

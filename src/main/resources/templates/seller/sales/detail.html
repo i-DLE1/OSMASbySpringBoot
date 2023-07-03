@@ -19,21 +19,19 @@
 
     <nav>
         <ul>
-<!--            <li class="selectedpage"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage1?no=20'">상품내용</a></li>-->
-            <li class="selectedpage"><a style="cursor: pointer" id="updateContent">상품내용</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage2?no=20'">프로젝트정보</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage3?no=20'">Q/A</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage4?no=20'">FAQ</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage5?no=20'">새소식</a></li>
-            <li class="contentsmiddle"><a style="cursor: pointer" onclick="location.href='/seller/sales/salesPage6?no=20'">판매자정보</a></li>
+            <li class="contentsmiddle" style="background-color: #C49A6C; font-weight: bold"><a style="cursor: pointer" id="updateContent1" th:attr="data-sales-no=${salesDTO.no}">상품내용</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" id="updateContent2" th:attr="data-sales-no=${salesDTO.no}">프로젝트정보</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" id="updateContent3" th:attr="data-sales-no=${salesDTO.no}">Q/A</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" id="updateContent4" th:attr="data-sales-no=${salesDTO.no}">FAQ</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" id="updateContent5" th:attr="data-sales-no=${salesDTO.no}">새소식</a></li>
+            <li class="contentsmiddle"><a style="cursor: pointer" id="updateContent6" th:attr="data-sales-no=${salesDTO.no}">판매자정보</a></li>
         </ul>
     </nav>
 
     <div class="contentsbottom">
         <p id="dynamicContent">동적으로 변경될 내용</p>
-    </div>
 
-<!--    <button id="updateContent">내용 업데이트</button>-->
+    </div>
 
     <script src="/js/seller/salesPageDetail.js"></script>
 

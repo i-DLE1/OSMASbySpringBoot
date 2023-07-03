@@ -36,7 +36,7 @@ public class SalesPageController {
     }
 
     @GetMapping ("/sales/detail")
-    public String salesPage1(Model model, @RequestParam("no") int no){
+    public String detail(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
@@ -46,15 +46,60 @@ public class SalesPageController {
         return "/seller/sales/detail";
     }
 
-//    @GetMapping("/data")
-//    public String getData(Model model) {
-//        boolean showDiv = true; // 데이터에 따라 표시 여부 결정
-//        model.addAttribute("showDiv", showDiv);
-//        // 필요한 데이터를 모델에 추가
-//        // ...
-//        return "data-template"; // 템플릿 이름 반환
-//    }
+    @GetMapping ("/sales/prjInfo")
+    public String prjInfo(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
+        return "/seller/sales/prjInfo";
+    }
+
+    @GetMapping ("/sales/prjQna")
+    public String prjQna(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
+        return "/seller/sales/prjQna";
+    }
+
+    @GetMapping ("/sales/prjFaq")
+    public String prjFaq(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
+        return "/seller/sales/prjFaq";
+    }
+
+    @GetMapping ("/sales/prjNewInfo")
+    public String prjNewInfo(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
+        return "/seller/sales/prjNewInfo";
+    }
 
 
+    @GetMapping ("/sales/sellerInfo")
+    public String sellerInfo(Model model, @RequestParam("no") int no){
+        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("optionList", optionList);
+        model.addAttribute("categoryDTO", categoryDTO);
+        return "/seller/sales/sellerInfo";
+    }
 
 }
