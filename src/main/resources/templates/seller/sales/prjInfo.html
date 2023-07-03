@@ -5,7 +5,8 @@
     <title>판매페이지_프로젝트정보</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet"><script src="/js/seller/slaesPage.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="/js/seller/slaesPage.js"></script>
 </head>
 
 <body>
@@ -14,11 +15,9 @@
     <div>
         <div class="teaminfo">
             <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
-            <div>TEAM 모카썸</div>
+            <div th:text="${sellerRollDTO.name}"></div>
         </div>
-        <div style="font-size: 25px;">모카썸(MOCCASOM)은 편의성 높은 생활 의류를 바탕으로 실용성을 중시하고 합리적 가치를 제공하는 도시 감각의 캐주얼 웨어를 디자인하는 브랜드입니다.
-            ※ 왜 만들게 되었을까? 하반신마비 초등학생 아이를 둔 이베이코리아 직원이 아이 혼자 입을 수 있는 옷을 찾다 팬코를 만나 개발하게 된 브랜드다. 올해 5월부터 개발에 착수, 한국척수장애인협회의 도움을 받아 휠체어 이용자 의견을 수렴했다. 모든 티셔츠는 부드러운 ‘벨크로(찍찍이)’ 여밈으로 입고 벗기 쉽도록 제작됐다. 밑단 양 옆에 트임을 적용하고 엉덩이 쪽이 긴 디자인이라 휠체어 이용 시에도 허리 속살이 드러나지 않는 방식을 택했다.
-            프로젝트 일정 현재 프로젝트는 구성 및 디자인은 마무리되었습니다. 교정 작업은 6월 10일까지 마무리할 예정입니다. 펀딩이 마무리되면 바로 제작이 들어갑니다. 본 상품은 2~3주정도면 제작이 완료되며 상품은 2주정도 소요됩니다. 펀딩이 마감되는 6월 15일부터 30일정도 제작기간은 소요됩니다. 배송은 7월 31일 1차배송 / 8월 4일 2차배송 / 8월 11일 3차배송으로 진행될 예정입니다.
+        <div style="font-size: 25px;" th:text="${salesDTO.content}">
         </div>
     </div>
 </div>

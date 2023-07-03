@@ -1,9 +1,7 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.SalesMapper;
-import com.idle.osmas.seller.dto.CategoryDTO;
-import com.idle.osmas.seller.dto.OptionDTO;
-import com.idle.osmas.seller.dto.SalesDTO;
+import com.idle.osmas.seller.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +13,6 @@ public class SalesServiceImpl implements SalesService{
     public SalesServiceImpl(SalesMapper salesMapper) {
         this.salesMapper = salesMapper;
     }
-
     @Override
     public List<SalesDTO> selectAllProject() {
         return salesMapper.selectAllProject();
@@ -33,6 +30,21 @@ public class SalesServiceImpl implements SalesService{
     @Override
     public CategoryDTO selectCategoryByNo(int no) {
         return salesMapper.selectCategoryByNo(no);
+    }
+
+    @Override
+    public SellerRollDTO selectSellerRollByNo(int no) {
+        return salesMapper.selectSellerRollByNo(no);
+    }
+
+    @Override
+    public List<QnaDTO> selectQnaListByNo(int no) {
+        return salesMapper.selectQnaListByNo(no);
+    }
+
+    @Override
+    public List<FaqDTO> selectFaqListByNo(int no) {
+        return salesMapper.selectFaqListByNo(no);
     }
 
 

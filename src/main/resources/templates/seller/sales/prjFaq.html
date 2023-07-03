@@ -5,7 +5,7 @@
     <title>판매페이지_FAQ</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">  <script src="/js/seller/slaesPage.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -14,33 +14,17 @@
     <table>
         <tr>
             <th style="width: 150px;">번호</th>
-            <th style="width: 1000px;">자주하는질문</th>
+            <th style="width: 800px;">자주하는질문</th>
+            <th style="width: 150px;">등록일</th>
         </tr>
-        <tr>
-            <td class="tdindex">1</td>
-            <td>배송일정은  프로젝트 정보에 기재되어있습니다.</td>
-        </tr>
-        <tr>
-            <td class="tdindex">2</td>
-            <td>배송지 정보 변경은 프로젝트 마감 전까지 마이페이지에서 수정 가능합니다.</td>
-        </tr>
-        <tr>
-            <td class="tdindex">3</td>
-            <td>펀딩 달성 미달시 펀딩금액은 전액 환불됩니다.</td>
-        </tr>
-        <tr>
-            <td class="tdindex">4</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="tdindex">5</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="tdindex">6</td>
-            <td></td>
+        <tr th:each="faq, index : ${faqList}">
+            <td class="tdindex" th:text="${index.count}"></td>
+            <td><a style="cursor: pointer" class="show-details" th:text="${faq.title}"></a></td>
+            <td th:text="${faq.registDate}"></td>
         </tr>
     </table>
+
+    <script src="/js/seller/salesPageDetail.js"></script>
 
     <div>
         <ul class="cus-page">
@@ -54,6 +38,7 @@
         </ul>
     </div>
 </div>
+
 
 </body>
 </html>

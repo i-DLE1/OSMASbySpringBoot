@@ -1,8 +1,6 @@
 package com.idle.osmas.seller.controller;
 
-import com.idle.osmas.seller.dto.CategoryDTO;
-import com.idle.osmas.seller.dto.OptionDTO;
-import com.idle.osmas.seller.dto.SalesDTO;
+import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,17 @@ public class SalesPageController {
     public SalesPageController(SalesService salesService) {
         this.salesService = salesService;
     }
+
+//    @GetMapping ("/fragments/product")
+//    public String SalesInfo(Model model, @RequestParam("no") int no){
+//        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+//        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+//        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+//        model.addAttribute("salesDTO", salesDTO);
+//        model.addAttribute("optionList", optionList);
+//        model.addAttribute("categoryDTO", categoryDTO);
+//        return "/seller/fragments/product";
+//    }
 
     @GetMapping ("/fragments/product")
     public String SalesInfo(Model model, @RequestParam("no") int no){
@@ -49,44 +58,34 @@ public class SalesPageController {
     @GetMapping ("/sales/prjInfo")
     public String prjInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
         return "/seller/sales/prjInfo";
     }
 
     @GetMapping ("/sales/prjQna")
     public String prjQna(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        List<QnaDTO> qnaList = salesService.selectQnaListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
+        model.addAttribute("qnaList", qnaList);
         return "/seller/sales/prjQna";
     }
 
     @GetMapping ("/sales/prjFaq")
     public String prjFaq(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        List<FaqDTO> faqList = salesService.selectFaqListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
+        model.addAttribute("faqList", faqList);
         return "/seller/sales/prjFaq";
     }
 
     @GetMapping ("/sales/prjNewInfo")
     public String prjNewInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
         return "/seller/sales/prjNewInfo";
     }
 
@@ -94,11 +93,9 @@ public class SalesPageController {
     @GetMapping ("/sales/sellerInfo")
     public String sellerInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
         return "/seller/sales/sellerInfo";
     }
 
