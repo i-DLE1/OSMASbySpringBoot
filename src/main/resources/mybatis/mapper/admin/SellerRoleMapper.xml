@@ -181,7 +181,8 @@
             S.REPORT_NO,
             M.ID,
             R.REF_MEMBER_ROLE_CODE,
-            Q.NO
+            Q.NO,
+            P.REJECT_REASON
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
@@ -200,7 +201,7 @@
             FROM TBL_ROLE_LIST
             WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
         )
-          AND P.REJECT_REASON IS NULL
+          AND P.REJECT_REASON IS NOT NULL
           AND P.PERMISSION_STATUS = 'SCREENING'
     </select>
 
