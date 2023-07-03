@@ -180,7 +180,8 @@
             S.BANK,
             S.REPORT_NO,
             M.ID,
-            R.REF_MEMBER_ROLE_CODE
+            R.REF_MEMBER_ROLE_CODE,
+            Q.NO
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
@@ -373,6 +374,44 @@ INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ
             AND P.REJECT_REASON IS NOT NULL
             AND P.PERMISSION_STATUS IS NULL
             AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
+        )
+    </update>
+
+    <!-- 권한 회수 신청 -> 보류 -->
+    <insert id="addRoleToSellerReasonRetrieve">
+        INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ_NO)
+        SELECT SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL, #{ reason }, SYSDATE, #{ sellerReq }
+        FROM TBL_MEMBER
+        WHERE ID = #{ sellerId }
+    </insert>
+
+    <!-- 권한 회ㅜ 신청 -> 보류 -->
+    <update id="changeSellerRoleState3">
+        UPDATE TBL_PERMISSION_ROLE
+        SET PERMISSION_STATUS = 'REJECTED'
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM
+                TBL_SELLER_ROLE S
+                    JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                    JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                    JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                    JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+            WHERE
+                R.REF_MEMBER_ROLE_CODE = 1
+              AND EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+              AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+              AND P.REJECT_REASON IS NOT NULL
+              AND P.PERMISSION_STATUS IS NULL
+              AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
         )
     </update>
 </mapper>

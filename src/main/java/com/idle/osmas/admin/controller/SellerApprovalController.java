@@ -128,4 +128,20 @@ public class SellerApprovalController {
             return "redirect:/admin/errorPage";
         }
     }
+
+    @PostMapping("holdingRetrieveGo")
+    public String holdingRetrieveGo(@RequestParam("sellerId") String sellerId, @RequestParam("reason") String reason,
+                                    @RequestParam("sellerReq") int sellerReq, Model model) {
+        model.addAttribute("sellerId", sellerId);
+        model.addAttribute("reason", reason);
+        model.addAttribute("sellerReq", sellerReq);
+
+        int result = sellerRoleService.holdingRetrieveGo(sellerId, reason, sellerReq);
+
+        if (result > 0) {
+            return "redirect:/admin/sellerApproval/waitingRetrieve";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
 }

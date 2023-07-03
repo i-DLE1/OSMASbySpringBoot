@@ -105,4 +105,21 @@ public class SellerRoleServiceImpl implements SellerRoleService {
         }
         return result;
     }
+
+    @Override
+    @Transactional
+    public int holdingRetrieveGo(String sellerId, String reason, int sellerReq) {
+        int result1 = sellerRoleMapper.addRoleToSellerReasonRetrieve(sellerId, reason, sellerReq);
+        System.out.println("result1 : " + result1);
+        int result2 =sellerRoleMapper.changeSellerRoleState3(sellerReq);
+        System.out.println("result2 : " + result2);
+
+        int result = 0;
+
+        // sellerRoleMapper의 작업 수행 후 결과를 result 변수에 할당
+        if ((result1 > 0) && (result2 > 0)) {
+            result = 1;
+        }
+        return result;
+    }
 }

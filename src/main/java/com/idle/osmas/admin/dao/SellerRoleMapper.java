@@ -35,6 +35,10 @@ public interface SellerRoleMapper {
 
     int changeSellerRoleState2(int sellerReq); //권한 신청 -> 보류
 
+    int addRoleToSellerReasonRetrieve(String sellerId, String reason, int sellerReq); //권한 회수 신청 -> 보류
+
+    int changeSellerRoleState3(int sellerReq); //권한 회수 신청 -> 보류
+
 
 
 }
