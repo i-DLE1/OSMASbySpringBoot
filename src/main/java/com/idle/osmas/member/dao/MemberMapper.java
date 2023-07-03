@@ -12,6 +12,7 @@ public interface MemberMapper {
     String selectMemberByEmail(String email);
     int insertMember(MemberDTO member); // 회원 가입 용
 
+    String selectNicknameById(String id);
     int insertRole(); // 회원 가입시 User권한 자동 부여
 
     String selectIdByEmail(String email);

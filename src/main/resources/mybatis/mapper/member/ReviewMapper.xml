@@ -2,53 +2,159 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-
 <mapper namespace="com.idle.osmas.member.dao.ReviewMapper">
-<!--  <resultMap id="reviewResultMap" type="com.idle.osmas.member.dto.ReviewsDTO">-->
-<!--      <id property="refDeliveryStatusCode" column="REF_DELIVERY_STATUS_CODE"/>-->
-<!--      <result property="refProjectName" column="TITLE"/>-->
-<!--      <result property="nickname" column="NICKNAME"/>-->
-<!--      <result property="content" column="CONTENT"/>-->
-<!--      <result property="title" column="REVIEW_TITLE"/>-->
-<!--      <result property="registDate" column="REGIST_DATE"/>-->
-<!--      <result property="modifyDate" column="MODIFY_DATE"/>-->
-<!--      <result property="deteleYn" column="DETELE_YN"/>-->
-<!--  </resultMap>-->
 
-<!--    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">-->
-<!--        SELECT-->
-<!--                COUNT(*)-->
-<!--        FROM TBL_REVIEW A-->
-<!--        <if test="searchCondition == 'nickname'">-->
-<!--            JOIN TBL_MEMBER B ON (A.REF_MEMBER_NO = B.NO)-->
-<!--        </if>-->
-<!--        <if test="searchCondition == 'projectTitle'">-->
-<!--            JOIN TBL_DELIVERY_STATUS C ON(A.REF_DELIVERY_STATUS_CODE = C.NO)-->
-<!--            JOIN TBL_SHIPPING_TRACK_INFO D ON(C.REF_SHIPPING_TRACK_INFO_NO = D.NO)-->
-<!--            JOIN TBL_PAYMENT E ON(D.REF_PAYMENT_NO = E.CODE)-->
-<!--            JOIN TBL_PAYMENT_HISTORY F ON(E.CODE = F.REF_PAYMENT_NO)-->
-<!--            JOIN TBL_SPONSORED_PRJ G ON(F.REF_SPONSORED_PRJ_NO = G.NO)-->
-<!--            JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)-->
-<!--            JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)-->
-<!--        </if>-->
-<!--        <where>-->
-<!--            <if test="searchCondition == 'projectTitle'">-->
-<!--                I.TITLE = #{searchValue}-->
-<!--            </if>-->
-<!--            <if test="searchCondition == 'nickname'">-->
-<!--                B.NICKNAME = #{searchValue}-->
-<!--            </if>-->
-<!--            <if test="searchCondition == 'title'">-->
-<!--                A.TITLE = #{searchValue}-->
-<!--            </if>-->
-<!--            AND A.DELETE_YN = 'N'-->
-<!--        </where>-->
-<!--    </select>-->
+    <resultMap id="reviewResultMap" type="com.idle.osmas.member.dto.ReviewsDTO">
+        <id property="refDeliveryStatusCode" column="REF_DELIVERY_STATUS_CODE"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+        <result property="refProjectName" column="TITLE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="content" column="CONTENT"/>
+        <result property="title" column="REVIEW_TITLE"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="deteleYn" column="DETELE_YN"/>
+    </resultMap>
 
-<!--    <select id="selectReviewList" resultType="reviewResultMap">-->
-<!--        SELECT-->
-<!--               A.-->
-<!--          FROM-->
-<!--    </select>-->
+    <resultMap id="sponsoredResultMap" type="com.idle.osmas.member.dto.SponsoredsDTO">
+        <result property="title" column="TITLE"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="refPrjProductListNo" column="REF_PRJ_PRODUCT_LIST_NO"/>
+        <result property="memberNo" column="REF_MEMBER_NO"/>
+    </resultMap>
+
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM TBL_REVIEW A
+        <if test="searchCondition == 'nickname'">
+            JOIN TBL_MEMBER B ON (A.REF_MEMBER_NO = B.NO)
+        </if>
+        <if test="searchCondition == 'projectTitle'">
+            JOIN TBL_DELIVERY_STATUS C ON(A.REF_DELIVERY_STATUS_CODE = C.NO)
+            JOIN TBL_SHIPPING_TRACK_INFO D ON(C.REF_SHIPPING_TRACK_INFO_NO = D.NO)
+            JOIN TBL_PAYMENT E ON(D.REF_PAYMENT_NO = E.CODE)
+            JOIN TBL_PAYMENT_HISTORY F ON(E.CODE = F.REF_PAYMENT_NO)
+            JOIN TBL_SPONSORED_PRJ G ON(F.REF_SPONSORED_PRJ_NO = G.NO)
+            JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)
+            JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)
+        </if>
+        <where>
+            <if test="searchCondition == 'projectTitle'">
+                I.TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'nickname'">
+                B.NICKNAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'title'">
+                A.REVIEW_TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+            AND A.DETELE_YN = 'N'
+        </where>
+    </select>
+    <select id="selectReviewList" resultMap="reviewResultMap">
+        SELECT
+        A.RNUM
+        , A.REF_DELIVERY_STATUS_CODE
+        , A.REF_MEMBER_NO
+        , A.MODIFY_DATE
+        , A.REVIEW_TITLE
+        , K.NICKNAME
+        , I.TITLE
+        FROM(SELECT ROWNUM RNUM
+        , B.REF_DELIVERY_STATUS_CODE
+        , B.REF_MEMBER_NO
+        , B.MODIFY_DATE
+        , B.REVIEW_TITLE
+        FROM(SELECT
+        C.REF_DELIVERY_STATUS_CODE
+        , C.REF_MEMBER_NO
+        , C.MODIFY_DATE
+        , C.REVIEW_TITLE
+        FROM TBL_REVIEW C
+        <if test="searchCondition == 'projectTitle'">
+            JOIN TBL_DELIVERY_STATUS J ON(C.REF_DELIVERY_STATUS_CODE = J.NO)
+            JOIN TBL_SHIPPING_TRACK_INFO D ON(J.REF_SHIPPING_TRACK_INFO_NO = D.NO)
+            JOIN TBL_PAYMENT E ON(D.REF_PAYMENT_NO = E.CODE)
+            JOIN TBL_PAYMENT_HISTORY F ON(E.CODE = F.REF_PAYMENT_NO)
+            JOIN TBL_SPONSORED_PRJ G ON(F.REF_SPONSORED_PRJ_NO = G.NO)
+            JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)
+            JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)
+        </if>
+        <if test="searchCondition == 'nickname'">
+            JOIN TBL_MEMBER K ON (C.REF_MEMBER_NO = K.NO)
+        </if>
+        <where>
+            <if test="searchCondition == 'projectTitle'">
+                I.TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'nickname'">
+                K.NICKNAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'title'">
+                C.REVIEW_TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+            AND C.DETELE_YN = 'N'
+        </where>
+        ORDER BY C.MODIFY_DATE DESC
+        ) B
+        <![CDATA[
+                            WHERE ROWNUM <= #{endRow}
+                ]]>
+        )A
+        JOIN TBL_DELIVERY_STATUS J ON(A.REF_DELIVERY_STATUS_CODE = J.NO)
+        JOIN TBL_SHIPPING_TRACK_INFO D ON(J.REF_SHIPPING_TRACK_INFO_NO = D.NO)
+        JOIN TBL_PAYMENT E ON(D.REF_PAYMENT_NO = E.CODE)
+        JOIN TBL_PAYMENT_HISTORY F ON(E.CODE = F.REF_PAYMENT_NO)
+        JOIN TBL_SPONSORED_PRJ G ON(F.REF_SPONSORED_PRJ_NO = G.NO)
+        JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)
+        JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)
+        JOIN TBL_MEMBER K ON (A.REF_MEMBER_NO = K.NO)
+        <![CDATA[
+                 WHERE A.RNUM >= #{startRow}
+                ]]>
+        ORDER BY 1 ASC
+    </select>
+
+    <select id="selectTotalCountSponsored" resultType="_int">
+        SELECT COUNT(*)
+        FROM TBL_SPONSORED_PRJ A
+                 JOIN TBL_MEMBER B on A.REF_MEMBER_NO = B.NO
+        WHERE B.ID = #{id}
+    </select>
+
+    <select id="selectSponsoredList" resultMap="sponsoredResultMap">
+        SELECT
+               A.RNUM
+             , A.REGIST_DATE
+             , A.REF_PRJ_PRODUCT_LIST_NO
+             , A.REF_MEMBER_NO
+             , D.NICKNAME
+             , F.TITLE
+          FROM(SELECT ROWNUM RNUM
+             , B.REGIST_DATE
+             , B.REF_PRJ_PRODUCT_LIST_NO
+             , B.REF_MEMBER_NO
+                FROM(SELECT
+                         C.REGIST_DATE
+                       , C.REF_PRJ_PRODUCT_LIST_NO
+                       , C.REF_MEMBER_NO
+                     FROM TBL_SPONSORED_PRJ C
+                     JOIN TBL_MEMBER D ON(D.NO = C.REF_MEMBER_NO)
+                WHERE D.ID = #{searchValue}
+               ORDER BY C.REGIST_DATE DESC)B
+              <![CDATA[
+               WHERE ROWNUM <= #{endRow}
+                ]]>)A
+                JOIN TBL_MEMBER D ON(D.NO = A.REF_MEMBER_NO)
+                JOIN TBL_PRJ_PRODUCT_LIST E ON(A.REF_PRJ_PRODUCT_LIST_NO = E.NO)
+                JOIN TBL_PRJ F ON(E.REF_PRJ_NO = F.NO)
+                <![CDATA[
+                WHERE A.RNUM >= #{startRow}
+                 ]]>
+                ORDER BY 1 ASC
+    </select>
 </mapper>
+
+

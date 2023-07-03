@@ -10,127 +10,87 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
-    
-</head>
 
+</head>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
 <div class="board">
-    <header id="header">
-        <th:block th:include="~{/common/fragments/header}"></th:block>
-    </header>
     <h1>후원한 프로젝트 목록</h1>
     <div style="text-align: end;">
         <span class="btn_myreview">
-            <a href="./review.html">전체 후기보기</a>
+            <a th:href="@{/member/review/review}">전체 후기보기</a>
         </span>
     </div>
     <div>
-        <ul class="review_list">
-            <div>
-                <a href="">
-                    <img src="./grid.png" width="90px" height="90px">
-                </a>
-            </div>
-            <div style="margin-left: 20px;">
-                <a href="">
-                    <li style="font-size: 14px;">
-                        프로젝트명
-                    </li>
-                    <li style="margin-top: 5px;">
-                        제목
-                    </li>
-                </a>
-                <span style="display: flex;margin-top: 3px; font-size: 20px;">
-                    <li style="margin-right: 10px;">
-                        23-06-17
-                    </li>
-                    <li>
-                        닉네임
-                    </li>
-                </span>
-                
-            </div>
-            <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
-            </div>
-        </ul>
-        <ul class="review_list">
-            <div>
-                <a href="">
-                    <img src="./grid.png" width="90px" height="90px">
-                </a>
-            </div>
-            <div style="margin-left: 20px;">
-                <a href="">
-                    <li style="font-size: 14px;">
-                        프로젝트명
-                    </li>
-                    <li style="margin-top: 5px;">
-                        제목
-                    </li>
-                </a>
-                <span style="display: flex;margin-top: 3px; font-size: 20px;">
-                    <li style="margin-right: 10px;">
-                        23-06-17
-                    </li>
-                    <li>
-                        닉네임
-                    </li>
-                </span>
-                
-            </div>
-            <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
-            </div>
-        </ul>
-        <ul class="review_list">
-            <div>
-                <a href="">
-                    <img src="./grid.png" width="90px" height="90px">
-                </a>
-            </div>
-            <div style="margin-left: 20px;">
-                <a href="">
-                    <li style="font-size: 14px;">
-                        프로젝트명
-                    </li>
-                    <li style="margin-top: 5px;">
-                        제목
-                    </li>
-                </a>
-                <span style="display: flex;margin-top: 3px; font-size: 20px;">
-                    <li style="margin-right: 10px;">
-                        23-06-17
-                    </li>
-                    <li>
-                        닉네임
-                    </li>
-                </span>
-                
-            </div>
-            <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
-                <button class="btn_re" onclick="location.href='reviewWrite2.html'">작성하기</button>
-            </div>
-        </ul>
+        <th:block th:if="${sponsoredList != null}">
+            <th:block th:each="sponsored : ${sponsoredList}">
+                <ul class="review_list">
+                    <div>
+                        <a href="">
+                            <img src="./grid.png" width="90px" height="90px">
+                        </a>
+                    </div>
+                    <div style="margin-left: 20px;">
+                        <a href="">
+                            <li th:text="${sponsored.title}" style="font-size: 24px;">
+                                <!--                                프로젝트명-->
+                            </li>
+                        </a>
+                        <span style="display: flex;margin-top: 3px; font-size: 20px;">
+                        <li th:text="${sponsored.registDate}" style="margin-right: 10px;">
+<!--                            23-06-17-->
+                        </li>
+                        <li th:text="${sponsored.nickname}">
+<!--                            닉네임-->
+                        </li>
+                    </span>
+                    </div>
+                    <div style="margin-left: auto;margin-top: auto; margin-bottom: auto;">
+                        <button class="btn_re" th:onclick="reviewWrite()" >작성하기</button>
+                    </div>
+                </ul>
+            </th:block>
+        </th:block>
     </div>
 
     <nav style="text-align: center;">
-        <div class="search_content">
-            <form action="">
-                <select name="selectKeyword" id="selectKeyword">
-                    <option value="pName">프로젝트명</option>
-                    <option value="title">제목</option>
-                    <option value="nickName">닉네임</option>
-                </select>
-                <input type="search" name="" id="select">
-                <button>검색</button>
-            </form>
-        </div>
-        <sapn>
-            1 2 3 45
+<!--                <div class="search_content">-->
+<!--                    <form action="">-->
+<!--                        <select name="selectKeyword" id="selectKeyword">-->
+<!--                            <option value="pName">프로젝트명</option>-->
+<!--                            <option value="title">제목</option>-->
+<!--                            <option value="nickName">닉네임</option>-->
+<!--                        </select>-->
+<!--                        <input type="search" name="" id="select">-->
+<!--                        <button>검색</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+        <sapn th:class="pagingArea">
+            <button
+                    th:onclick="'location.href=\'/member/review/review?currentPage='+ ${selectCriteria.pageNo - 1} + '\''"
+                    th:disabled="${selectCriteria.pageNo == 1}"> < </button>
+            <th:block th:each="page : ${#numbers.sequence(selectCriteria.startPage, selectCriteria.endPage)}">
+                <button
+                        th:text="${ page }"
+                        th:onclick="'location.href=\'/member/review/review?currentPage='+ ${page}+ '\''"
+                        th:disabled="${ selectCriteria.pageNo eq page }">
+                </button>
+            </th:block>
+            <button
+                    th:onclick="'location.href=\'/member/review/review?currentPage='+ ${selectCriteria.pageNo + 1} + '\''"
+                    th:disabled="${selectCriteria.pageNo == selectCriteria.maxPage}">></button>
         </sapn>
     </nav>
+</div>
     <footer>
         <th:block th:include="~{/common/fragments/footer}"></th:block>
     </footer>
-</div>
+<script>
+    function reviewWrite(){
+        let popOption = "width = 400px, height=400px,top=300px,left=300px,scrollbars=yes";
+        let Url = '/member/review/reviewWrite';
+        window.open(Url,'pop',popOption);
+    }
+</script>
 </html>

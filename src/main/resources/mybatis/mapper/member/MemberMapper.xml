@@ -55,6 +55,12 @@
         FROM TBL_MEMBER A
         WHERE A.NICKNAME = #{nickname}
     </select>
+    <select id="selectNicknameById" resultType="string">
+        SELECT
+            A.NICKNAME
+        FROM TBL_MEMBER A
+        WHERE A.ID = #{id}
+    </select>
 
     <select id="selectMemberByEmail" resultType="string">
         SELECT

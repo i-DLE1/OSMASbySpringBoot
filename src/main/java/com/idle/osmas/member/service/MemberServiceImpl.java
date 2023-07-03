@@ -13,6 +13,13 @@ public class MemberServiceImpl implements MemberService{
         this.mapper = mapper;
     }
     // 중복검사용
+
+
+    @Override
+    public String selectNicknameById(String id) {
+        return mapper.selectNicknameById(id);
+    }
+
     @Override
     public boolean selectMemberById(String id) {
         String result = mapper.selectMemberById(id);

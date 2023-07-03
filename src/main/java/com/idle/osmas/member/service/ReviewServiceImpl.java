@@ -2,6 +2,7 @@ package com.idle.osmas.member.service;
 
 import com.idle.osmas.member.dao.ReviewMapper;
 import com.idle.osmas.member.dto.ReviewsDTO;
+import com.idle.osmas.member.dto.SponsoredsDTO;
 import com.idle.osmas.member.paging.SelectCriteria;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,19 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    public int selectTotalCountSponsored(String id) {
+        return mapper.selectTotalCountSponsored(id);
+    }
+
+    @Override
     public List<ReviewsDTO> selectReviewList(SelectCriteria selectCriteria) {
 
         List<ReviewsDTO> reviewList = mapper.selectReviewList(selectCriteria);
         return reviewList;
+    }
 
+    @Override
+    public List<SponsoredsDTO> selectSponsoredList(SelectCriteria selectCriteria) {
+        return mapper.selectSponsoredList(selectCriteria);
     }
 }

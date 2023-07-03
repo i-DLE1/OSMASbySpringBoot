@@ -1,6 +1,7 @@
 package com.idle.osmas.member.dao;
 
 import com.idle.osmas.member.dto.ReviewsDTO;
+import com.idle.osmas.member.dto.SponsoredsDTO;
 import com.idle.osmas.member.paging.SelectCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,5 +12,8 @@ import java.util.Map;
 public interface ReviewMapper {
     int selectTotalCount(Map<String, String> searchMap);
 
+    int selectTotalCountSponsored(String id);
     List<ReviewsDTO> selectReviewList(SelectCriteria selectCriteria);
+
+    List<SponsoredsDTO> selectSponsoredList(SelectCriteria selectCriteria);
 }

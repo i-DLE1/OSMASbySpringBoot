@@ -15,6 +15,7 @@ ul{
     
 }
 
+
 .terms_desc{
     font-size: 14px;
     margin: 9px 0 5px 35px;
@@ -150,7 +151,8 @@ label{
     margin:0 auto;
     width: 100%;
     max-width: 1000px;
-    margin-top: 50px;
+    margin-top:200px;
+    margin-bottom: 200px;
 }
 
 #selectKeyword{
@@ -274,3 +276,6 @@ body{
     background-color: white;
     color: black;
 }
+
+
+
