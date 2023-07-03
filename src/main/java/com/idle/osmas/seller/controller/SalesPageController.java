@@ -35,7 +35,7 @@ public class SalesPageController {
         return "/seller/fragments/product";
     }
 
-    @GetMapping ("/sales/salesPage1")
+    @GetMapping ("/sales/detail")
     public String salesPage1(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectOptionByNo(no);
@@ -43,63 +43,18 @@ public class SalesPageController {
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
         model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage1";
+        return "/seller/sales/detail";
     }
 
-    @GetMapping ("/sales/salesPage2")
-    public String salesPage2(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage2";
-    }
+//    @GetMapping("/data")
+//    public String getData(Model model) {
+//        boolean showDiv = true; // 데이터에 따라 표시 여부 결정
+//        model.addAttribute("showDiv", showDiv);
+//        // 필요한 데이터를 모델에 추가
+//        // ...
+//        return "data-template"; // 템플릿 이름 반환
+//    }
 
-    @GetMapping ("/sales/salesPage3")
-    public String salesPage3(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage3";
-    }
-
-    @GetMapping ("/sales/salesPage4")
-    public String salesPage4(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage4";
-    }
-
-    @GetMapping ("/sales/salesPage5")
-    public String salesPage5(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage5";
-    }
-
-    @GetMapping ("/sales/salesPage6")
-    public String salesPage6(Model model, @RequestParam("no") int no){
-        SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
-        model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage6";
-    }
 
 
 }
