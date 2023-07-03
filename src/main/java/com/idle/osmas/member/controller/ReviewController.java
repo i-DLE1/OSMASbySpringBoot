@@ -99,4 +99,7 @@ public class ReviewController {
         m.addAttribute("selectCriteria",selectCriteria);
 
     }
+
+    @GetMapping("/review/reviewWrite")
+    public void goReview4(){}
 }
