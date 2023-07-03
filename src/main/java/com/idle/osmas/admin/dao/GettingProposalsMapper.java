@@ -9,4 +9,6 @@ import java.util.List;
 public interface GettingProposalsMapper {
 
     List<SuggestDTO> gettingProposalsAll();  //받은 제안 모두 확인
+
+   // int sendProposals(String proposalNo, String reasonText); //제안 알림 보내기
 }

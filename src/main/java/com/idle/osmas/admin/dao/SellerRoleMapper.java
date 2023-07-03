@@ -23,9 +23,21 @@ public interface SellerRoleMapper {
 
     List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
 
-    int addRoleToSeller(String sellerId);
+    int addRoleToSeller(String sellerId); //권한 신청 -> 완료
 
-    int changeSellerRoleState(String sellerId);
+    int changeSellerRoleState(String sellerId); //권한 신청 -> 완료
+
+    int addRoleToSellerDrop(String sellerId); //권한 회수 신청 -> 완료
+
+    int changeSellerRoleDropState(String sellerId); //권한 회수 신청 -> 완료
+
+    int addRoleToSellerReason(String sellerId, String reason, int sellerReq); //권한 신청 -> 보류
+
+    int changeSellerRoleState2(int sellerReq); //권한 신청 -> 보류
+
+    int addRoleToSellerReasonRetrieve(String sellerId, String reason, int sellerReq); //권한 회수 신청 -> 보류
+
+    int changeSellerRoleState3(int sellerReq); //권한 회수 신청 -> 보류
 
 
 

@@ -39,8 +39,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
             sendButton.addEventListener('click', () => {
                 const reasonTextValue = reasonText.value;
-                // 전송 처리
-                console.log('전송:', reasonTextValue);
+                const proposalNo = button.getAttribute('data-proposal-no');
+
+                console.log('제안 번호: ' + proposalNo);
+                console.log('제안 알람 확인: ' + reasonTextValue);
+
+                // AJAX 요청
+                $.ajax({
+                    url: "/admin/AdminCategory/sendingProposals",
+                    method: 'POST',
+                    data: {
+                        'proposalNo': proposalNo,
+                        'reasonText': reasonTextValue
+                    },
+                    success: function(response) {
+                        console.log('확인 메세지가 전송되었습니다.');
+                        location.reload(); // 페이지 새로 고침
+                    },
+                    error: function(error) {
+                        console.error('확인 메세지 전송에 실패했습니다.', error);
+                    }
+                });
             });
 
             closeButton.addEventListener('click', () => {
