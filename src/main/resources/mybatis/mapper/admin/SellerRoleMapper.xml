@@ -82,15 +82,21 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID,
-            R.REF_MEMBER_ROLE_CODE
-        FROM TBL_SELLER_ROLE S
-                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                 JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
-                 JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
-                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
-        WHERE R.REF_MEMBER_ROLE_CODE = 1 AND NOT EXISTS (
-            SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            M.ID
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND R.REF_MEMBER_ROLE_CODE NOT IN (2, 3)
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
         )
           AND P.REJECT_REASON IS NULL
           AND P.PERMISSION_STATUS = 'SCREENING'
@@ -136,14 +142,35 @@
             S.BANK,
             S.REPORT_NO,
             M.ID
-        FROM TBL_SELLER_ROLE S
-                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                 JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
-                 JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
-                 JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
-                 JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
-        WHERE P.REJECT_REASON IS NULL
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                LEFT JOIN TBL_ROLE_LIST R3 ON M.NO = R3.REF_MEMBER_NO AND R3.REF_MEMBER_ROLE_CODE = 3
+        WHERE
+            P.REJECT_REASON IS NULL
           AND P.PERMISSION_STATUS = 'APPROVAL'
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 1
+        )
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 3
+        )
     </select>
 
     <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 1인 사람 조회(판매자 권한 회수 신청자) -->
@@ -158,15 +185,31 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
-                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'SCREENING'
     </select>
 
-    <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 1이며 ALERT이 NULL값이 아닌 사람 조회(판매자 권한 회수 보류자) -->
+    <!-- 판매자 권한 회수 보류자 -->
     <select id="selectHoldingRoleRetrieve" resultMap="sellerRoleResultMap">
         SELECT
             S.ACCOUNT_NO,
@@ -178,15 +221,32 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE,
+            P.REJECT_REASON
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
-                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.REJECT_REASON IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
     </select>
 
-    <!-- 권한 코드를 1,2를 가지고 있고 retrieve가 0이며 ALERT이 NULL인 사람 조회(판매자 권한 회수 완료자) -->
+    <!-- 판매자 권한 회수 완료자 -->
     <select id="selectSuccessRoleRetrieve" resultMap="sellerRoleResultMap">
         SELECT
             S.ACCOUNT_NO,
@@ -198,12 +258,28 @@
             S.REF_MEMBER_NO,
             S.BANK,
             S.REPORT_NO,
-            M.ID
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
-                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'APPROVAL'
     </select>
 
     <insert id="addRoleToSeller">
