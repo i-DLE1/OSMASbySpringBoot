@@ -9,35 +9,36 @@
 </head>
 
 <body>
+<table>
+    <thead>
+    <tr>
+        <th style="width: 100px;"></th>
+        <th style="width: 850px;"></th>
+        <th style="width: 150px; font-size: 20px">등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+        <div class="contentheadline">FAQ</div>
+        <th:block th:each="faq, index : ${faqList}">
+            <tr>
+                <td class="tdindex" th:text="${index.count}" style="font-size: 20px"></td>
+                <td>
+                    <a th:text="${faq.title}" style="cursor: pointer; font-size: 20px" class="show-details"></a>
+                </td>
+                <td class="tdindex" th:text="${faq.registDate}" style="font-size: 20px"></td>
+            </tr>
+            <tr class="hidden-row" style="display: none;">
+                <td class="tdindex">↳</td>
+                <td>
+                    <div th:text="${faq.content}" style="font-size: 16px; color: #884A3B"></div>
+                </td>
+                <td></td>
+            </tr>
+        </th:block>
+    </tbody>
+</table>
 
-<div class="contentsbottom">
-    <table>
-        <tr>
-            <th style="width: 150px;">번호</th>
-            <th style="width: 800px;">자주하는질문</th>
-            <th style="width: 150px;">등록일</th>
-        </tr>
-        <tr th:each="faq, index : ${faqList}">
-            <td class="tdindex" th:text="${index.count}"></td>
-            <td><a style="cursor: pointer" class="show-details" th:text="${faq.title}"></a></td>
-            <td th:text="${faq.registDate}"></td>
-        </tr>
-    </table>
-
-    <script src="/js/seller/salesPageDetail.js"></script>
-
-    <div>
-        <ul class="cus-page">
-            <li><a href=#><</a></li>
-            <li><a href=#>1</a></li>
-            <li><a href=#>2</a></li>
-            <li><a href=#>3</a></li>
-            <li><a href=#>4</a></li>
-            <li><a href=#>5</a></li>
-            <li><a href=#>></a></li>
-        </ul>
-    </div>
-</div>
+<script src="/js/seller/salesPageDetail.js"></script>
 
 
 </body>

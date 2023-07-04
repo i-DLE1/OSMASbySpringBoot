@@ -77,6 +77,15 @@
         <result property="registDate" column="REGIST_DATE"/>
     </resultMap>
 
+    <resultMap type="com.idle.osmas.seller.dto.NewInfoDTO" id="newInfoResultMap">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="deleteYn" column="DELETE_YN"/>
+        <result property="refprjNo" column="REF_PRJ_NO"/>
+    </resultMap>
 
 
     <select id="selectAllProject" resultMap="salesResultMap">
@@ -185,6 +194,15 @@
             REGIST_DATE
         FROM TBL_PRJ_FAQ
         WHERE REF_PRJ_NO = #{ no }
+        ORDER BY NO DESC
+    </select>
+
+    <select id="selectNewInfoListByNo" resultMap="newInfoResultMap" parameterType="_int">
+        SELECT
+            *
+        FROM TBL_PRJ_NEW_INFO
+        WHERE REF_PRJ_NO = #{ no }
+          AND DELETE_YN = 'N'
         ORDER BY NO DESC
     </select>
 

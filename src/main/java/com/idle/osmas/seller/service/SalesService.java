@@ -20,5 +20,6 @@ public interface SalesService {
 
     public List<FaqDTO> selectFaqListByNo(int no);
 
+    public List<NewInfoDTO> selectNewInfoListByNo(int no);
 
 }

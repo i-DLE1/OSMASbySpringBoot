@@ -85,7 +85,9 @@ public class SalesPageController {
     @GetMapping ("/sales/prjNewInfo")
     public String prjNewInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
+        List<NewInfoDTO> newInfoList = salesService.selectNewInfoListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
+        model.addAttribute("newInfoList", newInfoList);
         return "/seller/sales/prjNewInfo";
     }
 
