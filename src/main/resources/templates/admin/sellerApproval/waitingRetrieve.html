@@ -36,7 +36,8 @@
                     <p class="apply-content" th:text="${seller.name}">회사 이름</p>
                     <p th:data-seller-req="${seller.req.no}"></p>
                 </div>
-                <p class="alert-content" th:text="${seller.reason.rejectReason}">신청 사유 내용</p>
+                <p class="alert-content" th:text="${seller.reason.sellerReason}">신청 사유 내용</p>
+                <p class="alert-content" th:text="${seller.reason.otherReason}">신청 사유 기타 내용</p>
                 <div class="button-container">
                     <button class="goButton" th:data-seller-id="${seller.member.id}">권한 회수</button>
                     <button class="noButton" style="margin-right: 60px;" th:data-seller-id="${seller.member.id}">회수 보류</button>

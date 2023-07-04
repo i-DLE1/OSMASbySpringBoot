@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.admin.dao.SellerApprovalFormMapper">
+
+    <insert id="sellerOutReq" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_REQ (NO, REF_MEMBER_NO, REGIST_DATE)
+        VALUES (SEQ_TBL_SELLER_ROLE_REQ_NO.NEXTVAL,
+                (SELECT M.NO FROM TBL_MEMBER M WHERE ID = #{sellerId}),
+                SYSDATE
+               )
+    </insert>
+
+    <insert id="sellerOut" parameterType="java.util.Map">
+        INSERT INTO TBL_PERMISSION_ROLE (NO,SELLER_REASON, PERMISSION_STATUS, LAST_DATE, REF_SELLER_ROLE_REQ_NO, OTHER_REASON)
+        VALUES (
+                   SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL,
+                   #{reasonSelect},
+                   'SCREENING',
+                   SYSDATE,
+                   (SELECT Q.NO
+                    FROM TBL_SELLER_ROLE_REQ Q
+                             JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                    WHERE M.ID = #{sellerId}
+                    ORDER BY Q.REGIST_DATE DESC
+                        FETCH FIRST 1 ROW ONLY),
+                   #{otherReasonInput}
+               )
+    </insert>
+
+    <delete id="deletePERMISSION">
+        DELETE FROM TBL_PERMISSION_ROLE
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM TBL_SELLER_ROLE_REQ Q
+                     JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+            WHERE M.ID = #{sellerId}
+            ORDER BY Q.REGIST_DATE DESC
+                FETCH FIRST 1 ROW ONLY
+        )
+    </delete>
+
+    <delete id="deleteREQ">
+        DELETE FROM TBL_SELLER_ROLE_REQ
+        WHERE REF_MEMBER_NO = (
+        SELECT M.NO
+        FROM TBL_MEMBER M
+            JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+        WHERE ID = #{sellerId}
+        ORDER BY Q.REGIST_DATE DESC
+            FETCH FIRST 1 ROW ONLY
+        )
+    </delete>
+</mapper>
