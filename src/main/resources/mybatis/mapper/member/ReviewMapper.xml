@@ -155,6 +155,13 @@
                  ]]>
                 ORDER BY 1 ASC
     </select>
+    
+    <select id="selectContent" resultType="string">
+        SELECT
+                A.CONTENT
+          FROM TBL_REVIEW A
+         WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
+    </select>
 </mapper>
 
 

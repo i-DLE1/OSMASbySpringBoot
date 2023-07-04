@@ -40,4 +40,9 @@ public class ReviewServiceImpl implements ReviewService{
     public List<SponsoredsDTO> selectSponsoredList(SelectCriteria selectCriteria) {
         return mapper.selectSponsoredList(selectCriteria);
     }
+
+    @Override
+    public String selectContent(int no) {
+        return mapper.selectContent(no);
+    }
 }

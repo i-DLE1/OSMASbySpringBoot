@@ -15,4 +15,6 @@ public interface ReviewService {
     public List<ReviewsDTO> selectReviewList(SelectCriteria selectCriteria);
 
     public List<SponsoredsDTO> selectSponsoredList(SelectCriteria selectCriteria);
+
+    public String selectContent(int no);
 }

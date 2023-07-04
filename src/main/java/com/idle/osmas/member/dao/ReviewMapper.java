@@ -16,4 +16,6 @@ public interface ReviewMapper {
     List<ReviewsDTO> selectReviewList(SelectCriteria selectCriteria);
 
     List<SponsoredsDTO> selectSponsoredList(SelectCriteria selectCriteria);
+
+    String selectContent(int no);
 }
