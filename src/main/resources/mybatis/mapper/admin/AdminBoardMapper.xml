@@ -37,6 +37,7 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
+        ORDER BY S.NO ASC
     </select>
 
 
@@ -62,29 +63,48 @@
             JOIN TBL_MEMBER M ON B.NO = M.NO
     </select>
 
-    <select id="getAdminBoardsByCategory" resultMap="adminBoardResultMap">
+
+    <select id="getAdminNotice" resultMap="adminBoardResultMap">
         SELECT
-        S.NO,
-        S.TITLE,
-        S.CONTENT,
-        S.REGIST_DATE,
-        S.MODIFY_DATE,
-        S.CLASSIFY_CODE,
-        S.REF_MEMBER_NO,
-        S.DELETE_YN
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        WHERE
-        <choose>
-            <when test="category == 'a'">
-                S.CLASSIFY_CODE = 'a'
-            </when>
-            <when test="category == 'b'">
-                S.CLASSIFY_CODE = 'b'
-            </when>
-            <when test="category == 'c'">
-                S.CLASSIFY_CODE = 'c'
-            </when>
-        </choose>
+        WHERE S.CLASSIFY_CODE = '공지사항'
+    </select>
+
+
+    <select id="getAdminEvent" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD S
+        WHERE S.CLASSIFY_CODE = '이벤트'
+    </select>
+
+    <select id="getAdminArticle" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD S
+        WHERE S.CLASSIFY_CODE = '보도자료'
     </select>
 
 

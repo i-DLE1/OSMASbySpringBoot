@@ -35,11 +35,12 @@ public class AdminBoardDTO {
 
     private String category;
 
-    public String getCategory(){
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category){
+    public void setCategory(String category) {
         this.category = category;
     }
+
 }

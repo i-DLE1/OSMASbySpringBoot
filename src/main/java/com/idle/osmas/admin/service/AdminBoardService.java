@@ -11,7 +11,11 @@ public interface AdminBoardService {
     List<AdminBoardDTO> getAllAdminBoards();
 
     // 카테고리에 해당하는 게시물 가져옴
-    List<AdminBoardDTO> getAdminBoardsByCategory(String category);
+    List<AdminBoardDTO> getAdminNotice();
+
+    List<AdminBoardDTO> getAdminEvent();
+
+    List<AdminBoardDTO> getAdminArticle();
 
     List<AdminBoardFileDTO> adminBoardFileList();
 

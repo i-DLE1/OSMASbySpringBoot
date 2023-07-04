@@ -4,9 +4,11 @@ import com.idle.osmas.admin.dao.AdminBoardMapper;
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.dto.AdminBoardFileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AdminBoardServiceImpl implements AdminBoardService {
 
     private final AdminBoardMapper adminBoardMapper;
@@ -21,12 +23,24 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     }
 
     @Override
-    public List<AdminBoardDTO> getAdminBoardsByCategory(String category) {
-        return adminBoardMapper.getAdminBoardsByCategory(category);
+    public List<AdminBoardDTO> getAdminNotice(){
+        return adminBoardMapper.getAdminNotice();
     }
+
+    @Override
+    public List<AdminBoardDTO> getAdminEvent(){
+        return adminBoardMapper.getAdminEvent();
+    }
+
+    @Override
+    public List<AdminBoardDTO> getAdminArticle(){
+        return adminBoardMapper.getAdminArticle();
+    }
+
 
     @Override
     public List<AdminBoardFileDTO> adminBoardFileList() {
         return adminBoardMapper.getAllAdminBoardFiles();
     }
+
 }
