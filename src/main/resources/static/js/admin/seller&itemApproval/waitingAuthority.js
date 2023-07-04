@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             reasonText.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
+
                     const currentCursorPosition = reasonText.selectionStart;
                     reasonText.value = reasonText.value.slice(0, currentCursorPosition) + '\n' + reasonText.value.slice(currentCursorPosition);
                 }

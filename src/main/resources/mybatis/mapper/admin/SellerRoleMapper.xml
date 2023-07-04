@@ -10,6 +10,8 @@
         <result property="rejectReason" column="REJECT_REASON"/>
         <result property="permissionStatus" column="PERMISSION_STATUS"/>
         <result property="lastDate" column="LAST_DATE"/>
+        <result property="sellerReason" column="SELLER_REASON"/>
+        <result property="otherReason" column="OTHER_REASON"/>
 
         <association property="sellerRoleReq" resultMap="sellerRoleReqResultMap"/>
     </resultMap>
@@ -182,7 +184,9 @@
             M.ID,
             R.REF_MEMBER_ROLE_CODE,
             Q.NO,
-            P.REJECT_REASON
+            P.REJECT_REASON,
+            P.SELLER_REASON,
+            P.OTHER_REASON
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
@@ -201,7 +205,7 @@
             FROM TBL_ROLE_LIST
             WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
         )
-          AND P.REJECT_REASON IS NOT NULL
+          AND P.REJECT_REASON IS NULL
           AND P.PERMISSION_STATUS = 'SCREENING'
     </select>
 
@@ -274,7 +278,6 @@
             FROM TBL_ROLE_LIST
             WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
         )
-          AND P.REJECT_REASON IS NULL
           AND P.PERMISSION_STATUS = 'APPROVAL'
     </select>
 
@@ -386,7 +389,7 @@ INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ
         WHERE ID = #{ sellerId }
     </insert>
 
-    <!-- 권한 회ㅜ 신청 -> 보류 -->
+    <!-- 권한 회수 신청 -> 보류 -->
     <update id="changeSellerRoleState3">
         UPDATE TBL_PERMISSION_ROLE
         SET PERMISSION_STATUS = 'REJECTED'
@@ -410,8 +413,7 @@ INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ
                 FROM TBL_ROLE_LIST
                 WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
             )
-              AND P.REJECT_REASON IS NOT NULL
-              AND P.PERMISSION_STATUS IS NULL
+              AND P.PERMISSION_STATUS = 'SCREENING'
               AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
         )
     </update>
