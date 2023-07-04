@@ -47,10 +47,10 @@ function addNewDiv() {
         const plusButton = clonedDiv.querySelector('.plusbutton');
         plusButton.addEventListener('click', function() {
             let count = plusButton.previousSibling.previousSibling.value;
-            let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
+            let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value);
             let price = money/count;
             plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
-            plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
+            plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
             calcMoney();
 
         });
@@ -58,11 +58,11 @@ function addNewDiv() {
         const minusButton = clonedDiv.querySelector('.minusbutton');
         minusButton.addEventListener('click', function() {
             let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
-            let money = parseInt(minusButton.nextSibling.nextSibling.value);
+            let money = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
             let price = money/count;
             if (count > 1) {
                 minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-                minusButton.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.value) - price;
+                minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) - price;
                 calcMoney();            } else {
                 alert("최소 수량은 1개 입니다.");
             }
@@ -115,57 +115,14 @@ function displaySelectedOptions() {
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // increaseCounter 함수 등록
-    const plusButtons = document.querySelectorAll('.plusbutton');
-    plusButtons.forEach(plusButton => {
-        plusButton.addEventListener('click', function() {
-            let count = plusButton.previousSibling.previousSibling.value;
-            let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
-            let price = money/count;
-            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
-            plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
-            calcMoney();
-        });
-    });
-
-    // decreaseCounter 함수 등록
-    const minusButtons = document.querySelectorAll('.minusbutton');
-    minusButtons.forEach(minusButton => {
-        minusButton.addEventListener('click', function() {
-            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
-            let money = parseInt(minusButton.nextSibling.nextSibling.value);
-            let price = money/count;
-            if (count > 1) {
-                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-                minusButton.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.value) - price;
-                calcMoney();
-            } else {
-                alert("최소 수량은 1개 입니다.");
-            }
-        });
-    });
-    var donationck = document.getElementById("donationck");
-    donationck.addEventListener("change", function() {
-        if (donationck.checked) {
-            // 체크박스가 선택된 경우
-            donationplus();
-        } else {
-            donationminus();
-            // 체크박스가 선택되지 않은 경우
-            // 필요한 처리를 수행할 수 있습니다.
-        }
-    });
-});
-
-
 
 // 현재금액/목표금액 퍼센트구하기
 function calcPercent(){
-    var currentAmount = parseInt(document.getElementById("currentAmount").textContent) ;
+    var currentAmount = parseInt(document.getElementById("currentAmount").textContent);
     var currentAmounttext = document.getElementById("currentAmount");
     var targetAmount = parseInt(document.getElementById("targetAmount").textContent);
     var targetAmounttext = document.getElementById("targetAmount");
+    var calcAmount = document.getElementById("calcAmount");
     var calcAmount = document.getElementById("calcAmount");
     var gauge1 = document.getElementById("progress-gauge1");
 
@@ -228,6 +185,23 @@ function calcMoney() {
 
 }
 
+// 백단위마다 컴마추가
+function numberWithCommas(number) {
+    return number.values().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+}
+
+function setcomma(){
+    // var optionPrices  =  document.querySelectorAll(".optiontext");
+    // for (var i=0; i< option2.length; i++){
+    //     option2[i].value = (parseInt(option2[i].value).toLocaleString()).toString();
+    // }
+
+    // console.log("하이");
+    // console.log(optionPrices);
+    // console.log(option2[1].textContent);
+}
+
 // 옵션 중복체크
 function checkDuplicates(arr) {
     var seen = {};
@@ -249,7 +223,11 @@ function checkDuplicates(arr) {
 function clearText() {
     var donation = document.getElementById("donation");
 
-    donation.value =1000;
+    if(donation.readOnly === true){
+        alert("체크를 해제해주세요!")
+    } else {
+        donation.value =1000;
+    }
 
 }
 
@@ -296,3 +274,51 @@ function donationminus(){
     var parsedNumber = parseFloat(totalamount.textContent.replace(/,/g, ''));
     totalamount.textContent = (parseInt(parsedNumber) - parseInt(donation.value)).toLocaleString();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // increaseCounter 함수 등록
+    const plusButtons = document.querySelectorAll('.plusbutton');
+    plusButtons.forEach(plusButton => {
+        plusButton.addEventListener('click', function() {
+            let count = plusButton.previousSibling.previousSibling.value;
+            let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value);
+            let price = money/count;
+            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
+            plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
+            calcMoney();
+        });
+    });
+
+    // decreaseCounter 함수 등록
+    const minusButtons = document.querySelectorAll('.minusbutton');
+    minusButtons.forEach(minusButton => {
+        minusButton.addEventListener('click', function() {
+            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+            let money = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
+            let price = money/count;
+            if (count > 1) {
+                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+                minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) - price;
+                calcMoney();
+            } else {
+                alert("최소 수량은 1개 입니다.");
+            }
+        });
+    });
+    var donationck = document.getElementById("donationck");
+    var donation = document.getElementById("donation");
+    donationck.addEventListener("change", function() {
+        if (donationck.checked) {
+            // 체크박스가 선택된 경우
+            donationplus();
+            donation.readOnly = true;
+        } else {
+            donationminus();
+            donation.readOnly = false;
+            // 체크박스가 선택되지 않은 경우
+            // 필요한 처리를 수행할 수 있습니다.
+        }
+    });
+
+
+});

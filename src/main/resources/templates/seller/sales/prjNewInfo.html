@@ -10,57 +10,24 @@
 </head>
 
 <body>
-<div class="contentsbottom">
     <table>
+        <div class="contentheadline" >새소식</div>
         <tr>
-            <th style="width: 150px;">번호</th>
-            <th style="width: 800px;">새소식</th>
-            <th style="width: 250px;">등록일</th>
+            <th style="width: 1000px;"></th>
         </tr>
-        <tr>
-            <td class="tdindex">1</td>
-            <td>사이즈가 추가되었습니다! 블랙, 레드색상 120(XXXL) 까지</td>
-            <td class="tdindex">2023.06.02</td>
-        </tr>
-        <tr>
-            <td class="tdindex">2</td>
-            <td>6월 5일 기준 펀딩금액 60% 달성! 성원에 감사드립니다.</td>
-            <td class="tdindex">2023.06.05</td>
-        </tr>
-        <tr>
-            <td class="tdindex">3</td>
-            <td>인스타그램 이벤트> 팔로우 해주신분들 중 추첨을 통해 상품 </td>
-            <td class="tdindex">2023.06.05</td>
-        </tr>
-        <tr>
-            <td class="tdindex">4</td>
-            <td></td>
-            <td class="tdindex"></td>
-        </tr>
-        <tr>
-            <td class="tdindex">5</td>
-            <td></td>
-            <td class="tdindex"></td>
-        </tr>
-        <tr>
-            <td class="tdindex">6</td>
-            <td></td>
-            <td class="tdindex"></td>
+        <tr th:each="newInfo, index: ${ newInfoList }">
+            <th>
+                <div style="padding-bottom: 20px;">
+                    <p th:text="${newInfo.title}" style="text-align: left; font-size: 25px"></p>
+                    <div class="content-wrapper">
+                        <div class="newInfoContent" th:text="${newInfo.content}"></div>
+                        <button class="more-button">더 보기</button>
+                    </div>
+                    <p th:text="'수정일: '+ ${newInfo.modifyDate}" style="text-align: left; font-size: 15px"></p>
+                </div>
+            </th>
         </tr>
     </table>
-
-    <div>
-        <ul class="cus-page">
-            <li><a href=#><</a></li>
-            <li><a href=#>1</a></li>
-            <li><a href=#>2</a></li>
-            <li><a href=#>3</a></li>
-            <li><a href=#>4</a></li>
-            <li><a href=#>5</a></li>
-            <li><a href=#>></a></li>
-        </ul>
-    </div>
-</div>
-
+<script src="/js/seller/salesPageDetail.js"></script>
 </body>
 </html>

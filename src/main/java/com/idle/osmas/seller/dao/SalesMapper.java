@@ -19,4 +19,6 @@ public interface SalesMapper {
 
     List<FaqDTO> selectFaqListByNo(int no);
 
+    List<NewInfoDTO> selectNewInfoListByNo(int no);
+
 }

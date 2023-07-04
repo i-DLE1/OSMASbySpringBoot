@@ -47,5 +47,10 @@ public class SalesServiceImpl implements SalesService{
         return salesMapper.selectFaqListByNo(no);
     }
 
+    @Override
+    public List<NewInfoDTO> selectNewInfoListByNo(int no) {
+        return salesMapper.selectNewInfoListByNo(no);
+    }
+
 
 }
