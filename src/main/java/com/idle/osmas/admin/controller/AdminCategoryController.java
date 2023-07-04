@@ -30,23 +30,22 @@ public class AdminCategoryController {
     @GetMapping("gettingProposals")
     public String gettingProposals(Model model){
         List<SuggestDTO> proposalAll = gettingProposalsService.gettingProposalsAll();
-
         model.addAttribute("proposalAll", proposalAll);
 
         return "/admin/adminCategory/gettingProposals";
     }
 
-//    @PostMapping("sendingProposals")
-//    public String sendingProposals(@RequestParam("proposalNo") String proposalNo, @RequestParam("reasonText") String reasonText, Model model) {
-//        model.addAttribute("proposalNo", proposalNo);
-//        model.addAttribute("reasonText", reasonText);
-//
-//        int result = GettingProposalsService.sendProposals(proposalNo, reasonText);
-//
-//        if (result > 0) {
-//            return "redirect:/admin/adminCategory/gettingProposals";
-//        } else {
-//            return "redirect:/admin/errorPage";
-//        }
-//    }
+    @PostMapping("sendingProposals")
+    public String sendingProposals(@RequestParam("proposalNo") int proposalNo, @RequestParam("reasonText") String reasonText, Model model) {
+        model.addAttribute("proposalNo", proposalNo);
+        model.addAttribute("reasonText", reasonText);
+
+        int result = gettingProposalsService.sendProposals(proposalNo, reasonText);
+
+        if (result > 0) {
+            return "redirect:/admin/adminCategory/gettingProposals";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
 }
