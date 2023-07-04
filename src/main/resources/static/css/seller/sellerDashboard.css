@@ -39,7 +39,7 @@ body{
     display: block;
     justify-content: center;
     text-align: center;
-    height: 120vh;
+    height: 140vh;
     background-color: #F9DFBB;
     font-size: 15px;
     color: #884A3B;
@@ -187,7 +187,8 @@ body{
     border-bottom: 1px solid #C49A6C;
 }
 
-.cus-table thead>tr>td:nth-child(n+5):nth-child(-n+7){
+/*.cus-table thead>tr>td:nth-child(n+5):nth-child(-n+8){*/
+.cus-table thead>tr>td{
     text-align: center;
 }
 
@@ -199,7 +200,8 @@ body{
     height: 4em;
     border-bottom: 1px solid #C49A6C;
 }
-.cus-table tbody>tr>td:nth-child(n+5):nth-child(-n+7){
+/*.cus-table tbody>tr>td:nth-child(n+5):nth-child(-n+8){*/
+.cus-table tbody>tr>td{
     text-align: center;
 }
 
@@ -226,9 +228,11 @@ body{
     border: 1px solid #C49A6C;
     padding: 5px 10px 5px 10px ;
     margin: 5px;
+    background: white;
+    color: #C49A6C;
 }
 
-.cus-page li:hover, .cus-page li:hover a {
+.cus-page li:hover, .cus-page li:hover {
     background-color: #C49A6C;
     color: white !important;
 }

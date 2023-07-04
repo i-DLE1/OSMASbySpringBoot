@@ -1,14 +1,24 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
+import com.idle.osmas.seller.service.ProductService;
 import com.idle.osmas.seller.service.ProjectProgressServiceImpl;
+import com.idle.osmas.seller.service.ProjectService;
 import com.idle.osmas.seller.service.SellerPageServiceImpl;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.channels.FileChannel;
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -17,22 +27,37 @@ public class ProjectDeatilController {
     private final SellerPageServiceImpl sellerPageService;
     private final ProjectProgressServiceImpl projectProgressService;
 
+    private final ProductService productService;
 
-    public ProjectDeatilController(SellerPageServiceImpl sellerPageService, ProjectProgressServiceImpl projectProgressService) {
+    private final ProjectService projectService;
+
+    public ProjectDeatilController(SellerPageServiceImpl sellerPageService, ProjectProgressServiceImpl projectProgressService, ProductService productService, ProjectService projectService) {
         this.sellerPageService = sellerPageService;
         this.projectProgressService = projectProgressService;
+        this.productService = productService;
+        this.projectService = projectService;
     }
 
     @GetMapping("projectDetail")
-    public String projectDetail(@RequestParam String id){
+    public String projectDetail(@RequestParam int no, Principal principal, Model model) {
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
+        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,"admin01");
+
+        Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
+
+        model.addAttribute("days",betweenDays.getDays());
+        model.addAttribute("project",project);
+        model.addAttribute("productList",productList);
+
         return "/seller/popup/projectDetail";
     }
 
     @GetMapping("cancel")
-    public String getCacnel(@RequestParam int no, Model model){
-        ProjectDTO project = sellerPageService.selectByProjectId(no);
+    public String getCacnel(@RequestParam int no,  Principal principal, Model model){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        System.out.println("project = " + project);
+        ProjectDTO project = sellerPageService.selectByProjectId(no, user.getNo());
 
         String targetRate = String.valueOf(project.getCurrentAmount() / project.getTargetAmount()  * 100)+"%";
         model.addAttribute("project",project);
@@ -42,7 +67,9 @@ public class ProjectDeatilController {
 
     @PostMapping("cancel")
     @ResponseBody
-    public String postCancel(@RequestParam Integer no, @RequestBody String content){
+    public String postCancel(@RequestParam Integer no, @RequestBody String content, Principal principal){
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
@@ -63,13 +90,11 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("qaAnswer")
-    public String getQaAnswer(@RequestParam String id, Model model) {
+    public String getQaAnswer(@RequestParam String id, Principal principal, Model model) {
 
-        System.out.println("id = " + id);
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectQnADTO projectQnA = sellerPageService.selectByQnANo(Integer.valueOf(id));
-
-        System.out.println("projectQnAAnswer = " + projectQnA);
 
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";
@@ -79,19 +104,22 @@ public class ProjectDeatilController {
     public String postQaAswer(@RequestBody String content,
                               @RequestParam Integer id,
                               @RequestParam String submitType,
-                              Model model){
+                              Principal principal){
         String result = "";
 
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
         Map<String, Object> qnaData = new HashMap<>();
+
         qnaData.put("no", id);
         qnaData.put("content", content);
-        qnaData.put("memberId","admin01");
+        qnaData.put("userNo",user.getNo());
+
         if("regist".equals(submitType)){
             sellerPageService.insertProjectQnAAnswer(qnaData);
             result = "success";
         }else if("modify".equals(submitType)){
             sellerPageService.updateProjectQnAAnswer(qnaData);
-            System.out.println("수정 성공");
             result = "success";
         }else {
             result = "fail";
@@ -114,6 +142,7 @@ public class ProjectDeatilController {
         if (projectProgress == null) throw new AccessAuthorityException("현재 프로젝트는 재심사 대상이 아닙니다.");
 
         model.addAttribute("projectProgress", projectProgress);
+
         return "/seller/popup/retry";
 
     }
@@ -122,7 +151,7 @@ public class ProjectDeatilController {
     @ResponseBody
     public String postRetry(@RequestBody String content, @RequestParam int id){
 
-        ProjectProgressDTO projectProgress = new ProjectProgressDTO();
+        ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
                 .refProjectNo(id)
                 .content(content)

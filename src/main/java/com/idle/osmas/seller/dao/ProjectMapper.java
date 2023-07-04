@@ -9,13 +9,13 @@ import java.util.Map;
 @Mapper
 public interface ProjectMapper {
 
-    Integer selectTemporaryProjectNoByUserId(String userId);
+    Integer selectTemporaryProjectNoByUserId(int userNo);
 
-    Integer existProjectByProjectNo (int projectNo, String userId);
+    Integer existProjectByProjectNo (int projectNo, int userNo);
 
-    ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId);
+    ProjectDTO selectProjectInfoByProjectNo(int projectNo, Integer userNo);
 
-    ProjectDTO selectProjectByProjectNo(int projectNo, String userId);
+    ProjectDTO selectProjectByProjectNo(int projectNo, int userNo);
 
 
     List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);

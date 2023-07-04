@@ -60,17 +60,15 @@
                               FROM TBL_PRJ_PROGRESS
                              GROUP BY REF_PRJ_NO)
         ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
-                 JOIN TBL_MEMBER TM ON PRJ.REF_MEMBER_NO = TM.NO
          WHERE TPP.STATUS = 'TEMPORARY'
-           AND TM.ID = '${userId}'
+           AND PRJ.REF_MEMBER_NO = '${userNo}'
     </select>
 
     <select id="existProjectByProjectNo" resultType="_int">
         SELECT PRJ.NO
           FROM TBL_PRJ PRJ
-          JOIN TBL_MEMBER TM ON TM.NO = PRJ.REF_MEMBER_NO
          WHERE PRJ.NO = #{projectNo}
-           AND TM.ID = #{userId}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
 
     <select id="selectProjectInfoByProjectNo" resultMap="projectResultMap">
@@ -83,13 +81,16 @@
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT
           FROM TBL_PRJ PRJ
-         <if test="userId != null">
-          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO
-         </if>
+<!--         <if test="userId != null">-->
+<!--          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO-->
+<!--         </if>-->
          WHERE PRJ.NO = ${projectNo}
-         <if test="userId != null">
-           AND TM.ID = #{userId}
-         </if>
+           <if test="userNo != null">
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+           </if>
+<!--         <if test="userId != null">-->
+<!--           AND TM.ID = #{userId}-->
+<!--         </if>-->
     </select>
 
     <select id="selectProjectByProjectNo" resultMap="projectResultMap">
@@ -109,6 +110,7 @@
           JOIN TBL_PRODUCT TP ON TP.NO = TPPL.REF_PRODUCT_NO
           JOIN TBL_CATEGORY TC ON TC.NO = PRJ.REF_CATEGORY_NO
          WHERE PRJ.NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
 
     <select id="selectProjectByCategory" resultMap="projectResultMap" parameterType="map">
@@ -131,32 +133,35 @@
           LEFT JOIN (SELECT *
                        FROM TBL_PRJ_FILE TPF2
                       WHERE TPF2.TYPE = 'THUMBNAIL'
+                        AND TPF2.DELETE_YN = 'N'
                     )TPF ON TPF.REF_PRJ_NO = PRJ.NO
-         WHERE TPF.DELETE_YN = 'N'
-        <if test="categoryNo != null">
-           AND PRJ.REF_CATEGORY_NO = #{categoryNo}
-        </if>
-        <if test="searchTitle != null or searchTitle != ''">
-           AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
-        </if>
-        <if test="startDate != null">
-           AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
-        </if>
-        <if test="endDate != null">
-           AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
-        </if>
-        <if test="views != null">
-           AND PRJ.VIEWS <![CDATA[>=]]> #{views}
-        </if>
-         ORDER BY PRJ.NO DESC
-
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="categoryNo != null">
+               PRJ.REF_CATEGORY_NO = #{categoryNo}
+            </if>
+            <if test="searchTitle != null or searchTitle != ''">
+               AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
+            </if>
+            <if test="startDate != null">
+               AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
+            </if>
+            <if test="endDate != null">
+               AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
+            </if>
+            <if test="views != null">
+               AND PRJ.VIEWS <![CDATA[>=]]> #{views}
+            </if>
+             ORDER BY PRJ.NO DESC
+        </trim>
     </select>
 
     <insert id="insertTemporaryProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_PRJ PRJ
-        (PRJ.NO, PRJ.REGIST_DATE, PRJ.REF_MEMBER_NO)
+        (PRJ.NO, PRJ.REGIST_DATE, PRJ.REF_MEMBER_NO,
+         PRJ.VIEWS, PRJ.CURRENT_AMOUNT)
         VALUES
-        (SEQ_TBL_PRJ_NO.nextval, SYSDATE, ${member.no})
+        (SEQ_TBL_PRJ_NO.nextval, SYSDATE, ${refMemberNo},
+         0,0)
         <selectKey resultType="_int" order="AFTER" keyProperty="no">
             SELECT SEQ_TBL_PRJ_NO.currval FROM DUAL
         </selectKey>
@@ -168,9 +173,7 @@
             PRJ.START_DATE = '${startDate}',
             PRJ.END_DATE = '${endDate}',
             PRJ.TARGET_AMOUNT = ${targetAmount},
-            PRJ.REF_CATEGORY_NO = ${category.no},
-            PRJ.CURRENT_AMOUNT = 0,
-            PRJ.VIEWS = 0
+            PRJ.REF_CATEGORY_NO = ${category.no}
         WHERE PRJ.NO = ${no}
     </update>
 

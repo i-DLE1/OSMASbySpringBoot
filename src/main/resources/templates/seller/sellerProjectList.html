@@ -44,6 +44,7 @@
                             <tr>
                                 <th>#</th>
                                 <td>프로젝트 명</td>
+                                <td>카테고리</td>
                                 <td>목표금액(원)</td>
                                 <td>참여금액(원)</td>
                                 <td>프로젝트기간</td>
@@ -55,8 +56,9 @@
                             <th:block th:each="item, stat : ${projectList}">
                             <tr>
                                 <th:block th:object="${item}">
-                                <th th:text="${stat.index+1}"></th>
+                                <th th:text="${endRow - stat.index}"></th>
                                 <td th:text="*{title}"></td>
+                                <td th:text="*{category.name}"></td>
                                 <td th:text="*{#numbers.formatInteger(targetAmount,0,'COMMA')}"></td>
                                 <td th:text="*{#numbers.formatInteger(currentAmount,0,'COMMA')}"></td>
                                 <td th:text="|*{startDate} ~ *{endDate}|"></td>

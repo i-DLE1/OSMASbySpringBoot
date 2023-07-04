@@ -1,6 +1,5 @@
 package com.idle.osmas.seller.controller;
 
-import com.idle.osmas.seller.dto.CategoryDTO;
 import com.idle.osmas.seller.dto.ProjectCategoryDTO;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.service.ProjectCategoryService;
@@ -55,10 +54,9 @@ public class SaleListController {
     @ResponseBody
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
                                                  @RequestParam(required = false) String searchTitle){
-        System.out.println("categoryCode = " + categoryCode);
 
         List<ProjectDTO> tempProjectList = new ArrayList<>();
-        List<ProjectCategoryDTO> categorySubList = new ArrayList<>();
+        List<ProjectCategoryDTO> categorySubList;
         Map<String, Object> projectParams = new HashMap<>();
 
         if(categoryCode == null || categoryCode.size() == 0){
@@ -76,19 +74,23 @@ public class SaleListController {
             }
         }
 
-        System.out.println("tempProjectList = " + tempProjectList);
 
         List<Map<String, String>> attrList = new ArrayList<>();
+
         DecimalFormat df = new DecimalFormat("###,###");
+
         for(ProjectDTO project : tempProjectList){
             Map<String, String> attr = new HashMap<>();
+
             Period betweenDays = Period.between(LocalDate.now(),project.getEndDate());
-            System.out.println("betweenDays = " + betweenDays);
+
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
             attr.put("currentAmount", df.format(project.getCurrentAmount()));
             attr.put("date", String.valueOf(betweenDays.getDays()) );
-            attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
+            if(project.getProjectFileList().size() > 0) {
+                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
+            }
             attr.put("views", project.getViews().toString());
             attrList.add(attr);
         }

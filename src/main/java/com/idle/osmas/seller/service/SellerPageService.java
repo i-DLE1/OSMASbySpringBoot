@@ -12,6 +12,10 @@ import java.util.Map;
 public interface SellerPageService {
 
     List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
+
+
+    int selectByListTypeAndSearchProjectQnACount(Map<String, Object> searchCriteria);
+    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
     List<ProjectQnADTO> selectByListTypeAndSearchProjectQnA(Map<String, Object> searchCriteria);
 
     ProjectQnADTO selectByQnANo(int no);
@@ -20,7 +24,7 @@ public interface SellerPageService {
 
     int updateProjectQnAAnswer(Map<String, Object> updateData);
 
-    ProjectDTO selectByProjectId(int no);
+    ProjectDTO selectByProjectId(int projectNo, int userNo);
 
 
 }

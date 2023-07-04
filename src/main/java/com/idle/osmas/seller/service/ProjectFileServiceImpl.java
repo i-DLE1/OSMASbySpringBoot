@@ -13,6 +13,11 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
 
     private final ProjectFileMapper projectFileMapper;
 
+    @Override
+    public ProjectFileDTO selectProjectFileByNo(int no) {
+        return projectFileMapper.selectProjectFileByNo(no);
+    }
+
     public ProjectFileServiceImpl(ProjectFileMapper projectFileMapper) {
         this.projectFileMapper = projectFileMapper;
     }
@@ -30,5 +35,15 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     @Override
     public int insertProjectFile(ProjectFileType fileType, String originFile, String savedFile, String deleteYN, int projectNo) {
         return projectFileMapper.insertProjectFile(fileType, originFile, savedFile, deleteYN, projectNo);
+    }
+
+    @Override
+    public int updateNonAvailableProjectFileByFileType(int projectNo, ProjectFileType fileType) {
+        return projectFileMapper.updateNonAvailableProjectFileByFileType(projectNo, fileType);
+    }
+
+    @Override
+    public int updateNonAvailableProjectFileByChangeName(String changeName) {
+        return projectFileMapper.updateNonAvailableProjectFileByChangeName(changeName);
     }
 }

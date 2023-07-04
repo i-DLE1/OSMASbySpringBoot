@@ -18,25 +18,25 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Integer selectTemporaryProjectNoByUserId(String userId) {
-        return projectMapper.selectTemporaryProjectNoByUserId(userId);
+    public Integer selectTemporaryProjectNoByUserId(int userNo) {
+        return projectMapper.selectTemporaryProjectNoByUserId(userNo);
     }
 
     @Override
-    public boolean existProjectByProjectNo(int projectNo, String userId) {
-        Integer result = projectMapper.existProjectByProjectNo(projectNo, userId);
+    public boolean existProjectByProjectNo(int projectNo, int userNo) {
+        Integer result = projectMapper.existProjectByProjectNo(projectNo, userNo);
         if (result == null) return false;
         return true;
     }
 
     @Override
-    public ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId) {
-        return projectMapper.selectProjectInfoByProjectNo(projectNo, userId);
+    public ProjectDTO selectProjectInfoByProjectNo(int projectNo, Integer userNo) {
+        return projectMapper.selectProjectInfoByProjectNo(projectNo, userNo);
     }
 
     @Override
-    public ProjectDTO selectProjectByProjectNo(int projectNo, String userId) {
-        return projectMapper.selectProjectByProjectNo(projectNo, userId);
+    public ProjectDTO selectProjectByProjectNo(int projectNo, int userNo) {
+        return projectMapper.selectProjectByProjectNo(projectNo, userNo);
     }
 
 

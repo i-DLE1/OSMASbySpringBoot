@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 public interface ProjectFileMapper {
 
+    ProjectFileDTO selectProjectFileByNo(int no);
+
     List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId);
 
     int insertProjectFile(ProjectFileType fileType, String originFile,
@@ -19,6 +21,10 @@ public interface ProjectFileMapper {
     ProjectFileDTO selectByProjectSaveFileName(String saveFileName);
 
     int deleteProjectFilesByProjectNo(int projectNo);
+
+    int updateNonAvailableProjectFileByFileType(int projectNo, ProjectFileType fileType);
+
+    int updateNonAvailableProjectFileByChangeName(String changeName);
 
 
 }

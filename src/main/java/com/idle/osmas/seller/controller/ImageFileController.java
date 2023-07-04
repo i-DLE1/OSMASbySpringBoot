@@ -1,17 +1,13 @@
 package com.idle.osmas.seller.controller;
 
-import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
 import com.idle.osmas.seller.service.ProjectFileService;
 import com.idle.osmas.seller.service.ProjectService;
-import com.idle.osmas.seller.service.RegistProjectService;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,9 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -34,14 +27,12 @@ public class ImageFileController {
     @Value("${customSaveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
 
-    private final RegistProjectService registProjectService;
 
     private final ProjectService projectService;
 
     private final ProjectFileService projectFileService;
 
-    public ImageFileController(RegistProjectService registProjectService, ProjectService projectService, ProjectFileService projectFileService) {
-        this.registProjectService = registProjectService;
+    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService) {
         this.projectService = projectService;
         this.projectFileService = projectFileService;
     }
@@ -93,10 +84,16 @@ public class ImageFileController {
     }
 }
 
+
+
     public int deleteFile(String file) {
+        System.out.println("file = " + file);
         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
 
-        if(!deleteFile.isFile()) deleteFile.delete();
+        if(deleteFile.isFile()) {
+            deleteFile.delete();
+            projectFileService.updateNonAvailableProjectFileByChangeName(file);
+        }
 
         return 1;
     }
@@ -106,6 +103,7 @@ public class ImageFileController {
 
         ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
 
+        if (projectFile == null) return ResponseEntity.ok("");
         Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
         log.info("saveFile"+ saveFile.toString());
 

@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProjectService {
-    Integer selectTemporaryProjectNoByUserId(String userId);
+    Integer selectTemporaryProjectNoByUserId(int userNo);
 
-    boolean existProjectByProjectNo (int projectNo, String userId);
+    boolean existProjectByProjectNo (int projectNo, int userNo);
 
-    ProjectDTO selectProjectInfoByProjectNo(int projectNo, String userId);
+    ProjectDTO selectProjectInfoByProjectNo(int projectNo, Integer userNo);
 
-    ProjectDTO selectProjectByProjectNo(int projectNo, String userId);
+    ProjectDTO selectProjectByProjectNo(int projectNo, int userNo);
 
     List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);
 

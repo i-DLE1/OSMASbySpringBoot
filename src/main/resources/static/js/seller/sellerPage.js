@@ -43,7 +43,7 @@ const screenCenterPopup = (popupWidth, popupHeight) =>{
 // 화면 위치 끝
 
 function qaPopup(e){
-    window.open(`./projectDetail/qaAnswer?id=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
+    window.open(`./projectDetail/qaAnswer?no=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
 }
 
 function popupCancel(id) {
@@ -51,7 +51,7 @@ function popupCancel(id) {
 }
 
 function popupStatics(id){
-    window.open(`./projectDetail/projectDetail?id=${id}`,"popup",`${screenCenterPopup(1600,1000)}, resizable=no, name=projectStatics, location=no`);
+    window.open(`./projectDetail/projectDetail?no=${id}`,"popup",`${screenCenterPopup(1600,1000)}, resizable=no, name=projectStatics, location=no`);
 }
 
 function projectModify(id){
@@ -246,4 +246,12 @@ function cancelSubmit() {
             console.log(error)
         }
     })
+}
+
+function movePage(pageNo) {
+    const moveURL = new URLSearchParams(location.search);
+    moveURL.set("pageNo", pageNo)
+    console.log(moveURL)
+
+    location.href = `?${moveURL}`;
 }

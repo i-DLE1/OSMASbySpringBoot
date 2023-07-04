@@ -115,6 +115,7 @@ function salesListAjax(filter) {
         url: `/getSaleList` + (filter === undefined ? '' : `?categoryCode=${filter.toString()}`) ,
         type : "get",
         success : function (success) {
+            console.log(success)
             projectListView(success)
         },
         error : function (error){

@@ -392,12 +392,15 @@ function previewImage(ele) {
 
 function loadProductImg(imgFileList){
     let rootUrl = location.origin+'/files/seller/project/';
-    let legnth = imgFileList.length
-    $("#present").prop("src",rootUrl+imgFileList[0]?.changeName)
-    $("#thumbnail").prop("src",rootUrl+imgFileList[1]?.changeName)
-    $("#imgfile0").prop("src",rootUrl+imgFileList[2]?.changeName)
-    $("#imgfile1").prop("src",rootUrl+imgFileList[3]?.changeName)
-    $("#imgfile2").prop("src",rootUrl+imgFileList[4]?.changeName)
+    let length = 0;
+    imgFileList.forEach(e=>{
+        if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl+e?.changeName);
+        if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl+e?.changeName);
+        if(e.type === 'CONTENT') {
+            $(`#imgfile${length}`).prop("src",rootUrl+e?.changeName);
+            length++;
+        }
+    })
 }
 
 function loadProjectFaq(no){
@@ -512,7 +515,7 @@ function projectInitRegist(temporary) {
         success : function (data){
             if(data === 'success'){
                 if(temporary){
-                    alert("임시저장이 완료 됐습니다.")
+                    alert("저장이 완료 됐습니다.")
                 }else {
 
                     location.href='/seller/regist/project3' + (no === null ?  '' : `?no=${no}`);
@@ -530,10 +533,13 @@ function projectInitRegist(temporary) {
 
 // temporary : boolean
 function registProject3(temporary) {
-    let presentFile = $("#present").attr("src")
-    let thumbnailFile = $("#thumbnail").attr("src")
+    let presentFile = $("#presentImg")[0].files[0]
+    let thumbnailFile = $("#thumbnailImg")[0].files[0]
 
-    if(presentFile === undefined || thumbnailFile === undefined){
+    let presentImg = $("#presentImg").val();
+    let thumbnailImg = $("#thumbnailImg").val();
+
+    if(presentImg === undefined || thumbnailImg === undefined){
         alert("대표이미지와 썸네일 이미지는 필수로 등록 해야합니다.")
         return;
     }
@@ -563,8 +569,10 @@ function registProject3(temporary) {
 
         dataList = [...dataList, {no, name, size, price, introduction, maxQuantity, status}]
     }
-    let data = {new : dataList, old : registProductList, oldImg : registProductImgList}
+    let data = {new : dataList, old : registProductList}
+
     formData.append("productList", new Blob([JSON.stringify(data)],{type:"application/json; charset=utf-8;"}));
+    formData.append("projectFileList", new Blob([JSON.stringify(registProductImgList)],{type:"application/json; charset=utf-8;"}))
 
     $.ajax({
         url : '/seller/regist/project3' + (no === null ?  '' : `?no=${no}`),
@@ -685,6 +693,13 @@ function registProjectComplete(){
             console.log(error)
         }
     })
+}
 
+function isParamNo() {
+    let isParamNo = new URLSearchParams(location.search).get('no');
+    if(isParamNo !== null) {
+        $("#tempSave").val('수정');
+    }
+    console.log(isParamNo === null);
 }
 

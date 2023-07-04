@@ -14,6 +14,16 @@
         <result property="deleteYN" column="TBL_PRJ_FILE_DELETE_YN"/>
     </resultMap>
 
+    <select id="selectProjectFileByNo" resultMap="projectFileResultMap">
+        SELECT TPF.NO AS TBL_PRJ_FILE_NO ,
+               TPF.TYPE AS TBL_PRJ_FILE_TYPE,
+               TPF.DELETE_YN AS TBL_PRJ_FILE_DELTE_YN,
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
+               TPF.REF_PRJ_NO AS TBL_PRJ_FILE_REF_PRJ_NO
+        FROM TBL_PRJ_FILE TPF
+        WHERE TPF.NO = #{no}
+    </select>
+
     <select id="selectProjectFileListByProjectNo" resultMap="projectFileResultMap">
         SELECT TPF.NO AS TBL_PRJ_FILE_NO,
                TPF.TYPE AS TBL_PRJ_FILE_TYPE,
@@ -46,6 +56,19 @@
 
     <delete id="deleteProjectFilesByProjectNo">
         DELETE TBL_PRJ_FILE TPF
-        WHERE TPF.REF_PRJ_NO = #{projectNo}
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
     </delete>
+    
+    <update id="updateNonAvailableProjectFileByFileType">
+        UPDATE TBL_PRJ_FILE TPF
+           SET TPF.DELETE_YN = 'Y'
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
+           AND TPF.TYPE = #{fileType}
+    </update>
+
+    <update id="updateNonAvailableProjectFileByChangeName">
+        UPDATE TBL_PRJ_FILE TPF
+           SET TPF.DELETE_YN = 'Y'
+         WHERE TPF.CHANGE_NAME = #{changeName}
+    </update>
 </mapper>
