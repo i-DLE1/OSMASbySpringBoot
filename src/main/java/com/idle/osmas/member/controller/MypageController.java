@@ -21,7 +21,8 @@ public class MypageController {
     public void MypageMessage(){}
     @GetMapping("MypageProfile")
     public void MypageProfile(){}
-    @GetMapping()
+    @GetMapping("MypageShippingAd")
     public void MypageShippingAd(){}
+    @GetMapping("MypageSponsor")
     public void MypageSponsor(){}
 }

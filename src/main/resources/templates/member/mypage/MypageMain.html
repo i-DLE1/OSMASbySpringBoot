@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mypagemain</title>
-    <link rel="stylesheet" href="../../../../../../../Semi-project/OSMAS/jaehyeonghong/css/mypagebasic.css">
-    <link rel="stylesheet" href="../../../../../../../Semi-project/OSMAS/jaehyeonghong/css/mypagemain.css">
+    <link rel="stylesheet" href="/css/member/mypagebasic.css">
+    <link rel="stylesheet" href="/css/member/mypagemain.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Orbit&display=swap" rel="stylesheet">
@@ -14,105 +14,89 @@
         .font-example {
             font-family: 'Noto Sans KR', sans-serif;
         }
-      </style>
+    </style>
 
-    <script>
-      function toggleDropdown(event) {
-        // event.stopPropagation(); // 클릭 이벤트의 전파를 중지합니다.
-        var dropdown = document.getElementById("dropdownContent");
-        dropdown.classList.toggle("slide-open");
-      }
-
-      // 클릭 이벤트가 발생한 영역 밖을 클릭하면 슬라이드가 닫히도록 설정
-      window.addEventListener("click", function (event) {
-        var dropdown = document.getElementById("dropdownContent");
-        var targetElement = event.target;
-
-        if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
-          dropdown.classList.remove("slide-open");
-        }
-      });
-    </script> 
-    
-</head>  
+</head>
 <body class="font-example">
-    <header>
-      <div class="userLogin">
-      <h4>사용자님 환영합니다!</h4>
-      <button>로그아웃</button>
-      </div>
-        <div id="logo">
-            <a href="./MypageMain.html">
-                <img src="../../../../../../../Semi-project/OSMAS/jaehyeonghong/image/logo.png">
-            </a>
-        </div>
-        <nav>
-            <ul>
-              <li class="category">
+<header>
+    <div class="userLogin">
+        <h4>사용자님 환영합니다!</h4>
+        <button>로그아웃</button>
+    </div>
+    <div id="logo">
+        <a href="./MypageMain.html">
+            <img src="/static/images/member/logo.png">
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li class="category">
                 <button class="gugu" onclick="toggleDropdown()">카테고리</button>
-              </li>
+            </li>
 
-              <div class="slide-content" id="dropdownContent">
-              <div style="text-align: center;">
-                  <img src="../../../../../../../Semi-project/OSMAS/jaehyeonghong/image/logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
-              </div>
+            <div class="slide-content" id="dropdownContent">
+                <div style="text-align: center;">
+                    <img src="/static/images/member/logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+                </div>
                 <a href="./MypageMain.html">사용자 마이페이지</a>
                 <a href="MypageMessage.html">문의하기</a>
                 <a href="#">판매자 페이지로 바로가기</a>
-              </div>
+            </div>
 
-              <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
-              <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
-              <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
-              <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
-              <li class="search">
+            <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
+            <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
+            <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
+            <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
+            <li class="search">
                 <input type="text" placeholder="검색할 내용을 입력해주세요">
-              </li>
-            </ul>
-          </nav>
-    </header>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-    <main>
-      <div class="mypage">
+<main>
+    <div class="mypage">
         <h2>마이페이지</h2>
         <ul class="mypage_bar">
-          <li><a href="MypageProfile.html">프로필</a></li>
-          <li><a href="MypageAccount.html">계정</a></li>
-          <li><a href="MypageSponsor.html">후원한 프로젝트</a></li>
-          <li><a href="MypageShippingAd.html">배송지</a></li>
-          <li><a href="MypageAlarm.html">알림</a></li>
-      </div>
-    </main>
+            <li><a href="MypageProfile.html">프로필</a></li>
+            <li><a href="MypageAccount.html">계정</a></li>
+            <li><a href="MypageSponsor.html">후원한 프로젝트</a></li>
+            <li><a href="MypageShippingAd.html">배송지</a></li>
+            <li><a href="MypageAlarm.html">알림</a></li>
+    </div>
+</main>
 
 <br><br><br><br><br>
 
-    <footer>
-        <ul style="list-style: none;">
-            <div class="container">
-                <div>
-                    <li class="guide"><a href="./notice">공지사항</a></li>
-                    <li class="guide"><a href="../OSAMSIntroduction.html">OSMAS 소개</a></li>
-                    <li class="guide"><a href="">문의 사항</a></li>
-                </div>
-
-                <div>
-                    <li class="guide"><a href="./useTerms.html">이용약관</a></li>
-                    <li class="guide"><a href="./personalInformationProcessingPolicy.html">개인정보처리방침</a></li>
-                    <li class="guide"><a href="./projectJudgingCriteria.html">프로젝트 심사 기준</a></li>
-                </div>
+<footer>
+    <ul style="list-style: none;">
+        <div class="container">
+            <div>
+                <li class="guide"><a href="./notice">공지사항</a></li>
+                <li class="guide"><a href="../OSAMSIntroduction.html">OSMAS 소개</a></li>
+                <li class="guide"><a href="">문의 사항</a></li>
             </div>
 
-            <div class="container2">
-                <div class="container3">
-                    <h5 class="call">고객 센터</h5>
-                    <h5 class="call">평일 9:00 ~ 18:00</h5>
-                    <button class="call" style="float: right; padding: 4px;">문의하기</button>
-                </div>
-                <h6 style="text-align: center; padding-top: 30px;">오스메스는 크라우드펀딩 플랫폼을 운영하는 중개자(통신판매중개자)로서 프로젝트를 진행하는 당사자가 아닙니다.<br> 
-                    상품, 상품정보, 거래에 관한 의무와 책임은 판매자에게 있으므로, 각 상품 페이지에서 구체적인 내용을 확인하시기 바랍니다.</h6>
-                <h6 style="padding-top: 30px;">© 2023 OSMAS. ALL RIGHTS RESERVED.</h6>    
-            </div> 
-        </ul>
-    </footer>
+            <div>
+                <li class="guide"><a href="./useTerms.html">이용약관</a></li>
+                <li class="guide"><a href="./personalInformationProcessingPolicy.html">개인정보처리방침</a></li>
+                <li class="guide"><a href="./projectJudgingCriteria.html">프로젝트 심사 기준</a></li>
+            </div>
+        </div>
+
+        <div class="container2">
+            <div class="container3">
+                <h5 class="call">고객 센터</h5>
+                <h5 class="call">평일 9:00 ~ 18:00</h5>
+                <button class="call" style="float: right; padding: 4px;">문의하기</button>
+            </div>
+            <h6 style="text-align: center; padding-top: 30px;">오스메스는 크라우드펀딩 플랫폼을 운영하는 중개자(통신판매중개자)로서 프로젝트를 진행하는 당사자가
+                아닙니다.<br>
+                상품, 상품정보, 거래에 관한 의무와 책임은 판매자에게 있으므로, 각 상품 페이지에서 구체적인 내용을 확인하시기 바랍니다.</h6>
+            <h6 style="padding-top: 30px;">© 2023 OSMAS. ALL RIGHTS RESERVED.</h6>
+        </div>
+    </ul>
+</footer>
+<script src="/static/js/member/mypage.js"></script>
 </body>
 </html>

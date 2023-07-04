@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MypageAccountDeleteNext</title>
-  <link rel="stylesheet" href="../../../../../../../Semi-project/OSMAS/jaehyeonghong/css/mypagebasic.css">
-  <link rel="stylesheet" href="../../../../../../../Semi-project/OSMAS/jaehyeonghong/css/mypagemain.css">
+  <link rel="stylesheet" href="/css/member/mypagebasic.css">
+  <link rel="stylesheet" href="/css/member/mypagemain.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&family=Orbit&display=swap"
@@ -17,24 +17,6 @@
       font-family: 'Noto Sans KR', sans-serif;
     }
   </style>
-
-  <script>
-    function toggleDropdown(event) {
-      // event.stopPropagation(); // 클릭 이벤트의 전파를 중지합니다.
-      var dropdown = document.getElementById("dropdownContent");
-      dropdown.classList.toggle("slide-open");
-    }
-
-    // 클릭 이벤트가 발생한 영역 밖을 클릭하면 슬라이드가 닫히도록 설정
-    window.addEventListener("click", function (event) {
-      var dropdown = document.getElementById("dropdownContent");
-      var targetElement = event.target;
-
-      if (!targetElement.closest(".gugu") && !targetElement.closest(".slide-content")) {
-        dropdown.classList.remove("slide-open");
-      }
-    });
-  </script>
 
 </head>
 
@@ -46,7 +28,7 @@
     </div>
     <div id="logo">
       <a href="MypageMain.html">
-        <img src="../../../../../../../Semi-project/OSMAS/jaehyeonghong/image/logo.png">
+        <img src="/static/images/member/logo.png">
       </a>
     </div>
     <nav>
@@ -57,7 +39,7 @@
 
         <div class="slide-content" id="dropdownContent">
           <div style="text-align: center;">
-            <img src="../../../../../../../Semi-project/OSMAS/jaehyeonghong/image/logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+            <img src="/static/images/member/logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
           </div>
           <a href="MypageMain.html">사용자 마이페이지</a>
           <a href="MypageMessage.html">문의하기</a>
@@ -107,22 +89,22 @@
 
     </div>
 
-    <script>
-      function showMessage() {
-        const messageContainer = document.querySelector('.message-container');
-        const saveButton = document.querySelector('.btn_save');
+<!--    <script>-->
+<!--      function showMessage() {-->
+<!--        const messageContainer = document.querySelector('.message-container');-->
+<!--        const saveButton = document.querySelector('.btn_save');-->
 
-        messageContainer.textContent = '완료되었습니다!';
-        messageContainer.classList.add('show');
+<!--        messageContainer.textContent = '완료되었습니다!';-->
+<!--        messageContainer.classList.add('show');-->
 
-        saveButton.disabled = true; // 완료 버튼 비활성화
+<!--        saveButton.disabled = true; // 완료 버튼 비활성화-->
 
-        setTimeout(function () {
-          messageContainer.classList.remove('show');
-          saveButton.disabled = false; // 완료 버튼 활성화
-        }, 1000);
-      }
-    </script>
+<!--        setTimeout(function () {-->
+<!--          messageContainer.classList.remove('show');-->
+<!--          saveButton.disabled = false; // 완료 버튼 활성화-->
+<!--        }, 1000);-->
+<!--      }-->
+<!--    </script>-->
 
   </main>
 
@@ -157,6 +139,7 @@
       </div>
     </ul>
   </footer>
+  <script src="/static/js/member/mypage.js"></script>
 </body>
 
 </html>
