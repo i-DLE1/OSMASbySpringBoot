@@ -24,28 +24,6 @@ public class User_noticeController {
         this.adminBoardService = adminBoardService;
     }
 
-//    @GetMapping("/notice_article")
-//    public String notice_article(Model model) {
-//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminNotice();
-//        model.addAttribute("adminBoards", adminBoards);
-//        return "/admin/user_notice/notice_article";
-//    }
-//
-//
-//    @GetMapping("/notice_event")
-//    public String notice_event(Model model) {
-//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminEvent();
-//        model.addAttribute("adminBoards", adminBoards);
-//        return "/admin/user_notice/notice_event";
-//    }
-//
-//    @GetMapping("/notice_notice")
-//    public String notice_notice(Model model) {
-//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminArticle();
-//        model.addAttribute("adminBoards", adminBoards);
-//        return "/admin/user_notice/notice_notice";
-//    }
-
     @GetMapping("/notice_view/{boardtype}")
     public String notice_fullview(Model model, @PathVariable String boardtype){
         System.out.println("boardtype = " + boardtype);
