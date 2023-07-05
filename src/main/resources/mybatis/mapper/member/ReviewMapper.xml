@@ -17,6 +17,7 @@
     </resultMap>
 
     <resultMap id="sponsoredResultMap" type="com.idle.osmas.member.dto.SponsoredsDTO">
+        <id property="no" column="NO"/>
         <result property="title" column="TITLE"/>
         <result property="registDate" column="REGIST_DATE"/>
         <result property="nickname" column="NICKNAME"/>
@@ -130,16 +131,19 @@
              , A.REGIST_DATE
              , A.REF_PRJ_PRODUCT_LIST_NO
              , A.REF_MEMBER_NO
+             , A.NO
              , D.NICKNAME
              , F.TITLE
           FROM(SELECT ROWNUM RNUM
              , B.REGIST_DATE
              , B.REF_PRJ_PRODUCT_LIST_NO
              , B.REF_MEMBER_NO
+             , B.NO
                 FROM(SELECT
                          C.REGIST_DATE
                        , C.REF_PRJ_PRODUCT_LIST_NO
                        , C.REF_MEMBER_NO
+                       , C.NO
                      FROM TBL_SPONSORED_PRJ C
                      JOIN TBL_MEMBER D ON(D.NO = C.REF_MEMBER_NO)
                 WHERE D.ID = #{searchValue}
@@ -155,6 +159,59 @@
                  ]]>
                 ORDER BY 1 ASC
     </select>
+    
+    <select id="selectContent" resultType="string">
+        SELECT
+                A.CONTENT
+          FROM TBL_REVIEW A
+         WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
+    </select>
+    
+    <select id="selectDeliveryStatusCodeistNoBySponsoredNo">
+        SELECT
+              A.NO
+         FROM TBL_DELIVERY_STATUS A
+         JOIN TBL_SHIPPING_TRACK_INFO B ON (A.REF_SHIPPING_TRACK_INFO_NO = B.NO)
+         JOIN TBL_PAYMENT C ON(C.CODE = B.REF_PAYMENT_NO)
+         JOIN TBL_PAYMENT_HISTORY D ON(D.REF_PAYMENT_NO = C.CODE)
+         JOIN TBL_SPONSORED_PRJ E ON(E.NO = D.REF_SPONSORED_PRJ_NO)
+        WHERE E.NO = #{SponsoredNo}
+          AND A.STATUS = 'COMPLETED'
+    </select>
+    
+    <update id="modifyReview" parameterType="com.idle.osmas.member.dto.ReviewsDTO">
+        UPDATE TBL_REVIEW A
+        SET A.REVIEW_TITLE = #{title},
+            A.CONTENT = #{content}
+       WHERE A.REF_DELIVERY_STATUS_CODE = #{refDeliveryStatusCode}
+    </update>
+    <delete id="removeReview">
+        DELETE FROM TBL_REVIEW A
+              WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
+    </delete>
+
+    <insert id="writeReview">
+        INSERT INTO TBL_REVIEW A (
+             REGIST_DATE
+          ,  REF_MEMBER_NO
+          ,  CONTENT
+          ,  REVIEW_TITLE
+          ,  DETELE_YN
+          ,  MODIFY_DATE
+          ,  REF_DELIVERY_STATUS_CODE
+        )
+            VALUES
+        (
+            SYSDATE
+          , #{refMemberNo}
+          , #{content}
+          , #{title}
+          , 'N'
+          , SYSDATE
+          , #{refDeliveryStatusCode}
+        )
+    </insert>
+    
 </mapper>
 
 
