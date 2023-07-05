@@ -2,70 +2,43 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.dao.AdminBoardMapper;
 import com.idle.osmas.admin.dto.AdminBoardDTO;
+import com.idle.osmas.admin.service.AdminBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/user_notice")
+@RequestMapping("/admin/user_notice")
 public class User_noticeController {
 
-    private final AdminBoardMapper adminBoardMapper;
+    private final AdminBoardService adminBoardService;
 
     @Autowired
-    public User_noticeController(AdminBoardMapper adminBoardMapper){
-        this.adminBoardMapper = adminBoardMapper;
+    public User_noticeController(AdminBoardService adminBoardService){
+        this.adminBoardService = adminBoardService;
     }
 
-    @GetMapping("notice_article")
-    public String notice_article(Model model) {
-        String category = "notice_article";
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
-        model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_article";
-    }
-
-    @GetMapping("notice_content")
-    public String notice_content(Model model) {
-        String category = "notice_content";
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
-        model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_content";
-    }
-
-    @GetMapping("notice_event")
-    public String notice_event(Model model) {
-        String category = "notice_event";
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
-        model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_event";
-    }
-
-    @GetMapping("notice_fullview")
-    public String notice_fullview(Model model){
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAllAdminBoards();
+    @GetMapping("/notice_view/{boardtype}")
+    public String notice_fullview(Model model, @PathVariable String boardtype){
+        System.out.println("boardtype = " + boardtype);
+        List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards(boardtype);
         model.addAttribute("adminBoards",adminBoards);
-
-        return "admin/user_notice/notice_fullview";
-
-
+        return "/admin/user_notice/notice_fullview";
     }
 
+    @GetMapping("/notice_content")
+    public String notice_content(@RequestParam("no") int no, Model model) {
+        // no에 해당하는 공지사항의 content를 조회합니다.
 
-    @GetMapping("notice_notice")
-    public String notice_notice(Model model) {
-        String category = "notice_notice";
-        List<AdminBoardDTO> adminBoards = adminBoardMapper.getAdminBoardsByCategory(category);
-        model.addAttribute("adminBoards", adminBoards);
-
-        return "admin/user_notice/notice_notice";
+        AdminBoardDTO noticeContent = adminBoardService.getAdminBoardByNo(no);
+        System.out.println("noticeContent =========== " + noticeContent);
+        model.addAttribute("noticeContent", noticeContent);
+        return "/admin/user_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
 }

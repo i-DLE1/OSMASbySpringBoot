@@ -8,12 +8,18 @@ import java.util.List;
 public interface AdminBoardService {
 
     // 관리자 게시판의 모든 게시물 가져옴
-    List<AdminBoardDTO> getAllAdminBoards();
+    List<AdminBoardDTO> getAllAdminBoards(String boardtype);
 
     // 카테고리에 해당하는 게시물 가져옴
-    List<AdminBoardDTO> getAdminBoardsByCategory(String category);
+    List<AdminBoardDTO> getAdminNotice();
+
+    List<AdminBoardDTO> getAdminEvent();
+
+    List<AdminBoardDTO> getAdminArticle();
 
     List<AdminBoardFileDTO> adminBoardFileList();
+
+    AdminBoardDTO getAdminBoardByNo(int no);
 
 
 }
