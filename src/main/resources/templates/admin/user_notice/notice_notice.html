@@ -19,9 +19,9 @@
   <nav class="box3">
     <ul style="border-bottom: none; border-top: none;">
       <li class="box"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
-      <li class="box" style="background-color: #bea376;"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
-      <li class="box"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
-      <li class="box"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
+      <li class="box" th:style="${type == 'N' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
+      <li class="box" th:style="${type == 'E' ? 'background-color: #bea376;':''}">><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
+      <li class="box" th:style="${type == 'AT' ? 'background-color: #bea376;':''}">><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
     </ul>
   </nav>
 </div>

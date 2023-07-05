@@ -29,6 +29,7 @@ public class User_noticeController {
         System.out.println("boardtype = " + boardtype);
         List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards(boardtype);
         model.addAttribute("adminBoards",adminBoards);
+        model.addAttribute("type",boardtype);
         return "/admin/user_notice/notice_fullview";
     }
 
