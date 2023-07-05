@@ -31,6 +31,9 @@ public class SellerApprovalFormController {
     @GetMapping("outForm")
     public void outForm(){}
 
+    @GetMapping("outFormHolding")
+    public void outFormHolding(){}
+
     @PostMapping("sellerOut")
     public String sellerOut(@RequestParam Map<String, String> requestParams, Model model) {
         String reasonSelect = requestParams.get("reasonSelect");
