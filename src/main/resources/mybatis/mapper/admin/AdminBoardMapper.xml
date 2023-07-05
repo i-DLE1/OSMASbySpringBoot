@@ -37,6 +37,17 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
+        <where>
+            <if test='boardtype == "N"'>
+                S.CLASSIFY_CODE = '공지사항'
+            </if>
+            <if test='boardtype == "E"'>
+                S.CLASSIFY_CODE = '이벤트'
+            </if>
+            <if test='boardtype == "AT"'>
+                S.CLASSIFY_CODE = '보도자료'
+            </if>
+        </where>
         ORDER BY S.NO ASC
     </select>
 
@@ -107,6 +118,11 @@
         WHERE S.CLASSIFY_CODE = '보도자료'
     </select>
 
-
+    <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+        SELECT
+            *
+        FROM  TBL_ADMIN_BOARD
+        WHERE NO = #{no}
+    </select>
 
 </mapper>

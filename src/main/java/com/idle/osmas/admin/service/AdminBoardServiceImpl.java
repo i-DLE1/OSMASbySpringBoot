@@ -18,29 +18,33 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     }
 
     @Override
-    public List<AdminBoardDTO> getAllAdminBoards(){
-        return adminBoardMapper.getAllAdminBoards();
+    public List<AdminBoardDTO> getAllAdminBoards(String boardtype) {
+        return adminBoardMapper.getAllAdminBoards(boardtype);
     }
 
     @Override
-    public List<AdminBoardDTO> getAdminNotice(){
+    public List<AdminBoardDTO> getAdminNotice() {
         return adminBoardMapper.getAdminNotice();
     }
 
     @Override
-    public List<AdminBoardDTO> getAdminEvent(){
+    public List<AdminBoardDTO> getAdminEvent() {
         return adminBoardMapper.getAdminEvent();
     }
 
     @Override
-    public List<AdminBoardDTO> getAdminArticle(){
+    public List<AdminBoardDTO> getAdminArticle() {
         return adminBoardMapper.getAdminArticle();
     }
-
 
     @Override
     public List<AdminBoardFileDTO> adminBoardFileList() {
         return adminBoardMapper.getAllAdminBoardFiles();
     }
 
+    @Override
+    public AdminBoardDTO getAdminBoardByNo(int no) {
+        // adminBoardMapper를 이용하여 no에 해당하는 공지사항의 정보를 조회한 후 리턴합니다.
+        return adminBoardMapper.getAdminBoardByNo(no);
+    }
 }

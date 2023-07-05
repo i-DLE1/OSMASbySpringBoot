@@ -7,7 +7,6 @@
     <script src="/js/admin/adminBoard.js"></script>
     <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminbasicstyle.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminmainstyle.css}">
-
 </head>
 <body>
 
@@ -26,22 +25,20 @@
     </nav>
 </div>
 
-
 <div class="notice_content">
     <br>
-    <h5 style="font-weight: lighter;" th:text="${adminBoard.category}"></h5>
-    <h3 th:text="${adminBoard.title}"></h3>
-    <h6 style="font-weight: lighter;" th:text="${adminBoard.registDate}"></h6>
+    <h5 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.category}"></h5>
+    <h3 th:if="${noticeContent}" th:text="${noticeContent.title}"></h3>
+    <h6 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.registDate}"></h6>
     <hr>
-    <h5 th:text="${adminBoard.content}"></h5>
+    <!-- content 내용 표시 -->
+    <h5 th:if="${noticeContent}" th:text="${noticeContent.content}"></h5>
 </div>
 
 
-<footer >
+<footer>
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
-
-
 
 </body>
 </html>

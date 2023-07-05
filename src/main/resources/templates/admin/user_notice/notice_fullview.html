@@ -17,10 +17,10 @@
 <div class="containerbox">
   <nav class="box3">
     <ul style="border-bottom: none; border-top: none;">
-      <li class="box" style="background-color: #bea376;"><a th:href="@{/admin/user_notice/notice_fullview}">전체보기</a></li>
-      <li class="box"><a th:href="@{/admin/user_notice/notice_notice}">공지사항</a></li>
-      <li class="box"><a th:href="@{/admin/user_notice/notice_event}">이벤트</a></li>
-      <li class="box"><a th:href="@{/admin/user_notice/notice_article}">보도자료</a></li>
+      <li class="box" style="background-color: #bea376;"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
+      <li class="box"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
+      <li class="box"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
+      <li class="box"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
     </ul>
   </nav>
 </div>
@@ -33,7 +33,8 @@
         <br>
         <p style="margin: 0; font-size: 14px;" th:text="${adminBoard.classifyCode}"></p>
         <br>
-        <p style="margin: 0; font-size: 18px; font-weight: bold;" th:text="${adminBoard.title}"></p>
+        <!-- 이벤트 글일 경우 링크 추가 -->
+        <p style="margin: 0; font-size: 18px; font-weight: bold;"><a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a></p>
         <p>등록날짜 : <span th:text="${adminBoard.registDate}"></span></p>
       </div>
       <img th:src="@{/images/admin/Logo.png}" alt="로고" width="100" height="100" style="margin-left: auto;">
@@ -44,14 +45,12 @@
         <br>
         <p style="margin: 0; font-size: 14px;" th:text="${adminBoard.classifyCode}"></p>
         <br>
-        <p style="margin: 0; font-size: 18px; font-weight: bold;" th:text="${adminBoard.title}"></p>
+        <!-- 이벤트 글일 경우 링크 추가 -->
+        <p style="margin: 0; font-size: 18px; font-weight: bold;"><a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a></p>
         <p>등록날짜 : <span th:text="${adminBoard.registDate}"></span></p>
       </div>
       <img th:src="@{/images/admin/Logo.png}" alt="로고" width="100" height="100" style="margin-left: auto;">
     </div>
-  </ul>
-</div>
-
   </ul>
 </div>
 

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -22,40 +24,43 @@ public class User_noticeController {
         this.adminBoardService = adminBoardService;
     }
 
-    @GetMapping("/notice_article")
-    public String notice_article(Model model) {
-        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminNotice();
-        model.addAttribute("adminBoards", adminBoards);
-        return "/admin/user_notice/notice_article";
-    }
-
-
-    @GetMapping("/notice_event")
-    public String notice_event(Model model) {
-        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminEvent();
-        model.addAttribute("adminBoards", adminBoards);
-        return "/admin/user_notice/notice_event";
-    }
-
-    @GetMapping("/notice_notice")
-    public String notice_notice(Model model) {
-        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminArticle();
-        model.addAttribute("adminBoards", adminBoards);
-        return "/admin/user_notice/notice_notice";
-    }
-
-//    @GetMapping("/notice_content")
-//    public String notice_content(Model model) {
-//        String category = "notice_content";
-//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminBoardsByCategory(category);
+//    @GetMapping("/notice_article")
+//    public String notice_article(Model model) {
+//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminNotice();
 //        model.addAttribute("adminBoards", adminBoards);
-//        return "/admin/user_notice/notice_content";
+//        return "/admin/user_notice/notice_article";
+//    }
+//
+//
+//    @GetMapping("/notice_event")
+//    public String notice_event(Model model) {
+//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminEvent();
+//        model.addAttribute("adminBoards", adminBoards);
+//        return "/admin/user_notice/notice_event";
+//    }
+//
+//    @GetMapping("/notice_notice")
+//    public String notice_notice(Model model) {
+//        List<AdminBoardDTO> adminBoards = adminBoardService.getAdminArticle();
+//        model.addAttribute("adminBoards", adminBoards);
+//        return "/admin/user_notice/notice_notice";
 //    }
 
-    @GetMapping("/notice_fullview")
-    public String notice_fullview(Model model){
-        List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards();
+    @GetMapping("/notice_view/{boardtype}")
+    public String notice_fullview(Model model, @PathVariable String boardtype){
+        System.out.println("boardtype = " + boardtype);
+        List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards(boardtype);
         model.addAttribute("adminBoards",adminBoards);
         return "/admin/user_notice/notice_fullview";
+    }
+
+    @GetMapping("/notice_content")
+    public String notice_content(@RequestParam("no") int no, Model model) {
+        // no에 해당하는 공지사항의 content를 조회합니다.
+
+        AdminBoardDTO noticeContent = adminBoardService.getAdminBoardByNo(no);
+        System.out.println("noticeContent =========== " + noticeContent);
+        model.addAttribute("noticeContent", noticeContent);
+        return "/admin/user_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
 }
