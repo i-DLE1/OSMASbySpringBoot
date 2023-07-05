@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class ReviewsDTO {
     private int refDeliveryStatusCode;
+    private int refMemberNo;
     private String refProjectName; // 프로젝트 이름
     private String nickname;       // 닉네임
     private String content;

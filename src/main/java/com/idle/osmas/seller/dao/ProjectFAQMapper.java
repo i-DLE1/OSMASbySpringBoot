@@ -7,12 +7,14 @@ import java.util.List;
 
 @Mapper
 public interface ProjectFAQMapper {
-    List<ProjectFAQDTO> selectAllProjectFAQ(int projectNo); // 프로젝트 faq 조회
 
-    ProjectFAQDTO selectById(int projectFaqNo);
+    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId);
 
-    int insertProjectFAQ(int projectNo, ProjectFAQDTO projectFAQ);
+    int insertProjectFAQ(int projectRefNo, ProjectFAQDTO projectFaq);
+    int updateProjectFAQ(ProjectFAQDTO projectFAQ);
 
-    int updateProjectFAQ(int projectFaqNo, ProjectFAQDTO projectFAQ);
+    int deleteProjectFAQ(int no);
+
+    int deleteProjectFaqByProjectNo(int projectNo);
 
 }

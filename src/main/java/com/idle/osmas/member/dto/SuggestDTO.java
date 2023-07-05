@@ -12,9 +12,8 @@ public class SuggestDTO {
     private String title;
     private String content;
     private java.sql.Date registDate;
-    private int refMemberNo;
     private String status;
     private java.sql.Date modifyDate;
     private int refCategoryNo;
-    private String memberId;
+    private MemberDTO refMemberNo;
 }

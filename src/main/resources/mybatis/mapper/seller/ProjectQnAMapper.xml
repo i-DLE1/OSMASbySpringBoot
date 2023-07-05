@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectQnAMapper">
+    <delete id="deleteProjectQnAByProjectNo">
+        DELETE TBL_PRJ_QNA TPF
+        WHERE TPF.REF_PRJ_NO = #{projectNo}
+    </delete>
+</mapper>

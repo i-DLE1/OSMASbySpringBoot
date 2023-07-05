@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MypageSponsor</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/static/js/member/mypage.js"></script>
+    <link rel="stylesheet" href="/css/member/mypagebasic.css">
+    <link rel="stylesheet" href="/css/member/mypagemain.css">
+</head>
+
+<body>
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<main>
+    <div class="mypage">
+        <h2>마이페이지</h2>
+        <ul class="mypage_bar">
+            <li><a th:href="@{MypageProfile}">프로필</a></li>
+            <li><a th:href="@{MypageAccount}">계정</a></li>
+            <li><a th:href="@{MypageSponsor}">후원한 프로젝트</a></li>
+            <li><a th:href="@{MypageShippingAd}">배송지</a></li>
+            <li><a th:href="@{MypageAlarm}">알림</a></li>
+        </ul>
+    </div>
+
+    <div class="sponsor">
+        <div class="img">
+            <img src="/static/images/member/bigsize.png">
+            <p>상품준비중</p>
+        </div>
+    </div>
+
+    <div class="sponsor_top">
+        입고 태어난 듯! 플러스사이즈 스웻셔츠/럭비티/팬츠<br>
+        755% 7,551,600원 [펀딩성공!]
+    </div>
+
+    <div class="sponsor">
+        <div class="img">
+            <img src="/static/images/member/overfit.png">
+            <p>배송중</p>
+        </div>
+    </div>
+
+    <div class="sponsor_top">
+        환절기 필수템! 오버핏[도포 셔츠]<br>
+        7503% 75,030,200원 [펀딩성공!]
+    </div>
+
+    <div class="sponsor">
+        <div class="img">
+            <img src="/static/images/member/summersize.png">
+            <p>배송완료</p>
+        </div>
+    </div>
+
+    <div class="sponsor_top">
+        Summer하와이안 셔츠! 플러스 사이즈<br>
+        221% 1,106,000원 [펀딩성공!]
+    </div>
+</main>
+
+<footer>
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

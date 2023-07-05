@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.dto;
 
 import lombok.*;
+import java.text.DecimalFormat;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,6 +17,5 @@ public class OptionDTO {
     private int maxQuantity;
     private String status;
     private String productSize;
-
 
 }

@@ -28,6 +28,16 @@ public class SellerPageServiceImpl implements SellerPageService {
     }
 
     @Override
+    public int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria) {
+        return sellerPageMapper.selectByProgressAndSearchProjectManagementCount(searchCriteria);
+    }
+
+    @Override
+    public int selectByListTypeAndSearchProjectQnACount(Map<String, Object> searchCriteria) {
+        return sellerPageMapper.selectByListTypeAndSearchProjectQnACount(searchCriteria);
+    }
+
+    @Override
     public List<ProjectQnADTO> selectByListTypeAndSearchProjectQnA(Map<String, Object> searchCriteria) {
 
         return sellerPageMapper.selectByListTypeAndSearchProjectQnA(searchCriteria);
@@ -50,9 +60,8 @@ public class SellerPageServiceImpl implements SellerPageService {
     }
 
     @Override
-    public ProjectDTO selectByProjectId(int no) {
-
-        return sellerPageMapper.selectByProjectId(no);
+    public ProjectDTO selectByProjectId(int projectNo, int userNo) {
+        return sellerPageMapper.selectByProjectId(projectNo, userNo);
     }
 
 }

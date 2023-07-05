@@ -16,7 +16,6 @@
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
 
-    <form action="submit_form.php" method="POST">
         <div class="form-group">
             <label for="sellerName">판매자 ID</label>
             <input type="text" id="sellerName" name="sellerName" required>
@@ -24,7 +23,7 @@
 
         <div class="form-group">
             <label for="reason">회수 사유</label>
-            <select id="reason" name="reason" onchange="handleReasonSelection()" required>
+            <select id="reason" name="reason" required>
                 <option value="">사유를 선택해주세요</option>
                 <option value="판매중지">판매 중지</option>
                 <option value="다른펀딩사이트를이용">다른 펀딩 사이트를 이용</option>
@@ -43,11 +42,10 @@
         <br><br>
 
         <div class="submit-container">
-            <input type="submit" value="수정">
-            <input type="submit" value="제출">
-            <input type="submit" value="삭제">
+            <input id="go" type="submit" value="신청 하기">
+            <input id="no" type="submit" value="신청 취소">
         </div>
-    </form>
+
 </middle>
 
 <footer >

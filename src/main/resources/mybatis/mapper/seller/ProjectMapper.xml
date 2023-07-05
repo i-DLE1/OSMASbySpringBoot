@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectMapper">
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="TBL_MEMBER_NO"/>
+        <result property="id" column="TBL_MEMBER_ID"/>
+        <result property="name" column="TBL_MEMBER_NAME"/>
+        <result property="phone" column="TBL_MEMBER_PHONE"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.ProjectDTO" id="projectResultMap">
+        <id property="no" column="TBL_PRJ_NO"/>
+        <result property="title" column="TBL_PRJ_TITLE"/>
+        <result property="content" column="TBL_PRJ_CONTENT" />
+        <result property="startDate" column="TBL_PRJ_START_DATE"/>
+        <result property="endDate" column="TBL_PRJ_END_DATE"/>
+        <result property="targetAmount" column="TBL_PRJ_TARGET_AMOUNT"/>
+        <result property="currentAmount" column="TBL_PRJ_CURRENT_AMOUNT"/>
+        <result property="registDate" column="TBL_PRJ_REGIST_DATE"/>
+        <result property="views" column="TBL_PRJ_VIEWS"/>
+
+        <collection property="category" resultMap="projectCategoryResultMap"/>
+        <collection property="productList" resultMap="productListResultMap"/>
+        <collection property="projectFileList" resultMap="projectFileResultMap"/>
+    </resultMap>
+
+    <resultMap id="productListResultMap" type="com.idle.osmas.seller.dto.ProductDTO">
+        <id property="no" column="TBL_PRODUCT_NO"/>
+        <result property="name" column="TBL_PRODUCT_NAME"/>
+        <result property="introduction" column="TBL_PRODUCT_INTRODUCTION"/>
+        <result property="price" column="TBL_PRODUCT_PRICE"/>
+        <result property="maxQuantity" column="TBL_PRODUCT_MAX_QUANTITY"/>
+        <result property="status" column="TBL_PRODUCT_STATUS"/>
+        <result property="size" column="TBL_PRODUCT_PRODUCT_SIZE"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.ProjectCategoryDTO" id="projectCategoryResultMap">
+        <id property="no" column="TBL_CATEGORY_NO"/>
+        <result property="subNo" column="TBL_CATEGORY_SUB_NO"/>
+        <result property="name" column="TBL_CATEGORY_NAME"/>
+    </resultMap>
+
+    <resultMap id="projectFileResultMap" type="com.idle.osmas.seller.dto.ProjectFileDTO">
+        <result property="originName" column="TBL_PRJ_FILE_ORIGIN_NAME"/>
+        <result property="changeName" column="TBL_PRJ_FILE_CHANGE_NAME"/>
+        <result property="type" column="TBL_PRJ_FILE_TYPE"/>
+        <result property="deleteYN" column="TBL_PRJ_FILE_DELETE_YN"/>
+    </resultMap>
+
+    <select id="selectTemporaryProjectNoByUserId" resultType="_int">
+        SELECT PRJ.NO
+          FROM TBL_PRJ PRJ
+          JOIN (SELECT *
+               FROM TBL_PRJ_PROGRESS
+               WHERE NO IN (SELECT MAX(NO) AS NO
+                              FROM TBL_PRJ_PROGRESS
+                             GROUP BY REF_PRJ_NO)
+        ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
+         WHERE TPP.STATUS = 'TEMPORARY'
+           AND PRJ.REF_MEMBER_NO = '${userNo}'
+    </select>
+
+    <select id="existProjectByProjectNo" resultType="_int">
+        SELECT PRJ.NO
+          FROM TBL_PRJ PRJ
+         WHERE PRJ.NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+    </select>
+
+    <select id="selectProjectInfoByProjectNo" resultMap="projectResultMap">
+        SELECT PRJ.NO AS TBL_PRJ_NO,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.CONTENT AS TBL_PRJ_CONTENT,
+               PRJ.REGIST_DATE AS TBL_PRJ_REGEIST_DATE,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT
+          FROM TBL_PRJ PRJ
+<!--         <if test="userId != null">-->
+<!--          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO-->
+<!--         </if>-->
+         WHERE PRJ.NO = ${projectNo}
+           <if test="userNo != null">
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+           </if>
+<!--         <if test="userId != null">-->
+<!--           AND TM.ID = #{userId}-->
+<!--         </if>-->
+    </select>
+
+    <select id="selectProjectByProjectNo" resultMap="projectResultMap">
+        SELECT PRJ.NO AS TBL_PRJ_NO,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.CONTENT AS TBL_PRJ_CONTENT,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               TP.NAME AS TBL_PRODUCT_NAME,
+               TP.PRICE AS TBL_PRODUCT_PRICE,
+               TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
+               TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
+               TC.NAME AS TBL_CATEGORY_NAME
+          FROM TBL_PRJ PRJ
+          JOIN TBL_PRJ_PRODUCT_LIST TPPL ON PRJ.NO = TPPL.REF_PRJ_NO
+          JOIN TBL_PRODUCT TP ON TP.NO = TPPL.REF_PRODUCT_NO
+          JOIN TBL_CATEGORY TC ON TC.NO = PRJ.REF_CATEGORY_NO
+         WHERE PRJ.NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+    </select>
+
+    <select id="selectProjectByCategory" resultMap="projectResultMap" parameterType="map">
+        SELECT PRJ.NO AS TBL_PRJ_NO,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+               PRJ.VIEWS AS TBL_PRJ_VIEWS,
+               TC.NAME AS TBL_CATEGORY_NAME,
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+          FROM TBL_PRJ PRJ
+          JOIN TBL_CATEGORY TC ON PRJ.REF_CATEGORY_NO = TC.NO
+          JOIN (SELECT *
+                  FROM TBL_PRJ_PROGRESS
+                 WHERE NO IN (SELECT MAX(NO) AS NO
+                                FROM TBL_PRJ_PROGRESS
+                               GROUP BY REF_PRJ_NO)
+               ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
+          LEFT JOIN (SELECT *
+                       FROM TBL_PRJ_FILE TPF2
+                      WHERE TPF2.TYPE = 'THUMBNAIL'
+                        AND TPF2.DELETE_YN = 'N'
+                    )TPF ON TPF.REF_PRJ_NO = PRJ.NO
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="categoryNo != null">
+               PRJ.REF_CATEGORY_NO = #{categoryNo}
+            </if>
+            <if test="searchTitle != null or searchTitle != ''">
+               AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
+            </if>
+            <if test="startDate != null">
+               AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
+            </if>
+            <if test="endDate != null">
+               AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
+            </if>
+            <if test="views != null">
+               AND PRJ.VIEWS <![CDATA[>=]]> #{views}
+            </if>
+             ORDER BY PRJ.NO DESC
+        </trim>
+    </select>
+
+    <insert id="insertTemporaryProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO TBL_PRJ PRJ
+        (PRJ.NO, PRJ.REGIST_DATE, PRJ.REF_MEMBER_NO,
+         PRJ.VIEWS, PRJ.CURRENT_AMOUNT)
+        VALUES
+        (SEQ_TBL_PRJ_NO.nextval, SYSDATE, ${refMemberNo},
+         0,0)
+        <selectKey resultType="_int" order="AFTER" keyProperty="no">
+            SELECT SEQ_TBL_PRJ_NO.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateProjectInfo" parameterType="com.idle.osmas.seller.dto.ProjectDTO">
+        UPDATE TBL_PRJ PRJ
+        SET PRJ.TITLE ='${title}',
+            PRJ.START_DATE = '${startDate}',
+            PRJ.END_DATE = '${endDate}',
+            PRJ.TARGET_AMOUNT = ${targetAmount},
+            PRJ.REF_CATEGORY_NO = ${category.no}
+        WHERE PRJ.NO = ${no}
+    </update>
+
+    <update id="updateProjectContent" parameterType="com.idle.osmas.seller.dto.ProjectDTO">
+        UPDATE TBL_PRJ RPJ
+        SET RPJ.CONTENT = #{content:CLOB}
+        WHERE RPJ.NO = ${no}
+    </update>
+
+    <delete id="deleteProjectByProjectNo">
+        DELETE TBL_PRJ TP
+        WHERE TP.NO = #{projectNo}
+    </delete>
+</mapper>

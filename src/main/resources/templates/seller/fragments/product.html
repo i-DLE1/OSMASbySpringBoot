@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <body th:fragment="product">
 <link rel="stylesheet" href="/css/seller/salesPage.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,9 +11,7 @@
 <div class="contents" th:if="${salesDTO}">
     <div class="top">
       <div class="categorybox"><div class="categoryboxtext" th:text="${categoryDTO.name}"></div></div>
-      <div class="title">
-        <div class="text" th:text="${salesDTO.title}"></div> <!--프로젝트 제목-->
-      </div>
+      <div class="title" th:text="${salesDTO.title}"></div>
       <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
     </div>
 
@@ -97,11 +96,11 @@
 
       <div class="optionmiddle">
         <div class="optiontext" >옵션2</div>
-        <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions()">
+        <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions();">
           <option value=""></option>
           <option th:each="option: ${ optionList }">
             <span th:text="${ option.productSize} + '   ('"></span>
-            <span class="optionprice" th:text="${option.price}"></span>
+            <span class="optionprice" th:text="${#numbers.formatInteger(option.price, 3, 'COMMA') + '원'}"></span>
             <span>원)</span>
           </option>
         </select>
@@ -124,6 +123,7 @@
           <input class="optionamount" type="text" value="1" style="font-size: 20px" >
           <button class="plusbutton">+</button>
           <button class="minusbutton">-</button>
+          <button class="deletebutton">x</button>
           <input class="optionmoney" type="text" style="font-size: 20px" hidden="hidden">
         </div>
       </div>
@@ -135,4 +135,5 @@
   calcPercent();
   calcBetweenDate();
 </script>
+
 </html>

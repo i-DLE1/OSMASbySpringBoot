@@ -22,7 +22,7 @@
          WHERE TPJ1.NO = (SELECT MAX(TPJ2.NO) FROM TBL_PRJ_PROGRESS TPJ2
                            WHERE TPJ2.REF_PRJ_NO = #{projectNo}
                           <if test="status != null">
-                             AND TPJ2.STATUS = ${status}
+                             AND TPJ2.STATUS = '${status}'
                           </if>
                            GROUP BY TPJ2.REF_PRJ_NO)
     </select>
@@ -34,4 +34,8 @@
             (SEQ_TBL_PRJ_PROGRESS_NO.nextval, SYSDATE, #{status}, #{content}, #{refProjectNo})
     </insert>
 
+    <delete id="deleteProjectProgressByProjectNo">
+        DELETE TBL_PRJ_PROGRESS TPP
+        WHERE TPP.NO = #{projectNo}
+    </delete>
 </mapper>

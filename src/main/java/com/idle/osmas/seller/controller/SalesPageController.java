@@ -1,8 +1,6 @@
 package com.idle.osmas.seller.controller;
 
-import com.idle.osmas.seller.dto.CategoryDTO;
-import com.idle.osmas.seller.dto.OptionDTO;
-import com.idle.osmas.seller.dto.SalesDTO;
+import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +22,17 @@ public class SalesPageController {
         this.salesService = salesService;
     }
 
+//    @GetMapping ("/fragments/product")
+//    public String SalesInfo(Model model, @RequestParam("no") int no){
+//        SalesDTO salesDTO = salesService.selectProjectByNo(no);
+//        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
+//        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+//        model.addAttribute("salesDTO", salesDTO);
+//        model.addAttribute("optionList", optionList);
+//        model.addAttribute("categoryDTO", categoryDTO);
+//        return "/seller/fragments/product";
+//    }
+
     @GetMapping ("/fragments/product")
     public String SalesInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
@@ -35,71 +44,61 @@ public class SalesPageController {
         return "/seller/fragments/product";
     }
 
-    @GetMapping ("/sales/salesPage1")
-    public String salesPage1(Model model, @RequestParam("no") int no){
+    @GetMapping ("/sales/detail")
+    public String detail(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
         List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
         model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage1";
+        return "/seller/sales/detail";
     }
 
-    @GetMapping ("/sales/salesPage2")
-    public String salesPage2(Model model, @RequestParam("no") int no){
+    @GetMapping ("/sales/prjInfo")
+    public String prjInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage2";
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
+        return "/seller/sales/prjInfo";
     }
 
-    @GetMapping ("/sales/salesPage3")
-    public String salesPage3(Model model, @RequestParam("no") int no){
+    @GetMapping ("/sales/prjQna")
+    public String prjQna(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        List<QnaDTO> qnaList = salesService.selectQnaListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage3";
+        model.addAttribute("qnaList", qnaList);
+        return "/seller/sales/prjQna";
     }
 
-    @GetMapping ("/sales/salesPage4")
-    public String salesPage4(Model model, @RequestParam("no") int no){
+    @GetMapping ("/sales/prjFaq")
+    public String prjFaq(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        List<FaqDTO> faqList = salesService.selectFaqListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage4";
+        model.addAttribute("faqList", faqList);
+        return "/seller/sales/prjFaq";
     }
 
-    @GetMapping ("/sales/salesPage5")
-    public String salesPage5(Model model, @RequestParam("no") int no){
+    @GetMapping ("/sales/prjNewInfo")
+    public String prjNewInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        List<NewInfoDTO> newInfoList = salesService.selectNewInfoListByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage5";
+        model.addAttribute("newInfoList", newInfoList);
+        return "/seller/sales/prjNewInfo";
     }
 
-    @GetMapping ("/sales/salesPage6")
-    public String salesPage6(Model model, @RequestParam("no") int no){
+
+    @GetMapping ("/sales/sellerInfo")
+    public String sellerInfo(Model model, @RequestParam("no") int no){
         SalesDTO salesDTO = salesService.selectProjectByNo(no);
-        List<OptionDTO> optionList = salesService.selectOptionByNo(no);
-        CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
-        model.addAttribute("optionList", optionList);
-        model.addAttribute("categoryDTO", categoryDTO);
-        return "/seller/sales/salesPage6";
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
+        return "/seller/sales/sellerInfo";
     }
-
 
 }

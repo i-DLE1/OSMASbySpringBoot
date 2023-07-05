@@ -80,7 +80,7 @@ nav ul li a{
 .alert-content {
     font-size: 14px;
     margin-bottom: 10px;
-    text-align: center; /* 수정: 가운데 정렬 */
+    text-align: left;
     margin-left: 200px;
 }
 

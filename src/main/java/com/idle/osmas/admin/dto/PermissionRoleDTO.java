@@ -22,5 +22,10 @@ public class PermissionRoleDTO {
 
     private SellerRoleReqDTO sellerRoleReq; //판매자권한신청코드
 
+    private String sellerReason; //회수 신청 사유
+
+    private String otherReason; //회수 신청 기타 사유
+
+
 
 }
