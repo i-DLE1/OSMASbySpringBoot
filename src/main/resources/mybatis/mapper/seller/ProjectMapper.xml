@@ -64,11 +64,11 @@
         SELECT PRJ.NO
           FROM TBL_PRJ PRJ
           JOIN (SELECT *
-               FROM TBL_PRJ_PROGRESS
-               WHERE NO IN (SELECT MAX(NO) AS NO
-                              FROM TBL_PRJ_PROGRESS
-                             GROUP BY REF_PRJ_NO)
-        ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
+                  FROM TBL_PRJ_PROGRESS
+                 WHERE NO IN (SELECT MAX(NO) AS NO
+                                FROM TBL_PRJ_PROGRESS
+                               GROUP BY REF_PRJ_NO)
+               ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
          WHERE TPP.STATUS = 'TEMPORARY'
            AND PRJ.REF_MEMBER_NO = '${userNo}'
     </select>
@@ -90,16 +90,10 @@
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT
           FROM TBL_PRJ PRJ
-<!--         <if test="userId != null">-->
-<!--          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO-->
-<!--         </if>-->
          WHERE PRJ.NO = ${projectNo}
            <if test="userNo != null">
            AND PRJ.REF_MEMBER_NO = #{userNo}
            </if>
-<!--         <if test="userId != null">-->
-<!--           AND TM.ID = #{userId}-->
-<!--         </if>-->
     </select>
 
     <select id="selectProjectByProjectNo" resultMap="projectResultMap">
@@ -110,6 +104,7 @@
                PRJ.END_DATE AS TBL_PRJ_END_DATE,
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+               PRJ.VIEWS AS TBL_PRJ_VIEWS,
                TP.NAME AS TBL_PRODUCT_NAME,
                TP.PRICE AS TBL_PRODUCT_PRICE,
                TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,

@@ -12,6 +12,8 @@ public interface ProductMapper {
 
     int selectProductListCountByProjectNo(int projectNo);
 
+    List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo);
+
     int insertProjectProduct(ProductDTO product);
 
     int insertProjectProductList(int projectNo , int productNo);

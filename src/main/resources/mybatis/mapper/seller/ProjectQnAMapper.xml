@@ -23,7 +23,7 @@
         <result property="currentAmount" column="TBL_PRJ_CURRENT_AMOUNT"/>
         <result property="registDate" column="TBL_PRJ_REGIST_DATE"/>
         <result property="views" column="VIEWS"/>
-        <collection property="member" resultMap="memberResultMap"/>
+        <association property="member" resultMap="memberResultMap"/>
     </resultMap>
 
     <resultMap id="projectQnAResultMap" type="com.idle.osmas.seller.dto.ProjectQnADTO">
@@ -50,18 +50,17 @@
         <result property="status" column="TBL_PAYMENT_STATUS"/>
     </resultMap>
 
-
     <select id="selectByListTypeAndSearchProjectQnACount" resultType="_int">
         SELECT COUNT(TPQ.NO)
-        FROM TBL_PRJ_QNA TPQ
-        JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO
-        JOIN TBL_MEMBER TM1 on TPQ.REF_MEMBER_NO = TM1.NO
-        JOIN TBL_MEMBER TM2 ON PRJ.REF_MEMBER_NO = TM2.NO
-        LEFT JOIN TBL_SPONSORED_PRJ TSP on PRJ.REF_MEMBER_NO = TSP.REF_MEMBER_NO
-        LEFT JOIN TBL_PAYMENT_HISTORY TPH on TSP.NO = TPH.REF_SPONSORED_PRJ_NO
-        LEFT JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
-        LEFT JOIN TBL_PRJ_QNA_ANSWER TPQA ON TPQA.PRJ_QNA_CODE = TPQ.NO
-        WHERE PRJ.REF_MEMBER_NO = #{userNo}
+          FROM TBL_PRJ_QNA TPQ
+          JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO
+          JOIN TBL_MEMBER TM1 on TPQ.REF_MEMBER_NO = TM1.NO
+          JOIN TBL_MEMBER TM2 ON PRJ.REF_MEMBER_NO = TM2.NO
+          LEFT JOIN TBL_SPONSORED_PRJ TSP on PRJ.REF_MEMBER_NO = TSP.REF_MEMBER_NO
+          LEFT JOIN TBL_PAYMENT_HISTORY TPH on TSP.NO = TPH.REF_SPONSORED_PRJ_NO
+          LEFT JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+          LEFT JOIN TBL_PRJ_QNA_ANSWER TPQA ON TPQA.PRJ_QNA_CODE = TPQ.NO
+         WHERE PRJ.REF_MEMBER_NO = #{userNo}
         <choose>
             <when test="listType.equalsIgnoreCase('wait')">
                 AND TPQ.CONTENT IS NULL
@@ -95,7 +94,6 @@
         </if>
     </select>
 
-
     <select id="selectByListTypeAndSearchProjectQnA" parameterType="map" resultMap="projectQnAResultMap">
         SELECT *
           FROM (SELECT ROWNUM AS RNUM,
@@ -109,7 +107,7 @@
                        TP.AMOUNT AS TBL_PAYMENT_AMOUNT,
                        TP.PAYMENT_TYPE AS TBL_PAYMENT_PAYMENT_TYPE,
                        TP.STATUS AS TBL_PAYMENT_STATUS,
-                       TM2.NAME AS TBL_MEMBER_NAME2,
+--                        TM2.NAME AS TBL_MEMBER_NAME2,
                        TPQA.CONTENT AS TBL_PRJ_QNA_ANSWER_CONTENT
                   FROM TBL_PRJ_QNA TPQ
                   JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO
@@ -171,9 +169,6 @@
     </select>
 
     <insert id="insertProjectQnAAnswer" parameterType="map">
-        <selectKey keyProperty="memberNo" order="BEFORE" resultType="_int">
-            SELECT TM.NO FROM TBL_MEMBER TM WHERE ID = #{memberId}
-        </selectKey>
         INSERT INTO TBL_PRJ_QNA_ANSWER TPQA
         (TPQA.NO, TPQA.CONTENT, TPQA.REGIST_DATE,
         TPQA.PRJ_QNA_CODE, TPQA.REF_MEMBER_NO)
@@ -193,6 +188,6 @@
 
     <delete id="deleteProjectQnAByProjectNo">
         DELETE TBL_PRJ_QNA TPF
-        WHERE TPF.REF_PRJ_NO = #{projectNo}
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
     </delete>
 </mapper>

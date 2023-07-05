@@ -57,11 +57,10 @@
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
             <input class="footer-btn" type="button" value="미리보기" />
-            <input id="tempSave" class="footer-btn" type="button" value="심사요청" onclick="registProjectComplete()" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProjectComplete()" />
         </footer>
         <script src="/js/seller/registProject.js"></script>
         <script>
-            isParamNo();
         </script>
     </body>
 </html>

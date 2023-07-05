@@ -58,7 +58,7 @@
 
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
-            <input id="tempSave" class="footer-btn" type="button" value="임시저장" onclick="registProject3(true)" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProject3(true)" />
             <input class="footer-btn" type="button" value="다음" onclick="registProject3(false)" />
         </footer>
 
@@ -66,7 +66,6 @@
     <script src="/js/seller/registProject.js"></script>
     <script>
         project3LoadData();
-        isParamNo();
     </script>
 </html>
 

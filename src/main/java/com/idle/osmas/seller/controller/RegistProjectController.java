@@ -51,6 +51,19 @@ public class RegistProjectController {
         this.imageFileController = imageFileController;
     }
 
+    public Map<String, String> submitButtonNaming(int ProjectNo, String temp, String notTemp){
+        Map<String, String> submitName = new HashMap<>();
+
+        ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(ProjectNo, null);
+
+        if(projectProgress.getStatus().equals(ProjectProgressStatus.TEMPORARY)){
+            submitName.put("submitName","임시저장");
+        }else {
+            submitName.put("submitName", "수정");
+        }
+        return submitName;
+    }
+
     @GetMapping("getSubCategory")
     @ResponseBody
     public List<ProjectCategoryDTO> getSubCategory(@RequestParam Integer mainCategoryCode){
@@ -61,9 +74,12 @@ public class RegistProjectController {
     }
 
     @GetMapping("project1")
-    public String getProjectTerms(@RequestParam(required = false) Integer no, Model model, Principal principal){
+    public String getProjectTerms(@RequestParam(required = false) Integer no, Model model, Principal principal) throws AccessAuthorityException {
+
+        if(principal == null) throw new AccessAuthorityException("접속 권한이 없습니다.");
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
 
         if(no != null){
             return "redirect:/seller/regist/project2?no="+no;
@@ -142,6 +158,7 @@ public class RegistProjectController {
         
         model.addAttribute("project", project);
         model.addAttribute("mainCategory",categoryList);
+        model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
 
         return "/seller/regist/registProject2";
     }
@@ -178,7 +195,7 @@ public class RegistProjectController {
 
     @GetMapping("project3")
     public String getProjectProductRegist(@RequestParam(required = false) Integer no,
-                                          Principal principal) throws AccessAuthorityException {
+                                          Principal principal, Model model) throws AccessAuthorityException {
 
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
@@ -194,6 +211,8 @@ public class RegistProjectController {
         }
 
         if (!existProject) throw new AccessAuthorityException("수정할 프로젝트가 존재하지 않습니다.");
+
+        model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
 
         return "/seller/regist/registProject3";
     }
@@ -310,6 +329,7 @@ public class RegistProjectController {
         if (project == null) throw new AccessAuthorityException("등록중인 프로젝트가 없습니다.");
 
         model.addAttribute("project" ,project); // 웹에디터 기본값
+        model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
         return "/seller/regist/registProject4";
     }
     
@@ -327,12 +347,13 @@ public class RegistProjectController {
         if(no == null) return "fail";
 
         projectService.updateProjectContent(no, project);
+
         return "success";
     }
 
     @GetMapping("project5")
     public String getProjectFAQ(@RequestParam(required = false) Integer no,
-                                Principal principal) throws AccessAuthorityException {
+                                Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
@@ -347,6 +368,8 @@ public class RegistProjectController {
         }
 
         if(!existProject) throw new AccessAuthorityException("수정가는 한 프로젝트가 존재하지 않습니다.");
+
+        model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
 
         return "/seller/regist/registProject5";
     }
@@ -424,6 +447,7 @@ public class RegistProjectController {
 
         if(!existProject) throw new AccessAuthorityException("등록 및 수정 가능한 프로젝트가 없습니다");
 
+        model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
         return "/seller/regist/registProject6";
     }
 
@@ -520,16 +544,19 @@ public class RegistProjectController {
         String afterString = project.getContent();
 
         if(afterString != null){
-            afterString.replaceAll("<([^>]+)>",  "")
+            afterString = project.getContent()
+                    .replaceAll("<([^>]+)>",  "")
                     .replaceAll("&nbsp;", "");
         }
 
         project.setContent(afterString);
 
         model.addAttribute("projectInfo",project);
-
+        model.mergeAttributes(submitButtonNaming(no,"심사요청","수정"));
         return "/seller/regist/registProject7";
     }
+
+
 
     @GetMapping("projectRegist")
     @ResponseBody

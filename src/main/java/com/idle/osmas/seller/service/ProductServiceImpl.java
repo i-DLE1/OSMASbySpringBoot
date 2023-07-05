@@ -54,5 +54,8 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.selectProductListCountByProjectNo(projectNo);
     }
 
-
+    @Override
+    public List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo) {
+        return productMapper.selectSponsoredPrjByProjectNo(projectNo, userNo);
+    }
 }

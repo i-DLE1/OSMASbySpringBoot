@@ -42,7 +42,8 @@ public class ProjectDeatilController {
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
-        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,user.getNo());
+        List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
+//        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,user.getNo());
 
         Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
 

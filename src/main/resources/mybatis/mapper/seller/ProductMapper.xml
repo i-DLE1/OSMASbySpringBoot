@@ -12,6 +12,7 @@
         <result property="maxQuantity" column="TBL_PRODUCT_MAX_QUANTITY"/>
         <result property="status" column="TBL_PRODUCT_STATUS"/>
         <result property="size" column="TBL_PRODUCT_PRODUCT_SIZE"/>
+        <result property="count" column="TBL_PRODUCT_COUNT"/>
     </resultMap>
 
     <select id="selectProductListCountByProjectNo" resultType="_int">
@@ -33,17 +34,25 @@
          WHERE REF_PRJ_NO = ${projectNo}
     </select>
 
-<!--    <select id="selectProjectProduct" parameterType="_int" resultMap="productListResultMap">-->
-<!--        SELECT TP.NO AS TBL_PRODUCT_NO,-->
-<!--               TP.NAME AS TBL_PRODUCT_NAME,-->
-<!--               TP.INTRODUCTION AS TBL_PRODUCT_INTRODUCTION,-->
-<!--               TP.PRICE AS TBL_PRODUCT_PRICE,-->
-<!--               TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,-->
-<!--               TP.STATUS AS TBL_PRODUCT_STATUS,-->
-<!--               TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE-->
-<!--          FROM TBL_PRODUCT TP-->
-<!--         WHERE TP.NO = ${productNo}-->
-<!--    </select>-->
+    <select id="selectSponsoredPrjByProjectNo" resultMap="productListResultMap">
+        SELECT TP.NO AS TBL_PRODUCT_NO,
+               NAME AS TBL_PRODUCT_NAME,
+               PRICE AS TBL_PRODUCT_PRICE,
+               MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
+               STATUS AS TBL_PRODUCT_STATUS,
+               PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
+               NVL(COUNT,0) AS TBL_PRODUCT_COUNT
+          FROM (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,
+                       count(*) AS COUNT
+                  FROM TBL_SPONSORED_PRJ TSP
+                  JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.NO = TSP.REF_PRJ_PRODUCT_LIST_NO
+                 GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO) TJ
+                 RIGHT JOIN TBL_PRJ_PRODUCT_LIST TPPL2 ON TPPL2.NO = TJ.REF_PRJ_PRODUCT_LIST_NO
+                 RIGHT JOIN TBL_PRJ PRJ ON PRJ.NO = TPPL2.REF_PRJ_NO
+                  JOIN TBL_PRODUCT TP ON TP.NO = TPPL2.REF_PRODUCT_NO
+         WHERE PRJ.NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+    </select>
 
     <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_PRODUCT TP

@@ -72,7 +72,7 @@
                             <th th:text="${productList.size() - itemStat.index}"></th>
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.price}"></td>
-                            <td></td>
+                            <td th:text="${item.count}"></td>
                             <td th:text="${item.price * 1}"></td>
                         </tr>
                     </tbody>

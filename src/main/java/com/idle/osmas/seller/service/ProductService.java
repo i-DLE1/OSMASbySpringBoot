@@ -16,6 +16,7 @@ public interface ProductService {
 
     int selectProductListCountByProjectNo(int projectNo);
 
+    List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo);
 
 
 }
