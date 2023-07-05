@@ -1,6 +1,7 @@
 package com.idle.osmas.member.controller;
 
 //import com.idle.osmas.member.service.ReviewServiceImpl;
+import com.idle.osmas.member.dto.ReviewDTO;
 import com.idle.osmas.member.dto.ReviewsDTO;
 import com.idle.osmas.member.dto.SponsoredsDTO;
 import com.idle.osmas.member.paging.Pagenation;
@@ -107,6 +108,29 @@ public class ReviewController {
         String content = reviewService.selectContent(no);
         return content;
     }
+
+    @PostMapping("/review/write")
+    @ResponseBody
+    public String writeReview(@RequestParam("no") int SponsoredNo,
+                              @RequestParam("nickname") String nickname,
+                              @RequestParam("title") String title,
+                              @RequestParam("content") String content){
+
+        String result = "리뷰 작성에 성공했습니다";
+        int memberNo = memberService.selectNoByNickname(nickname);
+        int refDeliveryStatusCode = reviewService.selectDeliveryStatusCodeistNoBySponsoredNo(SponsoredNo);
+        System.out.println(memberNo);
+        System.out.println(refDeliveryStatusCode);
+        ReviewDTO review = new ReviewDTO();
+        review.setContent(content);
+        review.setTitle(title);
+        review.setRefDeliveryStatusCode(refDeliveryStatusCode);
+        review.setRefMemberNo(memberNo);
+
+        int writeResult = reviewService.writeReview(review);
+
+        return result;
+    }
     @PostMapping("/review/modify")
     @ResponseBody
     public String modifyReview(HttpServletRequest request,Principal principal) throws Exception {
@@ -127,9 +151,30 @@ public class ReviewController {
         review.setTitle(title);
         review.setNickname(nickname);
         review.setRefDeliveryStatusCode(no);
-//        int modifyResult = reviewService.modifyReview(review);
+        int modifyResult = reviewService.modifyReview(review);
+        if(modifyResult<1){
+            result = "글 수정에 실패하셨습니다";
+        }
         return result;
-
     }
 
+    @PostMapping("/review/remove")
+    @ResponseBody
+    public String removeReview(HttpServletRequest request,Principal principal){
+        String result = "글 삭제에 성공했습니다";
+
+        String id = principal.getName();
+        String userNickname = memberService.selectNicknameById(id);
+        String nickname =request.getParameter("nickname");
+        int no = Integer.parseInt(request.getParameter("no"));
+        if(!nickname.equals(userNickname)){
+            return "글 삭제에 권한이 없습니다";
+        }
+
+        int removeResult = reviewService.removeReview(no);
+        if(removeResult<1){
+            result = "글 삭제에 실패하셨습니다";
+        }
+        return result;
+    }
 }

@@ -175,6 +175,12 @@ label{
     border: 1px solid #cdd3d8;
 }
 
+.btn_write{
+    width: 50px;
+    height: 50px;
+    border: 1px solid #cdd3d8;
+}
+
 .notice_list span a{
     color: gray;
     font-size: 20px;

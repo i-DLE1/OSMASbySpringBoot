@@ -9,6 +9,7 @@ import lombok.*;
 @Setter
 @ToString
 public class SponsoredsDTO {
+    private int no;
     private String title;
     private java.sql.Date registDate;
     private String nickname;

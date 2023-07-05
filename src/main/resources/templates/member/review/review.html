@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <link rel="stylesheet" href="/css/member/write.css">
-
+<!--    <script src="/js/member/review.js"></script>-->
 </head>
 
 <body>
@@ -167,26 +167,37 @@
                     $('.button_modify').text('수정');
                     $('#content').attr('readonly',true);
                     $('#title').attr('readonly', true);
-                    modal.style.display = "none";
-                    document.body.style.overflow = "auto"; // 스크롤바 보이기
-                    alert(data);
+                    location.reload();
+                   alert(data);
                 },error: function(error){
                     $('.button_modify').text('수정');
                     $('#content').attr('readonly',true);
                     $('#title').attr('readonly', true);
-                    modal.style.display = "none";
-                    document.body.style.overflow = "auto"; // 스크롤바 보이기
                     alert(error);
                 }
             });
         }
-
         $('.button_modify').text('등록');
         $('#content').removeAttr('readonly');
         $('#title').removeAttr('readonly');
-
     }
-
+$('.button_remove').click(function (){
+    let no = $('#no').val();
+    let nickname = $('#nickname').val();
+    $.ajax({
+        url: "/member/review/remove",
+        type: "post",
+        data: {no,nickname},
+        success: function (data){
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // 스크롤바 보이기
+            location.reload();
+            alert(data)
+        },error: function (error){
+            alert(error)
+        }
+    });
+});
 
 </script>
 </body>

@@ -16,6 +16,11 @@ public class MemberServiceImpl implements MemberService{
 
 
     @Override
+    public int selectNoByNickname(String nickname) {
+        return mapper.selectNoByNickname(nickname);
+    }
+
+    @Override
     public String selectNicknameById(String id) {
         return mapper.selectNicknameById(id);
     }
