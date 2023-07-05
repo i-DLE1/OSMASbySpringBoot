@@ -13,17 +13,17 @@ import java.util.Objects;
 @Mapper
 public interface SellerPageMapper {
 
-    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
-    List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
+//    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
+//    List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
 
-    int selectByListTypeAndSearchProjectQnACount(Map<String, Object> searchCriteria);
-    List<ProjectQnADTO> selectByListTypeAndSearchProjectQnA(Map<String, Object> searchCriteria);
+//    int selectByListTypeAndSearchProjectQnACount(Map<String, Object> searchCriteria);
+//    List<ProjectQnADTO> selectByListTypeAndSearchProjectQnA(Map<String, Object> searchCriteria);
+//
+//    ProjectQnADTO selectByQnANo(int no);
+//
+//    int insertProjectQnAAnswer(Map<String, Object> insertData);
+//    int updateProjectQnAAnswer(Map<String, Object> updateData);
 
-    ProjectQnADTO selectByQnANo(int no);
-
-    int insertProjectQnAAnswer(Map<String, Object> insertData);
-    int updateProjectQnAAnswer(Map<String, Object> updateData);
-
-    ProjectDTO selectByProjectId(int no, int userNo);
+//    ProjectDTO selectByProjectId(int projectNo, int userNo);
 
 }

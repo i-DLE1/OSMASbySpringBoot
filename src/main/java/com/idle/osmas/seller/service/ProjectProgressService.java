@@ -11,5 +11,5 @@ public interface ProjectProgressService {
 
     int insertProjectProgressStatus(ProjectProgressDTO projectProgress);
 
-
+    int deleteProjectProgressByProjectNo(int projectNo);
 }

@@ -39,6 +39,15 @@ public class ProjectServiceImpl implements ProjectService{
         return projectMapper.selectProjectByProjectNo(projectNo, userNo);
     }
 
+    @Override
+    public List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria) {
+        return projectMapper.selectByProgressAndSearchProjectManagement(searchCriteria);
+    }
+
+    @Override
+    public int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria) {
+        return projectMapper.selectByProgressAndSearchProjectManagementCount(searchCriteria);
+    }
 
     /**
      *
@@ -49,6 +58,11 @@ public class ProjectServiceImpl implements ProjectService{
     public List<ProjectDTO> selectProjectByCategory(Map<String, Object> params) {
 
         return projectMapper.selectProjectByCategory(params);
+    }
+
+    @Override
+    public ProjectDTO selectProjectCancelInfoByProjectId(int projectNo, int userNo) {
+        return projectMapper.selectProjectCancelInfoByProjectId(projectNo, userNo);
     }
 
     @Override

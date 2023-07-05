@@ -4,12 +4,37 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/seller/QA.css">
+    <link rel="stylesheet" href="/css/seller/popup.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body class="body">
     <main>
+        <div class="container-justify-center-w100">
+            <h1 class="cancel-title">재심사 신청</h1>
+        </div>
+        <div class="container-justify-center-w100">
+            <table class="cancel-table">
+                <tr>
+                    <th>프로젝트 명</th>
+                    <td colspan="2" th:text="${project.title}"></td>
+                </tr>
+                <tr>
+                    <th>프로젝트 기간</th>
+                    <td th:text="${project.startDate}"></td>
+                    <td th:text="${project.endDate}"></td>
+                </tr>
+                <tr>
+                    <th>목표금액(원)</th>
+                    <td colspan="2" th:text="${project.targetAmount}"></td>
+                </tr>
+                <tr>
+                    <th>등록 상품(개)</th>
+                    <td colspan="2" th:text="${productCount}"></td>
+                </tr>
+            </table>
+        </div>
         <div class="display-center">
-            <h1 class="h1-title">반려 사유</h1>
+            <h1 class="h1-title">사 유</h1>
             <textarea id="result" class="retry-textarea" name="result" rows="6" disabled th:text="${projectProgress.content}"></textarea>
         </div>
         <br>

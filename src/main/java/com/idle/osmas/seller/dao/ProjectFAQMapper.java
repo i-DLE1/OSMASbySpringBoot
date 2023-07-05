@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ProjectFAQMapper {
 
-    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId);
+    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, int userNo);
 
     int insertProjectFAQ(int projectRefNo, ProjectFAQDTO projectFaq);
     int updateProjectFAQ(ProjectFAQDTO projectFAQ);

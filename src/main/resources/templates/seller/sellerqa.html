@@ -28,7 +28,6 @@
           <td id="qaComplete" class="col-2" onclick="location.href='./projectQnAList?listType=complete'">답변 완료</td>
           <th class="col">
             <div class="row col">
-<!--              <form id="searchForm" action="/seller/projectQnAList" method="get">-->
                 <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
                   <option value="title" th:selected="title == ${searchType}">프로젝트명</option>
                   <option value="customer" th:selected="customer == ${searchType}">작성자ID</option>
@@ -39,7 +38,6 @@
                 </select>
                 <input type="text" class="search-bar col" id="search" name="search" th:placeholder="${search}">
                 <button class="search-btn col ms-2 me-2" onclick="projectSearch()" >검색</button>
-<!--              </form>-->
             </div>
           </th>
         </tr>
@@ -60,8 +58,6 @@
         <td>상태</td>
       </thead>
       <tbody id="customerQAList">
-          <!-- javascript 반복구간  -->
-          <!-- 타임리프 반복 시작  -->
           <th:block th:each="item, stat : ${projectQnAList}">
             <th:block th:object="${item}">
               <tr th:id="*{no}" onclick="qaPopup(this)">
@@ -90,19 +86,15 @@
               </tr>
             </th:block>
           </th:block>
-          <!-- 타임리프 반복 끝  -->
       </tbody>
     </table>
-    <!-- pagenation start -->
     <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
-    <!-- pagenation end -->
 
   </main>
 </div>
   <footer th:replace="/common/fragments/footer :: footer"></footer>
   <script src="/js/seller/sellerPage.js"></script>
   <script>
-    // proejctQAList();
     activePage();
   </script>
 </body>

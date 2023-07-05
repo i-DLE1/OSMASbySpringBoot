@@ -62,7 +62,7 @@ body{
 .retry-textarea {
     overflow: auto;
     padding: 10px;
-    width: 380px;
+    width: 320px;
     border: 1px solid #C49A6C;
     border-radius: 5px;
     resize: none;
@@ -77,10 +77,10 @@ body{
 
 .input-label label{
     position: absolute;
-    width: 390px;
+    width: 330px;
     text-align: right;
     color: #884A3B;
-    top: 400px;
+    top: 690px;
 }
 
 #qa-answer-area label:nth-child(1){

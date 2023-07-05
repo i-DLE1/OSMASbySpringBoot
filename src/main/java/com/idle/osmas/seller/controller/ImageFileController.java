@@ -48,18 +48,13 @@ public class ImageFileController {
      * @throws IOException
      */
     public int registFile(ProjectFileType fileType, MultipartFile file, int projectNo) throws IOException {
-
         if(file.getSize() > 0) {
-            String originFileName = file.getOriginalFilename();
 
-            log.info("originFileName = " + originFileName);
+            String originFileName = file.getOriginalFilename();
 
             String ext = originFileName.substring(originFileName.lastIndexOf("."));
 
-            log.info("ext = " + ext);
-
             String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
-
 
             File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
 
@@ -72,22 +67,23 @@ public class ImageFileController {
             result = projectFileService.insertProjectFile(fileType, originFileName, savedFileName, "N", projectNo);
 
             if (result > 0) {
-                log.info("파일이 정상으로 저장 됐습니다.");
                 return 1;
             } else {
-                log.info("정상적으로 ");
                 savedFile.delete();
                 return 0;
             }
         }else {
             return 0;
+        }
     }
-}
 
-
-
+    /**
+     *
+     * @param file cahngeFileName
+     * @return success 1 fail 0
+     */
     public int deleteFile(String file) {
-        System.out.println("file = " + file);
+
         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
 
         if(deleteFile.isFile()) {
@@ -104,8 +100,8 @@ public class ImageFileController {
         ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
 
         if (projectFile == null) return ResponseEntity.ok("");
+
         Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
-        log.info("saveFile"+ saveFile.toString());
 
         FileSystemResource resource = new FileSystemResource(saveFile);
 

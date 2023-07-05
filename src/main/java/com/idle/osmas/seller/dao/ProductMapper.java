@@ -8,12 +8,9 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-//    List<ProductDTO> selectProductListByProjectNo(int projectNo);
-    int deleteProductListByProjectNo(int projectNo);
+    List<ProductDTO> selectProductListByProjectNo(int projectNo, int userNo);
 
-    int deleteProductByProductNo(int productNo);
-
-    List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId);
+    int selectProductListCountByProjectNo(int projectNo);
 
     int insertProjectProduct(ProductDTO product);
 

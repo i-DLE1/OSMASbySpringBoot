@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head th:fragment="head">
   <meta charset="utf-8">
   <link rel="stylesheet" href="/css/seller/sellerDashboard.css">
@@ -24,7 +25,7 @@
       <li id="cusAllMenu" onclick="location.href='./projectList?listType=all'" >전체 조회</li>
       <li id="cusScreenMenu" onclick="location.href='./projectList?listType=screening'">심사중</li>
       <li id="cusProcessMenu" onclick="location.href='./projectList?listType=processing'">진행중</li>
-      <li id="cusRefuseMenu" onclick="location.href='./projectList?listType=refuse'">반려</li>
+      <li id="cusRefuseMenu" onclick="location.href='./projectList?listType=rejected'">반려</li>
       <li id="cusCancelMenu" onclick="location.href='./projectList?listType=cancel'">취소</li>
     </div>
   </ul>

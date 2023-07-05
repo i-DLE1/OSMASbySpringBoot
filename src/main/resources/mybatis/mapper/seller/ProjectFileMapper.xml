@@ -30,8 +30,11 @@
                TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
                TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
           FROM TBL_PRJ_FILE TPF
+          JOIN TBL_PRJ PRJ ON PRJ.NO = TPF.REF_PRJ_NO
          WHERE REF_PRJ_NO = ${projectNo}
            AND TPF.DELETE_YN = 'N'
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+
     </select>
 
     <select id="selectByProjectSaveFileName" resultMap="projectFileResultMap">
