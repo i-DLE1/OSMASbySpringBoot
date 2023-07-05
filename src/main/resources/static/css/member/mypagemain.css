@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body{
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 /*============*/
 /* mypagemain */
 /*============*/
@@ -134,7 +140,7 @@
 
 .mypage_email button.btn_save,
 .mypage_pwd button.btn_save {
-  padding: 10px 18px; 
+  padding: 10px 18px;
   background-color: #bea376;
   color: #000;
   border: none;
@@ -142,12 +148,12 @@
 }
 
 .mypage_delete button.btn_save {
-  padding: 10px 18px; 
+  padding: 10px 18px;
   background-color: #bea376;
   color: #000;
   border: none;
   border-radius: 0;
-  margin-top: 50px;
+  margin-bottom: 30px;
 }
 
 .mypage_pwd h4 {
@@ -397,7 +403,7 @@
 }
 
 .mypage_message button.btn_save {
-  padding: 10px 18px; 
+  padding: 10px 18px;
   background-color: #bea376;
   color: #000;
   border: none;
