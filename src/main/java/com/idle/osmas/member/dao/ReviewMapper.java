@@ -27,4 +27,5 @@ public interface ReviewMapper {
     int selectDeliveryStatusCodeistNoBySponsoredNo(int SponsoredNo);
 
     int writeReview(ReviewDTO review);
+
 }

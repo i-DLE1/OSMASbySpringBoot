@@ -6,11 +6,10 @@ import com.idle.osmas.member.paging.Pagenation;
 import com.idle.osmas.member.paging.SelectCriteria;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import com.idle.osmas.member.service.SuggestServiceImpl;
+import com.idle.osmas.seller.dto.CategoryDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -41,7 +40,8 @@ public class SuggestController {
         int totalCount = suggestService.selectTotalCount(searchMap);
         System.out.println("===================" + totalCount+"=========================");
         int limit = 10;
-
+        // 카테고리 이름 가져옴
+        List<CategoryDTO> category = suggestService.selectCategory();
         int buttonAmount = 5;
         SelectCriteria selectCriteria = null;
 
@@ -51,9 +51,51 @@ public class SuggestController {
             selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
         }
         List<SuggestsDTO> suggestList = suggestService.selectSuggestList(selectCriteria);
+
+
         m.addAttribute("suggestList", suggestList);
         m.addAttribute("selectCriteria", selectCriteria);
+        m.addAttribute("category",category);
+    }
 
+    @PostMapping("/suggest/modify")
+    @ResponseBody
+    public String suggestModify(@RequestParam("no") int no,
+                                @RequestParam("nickname") String nickname,
+                                @RequestParam("title") String title,
+                                @RequestParam("content") String content,Principal principal){
+        String result = "글 수정에 성공하셨습니다";
+        String id = principal.getName();
+        String userNickname = memberService.selectNicknameById(id);
+        if(!nickname.equals(userNickname)){
+            return "글쓴이와 계정이 다릅니다";
+        }
+        SuggestsDTO suggest = new SuggestsDTO();
+        suggest.setNo(no);
+        suggest.setTitle(title);
+        suggest.setContent(content);
+        int modifyResult = suggestService.modifySuggest(suggest);
+        return result;
+    }
+
+    @PostMapping("/suggest/remove")
+    @ResponseBody
+    public String suggestRemove(@RequestParam("no") int no,
+                                @RequestParam("nickname") String nickname,Principal principal){
+        String result = "글 삭제에 성공하셨습니다";
+        String id = principal.getName();
+        String userNickname = memberService.selectNicknameById(id);
+        if(!nickname.equals(userNickname)){
+            return "글쓴이와 계정이 다릅니다";
+        }
+        int removeResult = suggestService.removeSuggest(no);
+        return result;
+    }
+    @PostMapping("/suggest/suggest")
+    @ResponseBody
+    public String suggestContent(@RequestParam("no")int no){
+        String content = suggestService.selectContent(no);
+        return content;
     }
     @GetMapping("/suggest/mysuggest")
     public void goReview(Principal principal, @RequestParam(value="currentPage", defaultValue = "1") int pageNo, Model m){
@@ -70,6 +112,9 @@ public class SuggestController {
         int buttonAmount = 5;
 
         SelectCriteria selectCriteria = null;
+        // 카테고리 이름 가져옴
+        List<CategoryDTO> category = suggestService.selectCategory();
+
 
         if(searchCondition != null && !"".equals(searchCondition)){
             selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, searchCondition, searchValue);
@@ -80,5 +125,6 @@ public class SuggestController {
 
         m.addAttribute("suggestList", suggestList);
         m.addAttribute("selectCriteria", selectCriteria);
+        m.addAttribute("category",category);
     }
 }
