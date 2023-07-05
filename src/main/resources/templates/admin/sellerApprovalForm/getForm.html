@@ -21,6 +21,7 @@
         <input type="text" id="sellerId" name="sellerId" required>
     </div>
 
+    <!-- <form id="sellerGotForm" th:action="@{/admin/sellerApprovalForm/sellerFileUpload}" th:method="post" enctype="multipart/form-data"> -->
         <div class="form-group">
             <label for="bank">은행:</label>
             <select id="bank" name="bank" required>
@@ -92,6 +93,12 @@
             <input type="file" id="bankBookFile" name="bankBookFile" required>
         </div>
 
+        <div class="submit-container">
+            <input id="change" type="submit" value="수정">
+            <input id="go" type="submit" value="제출">
+            <input id="no" type="submit" value="삭제">
+        </div>
+
         <h5 style="text-align: center;">
             사업자등록증 : 최근 1년 이내 발급 / 공정거래위원회(http://www.ftc.go.kr)에서 조회 되는 통신판매업 사업자 정보와 일치 확인<br>
             인감증명서 : 최근 3개월 이내 발급 / 주민등록번호 뒤 7자리 마스킹<br>
@@ -102,12 +109,6 @@
             - 신고자 : 가입 시 통신판매업 신고번호만 입력하면 별도 서류제출 필요 없음<br>
         </h5>
         <br><br>
-
-        <div class="submit-container">
-            <input id="change" type="submit" value="수정">
-            <input id="go" type="submit" value="제출">
-            <input id="no" type="submit" value="삭제">
-        </div>
 </middle>
 
 <footer >
