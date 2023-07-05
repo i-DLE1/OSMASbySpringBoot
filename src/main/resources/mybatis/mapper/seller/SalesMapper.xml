@@ -52,6 +52,18 @@
         <result property="refPrjNo" column="REF_PRJ_NO"/>
         <result property="registDate" column="REGIST_DATE"/>
         <association property="name" resultMap="memberResultMap"/>
+        <association property="answerContent" resultMap="qnaAnswerResultMap"/>
+        <association property="answerRegistDate" resultMap="qnaAnswerResultMap"/>
+        <association property="answerNo" resultMap="qnaAnswerResultMap"/>
+        <association property="answerName" resultMap="memberResultMap2"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.QnaAnswerDTO" id="qnaAnswerResultMap">
+        <id property="no" column="NO"/>
+        <result property="content" column="ANSWER_CONTENT"/>
+        <result property="registDate" column="ANSWER_REGIST_DATE"/>
+        <result property="prjQnaCode" column="PRJ_QNA_CODE"/>
+        <result property="refMemberNo" column="ANSWER_NO"/>
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.MemberDTO" id="memberResultMap">
@@ -59,6 +71,21 @@
         <result property="id" column="ACCOUNT_NO"/>
         <result property="pwd" column="REGIST_NO"/>
         <result property="name" column="NAME"/>
+        <result property="phone" column="CALL_NUMBER"/>
+        <result property="birth" column="RPRSN"/>
+        <result property="email" column="ADDRESS"/>
+        <result property="registDate" column="BANK"/>
+        <result property="nickname" column="REPORT_NO"/>
+        <result property="status" column="REPORT_NO"/>
+        <result property="introduction" column="REPORT_NO"/>
+        <result property="dropReason" column="REPORT_NO"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.MemberDTO" id="memberResultMap2">
+        <id property="no" column="REF_MEMBER_NO"/>
+        <result property="id" column="ACCOUNT_NO"/>
+        <result property="pwd" column="REGIST_NO"/>
+        <result property="name" column="ANSWER_NAME"/>
         <result property="phone" column="CALL_NUMBER"/>
         <result property="birth" column="RPRSN"/>
         <result property="email" column="ADDRESS"/>
@@ -177,10 +204,15 @@
             A.REF_PRJ_NO,
             A.REGIST_DATE,
             A.NO,
-            B.NAME
+            B.NAME,
+            C.CONTENT AS ANSWER_CONTENT,
+            C.REGIST_DATE AS ANSWER_REGIST_DATE,
+            C.REF_MEMBER_NO AS ANSWER_NO,
+            D.NAME AS ANSWER_NAME
         FROM TBL_PRJ_QNA A
-                 LEFT JOIN TBL_MEMBER B
-                           ON A.REF_MEMBER_NO = B.NO
+                 LEFT JOIN TBL_MEMBER B ON A.REF_MEMBER_NO = B.NO
+                 LEFT JOIN TBL_PRJ_QNA_ANSWER C ON A.NO = C.PRJ_QNA_CODE
+                 LEFT JOIN TBL_MEMBER D ON C.REF_MEMBER_NO = D.NO
         WHERE REF_PRJ_NO =  #{ no }
         ORDER BY A.NO DESC
     </select>
@@ -206,5 +238,20 @@
         ORDER BY NO DESC
     </select>
 
+<!--    <insert id="insertNewQna" parameterType="_String,_String,_int">-->
+    <insert id="insertNewQna" parameterType="_int">
+        INSERT INTO TBL_PRJ_QNA
+        (CONTENT,
+         REF_MEMBER_NO,
+         REF_PRJ_NO,
+         REGIST_DATE,
+         NO)
+        VALUES
+            (#{content},
+            #{refMemberNo},
+            #{refPrjNo},
+            SYSDATE,
+            SEQ_TBL_PRJ_QNA_NO.NEXTVAL)
+    </insert>
 
 </mapper>

@@ -33,7 +33,7 @@ function addNewDiv() {
     var container = document.getElementById("optioncontainer");
     var resultParagraph = document.getElementsByClassName("optioncheck");
 
-    if (resultParagraph[0].value !== "") {
+    // if (resultParagraph[0].value !== "") {
         var clonedDiv = originalDiv.cloneNode(true);
         clonedDiv.style.display = 'none';
 
@@ -68,11 +68,17 @@ function addNewDiv() {
             }
         });
 
+        const deleteButton = clonedDiv.querySelector('.deletebutton');
+        deleteButton.addEventListener('click', function() {
+            clonedDiv.remove();
+            calcMoney();
+        });
+
         const optioncheck =  document.querySelectorAll('.optioncheck');
         optioncheck[optioncheck.length-1].value = "";
         const optionamount =  document.querySelectorAll('.optionamount');
         optionamount[optionamount.length-1].value = 1;
-    }
+    // }
 }
 
 // 옵션2 선택시
@@ -94,7 +100,7 @@ function displaySelectedOptions() {
              inputbox[inputbox.length-1].value = "";
              option2.value="";
         } else{
-             var match = result.match(/\d+(?=\s*원\))/);
+             var match = result.replace(/,/g, '').match(/\d+(?=\s*원\))/);
 
              if (match) {
                  var extractedNumber = match[0];
@@ -111,8 +117,6 @@ function displaySelectedOptions() {
     }
 
 }
-
-
 
 
 
@@ -177,7 +181,7 @@ function calcMoney() {
     const inputbox2 =  document.querySelectorAll('.optionmoney');
     var  sum = 0;
 
-    for (var  i=0; i< inputbox2.length ; i++){
+    for (var  i=1; i< inputbox2.length ; i++){
         sum += parseInt(inputbox2[i].value);
     }
 
@@ -305,6 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+
     var donationck = document.getElementById("donationck");
     var donation = document.getElementById("donation");
     donationck.addEventListener("change", function() {

@@ -22,4 +22,6 @@ public interface SalesService {
 
     public List<NewInfoDTO> selectNewInfoListByNo(int no);
 
+    int insertNewQna(String content, int refMemberNo, int refPrjNo);
+
 }

@@ -17,6 +17,7 @@ $(document).ready(function() {
     $('#updateContent1').click(function() {
         var productId = $(this).attr('data-sales-no');
 
+
         if (cachedData[productId]) {
             // 캐시된 데이터가 있는 경우, 데이터를 사용하여 동적 내용을 변경
             $('#dynamicContent').html(cachedData[productId]);
@@ -45,6 +46,7 @@ $(document).ready(function() {
 
     $('#updateContent2').click(function() {
         var productId = $(this).attr('data-sales-no');
+        // var url = '/seller/sales/prjInfo?no=' + productId;
 
         if (cachedData[productId]) {
             // 캐시된 데이터가 있는 경우, 데이터를 사용하여 동적 내용을 변경
@@ -57,12 +59,13 @@ $(document).ready(function() {
                     // 데이터를 성공적으로 가져왔을 때 실행할 코드
                     $('#dynamicContent').html(data);
                     cachedData[productId] = data; // 데이터를 캐시에 저장
-                    $('#updateContent2').data('loading', false);
+                    // $('#updateContent2').data('loading', false);
                 },
                 error: function () {
                     // 데이터 가져오기 실패 시 실행할 코드
                     $('#dynamicContent').text('정보가 없습니다.');
                     console.log('데이터 가져오기 실패');
+                    // history.pushState(null, null, url);
                 }
             });
         }
@@ -94,6 +97,29 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    $('#inputQna').click(function (){
+
+        let content =  $('#question').val();
+        let refMemberNo = 22;
+        let refPrjNo = $(this).attr('data-sales-no');
+
+        var param = {"content":content, "refMemberNo":refMemberNo, "refPrjNo":refPrjNo}
+
+        $.ajax({
+            url : "/seller/sales/prjQna",
+            type : "POST",
+            data : param,
+            dataType: JSON,
+            success : function (data){
+            alert("success");
+
+            },
+            error : function (){
+                alert("error");
+            }
+        });
     });
 });
 

@@ -384,8 +384,9 @@ nav ul li{
 .contentsbottom {
     width: 1000px;
     padding: 3%;
-     background-color: #d8d0c8;
+    background-color: #d8d0c8;
     margin: auto;
+    margin-bottom: 20px;
 }
 
 
@@ -543,8 +544,26 @@ input{
 .newInfoContent{
     text-align: left;
     font-size: 15px;
-    width:950px;
     height: 100%;
+    width:950px;
+    white-space: normal;
+    word-break: break-all;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+.show-details{
+    cursor: pointer;
+    font-size: 20px;
+    white-space: normal;
+    word-break: break-all;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+.hidden-details{
+    font-size: 16px;
+    color: #884A3B;
     white-space: normal;
     word-break: break-all;
     text-overflow: clip;
