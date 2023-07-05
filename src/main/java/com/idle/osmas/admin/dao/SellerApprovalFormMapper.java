@@ -21,4 +21,12 @@ public interface SellerApprovalFormMapper {
     int sellerInsertReq(String sellerId);
 
     int sellerInsertPermission(String sellerId);
+
+    int sellerInsertFile1(String registFileName);
+
+    int sellerInsertFile2(String reportFileName);
+
+    int sellerInsertFile3(String certificateFileName);
+
+    int sellerInsertFile4(String bankBookFileName);
 }
