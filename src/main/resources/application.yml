@@ -22,3 +22,9 @@ mybatis:
 
 # SavedFilePath
 customSaveFileDirectoryPath: /Users/yuseungcheol/Desktop/project/himedia/project/OSMASbySpringBoot/src/main/resources/static/files
+
+# SavedFilePath(sellerGetForm)
+sellerGetForm:
+  SellerGetFormFileDirectoryPath: C:/dev/SemiProject(OSMAS)/SellerGetFormFiles
+
+
