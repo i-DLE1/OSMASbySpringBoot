@@ -43,6 +43,12 @@
              )
     </insert>
 
+    <select id="selectNoByNickname" resultType="_int">
+        SELECT
+                A.NO
+          FROM TBL_MEMBER A
+         WHERE A.NICKNAME = #{nickname}
+    </select>
     <select id="selectMemberById" resultType="string">
     SELECT
             A.ID

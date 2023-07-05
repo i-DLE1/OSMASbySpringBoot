@@ -1,6 +1,7 @@
 package com.idle.osmas.member.controller;
 
 //import com.idle.osmas.member.service.ReviewServiceImpl;
+import com.idle.osmas.member.dto.ReviewDTO;
 import com.idle.osmas.member.dto.ReviewsDTO;
 import com.idle.osmas.member.dto.SponsoredsDTO;
 import com.idle.osmas.member.paging.Pagenation;
@@ -9,11 +10,9 @@ import com.idle.osmas.member.service.MemberServiceImpl;
 import com.idle.osmas.member.service.ReviewServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -102,4 +101,80 @@ public class ReviewController {
 
     @GetMapping("/review/reviewWrite")
     public void goReview4(){}
+
+    @PostMapping("/review/review")
+    @ResponseBody
+    public String reviewContent(@RequestParam("no") int no){
+        String content = reviewService.selectContent(no);
+        return content;
+    }
+
+    @PostMapping("/review/write")
+    @ResponseBody
+    public String writeReview(@RequestParam("no") int SponsoredNo,
+                              @RequestParam("nickname") String nickname,
+                              @RequestParam("title") String title,
+                              @RequestParam("content") String content){
+
+        String result = "리뷰 작성에 성공했습니다";
+        int memberNo = memberService.selectNoByNickname(nickname);
+        int refDeliveryStatusCode = reviewService.selectDeliveryStatusCodeistNoBySponsoredNo(SponsoredNo);
+        System.out.println(memberNo);
+        System.out.println(refDeliveryStatusCode);
+        ReviewDTO review = new ReviewDTO();
+        review.setContent(content);
+        review.setTitle(title);
+        review.setRefDeliveryStatusCode(refDeliveryStatusCode);
+        review.setRefMemberNo(memberNo);
+
+        int writeResult = reviewService.writeReview(review);
+
+        return result;
+    }
+    @PostMapping("/review/modify")
+    @ResponseBody
+    public String modifyReview(HttpServletRequest request,Principal principal) throws Exception {
+        String result = "글 수정에 성공했습니다";
+        String id = principal.getName();
+        String nickname =request.getParameter("nickname");
+        String userNickname = memberService.selectNicknameById(id);
+        if(!nickname.equals(userNickname)){
+            return "글쓴이와 계정이 다릅니다";
+        }
+
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        int no = Integer.parseInt(request.getParameter("no"));
+
+        ReviewsDTO review = new ReviewsDTO();
+        review.setContent(content);
+        review.setTitle(title);
+        review.setNickname(nickname);
+        review.setRefDeliveryStatusCode(no);
+        int modifyResult = reviewService.modifyReview(review);
+        if(modifyResult<1){
+            result = "글 수정에 실패하셨습니다";
+        }
+        return result;
+    }
+
+    @PostMapping("/review/remove")
+    @ResponseBody
+    public String removeReview(HttpServletRequest request,Principal principal){
+        String result = "글 삭제에 성공했습니다";
+
+        String id = principal.getName();
+        String userNickname = memberService.selectNicknameById(id);
+        String nickname =request.getParameter("nickname");
+        int no = Integer.parseInt(request.getParameter("no"));
+        if(!nickname.equals(userNickname)){
+            return "글 삭제에 권한이 없습니다";
+        }
+
+        int removeResult = reviewService.removeReview(no);
+        if(removeResult<1){
+            result = "글 삭제에 실패하셨습니다";
+        }
+        return result;
+    }
 }
