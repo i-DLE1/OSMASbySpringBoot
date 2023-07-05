@@ -8,10 +8,21 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-    List<ProductDTO> selectAllProductByProjectId(int projectNo); // 프로젝트 아이디로 모든 상품 리스트 조회
+//    List<ProductDTO> selectProductListByProjectNo(int projectNo);
+    int deleteProductListByProjectNo(int projectNo);
 
-    int insertProductByProjectId(int projectNo, ProductDTO product); // 프로젝트 no으로 상품리스트 추가
+    int deleteProductByProductNo(int productNo);
 
-    int updateProductByid(int productNo, ProductDTO product); // 상품 no으로 상품 정보 수정
+    List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId);
+
+    int insertProjectProduct(ProductDTO product);
+
+    int insertProjectProductList(int projectNo , int productNo);
+
+    int updateProjectProduct(ProductDTO product);
+
+    int deleteProjectProduct(int productNo);
+
+    int deleteProjectProductList(int productNo);
 
 }

@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </head>
 
-<nav class="cus-nav" th:fragment="nav">
+<nav id="projectListNav" class="cus-nav" th:fragment="nav">
   <div style="text-align: center;">
     <img src="/images/seller/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px; cursor: pointer" onclick="location.href='/main'">
   </div>
@@ -52,12 +52,13 @@
 <div th:fragment="pageantion">
   <ul class="cus-page">
     <li><</li>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-    <li>></li>
+    <li th:text="${minPageNum}" th:if="${minPageNum < startPageNum}" th:onclick="|movePage(${minPageNum})|"></li>
+    <th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
+      <li th:text="${num}" th:if="${currentPageNum == num}" style="font-weight: 700" th:onclick="|movePage(${num})|"></li>
+      <li th:text="${num}" th:if="${currentPageNum != num}" th:onclick="|movePage(${num})|"></li>
+    </th:block>
+    <li th:text="${maxPageNum}" th:if="${maxPageNum > endPageNum}" th:onclick="|movePage(${maxPageNum})|"></li>
+    <li th:text="'>'"></li>
   </ul>
 </div>
 
@@ -80,9 +81,10 @@
 <th:block th:fragment="progressStatus(status)" >
   <span th:if="${status == 'CANCEL'}">취소</span>
   <span th:if="${status == 'TEMPORARY'}">임시저장</span>
-  <span th:if="${status == 'REJECTED'}">거절</span>
+  <span th:if="${status == 'REJECTED'}">반려</span>
   <span th:if="${status == 'PROCESSING'}">진행중</span>
   <span th:if="${status == 'CLOSED'}">종료</span>
+  <span th:if="${status == 'SCREENING'}">심사중</span>
 </th:block>
 
 </html>

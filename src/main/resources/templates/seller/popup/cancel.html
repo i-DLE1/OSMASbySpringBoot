@@ -54,16 +54,14 @@
     <div class="cancel-content-area">
         <h1 class="cancel-content-title">취소 사유</h1>
         <label th:for="cancel-content"><span>0</span>/500</label>
-        <textarea maxlength="500" class="cancel-content" th:id="cancel-content" name="content" rows=5 placeholder="취소 사유를 입력하세요." th:if="${project.projectProgress?.content == null}"></textarea>
-        <textarea maxlength="500" class="cancel-content" th:id="cancel-content" name="content" rows=5 placeholder="취소 사유를 입력하세요." th:if="${project.projectProgress?.content != null}" th:text="${project.projectProgress?.content}"></textarea>
+        <textarea maxlength="500" class="cancel-content" th:id="cancel-content" name="content" rows=5 placeholder="취소 사유를 입력하세요." th:text="${project.projectProgress?.content}"></textarea>
     </div>
 
     <footer class="footer">
         <input type="button" class="footer-btn" onclick="window.close()" value="닫기">
-        <input type="button" class="footer-btn" value="취소하기" onclick="cancelSubmit()" th:if="${project.projectProgress?.status == 'CANCEL'}">
+        <input type="button" class="footer-btn" value="취소하기" onclick="cancelSubmit()" th:if="${project.projectProgress?.status.toString() != 'CANCEL'}">
     </footer>
 
     <script src="/js/seller/sellerPage.js"></script>
-<!--    <script>cancelTableDummyData()</script>-->
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.idle.osmas.admin.service;
 
 import com.idle.osmas.admin.dto.SellerRoleDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,7 +19,14 @@ public interface SellerRoleService {
 
     List<SellerRoleDTO> selectSuccessRoleRetrieve(); // 권한 회수 완료자
 
-    int grant(String sellerId);
+    int grant(String sellerId); //권한 신청 -> 완료
 
+    int drop(String sellerId); //권한 회수 신청 -> 완료
+
+    int holdingGrant(String sellerId, String reason, int sellerReq);
+
+    int holdingRetrieveGo(String sellerId, String reason, int sellerReq);
 
 }
+
+    

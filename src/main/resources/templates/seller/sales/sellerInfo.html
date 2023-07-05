@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매페이지_판매자정보</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="/js/seller/slaesPage.js"></script>
+</head>
+
+<body>
+    <div class="contentheadline" >판매자정보</div>
+    <div>
+        <div class="teaminfo">
+            <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
+            <div th:text="${sellerRollDTO.name}"></div>
+        </div>
+        <div style="font-size: 15px; margin-bottom: 20px;">
+            <span>상호: </span>
+            <span th:text="${sellerRollDTO.name}"></span> <br>
+            <span>대표자명: </span>
+            <span th:text="${sellerRollDTO.rprsn}"></span> <br>
+            <span>사업자번호: </span>
+            <span th:text="${sellerRollDTO.registNo}"></span> <br>
+            <span>통신판매업신고: </span>
+            <span th:text="${sellerRollDTO.reportNo}"></span> <br>
+            <span>연락처: </span>
+            <span th:text="${sellerRollDTO.callNumber}"></span> <br>
+            <span>영업소재지: </span>
+            <span th:text="${sellerRollDTO.address}"></span> <br>
+        </div>
+        <div style="font-size: 15px;">
+            <span>반송지정보 </span> <br>
+            <span>교환 / 반품 주소: </span>
+            <span th:text="${sellerRollDTO.address}"></span>
+        </div>
+
+    </div>
+
+</body>
+</html>

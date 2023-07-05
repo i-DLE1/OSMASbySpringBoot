@@ -7,9 +7,7 @@ body{
 
 .col-2{
     display: grid;
-    grid-column-gap: 20px;
-    grid-template-columns: 500px auto;
-
+    grid-template-columns: 0 auto;
     transition: 0.5s;
 }
 
@@ -20,20 +18,32 @@ body{
     border-radius: 10px;
     width: 130px;
     margin-bottom: 20px;
+    text-align: center;
 }
-/*.translate-out{*/
-/*    transform: translateX(-600px);*/
-/*    transition: 0.4s;*/
-/*}*/
-/*.translate-in{*/
-/*    transform: translateX(0px);*/
-/*    transition: 0.4s;*/
-/*}*/
+#proToggle:has(input:checked) ~ div>#info{
+    transform: translateX(0%);
+    transition: 1s;
+}
+#proToggle:has(input:checked) ~ #menu{
+    grid-template-columns: 500px auto;
+    grid-column-gap: 20px;
+    transition: 1s;
+}
 
-/*.display-none{*/
-/*    animation-delay: 0.4s;*/
-/*    display: none;*/
-/*}*/
+#proToggle input{
+    display: none;
+}
+
+#info{
+    width: 500px;
+    transform: translateX(-120%);
+    transition: 0.4s;
+}
+
+.display-none{
+    animation-delay: 0.4s;
+    display: none;
+}
 
 .title{
     display: flex;

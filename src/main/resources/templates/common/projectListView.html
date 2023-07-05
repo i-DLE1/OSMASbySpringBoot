@@ -11,22 +11,22 @@
     <header th:replace="~{/common/fragments/header :: header}"></header>
     <main>
         <div class="flex-center">
-            <div class="project-list-main">
+            <div class="project-list-sub">
                 <div class="menu-list-project-view">
+                    <label class="main-category" onclick="initCategory()">
+                        <span>전체</span>
+                    </label>
                     <th:block th:each="category : ${categoryList}">
-                        <label th:id="|category-${category.no}|"  class="project-list-tag-selection">
+                        <label th:id="|category-${category.no}|"  class="main-category">
                             <span th:text="${category.name}"></span>
                         </label>
                     </th:block>
                 </div>
+                <div id="subCategoryList" class="menu-list-project-view">
+                    <!-- javascript -->
+                </div>
                 <div id="project-view-list" class="container-project-list-view">
                     <!--  javascript   -->
-
-                    <!--  projectItem component start   -->
-<!--                    <th:block th:each="item : ${itemList}">-->
-<!--                        <div th:replace="/seller/sellerFrag :: prjItem('title','content','amount','date','views','img')"></div>-->
-<!--                    </th:block>-->
-                    <!--  projectItem component end   -->
                 </div>
             </div>
         </div>
@@ -35,9 +35,9 @@
     <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
     <script src="/js/seller/projectListView.js"></script>
     <script>
-        // projectListView();
+        mainCategorySelect();
         categorySelect();
-        projectListViewDummyData();
+        salesListAjax();
     </script>
 </body>
 </html>

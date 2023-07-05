@@ -8,35 +8,35 @@
             <div class="image-upload-list" >
                     <div>
                         <label for="presentImg" >
-                            <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'" >
+                            <img id="present" class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'" >
                             <div class="image-upload-description">대표이미지</div>
                         </label>
                         <input id="presentImg" name="file1"type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png" />
                     </div>
                     <div>
                         <label for="thumbnailImg" >
-                            <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
+                            <img id="thumbnail" class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">썸네일</div>
                         </label>
                         <input id="thumbnailImg" name="file2" type="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file3" >
-                            <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
+                            <img id="imgfile0" class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
                         <input id="file3" name="file3" type="file" class="file" style="display: none" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file4" >
-                            <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
+                            <img id="imgfile1" class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
                         <input id="file4" name="file4" type="file" style="display: none" class="file" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
                     </div>
                     <div>
                         <label for="file5" >
-                            <img class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
+                            <img id="imgfile2" class="image-upload-button" src="" onerror="this.src='/images/seller/regist/imageAddButton.png'">
                             <div class="image-upload-description">추가</div>
                         </label>
                         <input id="file5" name="file5" type="file" style="display: none" class="file" onchange="previewImage(this)" accept="image/jpeg, image/jpg, image/png"/>
@@ -60,13 +60,16 @@
         <!-- 하단 버튼 시작 -->
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
-            <input class="footer-btn" type="button" value="임시저장" onclick="registProject3(true)" />
+            <input id="tempSave" class="footer-btn" type="button" value="임시저장" onclick="registProject3(true)" />
             <input class="footer-btn" type="button" value="다음" onclick="registProject3(false)" />
         </footer>
         <!-- 하단 버튼 끝 -->
 
     </body>
     <script src="/js/seller/registProject.js"></script>
-    <script >project3LoadData()</script>
+    <script>
+        project3LoadData();
+        isParamNo();
+    </script>
 </html>
 

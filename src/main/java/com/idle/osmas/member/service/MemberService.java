@@ -10,8 +10,11 @@ public interface MemberService {
     // 회원 조회용
     public boolean selectMemberById(String id);
 
+    public int selectNoByNickname(String nickname);
+
     public boolean selectMemberByNickname(String nickname);
 
     public boolean selectMemberByEmail(String email);
 
+    public String selectNicknameById(String id);
 }

@@ -9,4 +9,8 @@ import java.util.List;
 public interface GettingProposalsMapper {
 
     List<SuggestDTO> gettingProposalsAll();  //받은 제안 모두 확인
+
+    int sendProposals(int proposalNo, String reasonText); //제안 알림 보내기
+
+    int proposalsStatus(int proposalNo); //제안 알림 보낸 후 상태값 바꾸기
 }

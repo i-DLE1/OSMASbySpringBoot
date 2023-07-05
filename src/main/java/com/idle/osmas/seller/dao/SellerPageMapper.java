@@ -13,8 +13,10 @@ import java.util.Objects;
 @Mapper
 public interface SellerPageMapper {
 
-    List<ProjectDTO> selectAllProjectManagement(int userId);
+    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
     List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
+
+    int selectByListTypeAndSearchProjectQnACount(Map<String, Object> searchCriteria);
     List<ProjectQnADTO> selectByListTypeAndSearchProjectQnA(Map<String, Object> searchCriteria);
 
     ProjectQnADTO selectByQnANo(int no);
@@ -22,6 +24,6 @@ public interface SellerPageMapper {
     int insertProjectQnAAnswer(Map<String, Object> insertData);
     int updateProjectQnAAnswer(Map<String, Object> updateData);
 
-    ProjectDTO selectByProjectId(int no);
+    ProjectDTO selectByProjectId(int no, int userNo);
 
 }
