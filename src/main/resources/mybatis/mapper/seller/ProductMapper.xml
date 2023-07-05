@@ -99,11 +99,4 @@
         DELETE TBL_PRODUCT TP
          WHERE TP.NO = #{productNo}
     </delete>
-<!--    <delete id="deleteProductByProjectNo">-->
-<!--        DELETE TBL_PRODUCT TP-->
-<!--        WHERE TP.NO IN (SELECT TPPL.REF_PRODUCT_NO AS NO-->
-<!--                          FROM TBL_PRJ_PRODUCT_LIST TPPL-->
-<!--                         WHERE TPPL.REF_PRODUCT_NO = #{projectNo})-->
-<!--    </delete>-->
-
 </mapper>

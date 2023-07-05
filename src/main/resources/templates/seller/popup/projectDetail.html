@@ -67,13 +67,12 @@
                         </tr>
                     </thead>
                     <tbody id="product-statics-list">
-                        <!-- javascript -->
                         <tr th:each="item : ${productList}">
                             <th th:text="${productList.size() - itemStat.index}"></th>
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.price}"></td>
                             <td th:text="${item.count}"></td>
-                            <td th:text="${item.price * 1}"></td>
+                            <td th:text="${item.price * item.count}"></td>
                         </tr>
                     </tbody>
                 </table>

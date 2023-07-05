@@ -20,8 +20,8 @@
                TPF.DELETE_YN AS TBL_PRJ_FILE_DELTE_YN,
                TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
                TPF.REF_PRJ_NO AS TBL_PRJ_FILE_REF_PRJ_NO
-        FROM TBL_PRJ_FILE TPF
-        WHERE TPF.NO = #{no}
+          FROM TBL_PRJ_FILE TPF
+         WHERE TPF.NO = #{no}
     </select>
 
     <select id="selectProjectFileListByProjectNo" resultMap="projectFileResultMap">

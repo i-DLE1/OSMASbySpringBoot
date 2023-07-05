@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,14 +29,16 @@ public class ImageFileController {
     @Value("${customSaveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
 
-
     private final ProjectService projectService;
 
     private final ProjectFileService projectFileService;
 
-    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService) {
+    private final ResourceLoader resourceLoader;
+
+    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService, ResourceLoader resourceLoader) {
         this.projectService = projectService;
         this.projectFileService = projectFileService;
+        this.resourceLoader = resourceLoader;
     }
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -110,6 +114,18 @@ public class ImageFileController {
         } catch (IOException e) {
             return ResponseEntity.ok("");
         }
+    }
 
+    @GetMapping("/images/{type}/{file}")
+    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
+
+        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
+
+        System.out.println("resource = " + resource);
+        try {
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.ok("");
+        }
     }
 }
