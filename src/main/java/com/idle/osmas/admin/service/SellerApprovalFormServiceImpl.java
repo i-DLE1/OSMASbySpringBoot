@@ -59,10 +59,10 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         int result1 = sellerApprovalFormMapper.sellerInsert(requestParams);
         int result2 = sellerApprovalFormMapper.sellerInsertReq(sellerId);
         int result3 = sellerApprovalFormMapper.sellerInsertPermission(sellerId);
-        int result4 = sellerApprovalFormMapper.sellerInsertFile1(registFileName);
-        int result5 = sellerApprovalFormMapper.sellerInsertFile2(reportFileName);
-        int result6 = sellerApprovalFormMapper.sellerInsertFile3(certificateFileName);
-        int result7 = sellerApprovalFormMapper.sellerInsertFile4(bankBookFileName);
+        int result4 = sellerApprovalFormMapper.sellerInsertFile1(registFileName, sellerId);
+        int result5 = sellerApprovalFormMapper.sellerInsertFile2(reportFileName, sellerId);
+        int result6 = sellerApprovalFormMapper.sellerInsertFile3(certificateFileName, sellerId);
+        int result7 = sellerApprovalFormMapper.sellerInsertFile4(bankBookFileName, sellerId);
 
         int result = 0;
 

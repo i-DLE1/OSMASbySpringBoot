@@ -14,7 +14,7 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
-      location: classpath:/static/files/
+      location: dev/SemiProject/osmas/src/main/resources/static/images/admin/getForm
 
 # mybatis mappers config
 mybatis:

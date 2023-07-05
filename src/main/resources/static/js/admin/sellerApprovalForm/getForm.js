@@ -1,9 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var changeButton = document.getElementById('change');
     var goButton = document.getElementById('go');
-    var noButton = document.getElementById('no');
 
     goButton.addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 막기
 
         // 알림창 표시
         alert('제출되었습니다!');
@@ -21,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
             processData: false,
             contentType: false,
             success: function(response) {
-                console.log('제출되었습니다.');
-                alert('제출되었습니다!');
+                console.log('권한 신청 되었습니다.');
+                alert('권한 신청 되었습니다!');
                 location.reload(); // 페이지 새로 고침
             },
             error: function(error) {
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var noButton = document.querySelectorAll('.submit-container #no');
     noButton.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // 기본 동작 방지
 
             const action = button.value;
 
