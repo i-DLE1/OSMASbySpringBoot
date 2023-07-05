@@ -40,7 +40,7 @@
         <span class="btn_myreview ">
             <a th:href="@{/member/suggest/mysuggest}">나의 제안보기</a>
         </span>
-        <button style="height: 46px;" id="">제안쓰기</button>
+        <button style="height: 46px;" id="open-modal">제안쓰기</button>
     </div>
     <table style="margin-top: 20px;">
         <tr>
@@ -115,29 +115,66 @@
         </div>
     </div>
 </div>
+
+<div id="modal2">
+    <div class="modal-content">
+        <button id="close-modal2">x</button>
+        <div class="form-container">
+            <h2>제안하기</h2>
+            <div class="form-group">
+                <label for="title2">제목</label>
+                <input type="text" id="title2" name="title2" readonly>
+            </div>
+            <input type="text" id="no2" style="display: none">
+            <input type="text" id="nickname2" style="display: none">
+            <div class="form-group">
+                <label for="content2">내용</label>
+                <textarea id="content2" name="content2" readonly></textarea>
+            </div>
+            <div class="button-container">
+                <button class="button_write">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+
+
     const modal = document.getElementById("modal");
     const closeModalBtn = document.getElementById("close-modal");
     closeModalBtn.addEventListener("click", () => {
         modal.style.display = "none";
         document.body.style.overflow = "auto"; // 스크롤바 보이기
         $('.button_modify').text('수정');
-        $('#content').attr('readonly',true);
+        $('#content').attr('readonly', true);
         $('#title').attr('readonly', true);
     });
 
-    if (document.querySelectorAll(".suggest_title")){
+    const modal2 = document.getElementById("modal2");
+    const openModalBtn = document.getElementById("open-modal");
+    const closeModalBtn2 = document.getElementById("close-modal2");
+    openModalBtn.addEventListener("click", () => {
+        modal2.style.display = "block";
+        document.body.style.overflow = "hidden"; // 스크롤바 제거
+    });
+    closeModalBtn2.addEventListener("click", () => {
+        modal2.style.display = "none";
+        document.body.style.overflow = "auto";
+    });
+
+    if (document.querySelectorAll(".suggest_title")) {
         const $suggest = document.querySelectorAll(".suggest_title");
-        for(let i = 0; i < $suggest.length; i++){
-            $suggest[i].onclick = function (){
+        for (let i = 0; i < $suggest.length; i++) {
+            $suggest[i].onclick = function () {
                 let no = this.parentNode.children[0].innerHTML;
                 let title = this.parentNode.children[2].innerHTML;
                 let nickname = this.parentNode.children[4].innerHTML;
                 $.ajax({
                     url: "/member/suggest/suggest",
                     type: "post",
-                    data: {no,no},
-                    success: function (data){
+                    data: {no, no},
+                    success: function (data) {
                         modal.style.display = "block";
                         document.body.style.overflow = "hidden";
                         $('#title').val(title);
@@ -145,31 +182,33 @@
                         $('#no').val(no);
                         $('#nickname').val(nickname);
                     },
-                    error: function (error){
+                    error: function (error) {
                         alert(error)
                     }
                 });
             }
         }
     }
-    $('.button_remove').click(function (){
+
+    $('.button_remove').click(function () {
         let no = $('#no').val();
         let nickname = $('#nickname').val();
         $.ajax({
             url: "/member/suggest/remove",
             type: "post",
-            data: {no,nickname},
-            success: function (data){
+            data: {no, nickname},
+            success: function (data) {
                 location.reload();
                 alert(data);
             },
-            error: function (error){
+            error: function (error) {
                 alert(error)
             }
         });
     });
-    $('.button_modify').click(function (){
-        if($('.button_modify').text() == '등록'){
+
+    $('.button_modify').click(function () {
+        if ($('.button_modify').text() == '등록') {
             let content = $('#content').val();
             let title = $('#title').val();
             let no = $('#no').val();
@@ -177,16 +216,16 @@
             $.ajax({
                 url: "/member/suggest/modify",
                 type: "post",
-                data: {content,title,no,nickname},
-                success: function (data){
+                data: {content, title, no, nickname},
+                success: function (data) {
                     $('.button_modify').text('수정');
-                    $('#content').attr('readonly',true);
+                    $('#content').attr('readonly', true);
                     $('#title').attr('readonly', true);
                     location.reload();
                     alert(data);
-                }, error: function (error){
+                }, error: function (error) {
                     $('.button_modify').text('수정');
-                    $('#content').attr('readonly',true);
+                    $('#content').attr('readonly', true);
                     $('#title').attr('readonly', true);
                     alert(error);
                 }
