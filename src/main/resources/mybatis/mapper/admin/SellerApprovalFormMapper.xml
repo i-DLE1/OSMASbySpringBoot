@@ -104,12 +104,13 @@
     </insert>
 
     <!-- 권한 신청 파일 insert-->
-    <insert id="sellerInsertFile1" parameterType="java.lang.String">
-        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
+    <insert id="sellerInsertFile" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME,CHANGE_NAME, DETELE_YN, REF_MEMBER_NO)
         VALUES (
                    SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
                    'LICENSE',
-                   #{registFileName},
+                   #{originFileName},
+                   #{savedFileName},
                    'N',
                    (SELECT M.NO
                     FROM TBL_MEMBER M
@@ -118,45 +119,4 @@
                )
     </insert>
 
-    <insert id="sellerInsertFile2" parameterType="java.lang.String">
-        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
-        VALUES (
-                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
-                   'TELECOM',
-                   #{reportFileName},
-                   'N',
-                   (SELECT M.NO
-                    FROM TBL_MEMBER M
-                    WHERE M.ID = #{sellerId}
-                   )
-               )
-    </insert>
-
-    <insert id="sellerInsertFile3" parameterType="java.lang.String">
-        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
-        VALUES (
-                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
-                   'SEAL',
-                   #{certificateFileName},
-                   'N',
-                   (SELECT M.NO
-                    FROM TBL_MEMBER M
-                    WHERE M.ID = #{sellerId}
-                   )
-               )
-    </insert>
-
-    <insert id="sellerInsertFile4" parameterType="java.lang.String">
-        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
-        VALUES (
-                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
-                   'BANK_BOOK',
-                   #{bankBookFileName},
-                   'N',
-                   (SELECT M.NO
-                    FROM TBL_MEMBER M
-                    WHERE M.ID = #{sellerId}
-                   )
-               )
-    </insert>
 </mapper>
