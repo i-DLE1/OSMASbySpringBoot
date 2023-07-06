@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.member.dao.PayMapper">
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="email" column="EMAIL"/>
+    </resultMap>
+    <resultMap id="addressResultMap" type="com.idle.osmas.member.dto.AddressDTO">
+        <result property="general" column="GENERAL"/>
+        <result property="detail" column="DETAIL"/>
+        <result property="postalCode" column="POSTAL_CODE"/>
+    </resultMap>
+    <select id="selectMemberById" resultMap="memberResultMap">
+        SELECT
+               A.NO
+             , A.NAME
+             , A.PHONE
+             , A.EMAIL
+        FROM TBL_MEMBER A
+       WHERE A.ID = #{id}
+        AND STATUS = 'USE'
+    </select>
+    
+    <select id="selectAddressByNo" resultMap="addressResultMap">
+    SELECT
+           A.GENERAL
+         , A.DETAIL
+         , A.POSTAL_CODE
+      FROM TBL_ADDRESS A
+     WHERE A.REF_MEMBER_NO =#{no}
+    </select>
+</mapper>
