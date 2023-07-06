@@ -25,6 +25,12 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
         return result;
     }
 
+    /**
+     *
+     * @param projectNo
+     * @param status available null
+     * @return
+     */
     @Override
     public ProjectProgressDTO progressLastStatusById(int projectNo, ProjectProgressStatus status) {
         ProjectProgressDTO lastPorjectStatus = projectProgressMapper.progressLastStatusById(projectNo, status);
@@ -36,4 +42,8 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
         }
     }
 
+    @Override
+    public int deleteProjectProgressByProjectNo(int projectNo) {
+        return projectProgressMapper.deleteProjectProgressByProjectNo(projectNo);
+    }
 }

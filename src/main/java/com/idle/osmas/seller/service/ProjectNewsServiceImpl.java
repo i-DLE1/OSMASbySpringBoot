@@ -40,4 +40,9 @@ public class ProjectNewsServiceImpl implements  ProjectNewsService {
     public int updateProjectNews(ProjectNewsDTO projectNews) {
         return projectNewsMapper.updateProjectNews(projectNews);
     }
+
+    @Override
+    public int deleteProjectNewsByProjectNo(int projectNo) {
+        return projectNewsMapper.deleteProjectNewsByProjectNo(projectNo);
+    }
 }

@@ -12,5 +12,7 @@ public interface ProjectFAQService {
 
     int deleteProjectFAQ(List<ProjectFAQDTO> projectFAQList);
 
-    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId);
+    List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, int userNo);
+
+    int deleteProjectFaqByProjectNo(int projectNo);
 }

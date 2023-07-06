@@ -14,4 +14,6 @@ public interface ProjectNewsService {
     int deleteProjectNews(int projectNewsNo);
 
     int updateProjectNews(ProjectNewsDTO projectNews);
+
+    int deleteProjectNewsByProjectNo(int projectNo);
 }

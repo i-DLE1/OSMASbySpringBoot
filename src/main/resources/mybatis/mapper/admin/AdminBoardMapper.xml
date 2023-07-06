@@ -12,10 +12,10 @@
         <result property="modifyDate" column="MODIFY_DATE"/>
         <result property="classifyCode" column="CLASSIFY_CODE"/>
         <result property="deleteYN" column="DELETE_YN"/>
-
     </resultMap>
 
-    <resultMap id="adminBoardFileResultMap" type="com.idle.osmas.admin.dto.AdminBoardFileDTO" extends="adminBoardResultMap">
+
+    <resultMap id="adminBoardFileResultMap" type="com.idle.osmas.admin.dto.AdminBoardFileDTO">
         <result property="boardNo" column="BOARD_NO"/>
         <result property="boardTitle" column="BOARD_TITLE"/>
         <result property="boardContent" column="BOARD_CONTENT"/>
@@ -23,11 +23,36 @@
         <result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
         <result property="boardDeleteYN" column="BOARD_DELETE_YN"/>
         <result property="boardClassifyCode" column="BOARD_CLASSIFY_CODE"/>
-        <association property="boardMemberNo" resultMap="memberResultMap"/>
     </resultMap>
 
 
-    <select id="getAllAdminBoardFiles" resultMap="adminBoardFileResultMap">
+    <select id="getAllAdminBoards" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD S
+        <where>
+            <if test='boardtype == "N"'>
+                S.CLASSIFY_CODE = '공지사항'
+            </if>
+            <if test='boardtype == "E"'>
+                S.CLASSIFY_CODE = '이벤트'
+            </if>
+            <if test='boardtype == "AT"'>
+                S.CLASSIFY_CODE = '보도자료'
+            </if>
+        </where>
+        ORDER BY S.NO ASC
+    </select>
+
+
+    <select id="getAllAdminBoardFiles" resultMap="adminBoardResultMap">
         SELECT
             F.NO AS FILE_NO,
             F.ORIGIN_NAME,
@@ -46,34 +71,58 @@
             M.EMAIL AS EMAIL
         FROM TBL_ADMIN_BOARD_FILE F
             JOIN TBL_ADMIN_BOARD B ON F.REF_ADMIN_BOARD_NO = B.NO
-            JOIN TBL_MEMBER M ON B.NO = M.NO;
+            JOIN TBL_MEMBER M ON B.NO = M.NO
     </select>
 
-    <select id="getAdminBoardsByCategory" resultMap="adminBoardResultMap">
+
+    <select id="getAdminNotice" resultMap="adminBoardResultMap">
         SELECT
-        S.NO,
-        S.TITLE,
-        S.CONTENT,
-        S.REGIST_DATE,
-        S.MODIFY_DATE,
-        S.CLASSIFY_CODE,
-        S.REF_MEMBER_NO,
-        S.DELETE_YN
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        WHERE
-        <choose>
-            <when test="category == 'a'">
-                S.CLASSIFY_CODE = 'a'  -- 공지사항
-            </when>
-            <when test="category == 'b'">
-                S.CLASSIFY_CODE = 'b'  -- 이벤트
-            </when>
-            <when test="category == 'c'">
-                S.CLASSIFY_CODE = 'c'  -- 보도자료
-            </when>
-        </choose>
+        WHERE S.CLASSIFY_CODE = '공지사항'
     </select>
 
 
+    <select id="getAdminEvent" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD S
+        WHERE S.CLASSIFY_CODE = '이벤트'
+    </select>
+
+    <select id="getAdminArticle" resultMap="adminBoardResultMap">
+        SELECT
+            S.NO,
+            S.TITLE,
+            S.CONTENT,
+            S.REGIST_DATE,
+            S.MODIFY_DATE,
+            S.CLASSIFY_CODE,
+            S.REF_MEMBER_NO,
+            S.DELETE_YN
+        FROM TBL_ADMIN_BOARD S
+        WHERE S.CLASSIFY_CODE = '보도자료'
+    </select>
+
+    <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+        SELECT
+            *
+        FROM  TBL_ADMIN_BOARD
+        WHERE NO = #{no}
+    </select>
 
 </mapper>

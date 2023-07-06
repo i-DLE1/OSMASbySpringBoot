@@ -3,10 +3,7 @@ package com.idle.osmas.seller.controller;
 import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
-import com.idle.osmas.seller.service.ProductService;
-import com.idle.osmas.seller.service.ProjectProgressServiceImpl;
-import com.idle.osmas.seller.service.ProjectService;
-import com.idle.osmas.seller.service.SellerPageServiceImpl;
+import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -24,25 +21,29 @@ import java.util.Map;
 @Controller
 @RequestMapping("/seller/projectDetail/*")
 public class ProjectDeatilController {
-    private final SellerPageServiceImpl sellerPageService;
     private final ProjectProgressServiceImpl projectProgressService;
 
     private final ProductService productService;
 
     private final ProjectService projectService;
 
-    public ProjectDeatilController(SellerPageServiceImpl sellerPageService, ProjectProgressServiceImpl projectProgressService, ProductService productService, ProjectService projectService) {
-        this.sellerPageService = sellerPageService;
+    private final ProjectQnAService projectQnAService;
+
+    public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService, ProductService productService, ProjectService projectService, ProjectQnAService projectQnAService) {
         this.projectProgressService = projectProgressService;
         this.productService = productService;
         this.projectService = projectService;
+        this.projectQnAService = projectQnAService;
     }
 
     @GetMapping("projectDetail")
     public String projectDetail(@RequestParam int no, Principal principal, Model model) {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
-        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,"admin01");
+
+        List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
+//        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,user.getNo());
 
         Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
 
@@ -55,11 +56,13 @@ public class ProjectDeatilController {
 
     @GetMapping("cancel")
     public String getCacnel(@RequestParam int no,  Principal principal, Model model){
+
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        ProjectDTO project = sellerPageService.selectByProjectId(no, user.getNo());
+        ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
 
         String targetRate = String.valueOf(project.getCurrentAmount() / project.getTargetAmount()  * 100)+"%";
+
         model.addAttribute("project",project);
         model.addAttribute("targetRate",targetRate) ;
         return "/seller/popup/cancel";
@@ -67,9 +70,7 @@ public class ProjectDeatilController {
 
     @PostMapping("cancel")
     @ResponseBody
-    public String postCancel(@RequestParam Integer no, @RequestBody String content, Principal principal){
-
-        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    public String postCancel(@RequestParam Integer no, @RequestBody String content){
 
         ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
@@ -90,11 +91,11 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("qaAnswer")
-    public String getQaAnswer(@RequestParam String id, Principal principal, Model model) {
+    public String getQaAnswer(@RequestParam Integer no, Principal principal, Model model) {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        ProjectQnADTO projectQnA = sellerPageService.selectByQnANo(Integer.valueOf(id));
+        ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(Integer.valueOf(no));
 
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";
@@ -102,7 +103,7 @@ public class ProjectDeatilController {
     @PostMapping("qaAnswer")
     @ResponseBody
     public String postQaAswer(@RequestBody String content,
-                              @RequestParam Integer id,
+                              @RequestParam Integer no,
                               @RequestParam String submitType,
                               Principal principal){
         String result = "";
@@ -111,15 +112,15 @@ public class ProjectDeatilController {
 
         Map<String, Object> qnaData = new HashMap<>();
 
-        qnaData.put("no", id);
+        qnaData.put("no", no);
         qnaData.put("content", content);
         qnaData.put("userNo",user.getNo());
 
         if("regist".equals(submitType)){
-            sellerPageService.insertProjectQnAAnswer(qnaData);
+            projectQnAService.insertProjectQnAAnswer(qnaData);
             result = "success";
         }else if("modify".equals(submitType)){
-            sellerPageService.updateProjectQnAAnswer(qnaData);
+            projectQnAService.updateProjectQnAAnswer(qnaData);
             result = "success";
         }else {
             result = "fail";
@@ -135,12 +136,19 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("retry")
-    public String retry(@RequestParam int no, Model model) throws AccessAuthorityException {
+    public String retry(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(no, ProjectProgressStatus.REJECTED);
 
         if (projectProgress == null) throw new AccessAuthorityException("현재 프로젝트는 재심사 대상이 아닙니다.");
 
+        ProjectDTO projectDTO = projectService.selectProjectByProjectNo(no, user.getNo());
+        int productCount = productService.selectProductListCountByProjectNo(no);
+
+        model.addAttribute("project",projectDTO);
+        model.addAttribute("productCount",productCount);
         model.addAttribute("projectProgress", projectProgress);
 
         return "/seller/popup/retry";
@@ -149,11 +157,17 @@ public class ProjectDeatilController {
 
     @PostMapping("retry")
     @ResponseBody
-    public String postRetry(@RequestBody String content, @RequestParam int id){
+    public String postRetry(@RequestBody String content, @RequestParam int no, Principal principal){
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        boolean existPorject = projectService.existProjectByProjectNo(no,user.getNo());
+
+        if (!existPorject) return "니꺼 아님";
 
         ProjectProgressDTO projectProgress;
         projectProgress = ProjectProgressDTO.builder()
-                .refProjectNo(id)
+                .refProjectNo(no)
                 .content(content)
                 .status(ProjectProgressStatus.SCREENING)
                 .build();

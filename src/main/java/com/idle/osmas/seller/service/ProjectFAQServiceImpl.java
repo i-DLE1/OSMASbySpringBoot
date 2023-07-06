@@ -43,7 +43,12 @@ public class ProjectFAQServiceImpl implements ProjectFAQService {
     }
 
     @Override
-    public List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, String userId) {
-        return projectFAQMapper.selectProjectFaqByProjectNo(projectNo, userId);
+    public List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, int userNo) {
+        return projectFAQMapper.selectProjectFaqByProjectNo(projectNo, userNo);
+    }
+
+    @Override
+    public int deleteProjectFaqByProjectNo(int projectNo) {
+        return projectFAQMapper.deleteProjectFaqByProjectNo(projectNo);
     }
 }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.member.dao.SuggestMapper">
+    <resultMap id="suggestResultMap" type="com.idle.osmas.member.dto.SuggestsDTO">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="refCategoryNo" column="REF_CATEGORY_NO"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="name" column="NAME"/>
+    </resultMap>
+    <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
+        SELECT
+        COUNT(*)
+        FROM TBL_SUGGEST A
+        JOIN TBL_MEMBER B ON (A.REF_MEMBER_NO = B.NO)
+        JOIN TBL_CATEGORY C ON(A.REF_CATEGORY_NO = C.NO)
+        <where>
+            <if test="searchCondition == 'category'">
+                C.NAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'nickname'">
+                B.NICKNAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'title'">
+                A.TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+        </where>
+        AND A.DETELE_YN = 'N'
+    </select>
+
+    <select id="selectSuggestList" resultMap="suggestResultMap">
+        SELECT
+        A.RNUM
+        , A.NO
+        , A.TITLE
+        , A.MODIFY_DATE
+        , A.REF_MEMBER_NO
+        , A.REF_CATEGORY_NO
+        , D.NICKNAME
+        , E.NAME
+        FROM (SELECT ROWNUM RNUM
+        , B.NO
+        , B.TITLE
+        , B.MODIFY_DATE
+        , B.REF_MEMBER_NO
+        , B.REF_CATEGORY_NO
+        FROM(SELECT
+         C.NO
+        , C.TITLE
+        , C.MODIFY_DATE
+        , C.REF_MEMBER_NO
+        , C.REF_CATEGORY_NO
+        FROM TBL_SUGGEST C
+        JOIN TBL_MEMBER D ON(C.REF_MEMBER_NO = D.NO)
+        JOIN TBL_CATEGORY E ON(C.REF_CATEGORY_NO = E.NO)
+        <where>
+            <if test="searchCondition == 'category'">
+                E.NAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'nickname'">
+                D.NICKNAME LIKE '%' || #{searchValue} || '%'
+            </if>
+            <if test="searchCondition == 'title'">
+                C.TITLE LIKE '%' || #{searchValue} || '%'
+            </if>
+            AND C.DETELE_YN = 'N'
+        </where>
+        ORDER BY C.MODIFY_DATE DESC
+        )B
+        <![CDATA[
+                            WHERE ROWNUM <= #{endRow}
+                ]]>
+        )A
+        JOIN TBL_MEMBER D ON(A.REF_MEMBER_NO = D.NO)
+        JOIN TBL_CATEGORY E ON(A.REF_CATEGORY_NO = E.NO)
+        <![CDATA[
+                 WHERE A.RNUM >= #{startRow}
+                ]]>
+        ORDER BY 1 ASC
+    </select>
+</mapper>

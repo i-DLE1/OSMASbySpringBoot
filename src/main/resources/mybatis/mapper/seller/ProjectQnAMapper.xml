@@ -4,8 +4,190 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.idle.osmas.seller.dao.ProjectQnAMapper">
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="TBL_MEMBER_NO"/>
+        <result property="id" column="TBL_MEMBER_ID"/>
+        <result property="name" column="TBL_MEMBER_NAME"/>
+        <result property="name" column="TBL_MEMBER_NAME2"/>
+        <result property="phone" column="TBL_MEMBER_PHONE"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.ProjectDTO" id="projectResultMap">
+        <id property="no" column="TBL_PRJ_NO"/>
+        <result property="title" column="TBL_PRJ_TITLE"/>
+        <result property="content" column="TBL_PRJ_CONTENT"/>
+        <result property="startDate" column="TBL_PRJ_START_DATE"/>
+        <result property="endDate" column="TBL_PRJ_END_DATE"/>
+        <result property="targetAmount" column="TBL_PRJ_TARGET_AMOUNT"/>
+        <result property="currentAmount" column="TBL_PRJ_CURRENT_AMOUNT"/>
+        <result property="registDate" column="TBL_PRJ_REGIST_DATE"/>
+        <result property="views" column="VIEWS"/>
+        <association property="member" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="projectQnAResultMap" type="com.idle.osmas.seller.dto.ProjectQnADTO">
+        <id property="no" column="TBL_PRJ_QNA_NO"/>
+        <result property="content" column="TBL_PRJ_QNA_CONTENT"/>
+        <result property="registDate" column="TBL_PRJ_QNA_REGIST_DATE"/>
+        <association property="member" resultMap="memberResultMap"/>
+        <association property="projectQnAAnswer" resultMap="projectQnAAnswerResultMap"/>
+        <association property="payment" resultMap="paymentResultMap"/>
+        <association property="project" resultMap="projectResultMap"/>
+    </resultMap>
+
+    <resultMap id="projectQnAAnswerResultMap" type="com.idle.osmas.seller.dto.ProjectQnAAnswerDTO">
+        <id property="no" column="TBL_PRJ_QNA_ANSWER_NO"/>
+        <result property="content" column="TBL_PRJ_QNA_ANSWER_CONTENT"/>
+        <result property="registDate" column="TBL_PRJ_QNA_ANSWER_REGIST_DATE"/>
+        <association property="member" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="paymentResultMap" type="com.idle.osmas.member.dto.PaymentDTO">
+        <id property="code" column="CODE"/>
+        <result property="paymentType" column="TBL_PAYMENT_PAYMENT_TYPE"/>
+        <result property="amount" column="TBL_PAYMENT_AMOUNT"/>
+        <result property="status" column="TBL_PAYMENT_STATUS"/>
+    </resultMap>
+
+    <select id="selectByListTypeAndSearchProjectQnACount" resultType="_int">
+        SELECT COUNT(TPQ.NO)
+          FROM TBL_PRJ_QNA TPQ
+          JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO
+          JOIN TBL_MEMBER TM1 on TPQ.REF_MEMBER_NO = TM1.NO
+          JOIN TBL_MEMBER TM2 ON PRJ.REF_MEMBER_NO = TM2.NO
+          LEFT JOIN TBL_SPONSORED_PRJ TSP on PRJ.REF_MEMBER_NO = TSP.REF_MEMBER_NO
+          LEFT JOIN TBL_PAYMENT_HISTORY TPH on TSP.NO = TPH.REF_SPONSORED_PRJ_NO
+          LEFT JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+          LEFT JOIN TBL_PRJ_QNA_ANSWER TPQA ON TPQA.PRJ_QNA_CODE = TPQ.NO
+         WHERE PRJ.REF_MEMBER_NO = #{userNo}
+        <choose>
+            <when test="listType.equalsIgnoreCase('wait')">
+                AND TPQ.CONTENT IS NULL
+            </when>
+            <when test="listType.equalsIgnoreCase('complete')">
+                AND TPQ.CONTENT IS NOT NULL
+            </when>
+        </choose>
+        <if test="search != null">
+            <choose>
+                <when test="searchType.equalsIgnoreCase('title')">
+                    AND PRJ.TITLE LIKE '%' || #{search} || '%'
+                    --                     AND PRJ.TITLE = ${search}
+                </when>
+                <when test="searchType.equalsIgnoreCase('customer')">
+                    AND TM1.ID LIKE '%' || #{search} || '%'
+                </when>
+                <when test="searchType.equalsIgnoreCase('question')">
+                    AND TPQ.CONTENT LIKE '%' || #{search} || '%'
+                </when>
+                <when test="searchType.equalsIgnoreCase('phone')">
+                    AND TM1.PHONE LIKE '%' || #{search} || '%'
+                </when>
+                <when test="searchType.equalsIgnoreCase('pay-status')">
+                    AND TPQ.CONTENT LIKE '%' || #{search} || '%'
+                </when>
+                <when test="searchType.equalsIgnoreCase('pay-method')">
+                    AND TP.PAYMENT_TYPE LIKE '%' || #{search} || '%'
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <select id="selectByListTypeAndSearchProjectQnA" parameterType="map" resultMap="projectQnAResultMap">
+        SELECT *
+          FROM (SELECT ROWNUM AS RNUM,
+                       TPQ.NO AS TBL_PRJ_QNA_NO,
+                       TM1.ID AS TBL_MEMBER_ID,
+                       TM1.NAME AS TBL_MEMBER_NAME,
+                       PRJ.TITLE AS TBL_PRJ_TITLE,
+                       TPQ.CONTENT AS  TBL_PRJ_QNA_CONTENT,
+                       TM1.PHONE AS TBL_MEMBER_PHONE,
+                       TPQ.REGIST_DATE AS TBL_PRJ_QNA_REGIST_DATE,
+                       TP.AMOUNT AS TBL_PAYMENT_AMOUNT,
+                       TP.PAYMENT_TYPE AS TBL_PAYMENT_PAYMENT_TYPE,
+                       TP.STATUS AS TBL_PAYMENT_STATUS,
+--                        TM2.NAME AS TBL_MEMBER_NAME2,
+                       TPQA.CONTENT AS TBL_PRJ_QNA_ANSWER_CONTENT
+                  FROM TBL_PRJ_QNA TPQ
+                  JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO
+                  JOIN TBL_MEMBER TM1 on TPQ.REF_MEMBER_NO = TM1.NO
+                  JOIN TBL_MEMBER TM2 ON PRJ.REF_MEMBER_NO = TM2.NO
+                  LEFT JOIN TBL_SPONSORED_PRJ TSP on PRJ.REF_MEMBER_NO = TSP.REF_MEMBER_NO
+                  LEFT JOIN TBL_PAYMENT_HISTORY TPH on TSP.NO = TPH.REF_SPONSORED_PRJ_NO
+                  LEFT JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+                  LEFT JOIN TBL_PRJ_QNA_ANSWER TPQA ON TPQA.PRJ_QNA_CODE = TPQ.NO
+                 WHERE TM2.NO = #{userNo}
+               <choose>
+                   <when test="listType.equalsIgnoreCase('wait')">
+                   AND TPQ.CONTENT IS NULL
+                   </when>
+                   <when test="listType.equalsIgnoreCase('complete')">
+                   AND TPQ.CONTENT IS NOT NULL
+                   </when>
+               </choose>
+               <if test="search != null">
+                   <choose>
+                       <when test="searchType.equalsIgnoreCase('title')">
+                           AND PRJ.TITLE LIKE '%' || #{search} || '%'
+                       </when>
+                       <when test="searchType.equalsIgnoreCase('customer')">
+                           AND TM1.ID LIKE '%' || #{search} || '%'
+                       </when>
+                       <when test="searchType.equalsIgnoreCase('question')">
+                           AND TPQ.CONTENT LIKE '%' || #{search} || '%'
+                       </when>
+                       <when test="searchType.equalsIgnoreCase('phone')">
+                           AND TM1.PHONE LIKE '%' || #{search} || '%'
+                       </when>
+                       <when test="searchType.equalsIgnoreCase('pay-status')">
+                           AND TPQ.CONTENT LIKE '%' || #{search} || '%'
+                       </when>
+                       <when test="searchType.equalsIgnoreCase('pay-method')">
+                           AND TP.PAYMENT_TYPE LIKE '%' || #{search} || '%'
+                       </when>
+                   </choose>
+               </if>
+                 ORDER BY TPQ.REGIST_DATE DESC)
+         WHERE RNUM BETWEEN #{startNo} AND #{endNo}
+    </select>
+
+    <select id="selectByQnANo" resultMap="projectQnAResultMap" parameterType="_int">
+        SELECT TPQ.NO AS TBL_PRJ_QNA_NO,
+               TPQ.CONTENT AS TBL_PRJ_QNA_CONTENT,
+               TPQ.REGIST_DATE AS TBL_PRJ_QNA_REGIST_DATE,
+               TM2.ID AS TBL_MEMBER_ID,
+               TM2.NAME TBL_MEMBER_NAME,
+               TPQA.CONTENT AS TBL_PRJ_QNA_ANSWER_CONTENT,
+               TPQA.REGIST_DATE AS TBL_PRJ_QNA_ANSWER_REGIST_DATE,
+               TPQA.NO AS TBL_PRJ_QNA_ANSWER_NO
+          FROM TBL_PRJ_QNA TPQ
+          JOIN TBL_MEMBER TM1 ON TM1.NO = TPQ.REF_MEMBER_NO
+          LEFT JOIN TBL_PRJ_QNA_ANSWER TPQA ON TPQ.NO = TPQA.PRJ_QNA_CODE
+          LEFT JOIN TBL_MEMBER TM2 ON TM2.NO = TPQA.REF_MEMBER_NO
+         WHERE TPQ.NO = ${no}
+    </select>
+
+    <insert id="insertProjectQnAAnswer" parameterType="map">
+        INSERT INTO TBL_PRJ_QNA_ANSWER TPQA
+        (TPQA.NO, TPQA.CONTENT, TPQA.REGIST_DATE,
+        TPQA.PRJ_QNA_CODE, TPQA.REF_MEMBER_NO)
+        VALUES
+        (SEQ_TBL_PRJ_QNA_ANSWER_NO.nextval, #{content}, SYSDATE,
+        #{no}, ${userNo})
+    </insert>
+
+    <update id="updateProjectQnAAnswer" parameterType="map">
+        UPDATE TBL_PRJ_QNA_ANSWER TPQA
+           SET TPQA.CONTENT = #{content}
+         WHERE TPQA.NO = (SELECT TPQA2.NO
+                            FROM TBL_PRJ_QNA_ANSWER TPQA2
+                            JOIN TBL_PRJ_QNA TPQ ON TPQ.NO = TPQA2.PRJ_QNA_CODE
+                           WHERE TPQ.NO = #{no})
+    </update>
+
     <delete id="deleteProjectQnAByProjectNo">
         DELETE TBL_PRJ_QNA TPF
-        WHERE TPF.REF_PRJ_NO = #{projectNo}
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
     </delete>
 </mapper>

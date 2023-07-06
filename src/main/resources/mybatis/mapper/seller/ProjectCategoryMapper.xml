@@ -9,7 +9,6 @@
         <id property="no" column="TBL_CATEGORY_NO"/>
         <result property="subNo" column="TBL_CATEGORY_SUB_NO"/>
         <result property="name" column="TBL_CATEGORY_NAME"/>
-        <!--        <association property="subCategory" column="projectCategoryResultMap"/>-->
     </resultMap>
 
     <select id="selectByCategoryType" resultMap="projectCategoryResultMap" parameterType="_int" >

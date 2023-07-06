@@ -21,7 +21,7 @@
                         </th:block>
                     </select>
                     <span id="subCategory">
-                        <!-- javacript for each -->
+                        <!-- javascript -->
                     </span>
 
                 </div>
@@ -50,14 +50,13 @@
 
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="location.href='seller/regist/proejct1'"/>
-            <input id="tempSave" class="footer-btn" type="button" value="임시저장" onclick="projectInitRegist(true)" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="projectInitRegist(true)" />
             <input class="footer-btn" type="button" value="다음" onclick="projectInitRegist(false)" />
         </footer>
         <script src="/js/seller/registProject.js"></script>
         <script>
             getMainCategoryCode();
             subMainCategoryCode();
-            isParamNo();
         </script>
     </body>
 </html>

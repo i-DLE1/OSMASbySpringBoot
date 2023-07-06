@@ -12,7 +12,7 @@ public interface ProjectFileMapper {
 
     ProjectFileDTO selectProjectFileByNo(int no);
 
-    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId);
+    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, int userNo);
 
     int insertProjectFile(ProjectFileType fileType, String originFile,
                           String savedFile, String deleteYN,

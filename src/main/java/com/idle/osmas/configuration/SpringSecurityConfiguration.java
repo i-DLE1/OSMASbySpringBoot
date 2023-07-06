@@ -39,6 +39,9 @@ public class SpringSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeRequests()
+//                .antMatchers("/seller/**").authenticated()
+//                .antMatchers(HttpMethod.GET,"/seller/**").hasRole("SELLER")
+//                .antMatchers(HttpMethod.POST,"/seller/**").hasRole("SELLER")
                 .anyRequest().permitAll()
         .and()
                 .formLogin()

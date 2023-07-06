@@ -58,28 +58,7 @@ function projectModify(id){
     window.open(`/seller/regist/project1?no=${id}`,"popup");
 }
 function popupRetry(no){
-    window.open(`./projectDetail/retry?no=${no}`,"popup",`${screenCenterPopup(500,600)}, resizable=no, name=projectRetry, location=no`);
-}
-function cancelTableDummyData(){
-    let data =
-        {title : "프로젝트명", startDate : "2023-01-01", endDate : "2023-10-10",
-        money : "90,000,000",currentMoney : "9,000,000",accomplieRate : "10%",   cancelFee : "2%"
-            , estimate:"180,000", state : "진행중" };
-    cancelTable(data);
-}
-
-function cancelTable(data) {
-
-    let $tableTr = $("#cancel-table tr");
-    $($tableTr[0]).children("td").text(data.title); // 프로젝트 명
-    $($tableTr[1]).children("td").text(data.startDate); // 시작일
-    $($tableTr[2]).children("td").text(data.endDate); // 종료일
-    $($tableTr[3]).children("td").text(data.money); // 목표금액
-    $($tableTr[4]).children("td").text(data.currentMoney); // 모금액
-    $($tableTr[5]).children("td").text(data.accomplieRate); // 달성률
-    $($tableTr[6]).children("td").text(data.cancelFee); // 취소 수수료율
-    $($tableTr[7]).children("td").text(data.estimate); // 취소 예상금액
-    $($tableTr[8]).children("td").text(data.state); // 상태
+    window.open(`./projectDetail/retry?no=${no}`,"popup",`${screenCenterPopup(450,600)}, resizable=no, name=projectRetry, location=no`);
 }
 
 $("#cancel-content").on("input",function (){
@@ -112,7 +91,7 @@ function activePage() {
             // $titleSpan.text('진행중');
             break;
 
-        case '/seller/projectList?listType=refuse' :
+        case '/seller/projectList?listType=rejected' :
             $("#cusRefuseMenu").addClass('active-page') ;
             $("#cusRefuse").addClass('active-page') ;
             // $titleSpan.text('반려');
@@ -224,6 +203,7 @@ function deleteProject(){
     let deleteConfirm = confirm("프로젝트를 삭제하시겠습니까?")
     if(deleteConfirm){
         let deleteConfirmRetry = confirm("삭제할 경우 프로젝트 복구는 불가능합니다.\n정말 삭제하시겠습니까?")
+
     }else {
 
     }
@@ -251,7 +231,10 @@ function cancelSubmit() {
 function movePage(pageNo) {
     const moveURL = new URLSearchParams(location.search);
     moveURL.set("pageNo", pageNo)
-    console.log(moveURL)
-
     location.href = `?${moveURL}`;
+}
+
+function moveSale(no) {
+    window.open(`/seller/sales/detail?no=${no}`);
+
 }

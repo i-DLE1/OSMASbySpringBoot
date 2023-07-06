@@ -19,8 +19,10 @@
                TPF.TITLE AS TBL_PRJ_FAQ_TITLE,
                TPF.CONTENT AS TBL_PRJ_FAQ_CONTENT,
                TPF.REGIST_DATE AS TBL_PRJ_FAQ_REGIST_DATE
-        FROM TBL_PRJ_FAQ TPF
-        WHERE TPF.REF_PRJ_NO = #{projectNo}
+          FROM TBL_PRJ_FAQ TPF
+          JOIN TBL_PRJ PRJ ON PRJ.NO = TPF.REF_PRJ_NO
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
 
     <insert id="insertProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
@@ -34,18 +36,18 @@
 
     <update id="updateProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
         UPDATE TBL_PRJ_FAQ TPF
-        SET TPF.CONTENT = #{content},
-            TPF.TITLE = #{title}
-        WHERE TPF.NO = ${no}
+           SET TPF.CONTENT = #{content},
+               TPF.TITLE = #{title}
+         WHERE TPF.NO = ${no}
     </update>
 
     <delete id="deleteProjectFAQ" parameterType="_int">
         DELETE TBL_PRJ_FAQ
-        WHERE NO = #{no}
+         WHERE NO = #{no}
     </delete>
 
     <delete id="deleteProjectFaqByProjectNo">
-            DELETE TBL_PRJ_FAQ TPF
-            WHERE TPF.REF_PRJ_NO = #{projectNo}
+        DELETE TBL_PRJ_FAQ TPF
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
     </delete>
 </mapper>

@@ -23,8 +23,8 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     }
 
     @Override
-    public List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId) {
-        return projectFileMapper.selectProjectFileListByProjectNo(projectNo, userId);
+    public List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, int userNo) {
+        return projectFileMapper.selectProjectFileListByProjectNo(projectNo, userNo);
     }
 
     @Override
@@ -45,5 +45,10 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     @Override
     public int updateNonAvailableProjectFileByChangeName(String changeName) {
         return projectFileMapper.updateNonAvailableProjectFileByChangeName(changeName);
+    }
+
+    @Override
+    public int deleteProjectFilesByProjectNo(int projectNo) {
+        return projectFileMapper.deleteProjectFilesByProjectNo(projectNo);
     }
 }

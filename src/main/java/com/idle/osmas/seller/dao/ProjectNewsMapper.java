@@ -17,5 +17,5 @@ public interface ProjectNewsMapper {
 
     int updateProjectNews(ProjectNewsDTO projectNews);
 
-    int deleteProjectFilesByProjectNo(int projectNo);
+    int deleteProjectNewsByProjectNo(int projectNo);
 }

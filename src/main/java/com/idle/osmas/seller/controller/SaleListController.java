@@ -86,7 +86,7 @@ public class SaleListController {
 
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
-            attr.put("currentAmount", df.format(project.getCurrentAmount()));
+            attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
             attr.put("date", String.valueOf(betweenDays.getDays()) );
             if(project.getProjectFileList().size() > 0) {
                 attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());

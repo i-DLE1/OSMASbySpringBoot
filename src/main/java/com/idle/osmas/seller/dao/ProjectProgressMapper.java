@@ -13,5 +13,6 @@ public interface ProjectProgressMapper {
     ProjectProgressDTO progressLastStatusById(int projectNo, ProjectProgressStatus status);
     int insertProjectProgressStatus(ProjectProgressDTO projectProgress);
 
+    int deleteProjectProgressByProjectNo(int projectNo);
 
 }

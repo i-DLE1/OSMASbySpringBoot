@@ -52,7 +52,7 @@
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div th:if="${productList.size() > 0}">
                 <div class="sub-title">
                     <span>상품별 판매 현황</span>
                 </div>
@@ -67,13 +67,12 @@
                         </tr>
                     </thead>
                     <tbody id="product-statics-list">
-                        <!-- javascript -->
                         <tr th:each="item : ${productList}">
                             <th th:text="${productList.size() - itemStat.index}"></th>
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.price}"></td>
-                            <td></td>
-                            <td th:text="${item.price * 1}"></td>
+                            <td th:text="${item.count}"></td>
+                            <td th:text="${item.price * item.count}"></td>
                         </tr>
                     </tbody>
                 </table>
