@@ -37,7 +37,8 @@
             P.TITLE,
             P.CONTENT,
             M.ID,
-            R.STATUS
+            R.STATUS,
+            P.NO
         FROM
             TBL_PRJ P
                 JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
@@ -56,6 +57,7 @@
             FROM TBL_ROLE_LIST
             WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
         )
+          AND R.CONTENT IS NOT NULL
     </select>
 
     <!-- 상품 승인 보류자 -->
@@ -99,7 +101,7 @@
                 JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
                 JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
         WHERE
-            R.STATUS ='TEMPORARY'
+            R.STATUS ='PROCESSING'
           AND    L.REF_MEMBER_ROLE_CODE = 1
           AND EXISTS (
             SELECT 1
@@ -112,6 +114,53 @@
             WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
         )
     </select>
+
+    <!-- 상품신청 -> 승인 -->
+    <update id="itemONGOING">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.STATUS = 'PROCESSING'
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='SCREENING'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+              AND R.CONTENT IS NOT NULL
+        )
+    </update>
+
+    <!-- 상품신청 -> 보류 -->
+    <update id="itemNO1">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.STATUS = 'REJECTED'
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='SCREENING'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+              AND R.CONTENT IS NOT NULL
+        )
+    </update>
+
+    <!-- 상품신청 -> 보류 -->
+    <update id="itemNO2">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.CONTENT = #{reasonText}
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='REJECTED'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+        )
+    </update>
 
 
 </mapper>

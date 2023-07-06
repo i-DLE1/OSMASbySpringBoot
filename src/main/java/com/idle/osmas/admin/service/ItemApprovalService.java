@@ -10,4 +10,8 @@ public interface ItemApprovalService {
     List<ProductDTO> holdingAllItem();
 
     List<ProductDTO> successAllItem();
+
+    int endProgress(String sellerId, int projectNo);
+
+    int noProgress(String sellerId, int projectNo, String reasonText);
 }

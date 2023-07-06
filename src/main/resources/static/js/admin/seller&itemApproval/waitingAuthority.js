@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const product = button.closest('.product');
             const sellerName = product.querySelector('.seller-name').textContent;
             const sellerId = button.getAttribute('data-seller-id'); // 판매자 아이디 가져오기
-            const sellerReqNoString = document.querySelector('p[data-seller-req]').getAttribute('data-seller-req');
-            const sellerReqNo = parseInt(sellerReqNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
+            const sellerReqNoString = product.querySelector('p[data-seller-req]').getAttribute('data-seller-req');
+            const sellerReqNo = parseInt(sellerReqNoString, 10);
 
             const notificationForm = document.createElement('div');
             notificationForm.classList.add('notification-form');
