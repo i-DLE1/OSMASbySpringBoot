@@ -117,4 +117,21 @@
           FROM TBL_CATEGORY A
         WHERE A.SUB_NO IS NULL
     </select>
+
+    <select id="selectCategoryNoByName" resultType="_int">
+        SELECT
+               A.NO
+          FROM TBL_CATEGORY A
+         WHERE A.NAME = #{name}
+    </select>
+    <insert id="suggestWrite">
+        INSERT INTO TBL_SUGGEST
+        (
+            NO, REGIST_DATE, TITLE, CONTENT, REF_MEMBER_NO, STATUS, MODIFY_DATE, REF_CATEGORY_NO, DETELE_YN
+        )
+        VALUES
+            (
+            SEQ_TBL_SUGGEST_NO.nextval,SYSDATE,#{title},#{content},#{refMemberNo},'N',SYSDATE,#{refCategoryNo},'N'
+            )
+    </insert>
 </mapper>

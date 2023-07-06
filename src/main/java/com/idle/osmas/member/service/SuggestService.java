@@ -19,4 +19,7 @@ public interface SuggestService {
     public int removeSuggest(int no);
 
     public List<CategoryDTO> selectCategory();
+
+    public int suggestWrite(String name,String title,String content,String id);
+
 }

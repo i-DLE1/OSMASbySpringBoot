@@ -21,4 +21,8 @@ public interface SuggestMapper {
     int removeSuggest(int no);
 
     List<CategoryDTO> selectCategory();
+
+    int selectCategoryNoByName(String name);
+
+    int suggestWrite(SuggestsDTO suggest);
 }

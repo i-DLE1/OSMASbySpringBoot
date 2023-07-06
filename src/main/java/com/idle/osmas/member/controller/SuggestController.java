@@ -41,7 +41,7 @@ public class SuggestController {
         System.out.println("===================" + totalCount+"=========================");
         int limit = 10;
         // 카테고리 이름 가져옴
-        List<CategoryDTO> category = suggestService.selectCategory();
+        List<CategoryDTO> categoryList = suggestService.selectCategory();
         int buttonAmount = 5;
         SelectCriteria selectCriteria = null;
 
@@ -55,7 +55,21 @@ public class SuggestController {
 
         m.addAttribute("suggestList", suggestList);
         m.addAttribute("selectCriteria", selectCriteria);
-        m.addAttribute("category",category);
+        m.addAttribute("categoryList",categoryList);
+    }
+
+    @PostMapping("/suggest/write")
+    @ResponseBody
+    public String suggestWrite(  @RequestParam("name") String name,
+                                 @RequestParam("title") String title,
+                                 @RequestParam("content") String content,Principal principal){
+        String id = principal.getName();
+        int resultWrite =  suggestService.suggestWrite(name,title,content,id);
+        if(resultWrite >0){
+            return "글 작성 성공";
+        }else{
+            return "글작성 실패";
+        }
     }
 
     @PostMapping("/suggest/modify")
@@ -77,6 +91,8 @@ public class SuggestController {
         int modifyResult = suggestService.modifySuggest(suggest);
         return result;
     }
+
+
 
     @PostMapping("/suggest/remove")
     @ResponseBody
@@ -113,7 +129,7 @@ public class SuggestController {
 
         SelectCriteria selectCriteria = null;
         // 카테고리 이름 가져옴
-        List<CategoryDTO> category = suggestService.selectCategory();
+        List<CategoryDTO> categoryList = suggestService.selectCategory();
 
 
         if(searchCondition != null && !"".equals(searchCondition)){
@@ -125,6 +141,6 @@ public class SuggestController {
 
         m.addAttribute("suggestList", suggestList);
         m.addAttribute("selectCriteria", selectCriteria);
-        m.addAttribute("category",category);
+        m.addAttribute("categoryList",categoryList);
     }
 }
