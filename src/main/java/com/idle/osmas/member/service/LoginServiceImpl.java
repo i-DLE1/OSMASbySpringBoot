@@ -43,6 +43,8 @@ public class LoginServiceImpl implements LoginService{
         }
         UserImpl user = new UserImpl(member.getId(), member.getPwd(), authorities);
         user.setDetails(member);
+
+        System.out.println("user = " + user);
         return user;
 
     }

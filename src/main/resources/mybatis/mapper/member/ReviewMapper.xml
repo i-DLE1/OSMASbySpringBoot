@@ -165,6 +165,7 @@
                 A.CONTENT
           FROM TBL_REVIEW A
          WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
+           AND A.DETELE_YN = 'N'
     </select>
     
     <select id="selectDeliveryStatusCodeistNoBySponsoredNo">
@@ -182,13 +183,16 @@
     <update id="modifyReview" parameterType="com.idle.osmas.member.dto.ReviewsDTO">
         UPDATE TBL_REVIEW A
         SET A.REVIEW_TITLE = #{title},
-            A.CONTENT = #{content}
+            A.CONTENT = #{content},
+            A.MODIFY_DATE = SYSDATE
        WHERE A.REF_DELIVERY_STATUS_CODE = #{refDeliveryStatusCode}
     </update>
-    <delete id="removeReview">
-        DELETE FROM TBL_REVIEW A
-              WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
-    </delete>
+    <update id="removeReview">
+        UPDATE TBL_REVIEW A
+          SET A.DETELE_YN = 'Y',
+              A.MODIFY_DATE = SYSDATE
+        WHERE A.REF_DELIVERY_STATUS_CODE = #{no}
+    </update>
 
     <insert id="writeReview">
         INSERT INTO TBL_REVIEW A (
