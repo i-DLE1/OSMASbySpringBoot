@@ -1,6 +1,7 @@
 package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.service.SellerApprovalFormService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -126,75 +129,83 @@ public class SellerApprovalFormController {
         requestParams.put("registNo", registNo);
         requestParams.put("reportNo", reportNo);
 
+        List<Map<String, String>> fileList = new ArrayList<>();
+
+        List<MultipartFile> paramFileList = new ArrayList<>();
+        paramFileList.add(registFile);
+        paramFileList.add(reportFile);
+        paramFileList.add(certificateFile);
+        paramFileList.add(bankBookFile);
+
         // 파일 처리 예시
-        if (!registFile.isEmpty()) {
-            try {
-                String fileName = "registFile"; // 업로드할 파일 이름 설정
-                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
-                File dest = new File(filePath);
-                registFile.transferTo(dest); // 파일 업로드
-                // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
-                System.out.println("사업자등록증 사본 업로드 성공");
+        for (MultipartFile paramFile : paramFileList) {
+            if (!paramFile.isEmpty()) {
+                try {
+                    String originFileName = paramFile.getOriginalFilename();
+                    String ext = originFileName.substring(originFileName.lastIndexOf("."));
+                    String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
+                    String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName;
+                    File dest = new File(filePath);
 
-                requestParams.put("registFileName", fileName);
-            } catch (IOException e) {
-                // 파일 업로드 실패 시 예외 처리를 수행합니다.
-                e.printStackTrace();
-                System.out.println("사업자등록증 사본 업로드 실패");
+                    // 원본 파일 업로드
+                    paramFile.transferTo(dest);
+                    // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
+                    System.out.println(originFileName + " 업로드 성공");
+
+                    /* 썸네일 생성 */
+                    int width = 300;  // 썸네일 가로 크기
+                    int height = 150; // 썸네일 세로 크기
+
+                    // 파일 정보 저장
+                    Map<String, String> fileMap = new HashMap<>();
+                    fileMap.put("originFileName", originFileName);
+                    fileMap.put("savedFileName", savedFileName);
+                    fileMap.put("fileType", "TITLE");
+
+                    // 썸네일 생성
+                    BufferedImage originalImage = ImageIO.read(dest);
+                    BufferedImage thumbnailImage = Thumbnails.of(originalImage).size(width, height).asBufferedImage();
+                    String thumbnailFilePath = SAVE_FILE_DIRECTORY_PATH + "/thumbnail_" + savedFileName;
+                    File thumbnailDest = new File(thumbnailFilePath);
+                    ImageIO.write(thumbnailImage, ext.substring(1), thumbnailDest);
+                    // 썸네일 생성 성공 시 추가적인 처리를 수행할 수 있습니다.
+                    System.out.println(originFileName + " 썸네일 생성 성공");
+
+                    fileList.add(fileMap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("파일 업로드 실패");
+
+                    /* 어떤 종류의 Exception이 발생하더라도 실패 시 파일삭제해야 합니다. */
+                    int cnt = 0;
+                    for (int i = 0; i < fileList.size(); i++) {
+                        Map<String, String> file = fileList.get(i);
+
+                        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file.get("savedFileName"));
+                        boolean isDeleted1 = deleteFile.delete();
+
+                        File deleteThumbnail = new File(SAVE_FILE_DIRECTORY_PATH + "/thumbnail_" + file.get("savedFileName"));
+                        boolean isDeleted2 = deleteThumbnail.delete();
+
+                        if (isDeleted1 && isDeleted2) {
+                            cnt++;
+                        }
+                    }
+
+                    if (cnt == fileList.size()) {
+                        System.out.println("업로드에 실패한 모든 사진 삭제 완료!");
+                    } else {
+                        System.out.println("업로드에 실패한 사진 삭제 실패!");
+                    }
+
+                    return "redirect:/admin/errorPage";
+                }
             }
         }
-        if (!reportFile.isEmpty()) {
-            try {
-                String fileName = "reportFile"; // 업로드할 파일 이름 설정
-                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
-                File dest = new File(filePath);
-                reportFile.transferTo(dest); // 파일 업로드
-                // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
-                System.out.println("통신판매업 사업자 사본 업로드 성공");
 
-                requestParams.put("reportFileName", fileName);
-            } catch (IOException e) {
-                // 파일 업로드 실패 시 예외 처리를 수행합니다.
-                e.printStackTrace();
-                System.out.println("통신판매업 사업자 사본 업로드 실패");
-            }
-        }
-        if (!certificateFile.isEmpty()) {
-            try {
-                String fileName = "certificateFile"; // 업로드할 파일 이름 설정
-                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
-                File dest = new File(filePath);
-                certificateFile.transferTo(dest); // 파일 업로드
-                // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
-                System.out.println("대표자 인감증명서 업로드 성공");
+        int result = sellerApprovalFormService.sellerInsert(requestParams, fileList);
 
-                requestParams.put("certificateFileName", fileName);
-            } catch (IOException e) {
-                // 파일 업로드 실패 시 예외 처리를 수행합니다.
-                e.printStackTrace();
-                System.out.println("대표자 인감증명서 업로드 실패");
-            }
-        }
-        if (!bankBookFile.isEmpty()) {
-            try {
-                String fileName = "bankBookFile"; // 업로드할 파일 이름 설정
-                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
-                File dest = new File(filePath);
-                bankBookFile.transferTo(dest); // 파일 업로드
-                // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
-                System.out.println("대표자 혹은 사업자 명의 통장 사본 업로드 성공");
-
-                requestParams.put("bankBookFileName", fileName);
-            } catch (IOException e) {
-                // 파일 업로드 실패 시 예외 처리를 수행합니다.
-                e.printStackTrace();
-                System.out.println("대표자 혹은 사업자 명의 통장 사본 업로드 실패");
-            }
-        }
-
-        int result = sellerApprovalFormService.sellerInsert(requestParams);
-
-        if (result == 1) {
+        if (result > 0) {
             return "redirect:/admin/sellerApprovalForm/getForm";
         } else {
             return "redirect:/admin/errorPage";
