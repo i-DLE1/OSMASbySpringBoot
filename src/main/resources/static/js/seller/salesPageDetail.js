@@ -110,14 +110,28 @@ $(document).ready(function() {
         $.ajax({
             url : "/seller/sales/prjQna",
             type : "POST",
-            data : param,
-            dataType: JSON,
+            data : JSON.stringify(param),
+            contentType: "application/json",
+
             success : function (data){
-            alert("success");
+            alert("등록되었습니다.");
+                $.ajax({
+                    url: '/seller/sales/prjQna?no=' + refPrjNo,  // 데이터를 가져올 URL
+                    method: 'GET',  // 요청 메소드 (GET, POST 등)
+                    success: function (data) {
+                        // 데이터를 성공적으로 가져왔을 때 실행할 코드
+                        $('#dynamicContent').html(data);
+                    },
+                    error: function () {
+                        // 데이터 가져오기 실패 시 실행할 코드
+                        $('#dynamicContent').text('정보가 없습니다.');
+                        console.log('데이터 가져오기 실패');
+                    }
+                });
 
             },
             error : function (){
-                alert("error");
+                alert("등록에 실패했습니다. 관리자에게 문의세요.");
             }
         });
     });

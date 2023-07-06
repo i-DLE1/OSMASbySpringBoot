@@ -94,14 +94,16 @@ public class SalesPageController {
 
     @PostMapping("/sales/prjQna")
     @ResponseBody
-    public String registQna(@RequestParam("content") String content, @RequestParam ("refMemberNo") int refMemberNo,
-                            @RequestParam ("refPrjNo") int refPrjNo, Model model){
+    public String registQna(@RequestBody QnaDTO qnaDTO){
 
-        model.addAttribute("content", content);
-        model.addAttribute("refMemberNo", refMemberNo);
-        model.addAttribute("refPrjNo", refPrjNo);
+//        QnaDTO qnaDTO = new QnaDTO();
+//        qnaDTO.setContent(content);
+//        model.addAttribute("content", );
+//        model.addAttribute("refMemberNo", refMemberNo);
+//        model.addAttribute("refPrjNo", refPrjNo);
+        System.out.println("qna============================================"+qnaDTO);
 
-        int result = salesService.insertNewQna(content, refMemberNo, refPrjNo);
+        int result = salesService.insertNewQna(qnaDTO);
 
         if(result > 0){
             return "성공";

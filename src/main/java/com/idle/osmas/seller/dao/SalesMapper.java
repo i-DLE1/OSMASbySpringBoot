@@ -21,5 +21,5 @@ public interface SalesMapper {
 
     List<NewInfoDTO> selectNewInfoListByNo(int no);
 
-    int insertNewQna();
+    int insertNewQna(QnaDTO qnaDTO);
 }

@@ -239,7 +239,7 @@
     </select>
 
 <!--    <insert id="insertNewQna" parameterType="_String,_String,_int">-->
-    <insert id="insertNewQna" parameterType="_int">
+    <insert id="insertNewQna" parameterType="com.idle.osmas.seller.dto.QnaDTO">
         INSERT INTO TBL_PRJ_QNA
         (CONTENT,
          REF_MEMBER_NO,

@@ -51,7 +51,10 @@
                 <tr class="hidden-row" style="display: none;">
                     <td class="tdindex">↳</td>
                     <td>
-                        <div th:text="${qna.answerContent.content}" class="hidden-details"></div>
+                        <div th:if="${qna.answerContent.content} == null" class="hidden-details">
+                            (답변 대기중입니다!)
+                        </div>
+                        <div th:unless="${qna.answerContent.content} == null" th:text="${qna.answerContent.content}" class="hidden-details"></div>
                     </td>
                     <td class="tdindex" th:text="${qna.answerName.name}" style="font-size: 16px; color: #884A3B; overflow: hidden"></td>
                     <td class="tdindex" th:text="${qna.answerContent.registDate}" style="font-size: 16px; color: #884A3B;"></td>

@@ -179,7 +179,15 @@ function calcBetweenDate(){
 function calcMoney() {
     var totalamount = document.getElementById("totalamount");
     const inputbox2 =  document.querySelectorAll('.optionmoney');
-    var  sum = 0;
+    var donationck = document.getElementById("donationck");
+    var donation = document.getElementById("donation");
+
+    if (donationck.checked) {
+        var  sum = parseInt(donation.textContent);
+    } else {
+        var  sum = 0;
+    }
+
 
     for (var  i=1; i< inputbox2.length ; i++){
         sum += parseInt(inputbox2[i].value);

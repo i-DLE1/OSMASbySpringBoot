@@ -53,8 +53,8 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
-    public int insertNewQna(String content, int refMemberNo, int refPrjNo) {
-        return salesMapper.insertNewQna();
+    public int insertNewQna(QnaDTO qnaDTO) {
+        return salesMapper.insertNewQna(qnaDTO);
     }
 
 
