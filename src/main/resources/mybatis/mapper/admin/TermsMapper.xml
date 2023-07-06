@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.admin.dao.TermsMapper">
+
+    <!-- 약관 insert -->
+    <insert id="termsInputGo">
+        INSERT INTO TBL_TERMS (NO, CONTENT, REGIST_DATE, CLASSIFY_CODE, TITLE)
+        SELECT SEQ_TBL_TERMS_NO.NEXTVAL, #{content}, SYSDATE, 'GENERAL', #{title} FROM DUAL
+    </insert>
+
+</mapper>
