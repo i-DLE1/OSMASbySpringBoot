@@ -53,11 +53,18 @@ public class SaleListController {
     @GetMapping("/getSaleList")
     @ResponseBody
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
-                                                 @RequestParam(required = false) String searchTitle){
+                                                 @RequestParam(required = false) String searchTitle,
+                                                 @RequestParam(required = false) int startNo
+                                                 ){
 
         List<ProjectDTO> tempProjectList = new ArrayList<>();
         List<ProjectCategoryDTO> categorySubList;
         Map<String, Object> projectParams = new HashMap<>();
+
+        projectParams.put("startNo",startNo);
+        projectParams.put("endNo",startNo+11);
+
+        // 자바스크립트 수정 예정
 
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);

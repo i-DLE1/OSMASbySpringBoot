@@ -287,6 +287,8 @@ public class RegistProjectController {
                         .stream().noneMatch( newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
 
+        System.out.println("deleteProductList = " + deleteProductList);
+
         if(deleteProductList.size() != 0) {
             productService.deleteProjectProduct(deleteProductList);
         }

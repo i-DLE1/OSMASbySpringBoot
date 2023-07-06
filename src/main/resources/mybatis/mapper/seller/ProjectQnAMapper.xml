@@ -63,10 +63,10 @@
          WHERE PRJ.REF_MEMBER_NO = #{userNo}
         <choose>
             <when test="listType.equalsIgnoreCase('wait')">
-                AND TPQ.CONTENT IS NULL
+                AND TPQA.CONTENT IS NULL
             </when>
             <when test="listType.equalsIgnoreCase('complete')">
-                AND TPQ.CONTENT IS NOT NULL
+                AND TPQA.CONTENT IS NOT NULL
             </when>
         </choose>
         <if test="search != null">
@@ -120,10 +120,10 @@
                  WHERE TM2.NO = #{userNo}
                <choose>
                    <when test="listType.equalsIgnoreCase('wait')">
-                   AND TPQ.CONTENT IS NULL
+                   AND TPQA.CONTENT IS NULL
                    </when>
                    <when test="listType.equalsIgnoreCase('complete')">
-                   AND TPQ.CONTENT IS NOT NULL
+                   AND TPQA.CONTENT IS NOT NULL
                    </when>
                </choose>
                <if test="search != null">

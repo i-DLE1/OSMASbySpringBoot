@@ -4,6 +4,8 @@ import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
 import com.idle.osmas.seller.service.ProjectFileService;
 import com.idle.osmas.seller.service.ProjectService;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,11 +62,14 @@ public class ImageFileController {
 
             String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
 
+
             File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
 
-            if (!savedFile.isDirectory()) savedFile.mkdirs();
+            File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH);
 
-            file.transferTo(savedFile);
+            if (!saveDirectory.exists()) saveDirectory.mkdirs();
+
+            Thumbnails.of(file.getInputStream()).size(400,400).toFile(savedFile);
 
             int result = 0;
 

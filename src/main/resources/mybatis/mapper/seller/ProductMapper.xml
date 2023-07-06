@@ -91,11 +91,11 @@
          WHERE TPPL.REF_PRODUCT_NO = #{productNo}
     </delete>
 
-    <delete id="deleteProductListByProjectNo">
+    <delete id="deleteProductListByProjectNo" parameterType="_int">
         DELETE TBL_PRJ_PRODUCT_LIST TPPL
          WHERE TPPL.REF_PRJ_NO = #{projectNo}
     </delete>
-    <delete id="deleteProductByProductNo">
+    <delete id="deleteProductByProductNo" parameterType="_int">
         DELETE TBL_PRODUCT TP
          WHERE TP.NO = #{productNo}
     </delete>

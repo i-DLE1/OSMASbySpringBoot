@@ -135,7 +135,7 @@ public class SellerController {
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
-        int maxPage = ((int) Math.floor((double) count / (double) DEFAULT_MAX_ROWS)) + 1;
+        int maxPage = ((int) Math.floor((double) count / (double) DEFAULT_MAX_ROWS)) + (endRow % 10 == 0 ? 0 : 1);
 
 
         String defaultSearch = search == null ? "검색할 프로젝트 명을 입력하세요" : search;
@@ -193,8 +193,7 @@ public class SellerController {
 
         int count = projectQnAService.selectByListTypeAndSearchProjectQnACount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count - ((pageNo - 1) * DEFAULT_MAX_ROWS);
-        int maxPage = ((int) Math.floor((double) count / (double) DEFAULT_MAX_ROWS)) + 1;
-
+        int maxPage = ((int) Math.floor((double) count / (double) DEFAULT_MAX_ROWS)) + (endRow % 10 == 0 ? 0 : 1);
 
         String defaultSearch = search == null ? "검색할 키워드를 입력하세요" : search;
 

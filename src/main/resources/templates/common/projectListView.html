@@ -38,6 +38,27 @@
         mainCategorySelect();
         categorySelect();
         salesListAjax();
+
+        let timer;
+        $(window).scroll(()=>{
+            let curScrollY = window.scrollY;
+            let windowHeight = window.innerHeight
+            let documentHeight = document.body.scrollHeight;
+
+            if(curScrollY + windowHeight >= documentHeight){
+                if(!timer){
+                    timer = setTimeout(()=>{
+                        timer = null;
+                        moreItem();
+                    },500)
+                }
+
+            }
+        })
+
+
+
     </script>
 </body>
+<script></script>
 </html>

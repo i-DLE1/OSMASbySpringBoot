@@ -20,7 +20,7 @@ public interface ProductMapper {
 
     int updateProjectProduct(ProductDTO product);
 
-    int deleteProjectProduct(int productNo);
+    int deleteProductByProductNo(int productNo);
 
     int deleteProjectProductList(int productNo);
 

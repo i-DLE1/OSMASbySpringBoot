@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProjectMapper;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -66,21 +67,25 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Transactional
     public int insertTemporaryProject(ProjectDTO project) {
         return projectMapper.insertTemporaryProject(project);
     }
 
     @Override
+    @Transactional
     public int updateProjectInfo(ProjectDTO project) {
         return projectMapper.updateProjectInfo(project);
     }
 
     @Override
+    @Transactional
     public int deleteProjectByProjectNo(int projectNo) {
         return 0;
     }
 
     @Override
+    @Transactional
     public int updateProjectContent(Integer no,ProjectDTO project) {
         return projectMapper.updateProjectContent(no, project.getContent());
     }
