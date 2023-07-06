@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectProgressMapper">
+    <resultMap id="projectProgressResultMap" type="com.idle.osmas.seller.dto.ProjectProgressDTO">
+        <id property="no" column="TBL_PRJ_PROGRESS_NO"/>
+        <result property="content" column="TBL_PRJ_PROGRESS_CONTENT"/>
+        <result property="registDate" column="TBL_PRJ_PROGRESS_REGIST_DATE"/>
+        <result property="status" column="TBL_PRJ_PROGRESS_STATUS"/>
+        <result property="refProjectNo" column="TBL_PRJ_PROGRESS_REF_PRJ_NO"/>
+    </resultMap>
+
+    <select id="progressLastStatusById" resultMap="projectProgressResultMap">
+        SELECT TPJ1.NO AS TBL_PRJ_PROGRESS_NO,
+               TPJ1.REGIST_DATE AS TBL_PRJ_PROGRESS_REGIST_DATE,
+               TPJ1.STATUS AS TBL_PRJ_PROGRESS_STATUS,
+               TPJ1.CONTENT AS TBL_PRJ_PROGRESS_CONTENT,
+               TPJ1.REF_PRJ_NO AS TBL_PRJ_PROGRESS_REF_PRJ_NO
+          FROM TBL_PRJ_PROGRESS TPJ1
+         WHERE TPJ1.NO = (SELECT MAX(TPJ2.NO) FROM TBL_PRJ_PROGRESS TPJ2
+                           WHERE TPJ2.REF_PRJ_NO = #{projectNo}
+                          <if test="status != null">
+                             AND TPJ2.STATUS = '${status}'
+                          </if>
+                           GROUP BY TPJ2.REF_PRJ_NO)
+    </select>
+
+    <insert id="insertProjectProgressStatus" parameterType="com.idle.osmas.seller.dto.ProjectProgressDTO">
+        INSERT INTO TBL_PRJ_PROGRESS TPR
+            (TPR.NO, TPR.REGIST_DATE, TPR.STATUS, TPR.CONTENT, TPR.REF_PRJ_NO)
+        VALUES
+            (SEQ_TBL_PRJ_PROGRESS_NO.nextval, SYSDATE, #{status}, #{content}, #{refProjectNo})
+    </insert>
+
+    <delete id="deleteProjectProgressByProjectNo">
+        DELETE TBL_PRJ_PROGRESS TPP
+        WHERE TPP.NO = #{projectNo}
+    </delete>
+</mapper>

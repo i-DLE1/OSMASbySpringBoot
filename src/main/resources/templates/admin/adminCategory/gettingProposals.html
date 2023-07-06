@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>제안 받기</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/adminCategory/gettingProposals.css">
+    <script src="/js/admin/gettingProposals.js"></script>
+</head>
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+
+    <div>
+        <h1 style="text-align: center;">요청 받은 제안입니다.</h1>
+        <div th:each="get, iterStat: ${ proposalAll }">
+            <div class="product">
+                <div class="content-container" style="margin-left: 180px">
+                    <h3 class="seller-name" th:text="${get.title}">제안 제목</h3>
+                    <p class="apply-content" th:text="${get.refMemberNo.id}">제안한 사람</p>
+                    <!-- <p th:data-member-no="${get.refMemberNo.no}"></p> 이거 나중에 로그인한 관리자 번호로 바꿔줘야함 -->
+                </div>
+                <button class="buttonAlarm" th:data-proposal-no="${get.no}">확인 메세지 보내기</button>
+            </div>
+            <hr class="separator" th:if="${not iterStat.last}">
+        </div>
+    </div>
+    <div class="spann"></div>
+
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

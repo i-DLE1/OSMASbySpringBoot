@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>f&q_handle(상담문의처리)</title>
+  <link rel="stylesheet" href="../css/adminbasicstyle.css">
+  <link rel="stylesheet" href="../css/adminmainstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+
+<header id="header">
+  <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+
+<p style="text-align: right; margin-right: 1085px; padding-top: 10px; font-weight: bold; font-size: 18px;">신고 및 제재</p>
+<p style="text-align: right; margin-right: 1091px; font-size: 14px; direction: rtl;">신고 접수 내역</p>
+
+<!-- 본문 : 조회 리스트 -->
+
+<br>
+<br>
+<div class="tablemargin">
+  <table id="user-table">
+    <thead>
+    <tr>
+      <th> </th>
+      <th>신고번호</th>
+      <th>신고제목</th>
+      <th>신고내용</th>
+      <th>신고자</th>
+      <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">욕설</td>
+      <td class="description">상대를 비방하는 글 신고</td>
+      <td class="description">이땡땡</td>
+      <td style="width: 20%;"><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">도배</td>
+      <td class="description">도배성 글 신고</td>
+      <td class="description">김땡땡</td>
+      <td><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">기타</td>
+      <td class="description">내용이 없는 글 신고</td>
+      <td class="description">정땡땡</td>
+      <td><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">욕설</td>
+      <td class="description">상대를 비방하는 글 신고</td>
+      <td class="description">이땡땡</td>
+      <td><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">욕설</td>
+      <td class="description">상대를 비방하는 글 신고</td>
+      <td class="description">이땡땡</td>
+      <td><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <tr>
+      <td><input type="checkbox"></td>
+      <td>20230501</td>
+      <td class="description">욕설</td>
+      <td class="description">상대를 비방하는 글 신고</td>
+      <td class="description">이땡땡</td>
+      <td><button onclick="deleteRow(this)">삭제</button></td>
+      <tb></tb>
+    </tr>
+    <!-- 추가적인 사용자 데이터 행을 여기에 추가할 수 있습니다 -->
+    </tbody>
+  </table>
+</div>
+<br>
+<br>
+<button id="load-more-btn" onclick="loadMoreUsers()" class="more1">더보기</button>
+
+<br>
+<br>
+</div>
+
+<br>
+<br>
+<br>
+
+
+</div>
+</div>
+</nav>
+</div>
+
+</main>
+
+<footer >
+  <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+
+</html>

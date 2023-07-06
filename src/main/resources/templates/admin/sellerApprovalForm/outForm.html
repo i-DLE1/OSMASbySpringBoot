@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자 권한 회수 신청 양식</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/sellerApprovalForm/form.css">
+    <script src="/js/admin/sellerApprovalForm/outForm.js"></script>
+</head>
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+    <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
+
+        <div class="form-group">
+            <label for="sellerName">판매자 ID</label>
+            <input type="text" id="sellerName" name="sellerName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reason">회수 사유</label>
+            <select id="reason" name="reason" required>
+                <option value="">사유를 선택해주세요</option>
+                <option value="판매중지">판매 중지</option>
+                <option value="다른펀딩사이트를이용">다른 펀딩 사이트를 이용</option>
+                <option value="기타">기타</option>
+            </select>
+            <div id="otherReasonDiv" style="margin: 10px;">
+                <textarea id="otherReasonInput" name="otherReason" placeholder="기타 사유를 입력해주세요"></textarea>
+            </div>
+        </div>
+
+        <h5 style="text-align: center;">
+            권한 회수 완료 즉시 판매자님의 데이터가 영구적으로 삭제됩니다. <br>
+            판매자의 권한 회수 시 다시 신청이 불가하니 신중히 신청해주시면 감사드리겠습니다.<br>
+            OSMAS는 귀하의 개인 정보를 안전하게 보호하려 노력하고 있습니다.
+        </h5>
+        <br><br>
+
+        <div class="submit-container">
+            <input id="go" type="submit" value="신청 하기">
+            <input id="no" type="submit" value="신청 취소">
+        </div>
+
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <title>질문 답변</title>
+        <link rel="stylesheet" href="/css/seller/QA.css">
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    </head>
+    <body class="body">
+        <div>
+            <div style="margin-top: 2em">
+                <label for="content" class="label">질문 내용</label>
+                <textarea class="textarea" type="text" id="content" name="content" rows="5" disabled  th:text="${projectQnA.content}"></textarea>
+                <hr class="qa-line" />
+            </div>
+            <div id="qa-answer-area" style="margin-top: 2em">
+                <label><span>0</span>/1000</label>
+                <label th:for="qa-answer" class="label">답변</label>
+                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content == null}"></textarea>
+                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content != null}" th:text="${projectQnA.projectQnAAnswer.content}"></textarea>
+                <hr class="qa-line" />
+            </div>
+            <footer class="footer">
+                <input class="footer-btn" type="button" value="취소" onclick="window.close()" />
+
+                <input th:if="${projectQnA.projectQnAAnswer?.content == null}" class="footer-btn" type="button" value="등록" onclick="qaAnswerSubmit('regist')"/>
+                <input th:if="${projectQnA.projectQnAAnswer?.content != null}" class="footer-btn" type="button" value="수정" onclick="qaAnswerSubmit('modify')"/>
+            </footer>
+        </div>
+            <script src="/js/seller/projectDetail.js"></script>
+
+    </body>
+
+</html>
+

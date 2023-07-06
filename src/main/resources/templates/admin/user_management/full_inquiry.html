@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>full_inquiry(사용자전체조회)</title>
+  <link rel="stylesheet" href="../css/adminbasicstyle.css">
+  <link rel="stylesheet" href="../css/adminmainstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  </head>
+  <body>
+
+  <header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+  </header>
+
+  <div class="adminLogin">
+    <h4>관리자님 환영합니다!</h4>
+    <button>로그아웃</button>
+  </div>
+
+  <div class="notice">
+    <img class="notice_header" src="../resource/img/logo.png" style="display:block; margin: 0 auto; width:180px; height:130px;">
+    <nav>
+      <ul>
+        <li class="category">
+          <button class="gugu" onclick="toggleDropdown()">카테고리</button>
+        </li>
+
+        <div class="slide-content" id="dropdownContent">
+          <div style="text-align: center;">
+            <img src="../../static/image/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+          </div>
+
+
+          <a href="" onclick="toggleDropdown(event)">관리자 마이페이지</a>
+          <a href=".fundingRanking.html">현재 펀딩 순위</a>
+          <a href="./waitingAuthorization.html">판매자 권한 관리</a>
+          <a href="./waitingItem.html">상품 승인 관리</a>
+          <a href="./gettingProposals.html">제안받기</a>
+          <a href="../notice/notice_fullview.html">공지사항 관리</a>
+          <a href="./full_inquiry.html">회원 관리</a>
+          <a href="../restrict/restrict_receive.html">신고 및 제재</a>
+          <a href="./f&q_handle.html">상담 문의 처리</a>
+          <a href="./f&q_advice.html">도움말</a>
+        </div>
+
+        <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
+        <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
+        <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
+        <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
+        <li class="search">
+          <input type="text" placeholder="검색할 내용을 입력해주세요">
+        </li>
+      </ul>
+    </nav>
+</header>
+
+
+
+<!-- 상단 타이틀 : 회원관리-사용자 전체조회 -->
+<div class="notice">
+  <p style="text-align: right; margin-right: 1111px; padding-top: 10px; font-weight: bold; font-size: 18px;">회원관리</p>
+  <p style="text-align: right; margin-right: 1080px; font-size: 14px; direction: rtl;">사용자 전체 조회</p>
+</div>
+
+<br>
+<br>
+
+<!-- 본문 : 검색창 -->
+<div class="search-inquiry">
+  <input type="text" placeholder="검색 할 닉네임(이메일)을 입력하세요" class="search-inquiry">
+  <button type="submit" class="search-button">검색</button>
+</div>
+</div>
+
+<!-- 본문 : 조회 리스트 -->
+
+<br>
+<br>
+<div class="tablemargin">
+  <table id="user-table">
+    <thead>
+    <tr>
+      <th>닉네임</th>
+      <th>이메일</th>
+      <th>그룹</th>
+      <th>가입일자</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>이땡땡</td>
+      <td>user1@example.com</td>
+      <td>사용자(Gold)</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>김땡땡</td>
+      <td>user2@example.com</td>
+      <td>사용자(Sliver)</td>
+      <td>2023-02-01 13:21</td>
+    </tr>
+    <tr>
+      <td>박땡땡</td>
+      <td>user1@example.com</td>
+      <td>판매자</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>정땡땡</td>
+      <td>user1@example.com</td>
+      <td>판매자</td>
+      <td>2023-05-21 14:00</td>
+    </tr>
+    <tr>
+      <td>우땡땡</td>
+      <td>user5@example.com</td>
+      <td>관리자</td>
+      <td>2023-03-01 16:30</td>
+    </tr>
+    <tr>
+      <td>심땡땡</td>
+      <td>user6@example.com</td>
+      <td>관리자</td>
+      <td>2023-03-01 19:20</td>
+    </tr>
+    <!-- 추가적인 사용자 데이터 행을 여기에 추가할 수 있습니다 -->
+    </tbody>
+  </table>
+</div>
+<br>
+<br>
+<button id="load-more-btn" onclick="loadMoreUsers()" class="more1">더보기</button>
+
+<br>
+<br>
+</div>
+
+<br>
+<br>
+<br>
+
+</div>
+</nav>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<footer >
+  <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</main>
+</body>
+
+</html>
+

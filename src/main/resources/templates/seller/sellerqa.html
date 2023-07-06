@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <div th:replace="~{/seller/fragments/sellerFrag :: head}"></div>
+  <title>프로젝트 관리 - Q / A</title>
+</head>
+<body>
+<div id="navToggle">
+    <input id="navTogglesub" type="checkbox">
+</div>
+<div class="main-col-2">
+  <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
+  <main class="main">
+    <div class="main-header">
+      <div>
+        <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label> 프로젝트 Q/A - <span th:text="${listType}">전체조회</span></h1>
+      </div>
+      <div>
+        <h5><span th:text="${userName}">판매자</span>님 환영합니다.</h5>
+      </div>
+    </div>
+
+    <div class="nav-list-area">
+      <table id="qaMenu" class="w-100 list-nav mt-5">
+        <tr class="row">
+          <td id="qaAll" class="col-2" onclick="location.href='./projectQnAList?listType=all'">전체조회</td>
+          <td id="qaWait" class="col-2" onclick="location.href='./projectQnAList?listType=wait'">답변 대기중</td>
+          <td id="qaComplete" class="col-2" onclick="location.href='./projectQnAList?listType=complete'">답변 완료</td>
+          <th class="col">
+            <div class="row col">
+<!--              <form id="searchForm" action="/seller/projectQnAList" method="get">-->
+                <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
+                  <option value="title" th:selected="title == ${searchType}">프로젝트명</option>
+                  <option value="customer" th:selected="customer == ${searchType}">작성자ID</option>
+                  <option value="question" th:selected="question == ${searchType}">질문</option>
+                  <option value="phone"  th:selected="phone == ${searchType}">연락처</option>
+                  <option value="pay-status"  th:selected="pay-status == ${searchType}">결제상태</option>
+                  <option value="pay-method"  th:selected="pay-method == ${searchType}">결제수단</option>
+                </select>
+                <input type="text" class="search-bar col" id="search" name="search" th:placeholder="${search}">
+                <button class="search-btn col ms-2 me-2" onclick="projectSearch()" >검색</button>
+<!--              </form>-->
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+    <!-- 테이블 시작 -->
+    <table class="cus-table table-font">
+      <thead>
+        <th>#</th>
+        <td>프로젝트 명</td>
+        <td>작성자(ID)</td>
+        <td>질문</td>
+        <td>연락처</td>
+        <td>결제금액(원)</td>
+        <td>결제수단</td>
+        <td>결제상태</td>
+        <td>작성일자</td>
+        <td>상태</td>
+      </thead>
+      <tbody id="customerQAList">
+          <!-- javascript 반복구간  -->
+          <!-- 타임리프 반복 시작  -->
+          <th:block th:each="item, stat : ${projectQnAList}">
+            <th:block th:object="${item}">
+              <tr th:id="*{no}" onclick="qaPopup(this)">
+                <th th:text="${stat.index+1}"></th>
+                <td th:text="*{project.title}"></td>
+                <td th:text="|*{member.name}(*{member.id})|"></td>
+                <td th:text="*{content}"></td>
+                <td th:text="*{member.phone}"></td>
+                <td>
+                    <span th:if="${item.payment?.amount == null}" th:text="없음"></span>
+                    <span th:if="${item.payment?.amount != null}" th:text="*{payment.amount}"></span>
+                </td>
+                <td>
+                    <span th:if="${item.payment?.paymentType == null}" th:text="없음"></span>
+                    <span th:if="${item.payment?.paymentType != null}" th:text="*{payment.paymentType}"></span>
+                </td>
+                  <td>
+                      <span th:if="${item.payment?.status == null}" th:text="없음"></span>
+                      <span th:if="${item.payment?.status != null}" th:text="*{payment.status}"></span>
+                  </td>
+                <td th:text="*{registDate}"></td>
+                <td>
+                    <span th:if="${item.projectQnAAnswer?.content == null}" th:text="답변대기중"></span>
+                    <span th:if="${item.projectQnAAnswer?.content != null}" th:text="답변완료"></span>
+                </td>
+              </tr>
+            </th:block>
+          </th:block>
+          <!-- 타임리프 반복 끝  -->
+      </tbody>
+    </table>
+    <!-- pagenation start -->
+    <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
+    <!-- pagenation end -->
+
+  </main>
+</div>
+  <footer th:replace="/common/fragments/footer :: footer"></footer>
+  <script src="/js/seller/sellerPage.js"></script>
+  <script>
+    // proejctQAList();
+    activePage();
+  </script>
+</body>
+</html>

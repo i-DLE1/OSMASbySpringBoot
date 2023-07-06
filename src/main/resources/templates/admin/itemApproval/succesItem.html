@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자 상품 승인 완료</title>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <link rel="stylesheet" href="/css/admin/itemApproval/sellerItemManaging.css">
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+    <div class="containerbox">
+        <nav class="box3">
+            <ul style="border-bottom: none; border-top: none;">
+                <li class="box"><a onclick="href='waitingItem'">상품 승인 대기</a></li>
+                <li class="box"><a onclick="href='holdingItem'">상품 승인 보류</a></li>
+                <li  class="box" style="background-color: #bea376;"><a href="">상품 승인 완료</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <h4 style="color: rgb(168, 164, 164); text-align: center;">상품 판매 승인이 완료 되었습니다.</h4>
+    <div class="product">
+        <div class="image-container">
+            <img src="image.jpg" alt="Product Image">
+        </div>
+        <div class="content-container">
+            <h3 class="seller-name">판매자 이름</h3>
+            <p class="sale-description">판매 내용</p>
+        </div>
+        <h4 class="box2">승인 완료</h4>
+    </div>
+
+    <div class="product">
+        <div class="image-container">
+            <img src="image.jpg" alt="Product Image">
+        </div>
+        <div class="content-container">
+            <h3 class="seller-name">판매자 이름</h3>
+            <p class="sale-description">판매 내용</p>
+        </div>
+        <h4 class="box2">승인 완료</h4>
+    </div>
+
+    <div class="product">
+        <div class="image-container">
+            <img src="image.jpg" alt="Product Image">
+        </div>
+        <div class="content-container">
+            <h3 class="seller-name">판매자 이름</h3>
+            <p class="sale-description">판매 내용</p>
+        </div>
+        <h4 class="box2">승인 완료</h4>
+    </div>
+
+    <div class="product">
+        <div class="image-container">
+            <img src="image.jpg" alt="Product Image">
+        </div>
+        <div class="content-container">
+            <h3 class="seller-name">판매자 이름</h3>
+            <p class="sale-description">판매 내용</p>
+        </div>
+        <h4 class="box2">승인 완료</h4>
+    </div>
+
+    <div class="product">
+        <div class="image-container">
+            <img src="image.jpg" alt="Product Image">
+        </div>
+        <div class="content-container">
+            <h3 class="seller-name">판매자 이름</h3>
+            <p class="sale-description">판매 내용</p>
+        </div>
+        <h4 class="box2">승인 완료</h4>
+    </div>
+
+    <div>
+        <ul class="pagenation">
+            <li><a href=#><</a></li>
+            <li><a href=#>1</a></li>
+            <li><a href=#>2</a></li>
+            <li><a href=#>3</a></li>
+            <li><a href=#>4</a></li>
+            <li><a href=#>5</a></li>
+            <li><a href=#>></a></li>
+        </ul>
+    </div>
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

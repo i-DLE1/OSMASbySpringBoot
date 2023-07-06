@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+    <body>
+        <header th:replace="~{/seller/fragments/registProjectFrag :: process('active-process','','','','','','')}"></header>
+        <main class="main">
+            <h1 class="h1-title">약관 동의</h1>
+                <textarea class="scroll-box" rows="20" th:text="${term1}"></textarea>
+            <div class="item">
+                <input  type="checkbox" id="check1" name="check1" th:checked="${check1}"/>
+                <label for="check1" class="subtitle">약관에 동의합니다.<span style="color: red; font-weight: 700">(필수)</span></label>
+            </div>
+                <textarea class="scroll-box" rows="20" th:text="${term2}"></textarea>
+            <div class="item">
+                <input type="checkbox" id="check2" name="check2" th:checked="${check2}"/>
+                <label for="check2" class="subtitle">약관에 동의합니다.<span style="color: red; font-weight: 700">(필수)</span></label>
+            </div>
+        </main>
+        <footer class="footer">
+                <input class="footer-btn" type="button" value="다음" onclick="indexCheckConfirm()" />
+        </footer>
+
+        <script src="/js/seller/registProject.js"></script>
+    </body>
+</html>

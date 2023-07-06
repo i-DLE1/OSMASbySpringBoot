@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>권한 회수 대기</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/sellerApproval/sellerAuthorityManaging.css">
+    <script src="/js/admin/seller&itemApproval/waitingRetrieve.js"></script>
+</head>
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+    <div class="containerbox">
+        <nav class="box3">
+            <ul style="border-bottom: none; border-top: none;">
+                <li class="box"><a onclick="href='waitingAuthority'">권한 부여 대기</a></li>
+                <li class="box"><a onclick="href='holdingAuthority'">권한 부여 보류</a></li>
+                <li class="box"><a onclick="href='succesAuthority'">권한 부여 완료</a></li>
+                <li  class="box" style="background-color: #bea376;"><a href="">권한 회수 대기</a></li>
+                <li class="box"><a onclick="href='holdingRetrieve'">권한 회수 보류</a></li>
+                <li class="box"><a onclick="href='succesRetrieve'">권한 회수 완료</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div>
+        <h4 style="color: rgb(168, 164, 164); text-align: center;">판매자 권한 회수를 기다리고 있습니다.</h4>
+        <div th:each="seller, iterStat: ${ sellerApplyRetrieve }">
+            <div class="product">
+                <div class="content-container">
+                    <h3 class="seller-name" th:text="${seller.member.id}">신청자 아이디</h3>
+                    <p class="apply-content" th:text="${seller.name}">회사 이름</p>
+                    <p th:data-seller-req="${seller.req.no}"></p>
+                </div>
+                <p class="alert-content" th:text="${seller.reason.sellerReason}">신청 사유 내용</p>
+                <p class="alert-content" th:text="${seller.reason.otherReason}">신청 사유 기타 내용</p>
+                <div class="button-container">
+                    <button class="goButton" th:data-seller-id="${seller.member.id}">권한 회수</button>
+                    <button class="noButton" style="margin-right: 60px;" th:data-seller-id="${seller.member.id}">회수 보류</button>
+                </div>
+            </div>
+            <hr class="separator" th:if="${not iterStat.last}">
+        </div>
+    </div>
+    <div class="spann"></div>
+
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+<script>
+    $(function(){
+        $(".goButton").click(function() {
+            var sellerId = $(this).attr("data-seller-id");
+            console.log(sellerId); // 값 출력
+
+            // 권한 부여 Ajax 요청
+            $.ajax({
+                url: "/admin/sellerApproval/dropPermission",
+                method: "POST",
+                data: { "sellerId": sellerId },
+                success: function(response) {
+                    console.log("권한이 회수되었습니다.");
+                    location.reload(); // 페이지 새로 고침
+                },
+                error: function(error) {
+                    console.error("권한 회수에 실패했습니다.", error);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

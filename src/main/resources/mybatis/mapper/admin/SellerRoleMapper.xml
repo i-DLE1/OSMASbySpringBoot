@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.SellerRoleMapper">
+
+    <resultMap id="permissionRoleResultMap" type="com.idle.osmas.admin.dto.PermissionRoleDTO">
+        <id property="no" column="NO"/>
+        <result property="rejectReason" column="REJECT_REASON"/>
+        <result property="permissionStatus" column="PERMISSION_STATUS"/>
+        <result property="lastDate" column="LAST_DATE"/>
+        <result property="sellerReason" column="SELLER_REASON"/>
+        <result property="otherReason" column="OTHER_REASON"/>
+
+        <association property="sellerRoleReq" resultMap="sellerRoleReqResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleReqResultMap" type="com.idle.osmas.admin.dto.SellerRoleReqDTO">
+        <id property="no" column="NO"/>
+        <result property="date" column="REGIST_DATE"/>
+
+        <association property="memberNo" resultMap="sellerRoleResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleResultMap" type="com.idle.osmas.admin.dto.SellerRoleDTO">
+        <id property="memberNo" column="REF_MEMBER_NO"/>
+        <result property="accountNo" column="ACCOUNT_NO"/>
+        <result property="registNo" column="REGIST_NO"/>
+        <result property="name" column="NAME"/>
+        <result property="callNumber" column="CALL_NUMBER"/>
+        <result property="rprsn" column="RPRSN"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="bank" column="BANK"/>
+        <result property="reportNo" column="REPORT_NO"/>
+
+        <association property="member" resultMap="memberResultMap"/>
+        <association property="req" resultMap="sellerRoleReqResultMap"/>
+        <association property="reason" resultMap="permissionRoleResultMap"/>
+        <collection property="fileList" resultMap="sellerRoleFileResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleFileResultMap" type="com.idle.osmas.admin.dto.SellerRoleFileDTO">
+        <id property="no" column="NO"/>
+        <result property="idCode" column="ID_CODE"/>
+        <result property="originName" column="ORIGIN_NAME"/>
+        <result property="changeName" column="CHANGE_NAME"/>
+        <result property="deteleYN" column="DETELE_YN"/>
+
+        <association property="memberNo" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <!-- 판매자 권한 신청자 -->
+    <select id="selectAllApplyRole" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            Q.NO
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND R.REF_MEMBER_ROLE_CODE NOT IN (2, 3)
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'SCREENING'
+    </select>
+
+    <!-- 판매자 권한 보류자 -->
+    <select id="selectAllHoldingRole" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            P.REJECT_REASON
+        FROM TBL_SELLER_ROLE S
+                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                 JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE R.REF_MEMBER_ROLE_CODE = 1
+          AND NOT EXISTS (
+            SELECT 1 FROM TBL_ROLE_LIST WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND P.REJECT_REASON IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+    </select>
+
+    <!-- 전체 판매자 권한 부여자 -->
+    <select id="sellerAllRole" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+                JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                LEFT JOIN TBL_ROLE_LIST R3 ON M.NO = R3.REF_MEMBER_NO AND R3.REF_MEMBER_ROLE_CODE = 3
+        WHERE
+            P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'APPROVAL'
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 1
+        )
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 3
+        )
+    </select>
+
+    <!-- 판매자 권한 회수 신청자 -->
+    <select id="selectApplyRoleRetrieve" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE,
+            Q.NO,
+            P.REJECT_REASON,
+            P.SELLER_REASON,
+            P.OTHER_REASON
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'SCREENING'
+    </select>
+
+    <!-- 판매자 권한 회수 보류자 -->
+    <select id="selectHoldingRoleRetrieve" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE,
+            P.REJECT_REASON
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.REJECT_REASON IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+    </select>
+
+    <!-- 판매자 권한 회수 완료자 -->
+    <select id="selectSuccessRoleRetrieve" resultMap="sellerRoleResultMap">
+        SELECT
+            S.ACCOUNT_NO,
+            S.REGIST_NO,
+            S.NAME,
+            S.CALL_NUMBER,
+            S.RPRSN,
+            S.ADDRESS,
+            S.REF_MEMBER_NO,
+            S.BANK,
+            S.REPORT_NO,
+            M.ID,
+            R.REF_MEMBER_ROLE_CODE
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND P.PERMISSION_STATUS = 'APPROVAL'
+    </select>
+
+    <!-- 권한 신청 -> 완료 -->
+    <insert id="addRoleToSeller">
+        INSERT INTO TBL_ROLE_LIST (REF_MEMBER_NO, REF_MEMBER_ROLE_CODE)
+        SELECT NO, 2
+        FROM TBL_MEMBER
+        WHERE ID = #{sellerId}
+    </insert>
+
+    <!-- 권한 신청 -> 완료 -->
+    <update id="changeSellerRoleState">
+        UPDATE TBL_PERMISSION_ROLE
+        SET PERMISSION_STATUS = 'APPROVAL'
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM TBL_SELLER_ROLE S
+                     JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                     JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                     JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                     JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+                     JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+            WHERE P.REJECT_REASON IS NULL
+              AND P.PERMISSION_STATUS = 'SCREENING'
+              AND M.ID = #{sellerId}
+        )
+    </update>
+
+    <!-- 권한 회수 신청 -> 완료 -->
+    <insert id="addRoleToSellerDrop">
+        INSERT INTO TBL_ROLE_LIST (REF_MEMBER_NO, REF_MEMBER_ROLE_CODE)
+        SELECT NO, 3
+        FROM TBL_MEMBER
+        WHERE ID = #{sellerId}
+    </insert>
+
+    <!-- 권한 회수 신청 -> 완료 -->
+    <update id="changeSellerRoleDropState">
+        UPDATE TBL_PERMISSION_ROLE
+        SET PERMISSION_STATUS = 'APPROVAL'
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM
+                TBL_SELLER_ROLE S
+                    JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                    JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                    JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                    JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+            WHERE
+                R.REF_MEMBER_ROLE_CODE = 1
+              AND EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+              AND EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+              AND M.ID = #{sellerId}
+        )
+    </update>
+
+    <!-- 권한 신청 -> 보류 -->
+    <insert id="addRoleToSellerReason">
+INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ_NO)
+        SELECT SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL, #{ reason }, SYSDATE, #{ sellerReq }
+        FROM TBL_MEMBER
+        WHERE ID = #{ sellerId }
+    </insert>
+
+    <!-- 권한 신청 -> 보류 -->
+    <update id="changeSellerRoleState2">
+        UPDATE TBL_PERMISSION_ROLE
+        SET PERMISSION_STATUS = 'REJECTED'
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM
+                TBL_SELLER_ROLE S
+                    JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                    JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                    JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                    JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+            WHERE
+                R.REF_MEMBER_ROLE_CODE = 1
+              AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+              AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+            AND P.REJECT_REASON IS NOT NULL
+            AND P.PERMISSION_STATUS IS NULL
+            AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
+        )
+    </update>
+
+    <!-- 권한 회수 신청 -> 보류 -->
+    <insert id="addRoleToSellerReasonRetrieve">
+        INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ_NO)
+        SELECT SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL, #{ reason }, SYSDATE, #{ sellerReq }
+        FROM TBL_MEMBER
+        WHERE ID = #{ sellerId }
+    </insert>
+
+    <!-- 권한 회수 신청 -> 보류 -->
+    <update id="changeSellerRoleState3">
+        UPDATE TBL_PERMISSION_ROLE
+        SET PERMISSION_STATUS = 'REJECTED'
+        WHERE REF_SELLER_ROLE_REQ_NO = (
+            SELECT Q.NO
+            FROM
+                TBL_SELLER_ROLE S
+                    JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                    JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                    JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                    JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+            WHERE
+                R.REF_MEMBER_ROLE_CODE = 1
+              AND EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+              AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+              AND P.PERMISSION_STATUS = 'SCREENING'
+              AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
+        )
+    </update>
+</mapper>

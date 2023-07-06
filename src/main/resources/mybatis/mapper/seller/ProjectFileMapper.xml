@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectFileMapper">
+
+    <resultMap id="projectFileResultMap" type="com.idle.osmas.seller.dto.ProjectFileDTO">
+        <id property="no" column="TBL_PRJ_FILE_NO"/>
+        <result property="originName" column="TBL_PRJ_FILE_ORIGIN_NAME"/>
+        <result property="changeName" column="TBL_PRJ_FILE_CHANGE_NAME"/>
+        <result property="registDate" column="TBL_PRJ_FILE_REGIST_DATE"/>
+        <result property="type" column="TBL_PRJ_FILE_TYPE"/>
+        <result property="deleteYN" column="TBL_PRJ_FILE_DELETE_YN"/>
+    </resultMap>
+
+    <select id="selectProjectFileByNo" resultMap="projectFileResultMap">
+        SELECT TPF.NO AS TBL_PRJ_FILE_NO ,
+               TPF.TYPE AS TBL_PRJ_FILE_TYPE,
+               TPF.DELETE_YN AS TBL_PRJ_FILE_DELTE_YN,
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
+               TPF.REF_PRJ_NO AS TBL_PRJ_FILE_REF_PRJ_NO
+        FROM TBL_PRJ_FILE TPF
+        WHERE TPF.NO = #{no}
+    </select>
+
+    <select id="selectProjectFileListByProjectNo" resultMap="projectFileResultMap">
+        SELECT TPF.NO AS TBL_PRJ_FILE_NO,
+               TPF.TYPE AS TBL_PRJ_FILE_TYPE,
+               TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+          FROM TBL_PRJ_FILE TPF
+         WHERE REF_PRJ_NO = ${projectNo}
+           AND TPF.DELETE_YN = 'N'
+    </select>
+
+    <select id="selectByProjectSaveFileName" resultMap="projectFileResultMap">
+        SELECT TPF.TYPE AS TBL_PRJ_FILE_TYPE,
+               TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+          FROM TBL_PRJ_FILE TPF
+         WHERE TPF.DELETE_YN ='N'
+           AND TPF.CHANGE_NAME = '${saveFileName}'
+    </select>
+
+    <insert id="insertProjectFile" >
+        INSERT INTO TBL_PRJ_FILE TPF
+        (TPF.NO, TPF.TYPE, TPF.ORIGIN_NAME,
+         TPF.CHANGE_NAME, TPF.REGIST_DATE,TPF.DELETE_YN,
+         TPF.REF_PRJ_NO)
+        VALUES
+        (SEQ_TBL_PRJ_FILE_NO.nextval, '${fileType}', '${originFile}',
+         '${savedFile}',SYSDATE, '${deleteYN}',
+         ${projectNo})
+    </insert>
+
+    <delete id="deleteProjectFilesByProjectNo">
+        DELETE TBL_PRJ_FILE TPF
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
+    </delete>
+    
+    <update id="updateNonAvailableProjectFileByFileType">
+        UPDATE TBL_PRJ_FILE TPF
+           SET TPF.DELETE_YN = 'Y'
+         WHERE TPF.REF_PRJ_NO = #{projectNo}
+           AND TPF.TYPE = #{fileType}
+    </update>
+
+    <update id="updateNonAvailableProjectFileByChangeName">
+        UPDATE TBL_PRJ_FILE TPF
+           SET TPF.DELETE_YN = 'Y'
+         WHERE TPF.CHANGE_NAME = #{changeName}
+    </update>
+</mapper>

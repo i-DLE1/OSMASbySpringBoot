@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:ht="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/member/mainstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="logo">
+    <a href="/">
+
+        <img src="/images/member/logo.png" alt="">
+    </a>
+</div>
+<div class="content">
+    <p th:text="|${param.nickname}님|" class="sign_con"></p>
+    <p class="sign_con">
+        가입을 축하드려요.
+    </p>
+    <div class="container_button">
+        <div>
+            <button onclick="location.href='/member/login/login'" class="ok_button" id="button1" style="width: 50%;">로그인하기
+            </button>
+
+        </div>
+        <div>
+            <button onclick="location.href='/'" class="ok_button" style="width: 50%;">홈 화면 가기 하기</button>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

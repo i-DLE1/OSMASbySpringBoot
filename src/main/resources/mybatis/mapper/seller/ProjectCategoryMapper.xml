@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectCategoryMapper">
+
+    <resultMap type="com.idle.osmas.seller.dto.ProjectCategoryDTO" id="projectCategoryResultMap">
+        <id property="no" column="TBL_CATEGORY_NO"/>
+        <result property="subNo" column="TBL_CATEGORY_SUB_NO"/>
+        <result property="name" column="TBL_CATEGORY_NAME"/>
+        <!--        <association property="subCategory" column="projectCategoryResultMap"/>-->
+    </resultMap>
+
+    <select id="selectByCategoryType" resultMap="projectCategoryResultMap" parameterType="_int" >
+        SELECT TC.NO AS TBL_CATEGORY_NO,
+        TC.NAME AS TBL_CATEGORY_NAME
+        FROM TBL_CATEGORY TC
+        <if test="categoryNo == null">
+            WHERE SUB_NO IS NULL
+        </if>
+        <if test="categoryNo != null">
+            WHERE SUB_NO = #{categoryNo}
+        </if>
+    </select>
+</mapper>

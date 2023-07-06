@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="~{/seller/fragments/sellerFrag :: head}"></div>
+        <title>프로젝트 관리 - 주문관리</title>
+    </head>
+    <body>
+        <div class="main-col-2">
+            <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
+            <main>
+                <div class="main">
+                    <div class="main-header">
+                        <div>
+                            <h1 class="h1-title">주문관리 - <span>전체조회</span></h1>
+                        </div>
+                        <div>
+                            <h5><span>판매자</span>님 환영합니다.</h5>
+                        </div>
+                    </div>
+                    <div class="nav-list-area">
+                        <table id="orderMenu" class="w-100 list-nav mt-5">
+                            <tr class="row">
+                                <td id="orderAll" class="col" onclick="location.href='./orderList?listType=all'">전체조회</td>
+                                <td id="orderReceipt" class="col" onclick="location.href='./orderList?listType=receipt'">주문접수</td>
+                                <td id="orderDelivery" class="col" onclick="location.href='./orderList?listType=delivery'">배송처리</td>
+                                <td id="orderRefund" class="col" onclick="location.href='./orderList?listType=refund'">교환환불</td>
+                                <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancel'">취소내역</td>
+                                <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>
+                                <th class="col-4">
+                                    <div class="row col">
+                                        <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
+                                            <option value="title">주문자명</option>
+                                            <option value="customer">배송지</option>
+                                            <option value="question">연락처</option>
+                                            <option value="phone">상품옵션</option>
+                                        </select>
+                                        <input type="text" class="search-bar col" id="search" name="search">
+                                        <button class="search-btn col ms-2 me-2" onclick="projectSearch()">검색</button>
+                                    </div>
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- 테이블 시작 -->
+                    <table class="cus-table table-font">
+                        <div class="tbaletop">
+                            <label style="margin-right: 10px;">프로젝트명
+                                <select style="width: 300px;" class="col-4 me-3 search-bar">
+                                    <option value="">장애인-비장애인 누구나 입는 '유니버셜' 의류</option>
+                                </select>
+                            </label>
+                            <div>
+                                <button class="submitbutton" onclick="orderConfirmation()">배송처리</button>
+                                <button class="submitbutton" onclick="orderExchange()">교환처리</button>
+                                <button class="submitbutton" onclick="orderRefund()">환불처리</button>
+                            </div>
+                        </div>
+
+
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <td>주문자</td>
+                                <td>배송지</td>
+                                <td>요청사항</td>
+                                <td>연락처</td>
+                                <td>구매옵션</td>
+                                <td>결제금액(원)</td>
+                                <td>결제수단</td>
+                                <td>주문일자</td>
+                                <td class="td-title"><span>배송상테</span></td>
+                            </tr>
+                        </thead>
+                        <tbody id="projectOrderList">
+                            <!-- javacript 반복 구간 -->
+                            <!-- 타임 리프 반복 시작 -->
+    <!--                        <th:block th:each="item, index : ${itemList}">-->
+    <!--                        <tr>-->
+    <!--                            <th:block th:object="${item}">-->
+    <!--                            <th th:text="${index}"></th>-->
+    <!--                            <td th:text="*{item.title}"></td>-->
+    <!--                            <td th:text="*{item.targetAmount}"></td>-->
+    <!--                            <td th:text="*{item.currentAmount}"></td>-->
+    <!--                            <td th:text="*{item.startDate}"></td>-->
+    <!--                            <td th:text="*{item.endDate}"></td>-->
+    <!--                            <td th:text="*{item.status}"></td>-->
+    <!--                            <td>-->
+    <!--                                <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{item.id})|">-->
+    <!--                                <input value="수정" class="cus-button" type="button" th:onclick="|projectModify(*{item.id})|">-->
+    <!--                                <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{item.id})|">-->
+    <!--                                <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{item.id})|">-->
+    <!--                            </td>-->
+    <!--                            </th:block>-->
+    <!--                        </tr>-->
+    <!--                        </th:block>-->
+                            <!-- 타임 리프 끝 -->
+                        </tbody>
+                        </tbody>
+                    </table>
+                    <!-- cus-page start -->
+                    <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
+                <!-- cus-page end -->
+                <!-- 테이블 종료 -->
+                </div>
+            </main>
+        </div>
+        <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
+        <script src="/js/seller/sellerPage.js"></script>
+        <script>
+            projectOrderList();
+            activePage();
+        </script>
+    </body>
+</html>

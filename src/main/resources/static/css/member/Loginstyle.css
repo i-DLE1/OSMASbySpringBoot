@@ -1,0 +1,113 @@
+main{
+    display: block;
+}
+.container_main{
+    margin:0 auto;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 50px;
+   }
+
+.logo{
+text-align: center;
+}
+ul{
+    list-style: none;
+}
+.find_info{
+    display: flex;
+    color: black;
+    justify-content: flex-end;
+    
+}
+.find_info li a{
+    color : gray;
+}
+.find_info li{
+    font-size: 10px;
+    margin-right: 5px;
+}
+a{
+    text-decoration: none;
+}
+
+.input_text{
+    width: 95%;
+    height: 50px;
+    padding-left: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #dde2e6;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.error_message{
+    font-size: 12px;
+    color: red;
+    padding-left: 10px;
+}
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.container_button{
+    margin-top: 50px;
+    text-align: center;
+}
+
+.ok_button{
+    width: 98%;
+    height: 50px;
+    /* background-color: #884A39; */
+    /* color: white; */
+    /* border-radius: 4px; */
+    /* border: 1px solid #cdd3d8; */
+}
+
+.tab_list{
+    margin:0 auto;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 50px;
+    display: flex;
+}
+
+.tab_list a{
+    margin:0 auto;
+}
+
+.contant_header{
+    border-bottom: 4px solid #333;
+    padding-bottom: 4px;
+}
+
+
+
+.guide{
+    margin-top: 50px;
+    margin-left: 10px;
+}
+.find_id_pwd{
+    border: 2px solid;
+}
+
+.message{
+    text-align: center;
+}
+#button1{
+    margin-bottom: 10px;
+}
+
+button{
+    border-radius: 6px; 
+    background-color: #FFC26F;
+    color: white; 
+    border: none;
+    cursor: pointer;
+}
+button:hover{
+    background-color: #884A39;
+    transition-duration: 0.3s;
+}

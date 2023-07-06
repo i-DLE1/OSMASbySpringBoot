@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+<body>
+<header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','','active-process','','')}"></header>
+        <main class="main">
+            <h1 class="h1-title">FAQ 등록</h1>
+            <div id="faqList">
+                <!-- 등록 컴포넌트 시작 -->
+                <!-- 등록 컴포넌트 끝 -->
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="container-justify-center-w100">
+                    <button id="fqaAdd" class="add-item" type="button">
+                        <img src="/images/seller/regist/additem.png" width="40px" height="40px">
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
+            <input id="tempSave" class="footer-btn" type="button" value="임시저장" onclick="registProject5(true)" />
+            <input class="footer-btn" type="button" value="다음" onclick="registProject5(false)" />
+        </footer>
+        <script src="/js/seller/registProject.js"></script>
+        <script>
+            project5LoadData();
+            isParamNo();
+        </script>
+    </body>
+</html>

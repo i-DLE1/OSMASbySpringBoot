@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/seller/QA.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+<body class="body">
+    <main>
+        <div class="display-center">
+            <h1 class="h1-title">반려 사유</h1>
+            <textarea id="result" class="retry-textarea" name="result" rows="6" disabled th:text="${projectProgress.content}"></textarea>
+        </div>
+        <br>
+        <div class="display-center">
+            <h1 class="h1-title">심사 요청 내용</h1>
+            <div class="input-label">
+                <label for="retry-body"><span>0</span>/100</label>
+                <textarea maxlength="100" id="retry-body" class="retry-textarea" name="body" rows="4" placeholder="재심사 요청 내용을 입력해주세요"></textarea>
+            </div>
+
+        </div>
+    </main>
+    <footer class="footer">
+        <input type="button" value="닫기" class="footer-btn" onclick="window.close()">
+        <input type="button" value="재심사요청" class="footer-btn" onclick="projectRetrySubmit()">
+    </footer>
+    <script src="/js/seller/projectDetail.js"></script>
+    </th:block>
+</body>
+</html>

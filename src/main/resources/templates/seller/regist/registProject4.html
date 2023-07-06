@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{/seller/fragments/registProjectFrag :: head}"></head>
+    <th:block th:replace="~{/seller/fragments/registProjectFrag :: suneditor }"></th:block>
+    <body>
+        <header th:replace="~{/seller/fragments/registProjectFrag :: process('','','','active-process','','','')}"></header>
+        <main class="main">
+            <h1 class="h1-title">상품 상세정보 등록</h1>
+            <div style="display:flex; justify-content:center;width: 100%">
+                <input id="no" th:value="${project?.no}" hidden>
+                <textarea id="content" style="width: 1120px; " th:text="${project?.content}"></textarea>
+            </div>
+        </main>
+        <footer class="footer">
+            <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
+            <input id="tempSave" class="footer-btn" type="button" value="임시저장" onclick="registProject4(true)"/>
+            <input class="footer-btn" type="button" value="다음" onclick="registProject4(false)"/>
+        </footer>
+        <script src="/js/seller/registProject.js"></script>
+        <script>
+            suneditor(500,'auto');
+            isParamNo();
+        </script>
+    </body>
+</html>

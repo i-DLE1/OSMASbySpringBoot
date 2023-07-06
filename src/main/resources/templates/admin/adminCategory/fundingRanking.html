@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>펀딩 순위</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/adminCategory/fundingRanking.css">
+</head>
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+    <h1 style="text-align: center; padding-top: 25px">현재 펀딩 순위</h1>
+    <div class="product-container">
+        <div class="product-row">
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품1</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품2</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품3</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-row">
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품4</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품5</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품6</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-row">
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품7</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품8</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+            <div class="product">
+                <div>
+                    <div class="image-container">
+                        <img src="image.jpg" alt="Product Image">
+                    </div>
+                    <div class="content-container">
+                        <h3 class="seller-name">상품9</h3>
+                        <p class="sale-description">상품 내용</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <ul class="pagenation">
+            <li><a href=#><</a></li>
+            <li><a href=#>1</a></li>
+            <li><a href=#>2</a></li>
+            <li><a href=#>3</a></li>
+            <li><a href=#>4</a></li>
+            <li><a href=#>5</a></li>
+            <li><a href=#>></a></li>
+        </ul>
+    </div>
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

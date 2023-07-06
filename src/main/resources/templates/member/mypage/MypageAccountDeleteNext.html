@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>MypageAccountDeleteNext</title>
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="/static/js/member/mypage.js"></script>
+  <link rel="stylesheet" href="/css/member/mypagebasic.css">
+  <link rel="stylesheet" href="/css/member/mypagemain.css">
+</head>
+
+<body>
+<header id="header">
+  <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+  <main>
+    <h2 class="top_line">회원탈퇴</h2>
+
+    <div class="delete_reason">
+
+      <ul>
+        <li><a href="#">탈퇴 사유를 선택해주세요.</a>
+          <ul>
+            <li><a href="#">찾는 물품이 없어요</a></li>
+            <li><a href="#">개인 정보를 삭제하고 싶어요</a></li>
+            <li><a href="#">사용이 어려워요</a></li>
+            <li><a href="#">혜택이 부족해요</a></li>
+            <li><a href="#">운영 방식이 만족스럽지 않아요</a></li>
+            <li><a href="#">기타</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="delete_write">
+        <input type="text" placeholder="항목이외에 기타 불만사항이나 의견을 기재해 주세요."/>
+      </div>
+
+      <div class="btn_save">
+        <button class="btn_save" onclick="showMessageDelete()">완료</button>
+      </div>
+
+      <div class="message-container"></div>
+
+    </div>
+
+  </main>
+
+<footer>
+  <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.member.dao.LoginDAO">
+
+    <resultMap id="loginMemberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+        <collection property="memberRoleList" resultMap="memberRoleListResultMap"/>
+    </resultMap>
+    <resultMap id="memberRoleListResultMap" type="com.idle.osmas.member.dto.RoleListDTO">
+        <id property="refMemberRoleCode" column="REF_MEMBER_ROLE_CODE"/>
+        <id property="refMemberNo" column="REF_MEMBER_NO"/>
+        <association property="memberRole" resultMap="memberRoleResultMap"/>
+    </resultMap>
+    <resultMap id="memberRoleResultMap" type="com.idle.osmas.member.dto.MemberRoleDTO">
+        <id property="roleCode" column="ROLE_CODE"/>
+        <result property="roleName" column="ROLE_NAME"/>
+    </resultMap>
+    <select id="findMemberById" resultMap="loginMemberResultMap">
+        SELECT
+                A.ID
+              ,  A.PWD
+              ,  A.NAME
+              ,  A.PHONE
+              ,  A.BIRTH
+              ,  A.EMAIL
+              ,  A.REGIST_DATE
+              ,  A.NICKNAME
+              ,  A.NO
+              ,  A.STATUS
+              ,  A.INTRODUCTION
+              ,  A.DROP_REASON
+              ,  B.REF_MEMBER_ROLE_CODE
+              ,  B.REF_MEMBER_NO
+              ,  C.ROLE_CODE
+              ,  C.ROLE_NAME
+        FROM TBL_MEMBER A
+        LEFT JOIN TBL_ROLE_LIST B ON(A.NO = B.REF_MEMBER_NO)
+        LEFT JOIN TBL_MEMBER_ROLE C ON(B.REF_MEMBER_ROLE_CODE = C.ROLE_CODE)
+       WHERE A.ID = #{memberId}
+    </select>
+</mapper>
