@@ -183,7 +183,7 @@ function calcMoney() {
     var donation = document.getElementById("donation");
 
     if (donationck.checked) {
-        var  sum = parseInt(donation.textContent);
+        var  sum = parseInt(donation.value);
     } else {
         var  sum = 0;
     }

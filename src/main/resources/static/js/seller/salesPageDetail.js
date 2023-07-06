@@ -99,6 +99,7 @@ $(document).ready(function() {
         }
     });
 
+    // QnA 입력기능
     $('#inputQna').click(function (){
 
         let content =  $('#question').val();
@@ -115,19 +116,8 @@ $(document).ready(function() {
 
             success : function (data){
             alert("등록되었습니다.");
-                $.ajax({
-                    url: '/seller/sales/prjQna?no=' + refPrjNo,  // 데이터를 가져올 URL
-                    method: 'GET',  // 요청 메소드 (GET, POST 등)
-                    success: function (data) {
-                        // 데이터를 성공적으로 가져왔을 때 실행할 코드
-                        $('#dynamicContent').html(data);
-                    },
-                    error: function () {
-                        // 데이터 가져오기 실패 시 실행할 코드
-                        $('#dynamicContent').text('정보가 없습니다.');
-                        console.log('데이터 가져오기 실패');
-                    }
-                });
+            $('#dynamicContent').load(location.href + ' #dynamicContent');
+            $('#updateContent3').click();
 
             },
             error : function (){
@@ -136,6 +126,157 @@ $(document).ready(function() {
         });
     });
 });
+
+
+
+
+
+
+
+// 페이징처리
+var $setRows = $('#setRows');
+
+$setRows.submit(function (e) {
+    e.preventDefault();
+    var rowPerPage = 10;
+
+//    console.log(typeof rowPerPage);
+
+    var zeroWarning = 'Sorry, but we cat\'t display "0" rows page. + \nPlease try again.'
+    if (!rowPerPage) {
+        alert(zeroWarning);
+        return;
+    }
+    $('#nav-paging').remove();
+    var $products = $('#products');
+
+    $products.after('<div id="nav-paging">');
+
+
+    var $tr = $($products).find('tbody tr');
+    var rowTotals = $tr.length;
+//  console.log(rowTotals);
+
+    var pageTotal = Math.ceil(rowTotals/ rowPerPage);
+    var i = 0;
+
+    for (; i < pageTotal; i++) {
+        $('<a href="#"></a>')
+            .attr('rel', i)
+            .html(i + 1)
+            .appendTo('#nav-paging');
+    }
+
+    $tr.addClass('off-screen')
+        .slice(0, rowPerPage)
+        .removeClass('off-screen');
+
+    var $pagingLink = $('#nav-paging a');
+    $pagingLink.on('click', function (evt) {
+        evt.preventDefault();
+        var $this = $(this);
+        if ($this.hasClass('active')) {
+            return;
+        }
+        $pagingLink.removeClass('active');
+        $this.addClass('active');
+
+        // 0 => 0(0*4), 4(0*4+4)
+        // 1 => 4(1*4), 8(1*4+4)
+        // 2 => 8(2*4), 12(2*4+4)
+        // 시작 행 = 페이지 번호 * 페이지당 행수
+        // 끝 행 = 시작 행 + 페이지당 행수
+
+        var currPage = $this.attr('rel');
+        var startItem = currPage * rowPerPage;
+        var endItem = startItem + rowPerPage;
+
+        $tr.css('opacity', '0.0')
+            .addClass('off-screen')
+            .slice(startItem, endItem)
+            .removeClass('off-screen')
+            .animate({opacity: 1}, 300);
+
+    });
+
+    $pagingLink.filter(':first').addClass('active');
+
+});
+$setRows.submit();
+
+
+
+// 페이징처리의 하단 숫자 페이징처리
+var visiblePages = 5; // 한 번에 표시할 수 있는 최대 페이지 수
+
+// ...
+
+var $pagingLink = $('#nav-paging a');
+$pagingLink.on('click', function (evt) {
+    // ...
+
+    var currPage = $this.attr('rel');
+    var startItem = currPage * rowPerPage;
+    var endItem = startItem + rowPerPage;
+
+    $tr.css('opacity', '0.0')
+        .addClass('off-screen')
+        .slice(startItem, endItem)
+        .removeClass('off-screen')
+        .animate({opacity: 1}, 300);
+
+    updatePageLinks(currPage);
+});
+
+// ...
+
+function updatePageLinks(currPage) {
+    var startPage = Math.floor(currPage / visiblePages) * visiblePages + 1;
+    var endPage = startPage + visiblePages - 1;
+    endPage = Math.min(endPage, pageTotal);
+
+    $('#nav-paging').empty();
+
+    if (startPage > 1) {
+        $('<a href="#" rel="' + (startPage - 1) + '">Previous</a>').appendTo('#nav-paging');
+    }
+
+    for (var i = startPage; i <= endPage; i++) {
+        $('<a href="#" rel="' + (i - 1) + '">' + i + '</a>').appendTo('#nav-paging');
+    }
+
+    if (endPage < pageTotal) {
+        $('<a href="#" rel="' + endPage + '">Next</a>').appendTo('#nav-paging');
+    }
+
+    $pagingLink = $('#nav-paging a');
+    $pagingLink.on('click', function (evt) {
+        evt.preventDefault();
+        var $this = $(this);
+        if ($this.hasClass('active')) {
+            return;
+        }
+        $pagingLink.removeClass('active');
+        $this.addClass('active');
+
+        // ...
+    });
+
+    $pagingLink.filter('[rel="' + currPage + '"]').addClass('active');
+}
+
+// ...
+
+$setRows.submit();
+
+
+
+
+
+
+
+
+
 
 $(document).ready(function() {
     var cachedData = {}; // 데이터 캐시를 위한 객체

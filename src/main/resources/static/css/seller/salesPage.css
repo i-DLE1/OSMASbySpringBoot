@@ -432,25 +432,6 @@ table td{
     width: 100px;
 }
 
-.cus-page{
-    margin-top: 3em;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-}
-
-.cus-page li{
-    border: 1px solid #ffffff;
-    padding: 5px 10px 5px 10px ;
-    margin: 5px;
-}
-
-.cus-page li:hover, .cus-page li:hover a {
-    color: rgb(0, 0, 0) !important;
-}
-a {
-    text-decoration: none;
-}
 
 #question{
     width: 800px;
@@ -482,10 +463,10 @@ input{
 
 
 
- .image-container {
-     position: relative;
-     display: inline-block;
- }
+.image-container {
+    position: relative;
+    display: inline-block;
+}
 
 .image-container .image2 {
     display: block;
@@ -587,4 +568,52 @@ input{
     border-radius: 8px;
     cursor: pointer;
     opacity: 80%;
+}
+
+
+.off-screen {
+    display: none;
+}
+
+#nav-paging {
+    /*width: 500px;*/
+    /*text-align: center;*/
+
+    margin-top: 3em;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+#nav-paging a {
+    display: inline-block;
+    /*padding: 3px 5px;*/
+    /*margin-right: 10px;*/
+    /*font-family:Tahoma;*/
+    background: #C49A6C;
+    color: white;
+    text-decoration: none;
+
+    /*border: 1px solid #ffffff;*/
+    padding: 5px 10px 5px 10px ;
+    margin: 5px;
+}
+#nav-paging a.active {
+    background: #b68149;
+    color: black;
+}
+
+#nav-paging a:hover {
+    color: rgb(0, 0, 0) !important;
+}
+
+.cus-page{
+
+}
+
+.cus-page li{
+
+}
+
+a {
+    text-decoration: none;
 }
