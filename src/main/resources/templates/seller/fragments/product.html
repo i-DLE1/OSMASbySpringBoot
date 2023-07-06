@@ -87,24 +87,20 @@
       </div>
 
       <div class="optionmiddle">
-        <div class="optiontext">옵션1</div>
-        <select class="optiontext" id="selectbox1" onchange="addNewDiv()">
+        <div class="optiontext">옵션선택</div>
+        <select class="optiontext" id="selectbox" onchange="addNewDiv()">
           <option value=""></option>
-          <option th:each="option: ${ optionList }" th:text="${ option.name}"></option>
+          <option th:each="option: ${optionList}" th:attr="data-option-price=${option.price}, data-option-no=${option.no}" th:text="${option.name + ' - ' + option.productSize + '   (' + #numbers.formatInteger(option.price, 3, 'COMMA') + '원)'}"></option>
+          <script th:inline="javascript">
+            var optionPrices = /*[[${optionPrices}]]*/ null;
+            var optionNo = /*[[${optionNo}]]*/ null;
+            // JSON 데이터를 JavaScript 변수에 할당
+          </script>
+
         </select>
       </div>
 
-      <div class="optionmiddle">
-        <div class="optiontext" >옵션2</div>
-        <select class="optiontext" id="selectbox2" onchange="displaySelectedOptions();">
-          <option value=""></option>
-          <option th:each="option: ${ optionList }">
-            <span th:text="${ option.productSize} + '   ('"></span>
-            <span class="optionprice" th:text="${#numbers.formatInteger(option.price, 3, 'COMMA')}"></span>
-            <span>원)</span>
-          </option>
-        </select>
-      </div>
+
 
       <div class="optiontop">
         <div class="optiontitle">선택옵션 확인</div>
@@ -124,7 +120,8 @@
           <button class="plusbutton">+</button>
           <button class="minusbutton">-</button>
           <button class="deletebutton">x</button>
-          <input class="optionmoney" type="text" style="font-size: 20px" hidden="hidden">
+          <input class="optionmoney" type="text" hidden="hidden">
+          <input class="optionNumber" type="text" hidden="hidden">
         </div>
       </div>
       <div class="optionbottom" id="optioncontainer">
