@@ -23,6 +23,7 @@
         <result property="nickname" column="NICKNAME"/>
         <result property="refPrjProductListNo" column="REF_PRJ_PRODUCT_LIST_NO"/>
         <result property="memberNo" column="REF_MEMBER_NO"/>
+        <result property="productName" column="NAME"/>
     </resultMap>
 
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -134,6 +135,7 @@
              , A.NO
              , D.NICKNAME
              , F.TITLE
+             , G.NAME
           FROM(SELECT ROWNUM RNUM
              , B.REGIST_DATE
              , B.REF_PRJ_PRODUCT_LIST_NO
@@ -154,6 +156,7 @@
                 JOIN TBL_MEMBER D ON(D.NO = A.REF_MEMBER_NO)
                 JOIN TBL_PRJ_PRODUCT_LIST E ON(A.REF_PRJ_PRODUCT_LIST_NO = E.NO)
                 JOIN TBL_PRJ F ON(E.REF_PRJ_NO = F.NO)
+                JOIN TBL_PRODUCT G ON(G.NO = E.REF_PRODUCT_NO)
                 <![CDATA[
                 WHERE A.RNUM >= #{startRow}
                  ]]>

@@ -93,7 +93,7 @@ public class ReviewController {
         selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount, "id", id);
 
         List<SponsoredsDTO> sponsoredList = reviewService.selectSponsoredList(selectCriteria);
-        System.out.println(sponsoredList);
+
         m.addAttribute("sponsoredList", sponsoredList);
         m.addAttribute("selectCriteria",selectCriteria);
 

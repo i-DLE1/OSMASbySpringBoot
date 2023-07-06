@@ -21,6 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 </head>
 
@@ -48,7 +49,7 @@
                 </div>
             </div>
             <div class="paycontent">
-                <span>상품 이름</span>  <span>수량</span><span>상품금액</span>
+                <span>상품 이름</span> <span>수량</span><span>상품금액</span>
             </div>
             <div class="paycontent">
                 후원금 :
@@ -67,14 +68,14 @@
         <section>
             <h2>후원자 정보</h2>
             <div class="paycontent">
-                이름 <span class="name">감자</span>
+                이름 : <span class="name" th:text="${member.name}">감자</span>
             </div>
             <div class="paycontent">
-                이메일
-                <span class="email">gamja@naver.com</span>
+                이메일 :
+                <span class="email" th:text="${member.email}">gamja@naver.com</span>
             </div>
             <div class="paycontent">
-                연락처 <span class="pnum"> 010-xxxx-xxxx</span>
+                연락처 : <span class="pnum" th:text="${member.phone}"> 010-xxxx-xxxx</span>
             </div>
         </section>
 
@@ -89,7 +90,7 @@
                         <input type="text" id="sample6_postcode" placeholder="우편번호" style="width: 100px;">
                         <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
                         <input type="text" id="sample6_address" placeholder="주소" style="width: 314px;"><br>
-                        <div style="margin-top: 5spx">
+                        <div>
                             <input type="text" id="sample6_detailAddress" placeholder="상세주소"
                                    style="width: 200px; height: 30px; ">
                             <input type="text" id="sample6_extraAddress" placeholder="참고항목"
@@ -104,11 +105,11 @@
                 </div>
                 <div class="address_info">
                     <div class="address_new">
-                        <input type="text" id="" placeholder="우편번호" style="width: 100px;">
+                        <input type="text" id="" placeholder="우편번호" style="width: 100px;" th:value="${address.postalCode}" readonly>
                         <input type="button" value="수정"><br>
-                        <input type="text" placeholder="주소" style="width: 314px;"><br>
-                        <input type="text" placeholder="상세주소"
-                               style="width: 314px; height: 30px; margin-top: 10px;">
+                        <input type="text" placeholder="주소" th:value="${address.general}" style="width: 314px;" readonly><br>
+                        <input type="text" placeholder="상세주소" th:value="${address.detail}"
+                               style="width: 314px; height: 30px; margin-top: 10px;"readonly>
                     </div>
                 </div>
             </div>
@@ -128,16 +129,16 @@
             <div style="margin-left: 10px;">
                 <input type="checkbox" id="chk_box1">
                 <label for="chk_box1" style="margin-left: 0px;"> 개인정보 제 3자 제공동의(필수)</label>
-                <span style="float: right;">보기</span>
-                <div style="margin-left: 25px; margin-top: 10px;">
+                <span style="float: right;" class="term_open">보기</span>
+                <div style="margin-left: 25px; margin-top: 10px;" class="pay_term">
                     회원의 개인정보는 당사의 개인정보 취급방침에 따라 안전하게 보호됩니다. '회사'는 이용자들의 개인정보를 개인정보 취급방침의 '제 2조 수집하는 개인정보의 항목, 수집방법 및
                     이용목적'에서 고지한 범위 내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.
                 </div>
                 <br>
                 <input type="checkbox" id="chk_box2">
                 <label for="chk_box2" style="margin-left: 0px;"> 후원 유의사항 확인</label>
-                <span style=" float: right;">보기</span>
-                <div style="margin-left: 25px; margin-top: 10px;">
+                <span style=" float: right;" class="term_open">보기</span>
+                <div style="margin-left: 25px; margin-top: 10px;" class="pay_term">
                     후원은 구매가 아닌 창의적인 계획에 자금을 지원하는 일입니다.
                     텀블벅에서의 후원은 아직 실현되지 않은 프로젝트가 실현될 수 있도록 제작비를 후원하는 과정으로, 기존의 상품 또는 용역을 거래의 대상으로 하는 매매와는 차이가
                     있습니다. 따라서 전자상거래법상 청약철회 등의 규정이 적용되지 않습니다.
@@ -151,8 +152,27 @@
         </div>
     </form>
 </div>
+<footer>
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
 
 <script>
+    window.onload = function (){
+        $('.pay_term').hide();
+    };
+    $(document).ready(function (){
+        $('.pay_term').hide();
+
+        $('.term_open').on('click',function (){
+            $('.term_open').not(this).removeClass("active");
+            $(this).addClass('active')
+
+            $(this).next().slideToggle(300);
+            $('.term_open').not(this).next().slideUp(300);
+            return false;
+        });
+        $('.term_open').eq(0).trigger('click');
+    });
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function (data) {
@@ -201,9 +221,6 @@
         }).open();
     }
 </script>
-<footer>
-    <th:block th:include="~{/common/fragments/footer}"></th:block>
-</footer>
 </body>
 
 </html>
