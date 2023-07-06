@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.idle.osmas.admin.dao.SellerApprovalFormMapper">
 
+    <!-- 권한 회수 신청 -->
     <insert id="sellerOutReq" parameterType="java.lang.String">
         INSERT INTO TBL_SELLER_ROLE_REQ (NO, REF_MEMBER_NO, REGIST_DATE)
         VALUES (SEQ_TBL_SELLER_ROLE_REQ_NO.NEXTVAL,
@@ -12,6 +13,7 @@
                )
     </insert>
 
+    <!-- 권한 회수 신청 -->
     <insert id="sellerOut" parameterType="java.util.Map">
         INSERT INTO TBL_PERMISSION_ROLE (NO,SELLER_REASON, PERMISSION_STATUS, LAST_DATE, REF_SELLER_ROLE_REQ_NO, OTHER_REASON)
         VALUES (
@@ -29,6 +31,7 @@
                )
     </insert>
 
+    <!-- 권한 회수 신청 취소 -->
     <delete id="deletePERMISSION">
         DELETE FROM TBL_PERMISSION_ROLE
         WHERE REF_SELLER_ROLE_REQ_NO = (
@@ -41,6 +44,7 @@
         )
     </delete>
 
+    <!-- 권한 회수 신청 취소 -->
     <delete id="deleteREQ">
         DELETE FROM TBL_SELLER_ROLE_REQ
         WHERE REF_MEMBER_NO = (
@@ -52,4 +56,107 @@
             FETCH FIRST 1 ROW ONLY
         )
     </delete>
+
+    <!-- 권한 신청 insert-->
+    <insert id="sellerInsert" parameterType="java.util.Map">
+        INSERT INTO TBL_SELLER_ROLE (ACCOUNT_NO,REGIST_NO, NAME, CALL_NUMBER, RPRSN, ADDRESS, REF_MEMBER_NO, BANK, REPORT_NO)
+        VALUES (
+                   #{accountNo},
+                   #{registNo},
+                   #{name},
+                   #{callNumber},
+                   #{rprsn},
+                   #{address},
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   ),
+                   #{bank},
+                   #{reportNo}
+               )
+    </insert>
+
+    <insert id="sellerInsertReq" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_REQ (NO,REF_MEMBER_NO, REGIST_DATE)
+        VALUES (
+                   SEQ_TBL_SELLER_ROLE_REQ_NO.NEXTVAL,
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   ),
+                   SYSDATE
+               )
+    </insert>
+
+    <insert id="sellerInsertPermission" parameterType="java.lang.String">
+        INSERT INTO TBL_PERMISSION_ROLE (NO, PERMISSION_STATUS, LAST_DATE, REF_SELLER_ROLE_REQ_NO)
+        VALUES (
+                   SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL,
+                   'SCREENING',
+                   SYSDATE,
+                   (
+                       SELECT Q.NO
+                       FROM TBL_SELLER_ROLE_REQ Q
+                                JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                       WHERE M.ID = #{sellerId}
+                   )
+               )
+    </insert>
+
+    <!-- 권한 신청 파일 insert-->
+    <insert id="sellerInsertFile1" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
+        VALUES (
+                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
+                   'LICENSE',
+                   #{registFileName},
+                   'N',
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   )
+               )
+    </insert>
+
+    <insert id="sellerInsertFile2" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
+        VALUES (
+                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
+                   'TELECOM',
+                   #{reportFileName},
+                   'N',
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   )
+               )
+    </insert>
+
+    <insert id="sellerInsertFile3" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
+        VALUES (
+                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
+                   'SEAL',
+                   #{certificateFileName},
+                   'N',
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   )
+               )
+    </insert>
+
+    <insert id="sellerInsertFile4" parameterType="java.lang.String">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME, DETELE_YN, REF_MEMBER_NO)
+        VALUES (
+                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
+                   'BANK_BOOK',
+                   #{bankBookFileName},
+                   'N',
+                   (SELECT M.NO
+                    FROM TBL_MEMBER M
+                    WHERE M.ID = #{sellerId}
+                   )
+               )
+    </insert>
 </mapper>

@@ -16,20 +16,25 @@
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 신청하기</h1>
 
-    <form action="submit_form.php" method="POST">
+    <form id="sellerGotForm" th:action="@{/admin/sellerApprovalForm/sellerFileUpload}" th:method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="sellerId">판매자 ID</label>
+        <input type="text" id="sellerId" name="sellerId" required>
+    </div>
+
         <div class="form-group">
             <label for="bank">은행:</label>
             <select id="bank" name="bank" required>
                 <option value="" disabled selected>은행을 선택하세요</option>
-                <option value="bank1">국민은행 </option>
-                <option value="bank2">우리은행</option>
-                <option value="bank3">신한은행</option>
-                <option value="bank4">기업은행</option>
-                <option value="bank5">하나은행</option>
-                <option value="bank6">외환은행</option>
-                <option value="bank7">농협은행</option>
-                <option value="bank8">씨티은행</option>
-                <option value="bank9">제일은행</option>
+                <option value="국민은행">국민은행 </option>
+                <option value="우리은행">우리은행</option>
+                <option value="신한은행">신한은행</option>
+                <option value="기업은행">기업은행</option>
+                <option value="하나은행">하나은행</option>
+                <option value="외환은행">외환은행</option>
+                <option value="농협은행">농협은행</option>
+                <option value="씨티은행">씨티은행</option>
+                <option value="제일은행">제일은행</option>
             </select>
         </div>
 
@@ -69,25 +74,31 @@
         </div>
 
         <div class="file-upload">
-            <label for="file">사업자등록증 사본</label>
-            <input type="file" id="file" name="uploadedFile" required>
+            <label for="registFile">사업자등록증 사본</label>
+            <input type="file" id="registFile" name="registFile" required>
         </div>
 
         <div class="file-upload">
-            <label for="file">통신판매업 사업자 사본</label>
-            <input type="file" id="file" name="uploadedFile" required>
-        </div>
-
-
-        <div class="file-upload">
-            <label for="file">대표자 인감증명서(또는 본인서명사실확인서)</label>
-            <input type="file" id="file" name="uploadedFile" required>
+            <label for="reportFile">통신판매업 사업자 사본</label>
+            <input type="file" id="reportFile" name="reportFile" required>
         </div>
 
         <div class="file-upload">
-            <label for="file">대표자 혹은 사업자 명의 통장 사본</label>
-            <input type="file" id="file" name="uploadedFile" required>
+            <label for="certificateFile">대표자 인감증명서(또는 본인서명사실확인서)</label>
+            <input type="file" id="certificateFile" name="certificateFile" required>
         </div>
+
+        <div class="file-upload">
+            <label for="bankBookFile">대표자 혹은 사업자 명의 통장 사본</label>
+            <input type="file" id="bankBookFile" name="bankBookFile" required>
+        </div>
+
+        <div class="submit-container">
+            <input id="change" type="submit" value="수정">
+            <input id="go" type="button" value="제출">
+            <input id="no" type="submit" value="삭제">
+        </div>
+     </form>
 
         <h5 style="text-align: center;">
             사업자등록증 : 최근 1년 이내 발급 / 공정거래위원회(http://www.ftc.go.kr)에서 조회 되는 통신판매업 사업자 정보와 일치 확인<br>
@@ -99,13 +110,6 @@
             - 신고자 : 가입 시 통신판매업 신고번호만 입력하면 별도 서류제출 필요 없음<br>
         </h5>
         <br><br>
-
-        <div class="submit-container">
-            <input type="submit" value="수정">
-            <input type="submit" value="제출">
-            <input type="submit" value="삭제">
-        </div>
-    </form>
 </middle>
 
 <footer >
