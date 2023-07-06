@@ -116,7 +116,7 @@ $(document).ready(function() {
 
             success : function (data){
             alert("등록되었습니다.");
-            $('#dynamicContent').load(location.href + ' #dynamicContent');
+            // $('#dynamicContent').load(location.href + ' #dynamicContent');
             $('#updateContent3').click();
 
             },

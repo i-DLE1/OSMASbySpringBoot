@@ -114,7 +114,6 @@
         <result property="refprjNo" column="REF_PRJ_NO"/>
     </resultMap>
 
-
     <select id="selectAllProject" resultMap="salesResultMap">
         SELECT
             NO,
@@ -175,6 +174,8 @@
                 REF_PRODUCT_NO
             FROM  TBL_PRJ_PRODUCT_LIST
             WHERE REF_PRJ_NO = #{ no })
+          AND
+            STATUS = 'AVAILABLE'
     </select>
 
 
