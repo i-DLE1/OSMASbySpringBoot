@@ -12,4 +12,10 @@ public interface ItemApprovalMapper {
     List<ProductDTO> holdingAllItem();
 
     List<ProductDTO> successAllItem();
+
+    int itemONGOING(String sellerId, int projectNo);
+
+    int itemNO1(String sellerId, int projectNo);
+
+    int itemNO2(String sellerId, int projectNo, String reasonText);
 }
