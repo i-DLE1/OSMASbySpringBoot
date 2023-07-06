@@ -14,7 +14,6 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
-      location: classpath:/static/files/
 
 # mybatis mappers config
 mybatis:
@@ -22,6 +21,9 @@ mybatis:
 
 # SavedFilePath
 customSaveFileDirectoryPath: /Users/yuseungcheol/Desktop/project/himedia/project/OSMASbySpringBoot/src/main/resources/static/files
+
+# SavedFilePath
+sellerGetFormFileDirectoryPath: C:/dev/SemiProject/osmas/src/main/resources/static/images/admin/getForm
 
 
 

@@ -2,6 +2,7 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.service.SellerApprovalFormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,14 @@ import java.util.*;
 public class SellerApprovalFormController {
 
     private final SellerApprovalFormService sellerApprovalFormService;
+    private final String SAVE_FILE_DIRECTORY_PATH;
 
     @Autowired
-    public SellerApprovalFormController(SellerApprovalFormService sellerApprovalFormService) {
+    public SellerApprovalFormController(SellerApprovalFormService sellerApprovalFormService,
+                                        @Value("${sellerGetFormFileDirectoryPath}") String saveFileDirectoryPath) {
         this.sellerApprovalFormService = sellerApprovalFormService;
+        this.SAVE_FILE_DIRECTORY_PATH = saveFileDirectoryPath;
+        System.out.println("SAVE_FILE_DIRECTORY_PATH: " + SAVE_FILE_DIRECTORY_PATH);
     }
 
     @GetMapping("formMain")
@@ -90,14 +95,14 @@ public class SellerApprovalFormController {
             HttpServletRequest request
     ) {
         // 파일 업로드 및 데이터 처리 로직을 구현
-        String rootLocation = request.getSession().getServletContext().getRealPath("/resources");
-        String fileUploadDirectory = rootLocation + "/static/images/admin/getForm";
-
-        File directory = new File(fileUploadDirectory);
+        File directory = new File(SAVE_FILE_DIRECTORY_PATH);
 
         if (!directory.exists()) {
             directory.mkdirs(); // 디렉토리 생성
         }
+
+        // 출력하여 값 확인
+        System.out.println("SAVE_FILE_DIRECTORY_PATH: " + SAVE_FILE_DIRECTORY_PATH);
 
         //파라미터를 출력
         System.out.println("sellerId: " + sellerId);
@@ -125,7 +130,7 @@ public class SellerApprovalFormController {
         if (!registFile.isEmpty()) {
             try {
                 String fileName = "registFile"; // 업로드할 파일 이름 설정
-                String filePath = fileUploadDirectory + "/" + fileName; // 파일 경로 설정
+                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
                 File dest = new File(filePath);
                 registFile.transferTo(dest); // 파일 업로드
                 // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
@@ -141,7 +146,7 @@ public class SellerApprovalFormController {
         if (!reportFile.isEmpty()) {
             try {
                 String fileName = "reportFile"; // 업로드할 파일 이름 설정
-                String filePath = fileUploadDirectory + "/" + fileName; // 파일 경로 설정
+                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
                 File dest = new File(filePath);
                 reportFile.transferTo(dest); // 파일 업로드
                 // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
@@ -157,7 +162,7 @@ public class SellerApprovalFormController {
         if (!certificateFile.isEmpty()) {
             try {
                 String fileName = "certificateFile"; // 업로드할 파일 이름 설정
-                String filePath = fileUploadDirectory + "/" + fileName; // 파일 경로 설정
+                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
                 File dest = new File(filePath);
                 certificateFile.transferTo(dest); // 파일 업로드
                 // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
@@ -173,7 +178,7 @@ public class SellerApprovalFormController {
         if (!bankBookFile.isEmpty()) {
             try {
                 String fileName = "bankBookFile"; // 업로드할 파일 이름 설정
-                String filePath = fileUploadDirectory + "/" + fileName; // 파일 경로 설정
+                String filePath = SAVE_FILE_DIRECTORY_PATH + "/" + fileName; // 파일 경로 설정
                 File dest = new File(filePath);
                 bankBookFile.transferTo(dest); // 파일 업로드
                 // 파일 업로드 성공 시 추가적인 처리를 수행할 수 있습니다.
