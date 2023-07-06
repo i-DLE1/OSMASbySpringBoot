@@ -22,3 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardId = 123; // 실제로 사용할 게시물의 ID를 가져오는 로직이 필요합니다.
     displayBoardData(boardId);
 });
+
+// 공지사항 등록 페이지의 취소 버튼
+function cancel() {
+    window.history.back();
+}
+
+// 공지사항 등록 페이지의 저장 버튼
+function save() {
+    document.querySelector('form').submit();
+}

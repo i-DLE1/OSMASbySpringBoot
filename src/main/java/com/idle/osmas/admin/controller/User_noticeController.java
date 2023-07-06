@@ -1,6 +1,5 @@
 package com.idle.osmas.admin.controller;
 
-import com.idle.osmas.admin.dao.AdminBoardMapper;
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.service.AdminBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class User_noticeController {
         List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards(boardtype);
         model.addAttribute("adminBoards",adminBoards);
         model.addAttribute("type",boardtype);
-        return "/admin/user_notice/notice_fullview";
+        return "/admin/admin_notice/notice_fullview";
     }
 
     @GetMapping("/notice_content")
@@ -42,4 +41,7 @@ public class User_noticeController {
         model.addAttribute("noticeContent", noticeContent);
         return "/admin/user_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
+
+
+
 }

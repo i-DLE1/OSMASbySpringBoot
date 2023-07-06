@@ -1,100 +1,89 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
 <head>
     <meta charset="UTF-8">
-    <title>공지사항_공지사항</title>
-    <link rel="stylesheet" href="../css/adminbasicstyle.css">
-    <link rel="stylesheet" href="../css/adminmainstyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../css/notice.css">
+    <title>공지사항 등록</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="/js/admin/adminBoard.js"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminbasicstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminmainstyle.css}">
 </head>
 <body>
 
-    <header id="header">
-        <th:block th:include="~{/common/fragments/header}"></th:block>
-    </header>
-
-
-    <div class="adminMenu">
-        <button class="adminLogin" onclick="toggleMenu()">관리자</button>
-        <div class="adminMenu-content" id="adminMenuContent">
-            <a href="#">마이 페이지</a>
-            <a href="#">현재 펀딩 순위</a>
-            <a href="#">판매자 권한 관리</a>
-            <a href="#">판매자 권한 신청폼(추후 삭제 예정)</a>
-            <a href="#">상품 승인 관리</a>
-            <a href="#">제안 받기</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-
-    <!-- 상단 카테고리 -->
-    <div class="notice">
-        <img class="notice_header" src="../resource/img/logo.png" style="display:block; margin: 0 auto; width:180px; height:130px;">
-        <nav>
-            <ul>
-                <li class="category">
-                    <button class="gugu" onclick="toggleDropdown()">카테고리</button>
-                </li>
-
-                <div class="slide-content" id="dropdownContent">
-                    <div style="text-align: center;">
-                        <img src="../../static/image/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
-                    </div>
-
-                    <a href="" onclick="toggleDropdown(event)">관리자 마이페이지</a>
-                    <a href=".fundingRanking.html">현재 펀딩 순위</a>
-                    <a href="./waitingAuthorization.html">판매자 권한 관리</a>
-                    <a href="./waitingItem.html">상품 승인 관리</a>
-                    <a href="./gettingProposals.html">제안받기</a>
-                    <a href="../notice/notice_fullview.html">공지사항 관리</a>
-                    <a href="./full_inquiry.html">회원 관리</a>
-                    <a href="../restrict/restrict_receive.html">신고 및 제재</a>
-                    <a href="./f&q_handle.html">상담 문의 처리</a>
-                    <a href="./f&q_advice.html">도움말</a>
-                </div>
-
-                <button class="gugu" style="color: black;"><a href="./todayOpen">오늘 오픈</a></button>
-                <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
-                <button class="gugu" style="color: black;"><a href="./openExpect">오픈 예정</a></button>
-                <button class="gugu" style="color: black;"><a href="./event">이벤트</a></button>
-                <li class="search">
-                    <input type="text" placeholder="검색할 내용을 입력해주세요">
-                </li>
-            </ul>
-        </nav>
+<header id="header">
+    <div th:include="~{/common/fragments/header}"></div>
 </header>
 
-<br>
-<h1 class="notice1">공지사항 등록</h1>
-<br>
 
-<form action="insert.no" method="post" enctype="multipart/form-data">
-    <table>
-        <tr>
-            <th class="w-px160">제목</th>
-            <td><input type="text" name="title" class="need"/></td>
-        </tr>
-        <tr>
-            <th>내용</th>
-            <td><textarea name="content" class="need"></textarea></td>
-        </tr>
-        <tr>
-            <th>파일 첨부</th>
-            <td class="left">
-                <label>
-                    <input type="file" name="file" id="attach-file"/>
-                    <img src='../resource/img/file.png' class="file-img" />
-                </label>
-                <span id="file-name"></span>
-                <span id="delete-file" style="color: red; margin-left: 20px;" ><i class="fas fa-times font-img"></i></span>
-            </td>
-        </tr>
-    </table>
-</form>
-<div class="btnSet">
-    <a class="btn-fill" onclick="if(necessary()) $('form').submit()">저장</a>
-    <a class="btn-empty" href="../notice/notice_fullview.html">취소</a>
+<div class="">
+<nav class="box3">
+        <ul style="border-bottom: none; border-top: none;">
+            <li class="box" th:style="${type == 'A' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
+            <li class="box" th:style="${type == 'N' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
+            <li class="box" th:style="${type == 'E' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
+            <li class="box" th:style="${type == 'AT' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
+            <!-- 관리자 일때 공지사항 등록 버튼 보이게 -->
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <div style="text-align: center;">
+                    <a th:href="@{/admin/admin_notice/notice_registration}" class="btn5" style="padding-top: 5px;">공지사항 등록</a>
+                </div>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+
+<th:block layout:fragment="content">
+<div class="registration">
+<br>
+<br>
+<h1 class="notice3">공지사항 등록</h1>
+    <hr>
+<br>
+<br>
+</div>
+
+    <form action="insert.no" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td class="w-px160" style="font-size: 16px;">카테고리</td>
+                <td>
+                    <select name="categoryCode" style="font-size: 16px;">
+                        <option value="10">공지사항</option>
+                        <option value="20">이벤트</option>
+                        <option value="30">보도자료</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="w-px160" style="font-size: 16px;">제목</th>
+                <td><input type="text" name="title" class="need" style="width: 575px;"></td>
+            </tr>
+            <tr>
+                <th style="font-size: 16px;">내용</th>
+                <td><textarea name="content" class="need" rows="10" cols="80"></textarea></td>
+            </tr>
+            <tr>
+                <th class="w-px160" style="font-size: 16px;">파일 첨부</th>
+                <td class="left">
+                    <label>
+                        <input type="file" name="file" id="attach-file"/>
+                    </label>
+                    <span id="file-name"></span>
+                    <span id="delete-file" style="color: red; margin-left: 20px;"><i class="fas fa-times font-img"></i></span>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    <div class="btnSet">
+    <br>
+    <button type="button" onclick="location.href='/admin/user_notice/notice_view/A'">취소</button>
+    <button type="submit" onclick="save()">저장</button>
 </div>
 
 <script type="text/javascript" src="js/need_check.js"></script>
@@ -107,11 +96,13 @@
 <br>
 <br>
 
-<footer >
-    <th:block th:include="~{/common/fragments/footer}"></th:block>
+<footer>
+    <div th:include="~{/common/fragments/footer}"></div>
 </footer>
 
-
-
+</th:block>
 </body>
 </html>
+
+
+
