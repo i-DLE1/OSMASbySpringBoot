@@ -62,9 +62,6 @@ public class ImageFileController {
     public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo) {
         if (file.getSize() == 0) return "fail";
 
-        // files/project/no/type_file.ext
-
-
         String originFileName = file.getOriginalFilename();
 
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
@@ -80,7 +77,11 @@ public class ImageFileController {
         if (!saveDirectory.exists()) saveDirectory.mkdirs();
 
         try {
+
             Thumbnails.of(file.getInputStream()).size(400, 400).toFile(savedFile);
+
+            if(ProjectFileType.BODY.equals(fileType)) return savedFileName;
+
             int result = projectFileService.insertProjectFile(
                     ProjectFileDTO.builder().projectNo(projectNo)
                     .deleteYN('N').changeName(savedFileName)
@@ -88,8 +89,10 @@ public class ImageFileController {
                     .type(fileType).build());
 
             if(result > 0 ) return savedFileName;
+
             return "fail";
         } catch (IOException e) {
+
             savedFile.delete();
             return "fail";
         }
@@ -104,44 +107,13 @@ public class ImageFileController {
 
         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
 
-        if(deleteFile.isFile()) {
+        if (deleteFile.isFile()) {
             deleteFile.delete();
             projectFileService.updateNonAvailableProjectFileByChangeName(file);
         }
 
         return 1;
     }
-
-//    @GetMapping(value = "/seller/project/{file}")
-//    public ResponseEntity<?> fileLoads(@PathVariable String file) {
-//
-//        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
-//
-//        if (projectFile == null) return ResponseEntity.ok("");
-//
-//        Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
-//
-//        FileSystemResource resource = new FileSystemResource(saveFile);
-//
-//        try {
-//            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(saveFile))).body(resource);
-//        } catch (IOException e) {
-//            return ResponseEntity.ok("");
-//        }
-//    }
-
-//    @GetMapping("/images/{type}/{file}")
-//    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
-//
-//        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
-//
-//        System.out.println("resource = " + resource);
-//        try {
-//            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
-//        } catch (IOException e) {
-//            return ResponseEntity.ok("");
-//        }
-//    }
 
     @PostMapping("/projectBodyUpload")
     @ResponseBody()

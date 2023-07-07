@@ -80,8 +80,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public int deleteProjectByProjectNo(int projectNo) {
-
-        return 0;
+        return projectMapper.deleteProjectByProjectNo(projectNo);
     }
 
     @Override

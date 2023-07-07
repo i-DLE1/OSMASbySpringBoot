@@ -151,6 +151,6 @@ function initCategory(){
 }
 
 function moreItem(){
-    PAGE_NUMBER += 10;
+    PAGE_NUMBER += 13;
     salesListAjax(PAGE_NUMBER, CATEGORY_CODE === undefined ? SELECT_CATEGORY_LIST : CATEGORY_CODE);
 }

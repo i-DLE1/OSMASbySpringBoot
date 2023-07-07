@@ -3,6 +3,7 @@ let PRODUCT_COUNT = 1;
 let REGIST_PRODUCT_LIST = [];
 let REGIST_PRODUCT_IMG_LIST = [];
 let REGIST_FAQ_LIST = [];
+let PAGE_NUMBER = new URLSearchParams(location.search).get("no")
 
 function removeItemButton(funcName){
     let $div = $("<div>").attr("id","subItem");
@@ -34,7 +35,6 @@ function faqItemRemove(){
 }
 
 function fqaLoadList(data) {
-    console.log(data)
     data.forEach(item=>{
         let text = `
         <div id="faqIndex${FAQ_LIST_COUNT}">
@@ -279,9 +279,6 @@ function subMainCategoryCode(){
         console.log(subCategoryCode)
     })
 }
-
-
-
 // 타임리프 대체 예정
 function newsList(data){
     data.forEach((item,index)=>{
@@ -401,11 +398,13 @@ function previewImage(ele) {
 }
 
 function loadProductImg(imgFileList){
-    let rootUrl = location.origin+'/files/seller/project/';
+    // let rootUrl = location.origin+'/files/project/'+ (PAGE_NUMBER === null ? '' : PAGE_NUMBER);
+    let rootUrl = location.origin+'/files/project/';
+
     let length = 0;
     imgFileList.forEach(e=>{
-        if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl+e?.changeName);
-        if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl+e?.changeName);
+        if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
+        if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
         if(e.type === 'CONTENT') {
             $(`#imgfile${length}`).prop("src",rootUrl+e?.changeName);
             length++;
@@ -471,6 +470,7 @@ function initProjectNews() {
     $($("#suneditor_content").children("div")
         .children("div")[3]).children("div")
         .html("");
+    $("#newsSumbit").val("등록")
 }
 
 function indexCheckConfirm() {
@@ -700,3 +700,6 @@ function isParamNo() {
     console.log(isParamNo === null);
 }
 
+function prevPageMove(prevPageNo){
+    location.href = `/seller/regist/project${prevPageNo}`+ (PAGE_NUMBER === null ? '' : `?no=${PAGE_NUMBER}`);
+}

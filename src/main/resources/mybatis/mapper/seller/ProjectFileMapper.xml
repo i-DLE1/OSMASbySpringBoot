@@ -12,6 +12,7 @@
         <result property="registDate" column="TBL_PRJ_FILE_REGIST_DATE"/>
         <result property="type" column="TBL_PRJ_FILE_TYPE"/>
         <result property="deleteYN" column="TBL_PRJ_FILE_DELETE_YN"/>
+        <result property="projectNo" column="TBL_PRJ_FILE_REF_PRJ_NO"/>
     </resultMap>
 
     <select id="selectProjectFileByNo" resultMap="projectFileResultMap">
@@ -28,7 +29,8 @@
         SELECT TPF.NO AS TBL_PRJ_FILE_NO,
                TPF.TYPE AS TBL_PRJ_FILE_TYPE,
                TPF.ORIGIN_NAME AS TBL_PRJ_FILE_ORIGIN_NAME,
-               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
+               TPF.REF_PRJ_NO AS TBL_PRJ_FILE_REF_PRJ_NO
           FROM TBL_PRJ_FILE TPF
           JOIN TBL_PRJ PRJ ON PRJ.NO = TPF.REF_PRJ_NO
          WHERE REF_PRJ_NO = ${projectNo}

@@ -64,7 +64,7 @@ public class SaleListController {
         Map<String, Object> projectParams = new HashMap<>();
 
         projectParams.put("startNo",startNo);
-        projectParams.put("endNo",startNo+11);
+        projectParams.put("endNo",startNo+12);
 
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);
@@ -97,7 +97,7 @@ public class SaleListController {
             attr.put("date", String.valueOf(betweenDays.getDays()) );
             if(project.getProjectFileList().size() > 0) {
 //                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
-                attr.put("img", "/files/" + project.getProjectFileList().get(0).getChangeName());
+                attr.put("img", "/files/"+ "project/" + project.getNo() + "/" + project.getProjectFileList().get(0).getChangeName());
             }
             attr.put("views", project.getViews().toString());
             attrList.add(attr);

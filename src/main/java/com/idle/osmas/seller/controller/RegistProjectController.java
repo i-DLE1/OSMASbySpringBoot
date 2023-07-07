@@ -81,6 +81,40 @@ public class RegistProjectController {
         return subCategory;
     }
 
+    @GetMapping("tempProjectConfirm")
+    @ResponseBody
+    public Map<String, Object> tempProjectConfirm(Principal principal){
+        System.out.println("principal = " + principal);
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        Integer no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(no != null){
+            result.put("no", no);
+            result.put("result","isExist");
+            return result;
+        }
+            result.put("result","notExist");
+
+        return result;
+    }
+
+    @GetMapping("deleteTempProject")
+    @ResponseBody
+    public String deleteTempProject(Principal principal){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        Integer no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
+
+        int result = projectService.deleteProjectByProjectNo(no);
+
+        if(result == 1) return "success";
+
+        return "fail";
+    }
+
     @GetMapping("project1")
     public String getProjectTerms(@RequestParam(required = false) Integer no, Model model, Principal principal) throws AccessAuthorityException {
 
@@ -88,12 +122,12 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-
-        if(no != null){
-            return "redirect:/seller/regist/project2?no="+no;
-        }else {
+        if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
+
+        if(no != null) return "redirect:/seller/regist/project2?no="+no;
+
 
         String term1 = "약관1";
         String term2 = "약관2";
@@ -124,6 +158,7 @@ public class RegistProjectController {
 
         if(no == null) {
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
+
         }
 
         if(no != null) return "success";

@@ -199,7 +199,7 @@ function deleteProject(){
     let deleteConfirm = confirm("프로젝트를 삭제하시겠습니까?")
     if(deleteConfirm){
         let deleteConfirmRetry = confirm("삭제할 경우 프로젝트 복구는 불가능합니다.\n정말 삭제하시겠습니까?")
-
+        if(deleteConfirmRetry) deleteTempProject(false);
     }else {
 
     }
@@ -232,4 +232,44 @@ function movePage(pageNo) {
 function moveSale(no) {
     window.open(`/seller/sales/detail?no=${no}`);
 
+}
+
+
+function confirmTempProject(){
+    $.ajax({
+        url : '/seller/regist/tempProjectConfirm',
+        type: 'get',
+        success : function (success) {
+            if(success.result === 'isExist'){
+                let temp = confirm("이미 등록을 진행중인 프로젝트가 있습니다.\n새로운 프로젝트는 시작하면 임시저장된 프로젝트는 삭제됩니다.\n임시저장된 프로젝트를 불러오겠습ㄴ니까?")
+                if(temp){
+                    location.href = `/seller/regist/project1?no=${success.no}`;
+                }else {
+                    deleteTempProject(true);
+                }
+            }else {
+                location.href = `/seller/regist/project1`;
+            }
+        },
+        error : e => {
+            console.log(e)
+        }
+    })
+}
+
+function deleteTempProject(newProject){
+    let isDelete = confirm("정말로 임시저장된 프로젝트를 삭제하시겠니까?")
+    if(!isDelete) return;
+    $.ajax({
+        url : `/seller/regist/deleteTempProject`,
+        success : function (success) {
+            if(success === 'succcess'){
+                alert('임시저장 중이 프로젝트가 삭제되었습니다.')
+            }
+            if(newProject) location.href = `/seller/regist/project1`
+        },
+        error : e => {
+            console.log(e)
+        }
+    })
 }
