@@ -19,3 +19,7 @@ body{
     border: 1px solid #ccc;
     padding: 80px;
 }
+
+.terms h3 {
+    font-size: 18px;
+}
