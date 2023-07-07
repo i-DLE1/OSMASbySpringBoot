@@ -15,7 +15,5 @@ public interface ItemApprovalMapper {
 
     int itemONGOING(String sellerId, int projectNo);
 
-    int itemNO1(String sellerId, int projectNo);
-
-    int itemNO2(String sellerId, int projectNo, String reasonText);
+    int itemNO(String sellerId, int projectNo, String reasonText);
 }

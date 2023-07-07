@@ -3,6 +3,7 @@ package com.idle.osmas.admin.service;
 import com.idle.osmas.admin.dao.TermsMapper;
 import com.idle.osmas.admin.dto.TermsDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class TermsServiceImpl implements TermsService{
 
     //약관 insert
     @Override
+    @Transactional
     public int termsInputGo(String title, String content) {
         int result1 = termsMapper.termsInputGo(title, content);
         int result2 = termsMapper.termsHistoryInputGo(content);
@@ -56,6 +58,7 @@ public class TermsServiceImpl implements TermsService{
 
     //약관 수정
     @Override
+    @Transactional
     public int termsEditGO(String title, String content) {
         int result1 = termsMapper.termsEditGO(title,content);
         int result2 = termsMapper.termsEditUpdate(title, content);

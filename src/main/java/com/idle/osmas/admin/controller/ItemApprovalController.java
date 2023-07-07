@@ -52,7 +52,7 @@ public class ItemApprovalController {
     }
 
     //상품 승인 신청 -> 승인 완료
-    @PostMapping("endProgress")
+    @GetMapping("endProgress")
     public String endProgress(@RequestParam("sellerId") String sellerId, @RequestParam("projectNo") int projectNo) {
 
         int result = itemApprovalService.endProgress(sellerId, projectNo);

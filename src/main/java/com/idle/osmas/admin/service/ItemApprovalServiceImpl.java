@@ -48,12 +48,9 @@ public class ItemApprovalServiceImpl implements ItemApprovalService{
     @Override
     @Transactional
     public int noProgress(String sellerId, int projectNo, String reasonText) {
-        int result1 = itemApprovalMapper.itemNO1(sellerId, projectNo);
-        int result2 = itemApprovalMapper.itemNO2(sellerId, projectNo, reasonText);
+        int result = itemApprovalMapper.itemNO(sellerId, projectNo, reasonText);
 
-        int result = 0;
-
-        if (result1 > 0 && result2 > 0) {
+        if (result > 0) {
             result = 1;
         }
         return result;
