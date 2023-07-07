@@ -4,10 +4,86 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.idle.osmas.admin.dao.TermsMapper">
 
+    <resultMap id="termsHistoryResultMap" type="com.idle.osmas.admin.dto.TermsHistoryDTO">
+        <id property="no" column="NO"/>
+        <result property="content" column="CONTENT"/>
+        <result property="lastDate" column="LAST_DATE"/>
+
+        <association property="termsNo" resultMap="termsResultMap"/>
+    </resultMap>
+
+    <resultMap id="termsResultMap" type="com.idle.osmas.admin.dto.TermsDTO">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="classifyCode" column="CLASSIFY_CODE"/>
+        <result property="termsIndex" column="TERMS_INDEX"/>
+    </resultMap>
+
+    <!-- 이용약관 불러오기 -->
+    <select id="userTermsGet" resultMap="termsResultMap">
+        SELECT
+            NO,
+            TITLE,
+            CONTENT,
+            REGIST_DATE
+        FROM TBL_TERMS
+        WHERE
+            CLASSIFY_CODE = 'GENERAL'
+          AND TITLE LIKE '%이용 약관%'
+        ORDER BY
+            REGIST_DATE DESC
+            FETCH FIRST 1 ROW ONLY
+    </select>
+
+    <!-- 개인정보 처리방침 불러오기 -->
+    <select id="personalTermsGet" resultMap="termsResultMap">
+        SELECT
+            NO,
+            TITLE,
+            CONTENT,
+            REGIST_DATE
+        FROM TBL_TERMS
+        WHERE
+            CLASSIFY_CODE = 'GENERAL'
+          AND TITLE LIKE '%개인정보 처리방침%'
+        ORDER BY
+            REGIST_DATE DESC
+            FETCH FIRST 1 ROW ONLY
+    </select>
+
+    <!-- 프로젝트 심사기준 -->
+    <select id="projectTermsGet" resultMap="termsResultMap">
+        SELECT
+            NO,
+            TITLE,
+            CONTENT,
+            REGIST_DATE
+        FROM TBL_TERMS
+        WHERE
+            CLASSIFY_CODE = 'GENERAL'
+          AND TITLE LIKE '%프로젝트 심사기준%'
+        ORDER BY
+            REGIST_DATE DESC
+            FETCH FIRST 1 ROW ONLY
+    </select>
+
     <!-- 약관 insert -->
     <insert id="termsInputGo">
         INSERT INTO TBL_TERMS (NO, CONTENT, REGIST_DATE, CLASSIFY_CODE, TITLE)
         SELECT SEQ_TBL_TERMS_NO.NEXTVAL, #{content}, SYSDATE, 'GENERAL', #{title} FROM DUAL
+    </insert>
+
+    <!-- 약관 이력 쌓기 -->
+    <insert id="termsHistoryInputGo">
+        INSERT INTO TBL_TERMS_HISTORY (NO, CONTENT, LAST_DATE, REF_TERMS_NO)
+        SELECT SEQ_TBL_TERMS_HISTORY_NO.NEXTVAL, #{content}, SYSDATE,
+               (SELECT
+                    T.NO
+                FROM TBL_TERMS T
+                JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = #{}
+                )
     </insert>
 
 </mapper>
