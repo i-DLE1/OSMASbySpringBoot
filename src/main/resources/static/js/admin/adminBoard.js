@@ -30,6 +30,29 @@ function cancel() {
 
 // 공지사항 등록 페이지의 저장 버튼
 function save() {
-    document.querySelector('form').submit();
-    alert('등록에 성공 하였습니다.');
+
+    let category = $('#category').val();
+    let title =  $('#title').val();
+    let content=  $('#content').val();
+    let refmember = refmemberno;
+    var param = {"title":title, "content":content,"category":category, "refmember":refmember};
+
+    console.log(param);
+
+    $.ajax({
+        url : "/admin/admin_notice/notice_registration",
+        type : "POST",
+        data : JSON.stringify(param),
+        contentType: "application/json",
+
+        success : function (data){
+            alert("등록되었습니다.");
+            location.href = "/admin/user_notice/notice_view/A";
+        },
+        error : function (){
+            alert("등록에 실패했습니다.");
+        }
+    });
+
 }
+

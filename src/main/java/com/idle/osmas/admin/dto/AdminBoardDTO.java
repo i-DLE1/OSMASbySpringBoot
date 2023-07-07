@@ -26,7 +26,7 @@ public class AdminBoardDTO {
 
     private String classifyCode; //구분코드
 
-    //private List<MemberDTO> memberNo;  //작성자인데.....리스트로 가져와야하나(수정필수)
+    private int refmemberno;  //작성자
 
     private char deleteYN; //삭제여부
 

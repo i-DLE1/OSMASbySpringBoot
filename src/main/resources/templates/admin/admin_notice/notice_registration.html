@@ -30,6 +30,9 @@
                 <div style="text-align: center;">
                     <a th:href="@{/admin/admin_notice/notice_registration}" class="btn5" style="padding-top: 5px;">공지사항 등록</a>
                 </div>
+                <script th:inline="javascript">
+                    var refmemberno = /*[[${#authentication.principal.no}]]*/ '';
+                </script>
             </th:block>
         </ul>
     </nav>
@@ -45,25 +48,29 @@
         <br>
     </div>
 
-    <form id="boardRegistForm" th:action="@{/notice/regist}" method="post">
+
+        <form id="boardRegistForm" th:action="@{/admin/user_notice/admin_notice/notice_registration}" method="post">
+
         <table>
             <tr>
                 <td class="w-px160" style="font-size: 16px;">카테고리</td>
                 <td>
-                    <select name="categoryCode" style="font-size: 16px;">
-                        <option value="10">공지사항</option>
-                        <option value="20">이벤트</option>
-                        <option value="30">보도자료</option>
+                    <select name="categoryCode" style="font-size: 16px;" id="category">
+                        <option value="공지사항">공지사항</option>
+                        <option value="이벤트">이벤트</option>
+                        <option value="보도자료">보도자료</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th class="w-px160" style="font-size: 16px;">제목</th>
-                <td><input type="text" name="title" class="need" style="width: 575px;"></td>
+                <td><input type="text" name="title" class="need" style="width: 575px;" id="title"></td>
+
+
             </tr>
             <tr>
                 <th style="font-size: 16px;">내용</th>
-                <td><textarea name="content" class="need" rows="10" cols="80"></textarea></td>
+                <td><textarea name="content" class="need" rows="10" cols="80" id="content"></textarea></td>
             </tr>
             <tr>
                 <th class="w-px160" style="font-size: 16px;">파일 첨부</th>

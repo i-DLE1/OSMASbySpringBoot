@@ -23,4 +23,6 @@ public interface AdminBoardMapper {
 
     AdminBoardDTO getAdminBoardByNo(@Param("no") int no); // 공지사항 번호로 해당 공지사항 조회
 
+    int registNotice(AdminBoardDTO adminBoardDTO);
+
 }

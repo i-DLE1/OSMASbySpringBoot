@@ -2,6 +2,7 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.service.AdminBoardService;
+import com.idle.osmas.seller.dto.QnaDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/user_notice")
@@ -21,16 +23,16 @@ public class User_noticeController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    public User_noticeController(AdminBoardService adminBoardService){
+    public User_noticeController(AdminBoardService adminBoardService) {
         this.adminBoardService = adminBoardService;
     }
 
     @GetMapping("/notice_view/{boardtype}")
-    public String notice_fullview(Model model, @PathVariable String boardtype){
+    public String notice_fullview(Model model, @PathVariable String boardtype) {
         System.out.println("boardtype = " + boardtype);
         List<AdminBoardDTO> adminBoards = adminBoardService.getAllAdminBoards(boardtype);
-        model.addAttribute("adminBoards",adminBoards);
-        model.addAttribute("type",boardtype);
+        model.addAttribute("adminBoards", adminBoards);
+        model.addAttribute("type", boardtype);
         return "/admin/admin_notice/notice_fullview";
     }
 
@@ -44,45 +46,14 @@ public class User_noticeController {
         return "/admin/user_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
 
-    // 공지사항 등록 처리 매핑
-    @GetMapping("/regist")
-    public String goRegister() { return "admin/admin_notice/notice_registration";}
 
-    @PostMapping("/regist")
-    public String registBoard(@ModelAttribute AdminBoardDTO board, RedirectAttributes rttr) {
-        log.info("");
-        log.info("");
-        log.info("[BoardController] registBoard =========================================================");
-        log.info("[BoardController] registBoard Request : " + board);
+    @PostMapping("/admin/admin_notice/notice_registration")
+    public String noticeRegist(@ModelAttribute("adminBoard") AdminBoardDTO adminBoard, Model model) {
+        int result = adminBoardService.registBoard(adminBoard);
+        System.out.println("admin============================================" + adminBoard);
 
-        AdminBoardServiceImpl.registBoard(board);
-
-        rttr.addFlashAttribute("message", "게시글 등록에 성공하셨습니다!");
-
-        log.info("[BoardController] registBoard =========================================================");
-
-        return "redirect:/board/list";
+        return "redirect:/admin/admin_notice/notice_fullview";
     }
-}
-
-
-
-//    @PostMapping("/regist")
-//    public String registBoard(@ModelAttribute BoardDTO board, RedirectAttributes rttr) throws BoardRegistException {
-//
-//        log.info("");
-//        log.info("");
-//        log.info("[BoardController] registBoard =========================================================");
-//        log.info("[BoardController] registBoard Request : " + board);
-//
-//        boardServiceImpl.registBoard(board);
-//
-//        rttr.addFlashAttribute("message", "게시글 등록에 성공하셨습니다!");
-//
-//        log.info("[BoardController] registBoard =========================================================");
-//
-//        return "redirect:/board/list";
-//    }
 
 
 

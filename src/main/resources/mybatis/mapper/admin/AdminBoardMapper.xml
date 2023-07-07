@@ -125,4 +125,16 @@
         WHERE NO = #{no}
     </select>
 
+    <insert id="registNotice" parameterType="com.idle.osmas.admin.dto.AdminBoardDTO">
+        INSERT INTO TBL_ADMIN_BOARD
+            (NO, TITLE, CONTENT, REGIST_DATE, MODIFY_DATE, CLASSIFY_CODE, REF_MEMBER_NO, DELETE_YN)
+        VALUES (SEQ_TBL_ADMIN_BOARD_NO.NEXTVAL, #{title} , #{content}, SYSDATE, '', #{category}, #{refmemberno}, 'N')
+    </insert>
+
+    <select id="getNoticeList" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+        SELECT
+            *
+        FROM TBL_ADMIN_BOARD
+    </select>
+
 </mapper>
