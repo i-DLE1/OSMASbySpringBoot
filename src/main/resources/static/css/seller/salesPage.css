@@ -260,7 +260,7 @@ nav ul li{
     /* top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); */
-    font-size: 20px ;
+    font-size: 20px;
     overflow: hidden;
 }
 
@@ -612,4 +612,14 @@ input{
 
 a {
     text-decoration: none;
+}
+
+.memberNickname{
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+    margin-right: 10px;
+    font-size: 20px;
 }

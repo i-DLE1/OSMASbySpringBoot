@@ -5,16 +5,20 @@
         <title>프로젝트 관리 - 주문관리</title>
     </head>
     <body>
+        <div id="navToggle">
+            <input id="navTogglesub" type="checkbox">
+        </div>
         <div class="main-col-2">
             <div th:replace="~{/seller/fragments/sellerFrag :: nav}"></div>
             <main>
                 <div class="main">
                     <div class="main-header">
                         <div>
-                            <h1 class="h1-title">주문관리 - <span>전체조회</span></h1>
+                            <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label>  주문관리 관리 - <span th:text="${listType}"></span></h1>
                         </div>
                         <div>
-                            <h5><span>판매자</span>님 환영합니다.</h5>
+                            <h5>
+                                <span th:text="${userName}"></span>님 환영합니다.</h5>
                         </div>
                     </div>
                     <div class="nav-list-area">
@@ -45,8 +49,8 @@
                     <table class="cus-table table-font">
                         <div class="tbaletop">
                             <label style="margin-right: 10px;">프로젝트명
-                                <select style="width: 300px;" class="col-4 me-3 search-bar">
-                                    <option value="">장애인-비장애인 누구나 입는 '유니버셜' 의류</option>
+                                <select style="width: 300px;" class="col-4 me-3 search-bar" >
+                                    <option th:each="project: ${projectList}" th:text="${project.title}"></option>
                                 </select>
                             </label>
                             <div>
