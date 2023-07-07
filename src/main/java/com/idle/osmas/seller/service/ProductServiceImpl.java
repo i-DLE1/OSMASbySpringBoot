@@ -18,16 +18,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public int insertProjectProduct(List<ProductDTO> productList, int projectNo) {
-        productList.forEach( e ->{
-            if(e.getNo() == 0){
-                productMapper.insertProjectProduct(e);
-                productMapper.insertProjectProductList(projectNo, e.getNo());
-            }else {
-                productMapper.updateProjectProduct(e);
-            }
-        });
+    public int insertProjectProduct(List<ProductDTO> productList) {
+        if(productList.size() > 0) return productMapper.insertProjectProduct(productList);
+        return 1;
+    }
 
+    @Override
+    public int updateProjectProduct(List<ProductDTO> productList) {
+        if(productList.size() > 0) return productMapper.updateProjectProduct(productList);
         return 1;
     }
 
@@ -36,7 +34,6 @@ public class ProductServiceImpl implements ProductService {
     public int deleteProjectProduct(List<ProductDTO> productList) {
         int result = 0;
         for (ProductDTO e : productList) {
-            System.out.println("e = " + e);
             int subResult = 0;
             subResult += productMapper.deleteProjectProductList(e.getNo());
             subResult += productMapper.deleteProductByProductNo(e.getNo());

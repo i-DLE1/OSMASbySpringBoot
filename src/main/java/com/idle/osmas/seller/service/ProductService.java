@@ -1,14 +1,14 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dto.ProductDTO;
-import com.idle.osmas.seller.dto.ProjectDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductService {
 
-    int insertProjectProduct(List<ProductDTO> productList, int projectNo);
+    int insertProjectProduct(List<ProductDTO> productList);
+
+    int updateProjectProduct(List<ProductDTO> productList);
 
     int deleteProjectProduct(List<ProductDTO> productList);
 
@@ -17,6 +17,8 @@ public interface ProductService {
     int selectProductListCountByProjectNo(int projectNo);
 
     List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo);
+
+
 
 
 }

@@ -5,12 +5,10 @@ import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.channels.FileChannel;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -29,7 +27,11 @@ public class ProjectDeatilController {
 
     private final ProjectQnAService projectQnAService;
 
-    public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService, ProductService productService, ProjectService projectService, ProjectQnAService projectQnAService) {
+    public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService,
+                                   ProductService productService,
+                                   ProjectService projectService,
+                                   ProjectQnAService projectQnAService) {
+
         this.projectProgressService = projectProgressService;
         this.productService = productService;
         this.projectService = projectService;
@@ -43,7 +45,6 @@ public class ProjectDeatilController {
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
         List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
-//        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,user.getNo());
 
         Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
 

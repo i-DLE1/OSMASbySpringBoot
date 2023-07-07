@@ -255,22 +255,34 @@
 
     <update id="updateProjectInfo" parameterType="com.idle.osmas.seller.dto.ProjectDTO">
         UPDATE TBL_PRJ PRJ
-        SET PRJ.TITLE ='${title}',
-            PRJ.START_DATE = '${startDate}',
-            PRJ.END_DATE = '${endDate}',
-            PRJ.TARGET_AMOUNT = ${targetAmount},
-            PRJ.REF_CATEGORY_NO = ${category.no}
-        WHERE PRJ.NO = ${no}
+           SET PRJ.TITLE ='${title}',
+               PRJ.START_DATE = '${startDate}',
+               PRJ.END_DATE = '${endDate}',
+               PRJ.TARGET_AMOUNT = ${targetAmount},
+               PRJ.REF_CATEGORY_NO = ${category.no}
+         WHERE PRJ.NO = ${no}
     </update>
 
     <update id="updateProjectContent" parameterType="com.idle.osmas.seller.dto.ProjectDTO">
         UPDATE TBL_PRJ RPJ
-        SET RPJ.CONTENT = #{content:CLOB}
-        WHERE RPJ.NO = ${no}
+           SET RPJ.CONTENT = #{content:CLOB}
+         WHERE RPJ.NO = ${no}
     </update>
 
-    <delete id="deleteProjectByProjectNo">
-        DELETE TBL_PRJ TP
-        WHERE TP.NO = #{projectNo}
+    <delete id="deleteProjectByProjectNo" parameterType="_int">
+        DECLARE
+          BEGIN
+                DELETE TBL_PRJ_PROGRESS TPP WHERE TPP.REF_PRJ_NO = #{projectNo};
+                DELETE TBL_PRJ_FILE TPF WHERE  TPF.REF_PRJ_NO = #{projectNo};
+                DELETE TBL_PRJ_NEW_INFO TPNI WHERE TPNI.REF_PRJ_NO = #{projectNo};
+                DELETE TBL_PRJ_FAQ TPF2 WHERE TPF2.REF_PRJ_NO = #{projectNo};
+
+                DELETE TBL_PRODUCT TP WHERE TP.NO IN (SELECT TPPL.REF_PRODUCT_NO
+                                                        FROM TBL_PRJ_PRODUCT_LIST TPPL
+                                                       WHERE TPPL.REF_PRJ_NO = #{projectNo});
+
+                DELETE TBL_PRJ_PRODUCT_LIST TPPL2 WHERE TPPL2.REF_PRJ_NO = #{projectNo};
+                DELETE TBL_PRJ PRJ WHERE PRJ.NO = #{projectNo};
+            END;
     </delete>
 </mapper>

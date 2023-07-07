@@ -14,11 +14,10 @@ public interface ProductMapper {
 
     List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo);
 
-    int insertProjectProduct(ProductDTO product);
+//    int insertProjectProduct(ProductDTO product, int projectNo);
+    int insertProjectProduct(List<ProductDTO> productList);
 
-    int insertProjectProductList(int projectNo , int productNo);
-
-    int updateProjectProduct(ProductDTO product);
+    int updateProjectProduct(List<ProductDTO> productList);
 
     int deleteProductByProductNo(int productNo);
 

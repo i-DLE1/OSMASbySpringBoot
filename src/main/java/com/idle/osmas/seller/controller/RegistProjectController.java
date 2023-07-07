@@ -40,7 +40,15 @@ public class RegistProjectController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public RegistProjectController(ProjectService projectService, ProjectProgressService projectProgressService, ProductService productService, ProjectFileService projectFileService, ProjectCategoryService projectCategoryService, ProjectFAQService projectFAQService, ProjectNewsService projectNewsService, ImageFileController imageFileController) {
+    public RegistProjectController(ProjectService projectService,
+                                   ProjectProgressService projectProgressService,
+                                   ProductService productService,
+                                   ProjectFileService projectFileService,
+                                   ProjectCategoryService projectCategoryService,
+                                   ProjectFAQService projectFAQService,
+                                   ProjectNewsService projectNewsService,
+                                   ImageFileController imageFileController) {
+
         this.projectService = projectService;
         this.projectProgressService = projectProgressService;
         this.productService = productService;
@@ -293,19 +301,30 @@ public class RegistProjectController {
             productService.deleteProjectProduct(deleteProductList);
         }
 
-        productService.insertProjectProduct(productList.get("new"), no);
+        Integer projectNo = no;
+        List<ProductDTO> insertProductList = productList.get("new")
+                .stream().filter(e-> e.getNo() == 0).map(e->{
+                    e.setRefProjectNo(projectNo);
+                    return e;
+                }).collect(Collectors.toList());
+
+        List<ProductDTO> updateProductList = productList.get("new")
+                .stream().filter(e-> e.getNo() != 0).collect(Collectors.toList());
+
+        productService.insertProjectProduct(insertProductList);
+        productService.updateProjectProduct(updateProductList);
 
         if(presentFile != null) {
             imageFileController.deleteFile(oldProjectFile.get("REPRESENT"));
 
-            imageFileController.registFile(ProjectFileType.REPRESENT, presentFile, no);
+            imageFileController.saveFile(ProjectFileType.REPRESENT, presentFile, no);
         }
 
-        if(thumbnailFile != null) imageFileController.registFile(ProjectFileType.THUMBNAIL, thumbnailFile, no);
+        if(thumbnailFile != null) imageFileController.saveFile(ProjectFileType.THUMBNAIL, thumbnailFile, no);
 
         if(fileList != null){
             for (MultipartFile file : fileList) {
-                imageFileController.registFile(ProjectFileType.CONTENT, file, no);
+                imageFileController.saveFile(ProjectFileType.CONTENT, file, no);
             }
         }
 
@@ -408,24 +427,29 @@ public class RegistProjectController {
 
         if(no == null) return "fail";
 
-        for (ProjectFAQDTO e : projectFAQList.get("new")) {
-            if (e.getNo() == 0) {
-                projectFAQService.insertProjectFAQ(no, e);
-            } else {
-                projectFAQService.updateProjectFAQ(e);
-            }
-        }
+        Integer finalNo = no;
+        List<ProjectFAQDTO> insertProjectFaqList = projectFAQList.get("new")
+                .stream().filter(e->e.getNo() == 0).map(e->{
+                    e.setProjectNo(finalNo);
+                    return e;
+                }).collect(Collectors.toList());
+        List<ProjectFAQDTO> updateProjectFaqList = projectFAQList.get("new")
+                .stream().filter(e->e.getNo() != 0).map(e->{
+                    e.setProjectNo(finalNo);
+                    return e;
+                }).collect(Collectors.toList());
+
+
+        projectFAQService.insertProjectFAQ(insertProjectFaqList);
+        projectFAQService.updateProjectFAQ(updateProjectFaqList);
+
 
         List<ProjectFAQDTO> deleteProjectFaq = projectFAQList.get("old")
                 .stream().filter(oldE-> projectFAQList.get("new")
                         .stream().noneMatch(newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
-        log.info("deleteProjectFaq = " + deleteProjectFaq);
 
         if(deleteProjectFaq.size() != 0 ) projectFAQService.deleteProjectFAQ(deleteProjectFaq);
-
-        log.info("projectFAQList = " + projectFAQList);
-
 
         return "success";
     }
@@ -472,7 +496,6 @@ public class RegistProjectController {
             String afterString = e.getContent()
                     .replaceAll("<([^>]+)>", "")
                     .replaceAll("&nbsp;", "");
-//                    .substring(0,14);
             e.setContent(afterString);
             return e;
         }).collect(Collectors.toList());

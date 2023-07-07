@@ -32,6 +32,7 @@
           FROM TBL_PRODUCT TP
           JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRODUCT_NO = TP.NO
          WHERE REF_PRJ_NO = ${projectNo}
+         ORDER BY TP.NO ASC
     </select>
 
     <select id="selectSponsoredPrjByProjectNo" resultMap="productListResultMap">
@@ -53,37 +54,44 @@
          WHERE PRJ.NO = #{projectNo}
            AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
+    
+    
+    <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
+        DECLARE
+          BEGIN
+        <foreach collection="list" item="product" separator="">
+                INSERT INTO TBL_PRODUCT TP
+                (TP.NO, TP.NAME, TP.INTRODUCTION,
+                TP.PRICE, TP.MAX_QUANTITY, TP.STATUS,
+                TP.PRODUCT_SIZE)
+                VALUES
+                (SEQ_TBL_PRODUCT_NO.nextval, '${product.name}', '${product.introduction}',
+                ${product.price}, ${product.maxQuantity}, '${product.status}',
+                '${product.size}');
 
-    <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO TBL_PRODUCT TP
-        (TP.NO, TP.NAME, TP.INTRODUCTION,
-        TP.PRICE, TP.MAX_QUANTITY, TP.STATUS,
-        TP.PRODUCT_SIZE)
-        VALUES
-        (SEQ_TBL_PRODUCT_NO.nextval, '${name}', '${introduction}',
-        ${price}, ${maxQuantity}, '${status}',
-        '${size}')
-        <selectKey resultType="_int" order="AFTER" keyProperty="no">
-            SELECT SEQ_TBL_PRODUCT_NO.currval FROM DUAL
-        </selectKey>
+                INSERT INTO TBL_PRJ_PRODUCT_LIST TPPL
+                (TPPL.NO, TPPL.REF_PRJ_NO, TPPL.REF_PRODUCT_NO)
+                VALUES
+                (SEQ_TBL_PRJ_PRODUCT_LIST_NO.nextval, #{product.refProjectNo}, SEQ_TBL_PRODUCT_NO.currval);
+        </foreach>
+            END;
+
     </insert>
-
-    <insert id="insertProjectProductList">
-        INSERT INTO TBL_PRJ_PRODUCT_LIST TPPL
-            (TPPL.NO, TPPL.REF_PRJ_NO, TPPL.REF_PRODUCT_NO)
-        VALUES
-            (SEQ_TBL_PRJ_PRODUCT_LIST_NO.nextval,#{projectNo},#{productNo})
-    </insert>
-
+    
     <update id="updateProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
-        UPDATE TBL_PRODUCT TP
-        SET TP.NAME = '${name}',
-            TP.INTRODUCTION = '${introduction}',
-            TP.PRICE = ${price},
-            TP.MAX_QUANTITY =${maxQuantity},
-            TP.STATUS = '${status}',
-            TP.PRODUCT_SIZE ='${size}'
-        WHERE TP.NO = ${no}
+        DECLARE
+          BEGIN
+        <foreach collection="list" item="product" separator="">
+            UPDATE TBL_PRODUCT TP
+            SET TP.NAME = '${product.name}',
+            TP.INTRODUCTION = '${product.introduction}',
+            TP.PRICE = ${product.price},
+            TP.MAX_QUANTITY =${product.maxQuantity},
+            TP.STATUS = '${product.status}',
+            TP.PRODUCT_SIZE ='${product.size}'
+            WHERE TP.NO = ${product.no};
+        </foreach>
+            END;
     </update>
 
     <delete id="deleteProjectProductList" parameterType="_int">

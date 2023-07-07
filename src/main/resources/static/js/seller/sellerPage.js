@@ -1,5 +1,3 @@
-let projectListCount = 1;
-
 function projectOrderList(filter){
     $("#projectOrderList").html("");
 
@@ -30,7 +28,6 @@ function projectOrderList(filter){
     })
 }
 
-// 화면 위치 시작
 const screenCenterPopup = (popupWidth, popupHeight) =>{
     const screenWidth = window.screen.width
     const screenHeight = window.screen.height
@@ -40,7 +37,6 @@ const screenCenterPopup = (popupWidth, popupHeight) =>{
 
     return `width=${popupWidth} , height=${popupHeight}, left=${popupX}, top=${popupY}`;
 }
-// 화면 위치 끝
 
 function qaPopup(e){
     window.open(`./projectDetail/qaAnswer?no=${e.id}`,"popup",`${screenCenterPopup(500,700)}, resizable=no, name=qa_answer`);
@@ -208,7 +204,6 @@ function deleteProject(){
 
     }
 }
-
 
 function cancelSubmit() {
     let content = $("#cancel-content").val();

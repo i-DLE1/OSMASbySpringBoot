@@ -20,14 +20,16 @@ public class ProjectFAQServiceImpl implements ProjectFAQService {
 
     @Override
     @Transactional
-    public int insertProjectFAQ(int projectNo, ProjectFAQDTO projectFAQ) {
-        return projectFAQMapper.insertProjectFAQ(projectNo, projectFAQ);
+    public int insertProjectFAQ(List<ProjectFAQDTO> projectFAQList) {
+        if(projectFAQList.size() > 0 ) return projectFAQMapper.insertProjectFAQ(projectFAQList);
+        return 1;
     }
 
     @Override
     @Transactional
-    public int updateProjectFAQ(ProjectFAQDTO projectFAQ) {
-        return projectFAQMapper.updateProjectFAQ(projectFAQ);
+    public int updateProjectFAQ(List<ProjectFAQDTO> projectFAQList) {
+        if(projectFAQList.size() > 0) return projectFAQMapper.updateProjectFAQ(projectFAQList);
+        return 1;
     }
 
     @Override

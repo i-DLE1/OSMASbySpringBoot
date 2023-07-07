@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ProjectFAQService {
 
-    int insertProjectFAQ(int projectNo, ProjectFAQDTO projectFAQ);
+    int insertProjectFAQ(List<ProjectFAQDTO> projectFAQList);
 
-    int updateProjectFAQ(ProjectFAQDTO projectFAQ);
+    int updateProjectFAQ(List<ProjectFAQDTO> projectFAQList);
 
     int deleteProjectFAQ(List<ProjectFAQDTO> projectFAQList);
 

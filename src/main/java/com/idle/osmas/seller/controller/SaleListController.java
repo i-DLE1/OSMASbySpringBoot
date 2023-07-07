@@ -25,7 +25,9 @@ public class SaleListController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public SaleListController(ProjectService projectService, ProjectCategoryService projectCategoryService) {
+    public SaleListController(ProjectService projectService,
+                              ProjectCategoryService projectCategoryService) {
+
         this.projectService = projectService;
         this.projectCategoryService = projectCategoryService;
     }

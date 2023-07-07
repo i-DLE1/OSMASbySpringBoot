@@ -1,8 +1,7 @@
-let selectCategoryList = []
-
-let pageNo = 1;
-let endList = false;
-let categoryNo;
+let SELECT_CATEGORY_LIST = []
+let PAGE_NUMBER = 1;
+let END_LIST = false;
+let CATEGORY_CODE;
 
 function projectListView(data){
 
@@ -64,8 +63,8 @@ function subCategoryList(mainNo, data){
 
 function mainCategorySelect(){
     $(".main-category").click(function () {
-        let categoryNo = this?.id?.toString().split('-')[1]
-        subCategoryGetdata(categoryNo)
+        let CATEGORY_CODE = this?.id?.toString().split('-')[1]
+        subCategoryGetdata(CATEGORY_CODE)
     })
 }
 
@@ -86,37 +85,37 @@ function subCategoryGetdata(no){
 
 
 function categorySelect(ele){
-    pageNo = 1;
-    endList = false;
-    categoryNo = ele?.id?.toString().split('-')[1];
+    PAGE_NUMBER = 1;
+    END_LIST = false;
+    CATEGORY_CODE = ele?.id?.toString().split('-')[1];
     let elist = $(ele).siblings()
     $(ele).addClass('project-list-tag-selection-active')
 
     if(ele?.id?.toString().split('-')[0] === 'maincategory') {
 
-        salesListAjax(pageNo, categoryNo);
+        salesListAjax(PAGE_NUMBER, CATEGORY_CODE);
         let siblings = [$(ele).siblings()]
         siblings.forEach(e=>{
             $(e).removeClass('project-list-tag-selection-active')
         })
-        selectCategoryList = [];
+        SELECT_CATEGORY_LIST = [];
         return;
     }
 
-    if (categoryNo === undefined) return;
+    if (CATEGORY_CODE === undefined) return;
 
     $(elist[0]).removeClass('project-list-tag-selection-active')
 
-    if(selectCategoryList.indexOf(categoryNo)>=0){
-        selectCategoryList = selectCategoryList.filter(e=> e !== categoryNo);
+    if(SELECT_CATEGORY_LIST.indexOf(CATEGORY_CODE)>=0){
+        SELECT_CATEGORY_LIST = SELECT_CATEGORY_LIST.filter(e=> e !== CATEGORY_CODE);
         $(ele).removeClass('project-list-tag-selection-active')
-        salesListAjax(pageNo, selectCategoryList);
-        categoryNo = undefined;
+        salesListAjax(PAGE_NUMBER, SELECT_CATEGORY_LIST);
+        CATEGORY_CODE = undefined;
     }else {
         $(ele).addClass('project-list-tag-selection-active')
-        selectCategoryList = [...selectCategoryList, categoryNo]
-        salesListAjax(pageNo, selectCategoryList);
-        categoryNo = undefined;
+        SELECT_CATEGORY_LIST = [...SELECT_CATEGORY_LIST, CATEGORY_CODE]
+        salesListAjax(PAGE_NUMBER, SELECT_CATEGORY_LIST);
+        CATEGORY_CODE = undefined;
     }
 }
 
@@ -125,17 +124,16 @@ function salesListAjax(pageNo, filter) {
     if(pageNo === undefined) pageNo = 1;
 
     if(pageNo === 1) {
-        // saleItemList = [];
         $("#project-view-list").html("")
     }
-    if(endList) return;
+    if(END_LIST) return;
 
     $.ajax({
         url: `/getSaleList` + `?startNo=${pageNo}` + (filter === undefined ? '' : `&categoryCode=${filter.toString()}`) ,
         type : "get",
         success : function (success) {
             console.log(success)
-            if(success.length === 0 ) endList = true;
+            if(success.length === 0 ) END_LIST = true;
             projectListView(success)
         },
         error : function (error){
@@ -146,13 +144,13 @@ function salesListAjax(pageNo, filter) {
 
 function initCategory(){
     $('#subCategoryList').html("")
-    selectCategoryList = [];
-    endList = false;
-    pageNo = 1;
+    SELECT_CATEGORY_LIST = [];
+    END_LIST = false;
+    PAGE_NUMBER = 1;
     salesListAjax()
 }
 
 function moreItem(){
-    pageNo += 10;
-    salesListAjax(pageNo, categoryNo === undefined ? selectCategoryList : categoryNo);
+    PAGE_NUMBER += 10;
+    salesListAjax(PAGE_NUMBER, CATEGORY_CODE === undefined ? SELECT_CATEGORY_LIST : CATEGORY_CODE);
 }

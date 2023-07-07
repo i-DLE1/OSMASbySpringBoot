@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.dto;
 
 import lombok.*;
+import lombok.experimental.PackagePrivate;
 
 import java.io.PipedReader;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ProductDTO {
 
     private String introduction; // 상품소개
 
-    private int price; // 금액
+    private long price; // 금액
 
     private int maxQuantity; // 최대수량
 
@@ -28,5 +29,7 @@ public class ProductDTO {
     private String size; // 상품 사이즈
 
     private Integer count; // 주문 수량
+
+    private Integer refProjectNo;
 
 }

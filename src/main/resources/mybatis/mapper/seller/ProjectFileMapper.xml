@@ -46,15 +46,15 @@
            AND TPF.CHANGE_NAME = '${saveFileName}'
     </select>
 
-    <insert id="insertProjectFile" >
+    <insert id="insertProjectFile" parameterType="com.idle.osmas.seller.dto.ProjectFileDTO">
         INSERT INTO TBL_PRJ_FILE TPF
         (TPF.NO, TPF.TYPE, TPF.ORIGIN_NAME,
          TPF.CHANGE_NAME, TPF.REGIST_DATE,TPF.DELETE_YN,
          TPF.REF_PRJ_NO)
         VALUES
-        (SEQ_TBL_PRJ_FILE_NO.nextval, '${fileType}', '${originFile}',
-         '${savedFile}',SYSDATE, '${deleteYN}',
-         ${projectNo})
+        (SEQ_TBL_PRJ_FILE_NO.nextval, '${type}', '${originName}',
+         '${changeName}',SYSDATE, '${deleteYN}',
+         '${projectNo}')
     </insert>
 
     <delete id="deleteProjectFilesByProjectNo">
@@ -62,16 +62,16 @@
          WHERE TPF.REF_PRJ_NO = #{projectNo}
     </delete>
     
-    <update id="updateNonAvailableProjectFileByFileType">
+    <update id="updateNonAvailableProjectFileByFileType" parameterType="com.idle.osmas.seller.dto.ProjectFileDTO">
         UPDATE TBL_PRJ_FILE TPF
-           SET TPF.DELETE_YN = 'Y'
-         WHERE TPF.REF_PRJ_NO = #{projectNo}
-           AND TPF.TYPE = #{fileType}
+        SET TPF.DELETE_YN = 'Y'
+        WHERE TPF.REF_PRJ_NO = #{projectNo}
+          AND TPF.TYPE = #{fileType};
     </update>
 
-    <update id="updateNonAvailableProjectFileByChangeName">
+    <update id="updateNonAvailableProjectFileByChangeName" parameterType="com.idle.osmas.seller.dto.ProjectFileDTO">
         UPDATE TBL_PRJ_FILE TPF
            SET TPF.DELETE_YN = 'Y'
-         WHERE TPF.CHANGE_NAME = #{changeName}
+         WHERE TPF.CHANGE_NAME = #{changeName};
     </update>
 </mapper>

@@ -12,7 +12,6 @@ import java.util.Map;
 public class ProjectServiceImpl implements ProjectService{
 
     private final ProjectMapper projectMapper;
-    private int result;
 
     public ProjectServiceImpl(ProjectMapper projectMapper) {
         this.projectMapper = projectMapper;
@@ -81,6 +80,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     @Transactional
     public int deleteProjectByProjectNo(int projectNo) {
+
         return 0;
     }
 
@@ -89,4 +89,6 @@ public class ProjectServiceImpl implements ProjectService{
     public int updateProjectContent(Integer no,ProjectDTO project) {
         return projectMapper.updateProjectContent(no, project.getContent());
     }
+
+
 }
