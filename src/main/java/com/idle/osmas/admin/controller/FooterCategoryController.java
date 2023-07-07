@@ -95,11 +95,15 @@ public class FooterCategoryController {
         int result = termsService.termsEditGO(title, content);
 
         if (result > 0) {
-            return "redirect:/admin/footerCategory/termsEdit";
+            return "redirect:/admin/footerCategory/termsInput";
         } else {
             return "redirect:/admin/errorPage";
         }
+    }
 
+    @ExceptionHandler(Throwable.class)
+    public String handleException() {
+        return "/admin/errorPage"; // 에러 페이지로 리다이렉트 또는 렌더링할 뷰의 이름을 반환합니다.
     }
 
 }

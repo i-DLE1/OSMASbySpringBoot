@@ -34,6 +34,11 @@
         WHERE
             T.CLASSIFY_CODE = 'GENERAL'
           AND T.TITLE LIKE '%OSMAS 소개글%'
+          AND H.LAST_DATE = (
+            SELECT MAX(LAST_DATE)
+            FROM TBL_TERMS_HISTORY
+            WHERE REF_TERMS_NO = T.NO
+        )
     </select>
 
     <!-- 이용약관 불러오기 -->
@@ -47,6 +52,11 @@
         WHERE
             T.CLASSIFY_CODE = 'GENERAL'
           AND T.TITLE LIKE '%이용 약관%'
+          AND H.LAST_DATE = (
+            SELECT MAX(LAST_DATE)
+            FROM TBL_TERMS_HISTORY
+            WHERE REF_TERMS_NO = T.NO
+        )
     </select>
 
     <!-- 개인정보 처리방침 불러오기 -->
@@ -60,6 +70,11 @@
         WHERE
             T.CLASSIFY_CODE = 'GENERAL'
           AND T.TITLE LIKE '%개인정보 처리방침%'
+          AND H.LAST_DATE = (
+            SELECT MAX(LAST_DATE)
+            FROM TBL_TERMS_HISTORY
+            WHERE REF_TERMS_NO = T.NO
+        )
     </select>
 
     <!-- 프로젝트 심사기준 -->
@@ -73,6 +88,11 @@
         WHERE
             T.CLASSIFY_CODE = 'GENERAL'
           AND T.TITLE LIKE '%프로젝트 심사기준%'
+          AND H.LAST_DATE = (
+            SELECT MAX(LAST_DATE)
+            FROM TBL_TERMS_HISTORY
+            WHERE REF_TERMS_NO = T.NO
+        )
     </select>
 
     <!-- 약관 insert -->
