@@ -2,13 +2,13 @@ package com.idle.osmas.admin.controller;
 
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.service.AdminBoardService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ import java.util.List;
 public class User_noticeController {
 
     private final AdminBoardService adminBoardService;
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public User_noticeController(AdminBoardService adminBoardService){
@@ -41,6 +43,46 @@ public class User_noticeController {
         model.addAttribute("noticeContent", noticeContent);
         return "/admin/user_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
+
+    // 공지사항 등록 처리 매핑
+    @GetMapping("/regist")
+    public String goRegister() { return "admin/admin_notice/notice_registration";}
+
+    @PostMapping("/regist")
+    public String registBoard(@ModelAttribute AdminBoardDTO board, RedirectAttributes rttr) {
+        log.info("");
+        log.info("");
+        log.info("[BoardController] registBoard =========================================================");
+        log.info("[BoardController] registBoard Request : " + board);
+
+        AdminBoardServiceImpl.registBoard(board);
+
+        rttr.addFlashAttribute("message", "게시글 등록에 성공하셨습니다!");
+
+        log.info("[BoardController] registBoard =========================================================");
+
+        return "redirect:/board/list";
+    }
+}
+
+
+
+//    @PostMapping("/regist")
+//    public String registBoard(@ModelAttribute BoardDTO board, RedirectAttributes rttr) throws BoardRegistException {
+//
+//        log.info("");
+//        log.info("");
+//        log.info("[BoardController] registBoard =========================================================");
+//        log.info("[BoardController] registBoard Request : " + board);
+//
+//        boardServiceImpl.registBoard(board);
+//
+//        rttr.addFlashAttribute("message", "게시글 등록에 성공하셨습니다!");
+//
+//        log.info("[BoardController] registBoard =========================================================");
+//
+//        return "redirect:/board/list";
+//    }
 
 
 

@@ -5,6 +5,7 @@ import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.dto.AdminBoardFileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,5 +47,12 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     public AdminBoardDTO getAdminBoardByNo(int no) {
         // adminBoardMapper를 이용하여 no에 해당하는 공지사항의 정보를 조회한 후 리턴합니다.
         return adminBoardMapper.getAdminBoardByNo(no);
+    }
+
+    // 게시글 등록용 메소드
+    @Override
+    @Transactional
+    public void registBoard(AdminBoardDTO adminBoard) {
+
     }
 }

@@ -31,4 +31,5 @@ function cancel() {
 // 공지사항 등록 페이지의 저장 버튼
 function save() {
     document.querySelector('form').submit();
+    alert('등록에 성공 하였습니다.');
 }
