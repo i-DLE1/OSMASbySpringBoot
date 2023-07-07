@@ -52,7 +52,6 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     // 게시글 등록용 메소드
     @Override
     @Transactional
-    public void registBoard(AdminBoardDTO adminBoard) {
-
+    public void registBoard(AdminBoardDTO adminBoard) throws {
     }
 }
