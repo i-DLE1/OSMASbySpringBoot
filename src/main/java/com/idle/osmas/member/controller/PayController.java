@@ -5,8 +5,7 @@ import com.idle.osmas.member.dto.MemberDTO;
 import com.idle.osmas.member.service.PayServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -29,4 +28,10 @@ public class PayController {
         m.addAttribute("address",address);
     }
 
+//    @PostMapping("/pay/address")
+//    @ResponseBody
+//    public String addAddress(Principal principal, @RequestParam("postalCode")String postalCode,
+//                             @RequestParam("detail") String detail,@RequestParam("general") String general){
+//        AddressDTO address = new AddressDTO();
+//    }
 }
