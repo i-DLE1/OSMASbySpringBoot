@@ -12,22 +12,26 @@
   <th:block th:include="~{/common/fragments/header}"></th:block>
 </header>
 
-<middle>
-
-  <div>
-    <div th:each="project, iterStat: ${projectTerms}">
-      <h1 style="text-align: center;" th:text="${project.title}"></h1>
-      <div class="termsContainer">
-        <div class="terms">
-          <h3 th:utext="${project.content}"></h3>
-        </div>
-        <hr class="separator" th:if="${not iterStat.last}">
+  <main>
+    <div>
+      <div th:each="project, iterStat: ${projectTerms}">
+        <form method="POST" th:action="@{/admin/footerCategory/termsEdit}">
+          <h1 style="text-align: center;" th:text="${project.title}"></h1>
+          <div class="termsContainer">
+            <div class="terms">
+              <h3 th:utext="${project.termsHistory.content}"></h3>
+              <input type="hidden" name="id" th:value="${project.termsHistory.content}"/>
+              <input type="hidden" name="title" th:value="${project.title}"/>
+            </div>
+          </div>
+          <button type="submit">수정</button>
+        </form>
       </div>
+      <hr class="separator" th:if="${not iterStat.last}">
     </div>
-  </div>
-  <div class="spann"></div>
-
-</middle>
+    </div>
+    <div class="spann"></div>
+  </main>
 
 <footer >
   <th:block th:include="~{/common/fragments/footer}"></th:block>

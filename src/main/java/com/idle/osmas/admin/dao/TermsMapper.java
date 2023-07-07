@@ -9,9 +9,17 @@ import java.util.List;
 public interface TermsMapper {
     int termsInputGo(String title, String content);
 
+    int termsHistoryInputGo(String content);
+
     List<TermsDTO> userTermsGet();
 
     List<TermsDTO> personalTermsGet();
 
     List<TermsDTO> projectTermsGet();
+
+    List<TermsDTO> OSAMS();
+
+    int termsEditGO(String title, String content);
+
+    int termsEditUpdate(String title, String content);
 }

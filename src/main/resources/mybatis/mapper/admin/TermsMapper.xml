@@ -9,7 +9,7 @@
         <result property="content" column="CONTENT"/>
         <result property="lastDate" column="LAST_DATE"/>
 
-        <association property="termsNo" resultMap="termsResultMap"/>
+        <association property="terms" resultMap="termsResultMap"/>
     </resultMap>
 
     <resultMap id="termsResultMap" type="com.idle.osmas.admin.dto.TermsDTO">
@@ -19,54 +19,60 @@
         <result property="registDate" column="REGIST_DATE"/>
         <result property="classifyCode" column="CLASSIFY_CODE"/>
         <result property="termsIndex" column="TERMS_INDEX"/>
+
+        <association property="termsHistory" resultMap="termsHistoryResultMap"/>
     </resultMap>
+
+    <!-- OSMAS 소개글 -->
+    <select id="OSAMS" resultMap="termsResultMap">
+        SELECT
+            T.NO,
+            T.TITLE,
+            H.CONTENT
+        FROM TBL_TERMS T
+                 JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = T.NO
+        WHERE
+            T.CLASSIFY_CODE = 'GENERAL'
+          AND T.TITLE LIKE '%OSMAS 소개글%'
+    </select>
 
     <!-- 이용약관 불러오기 -->
     <select id="userTermsGet" resultMap="termsResultMap">
         SELECT
-            NO,
-            TITLE,
-            CONTENT,
-            REGIST_DATE
-        FROM TBL_TERMS
+            T.NO,
+            T.TITLE,
+            H.CONTENT
+        FROM TBL_TERMS T
+        JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = T.NO
         WHERE
-            CLASSIFY_CODE = 'GENERAL'
-          AND TITLE LIKE '%이용 약관%'
-        ORDER BY
-            REGIST_DATE DESC
-            FETCH FIRST 1 ROW ONLY
+            T.CLASSIFY_CODE = 'GENERAL'
+          AND T.TITLE LIKE '%이용 약관%'
     </select>
 
     <!-- 개인정보 처리방침 불러오기 -->
     <select id="personalTermsGet" resultMap="termsResultMap">
         SELECT
-            NO,
-            TITLE,
-            CONTENT,
-            REGIST_DATE
-        FROM TBL_TERMS
+            T.NO,
+            T.TITLE,
+            H.CONTENT
+        FROM TBL_TERMS T
+                 JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = T.NO
         WHERE
-            CLASSIFY_CODE = 'GENERAL'
-          AND TITLE LIKE '%개인정보 처리방침%'
-        ORDER BY
-            REGIST_DATE DESC
-            FETCH FIRST 1 ROW ONLY
+            T.CLASSIFY_CODE = 'GENERAL'
+          AND T.TITLE LIKE '%개인정보 처리방침%'
     </select>
 
     <!-- 프로젝트 심사기준 -->
     <select id="projectTermsGet" resultMap="termsResultMap">
         SELECT
-            NO,
-            TITLE,
-            CONTENT,
-            REGIST_DATE
-        FROM TBL_TERMS
+            T.NO,
+            T.TITLE,
+            H.CONTENT
+        FROM TBL_TERMS T
+                 JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = T.NO
         WHERE
-            CLASSIFY_CODE = 'GENERAL'
-          AND TITLE LIKE '%프로젝트 심사기준%'
-        ORDER BY
-            REGIST_DATE DESC
-            FETCH FIRST 1 ROW ONLY
+            T.CLASSIFY_CODE = 'GENERAL'
+          AND T.TITLE LIKE '%프로젝트 심사기준%'
     </select>
 
     <!-- 약관 insert -->
@@ -75,15 +81,41 @@
         SELECT SEQ_TBL_TERMS_NO.NEXTVAL, #{content}, SYSDATE, 'GENERAL', #{title} FROM DUAL
     </insert>
 
-    <!-- 약관 이력 쌓기 -->
+    <!-- 첫 insert 이력 넣기 -->
     <insert id="termsHistoryInputGo">
         INSERT INTO TBL_TERMS_HISTORY (NO, CONTENT, LAST_DATE, REF_TERMS_NO)
         SELECT SEQ_TBL_TERMS_HISTORY_NO.NEXTVAL, #{content}, SYSDATE,
                (SELECT
-                    T.NO
-                FROM TBL_TERMS T
-                JOIN TBL_TERMS_HISTORY H ON H.REF_TERMS_NO = #{}
+                    NO
+                FROM TBL_TERMS
+                WHERE
+                    CLASSIFY_CODE = 'GENERAL'
+                ORDER BY
+                    REGIST_DATE DESC
+                    FETCH FIRST 1 ROW ONLY
                 )
+        FROM DUAL
     </insert>
+
+    <!-- edit 이력 넣기 -->
+    <insert id="termsEditGO">
+        INSERT INTO TBL_TERMS_HISTORY (NO, CONTENT, LAST_DATE, REF_TERMS_NO)
+        SELECT SEQ_TBL_TERMS_HISTORY_NO.NEXTVAL,
+               #{content},
+               SYSDATE,
+               (SELECT NO
+        FROM TBL_TERMS
+        WHERE CLASSIFY_CODE = 'GENERAL'
+          AND TITLE = '${title}'
+            )
+        FROM DUAL
+    </insert>
+
+    <!-- 원래의 약관에 edit 내용 넣기 -->
+    <update id="termsEditUpdate">
+        UPDATE TBL_TERMS
+        SET CONTENT = #{content}
+        WHERE TITLE = #{title}
+    </update>
 
 </mapper>

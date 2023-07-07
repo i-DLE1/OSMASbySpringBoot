@@ -19,10 +19,12 @@ public class TermsServiceImpl implements TermsService{
     //약관 insert
     @Override
     public int termsInputGo(String title, String content) {
-        int result = termsMapper.termsInputGo(title, content);
+        int result1 = termsMapper.termsInputGo(title, content);
+        int result2 = termsMapper.termsHistoryInputGo(content);
 
+        int result = 0;
 
-        if (result > 0) {
+        if ((result1 > 0 && result2 > 0)) {
             result = 1;
         }
         return result;
@@ -44,5 +46,25 @@ public class TermsServiceImpl implements TermsService{
     @Override
     public List<TermsDTO> projectTermsGet() {
         return termsMapper.projectTermsGet();
+    }
+
+    //OSMAS 소개단
+    @Override
+    public List<TermsDTO> OSAMS() {
+        return termsMapper.OSAMS();
+    }
+
+    //약관 수정
+    @Override
+    public int termsEditGO(String title, String content) {
+        int result1 = termsMapper.termsEditGO(title,content);
+        int result2 = termsMapper.termsEditUpdate(title, content);
+
+        int result = 0;
+
+        if ((result1 > 0 && result2 > 0)) {
+            result = 1;
+        }
+        return result;
     }
 }

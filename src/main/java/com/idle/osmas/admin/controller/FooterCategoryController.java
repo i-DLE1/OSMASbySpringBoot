@@ -5,10 +5,7 @@ import com.idle.osmas.admin.dto.TermsDTO;
 import com.idle.osmas.admin.service.TermsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,13 @@ public class FooterCategoryController {
     }
 
     @GetMapping("OSAMSIntroduction")
-    public void OSAMSIntroduction(){}
+    public String OSAMSIntroduction(Model model) {
+        List<TermsDTO> osmas = termsService.OSAMS();
+
+        model.addAttribute("osmas", osmas);
+
+        return "/admin/footerCategory/OSAMSIntroduction";
+    }
 
     @GetMapping("useTerms")
     public String useTerms(Model model) {
@@ -58,10 +61,45 @@ public class FooterCategoryController {
         return "/admin/footerCategory/termsInput";
     }
 
+    @GetMapping("termsEdit")
+    public String termsEdit() {
+        return "/admin/footerCategory/termsEdit";
+    }
+
     @PostMapping("termsInputGo")
     public String termsInputGo(@RequestParam("title") String title, @RequestParam("content") String content) {
 
         int result = termsService.termsInputGo(title, content);
-        return "/admin/footerCategory/termsInput";
+
+        if (result > 0) {
+            return "redirect:/admin/footerCategory/termsInput";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
     }
+
+    @PostMapping("termsEdit")
+    public String termsEdit(@RequestParam("id") String id, @RequestParam("title") String title, Model model) {
+        model.addAttribute("content", id);
+        model.addAttribute("title", title);
+
+        System.out.println(id);
+        System.out.println(title);
+
+        return "/admin/footerCategory/termsEdit";
+    }
+
+    @PostMapping("termsEditGO")
+    public String termsEdit(@RequestParam("title") String title, @RequestParam("content") String content) {
+
+        int result = termsService.termsEditGO(title, content);
+
+        if (result > 0) {
+            return "redirect:/admin/footerCategory/termsEdit";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+
+    }
+
 }

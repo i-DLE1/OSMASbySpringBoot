@@ -7,11 +7,6 @@
     <link rel="stylesheet" href="/css/admin/footerCategory/terms.css">
     <!-- include summernote-ko-KR -->
     <script src="/resources/js/summernote-ko-KR.js"></script>
-    <script>
-        var contentElement = document.getElementById("content");
-        var contentText = contentElement.innerText;
-        contentElement.innerHTML = contentText;
-    </script>
 </head>
 <body>
 
@@ -19,23 +14,26 @@
     <th:block th:include="~{/common/fragments/header}"></th:block>
 </header>
 
-<middle>
-
-    <div>
-        <div th:each="use, iterStat: ${useTerms}">
-            <h1 style="text-align: center;" th:text="${use.title}"></h1>
-            <p></p>
-            <div class="termsContainer">
-                <div class="terms">
-                    <h3 th:utext="${use.content}"></h3>
+    <main>
+        <div>
+            <div th:each="use, iterStat: ${useTerms}">
+                <form method="POST" th:action="@{/admin/footerCategory/termsEdit}">
+                    <h1 style="text-align: center;" th:text="${use.title}"></h1>
+                    <div class="termsContainer">
+                        <div class="terms">
+                            <h3 th:utext="${use.termsHistory.content}"></h3>
+                            <input type="hidden" name="id" th:value="${use.termsHistory.content}"/>
+                            <input type="hidden" name="title" th:value="${use.title}"/>
+                        </div>
+                    </div>
+                    <button type="submit">수정</button>
+                </form>
             </div>
             <hr class="separator" th:if="${not iterStat.last}">
         </div>
-    </div>
         </div>
-    <div class="spann"></div>
-
-</middle>
+        <div class="spann"></div>
+    </main>
 
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>

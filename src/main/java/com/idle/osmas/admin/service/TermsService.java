@@ -12,4 +12,8 @@ public interface TermsService {
     List<TermsDTO> personalTermsGet();
 
     List<TermsDTO> projectTermsGet();
+
+    List<TermsDTO> OSAMS();
+
+    int termsEditGO(String title, String content);
 }

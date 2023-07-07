@@ -24,4 +24,6 @@ public class TermsDTO {
 
     private int termsIndex; //순번....이뭐지
 
+    private TermsHistoryDTO termsHistory;
+
 }
