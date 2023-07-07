@@ -28,6 +28,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/member/write.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<!--    <script src="/js/member/suggest.js"></script>-->
+
 </head>
 <body>
 <header id="header">
@@ -52,11 +55,11 @@
         <th:block th:if="${suggestList != null}">
             <th:block th:each="suggest : ${suggestList}">
                 <tr>
-                    <td th:text="${suggest.no}">1</td>
-                    <td th:text="${suggest.name}">빅사이즈</td>
-                    <td th:text="${suggest.title}">게시판 예시</td>
-                    <td th:text="${suggest.modifyDate}">2023-06-17</td>
-                    <td th:text="${suggest.nickname}">John Doe</td>
+                    <td th:text="${suggest.no}"></td>
+                    <td th:text="${suggest.name}"></td>
+                    <td th:text="${suggest.title}" class="suggest_title"></td>
+                    <td th:text="${suggest.modifyDate}"></td>
+                    <td th:text="${suggest.nickname}"></td>
                 </tr>
             </th:block>
         </th:block>
@@ -98,42 +101,175 @@
         <div class="form-container">
             <h2>제안하기</h2>
             <div class="form-group">
-                <label for="category">카테고리</label>
-                <select id="category" name="category">
-                    <option value="">빅사이즈</option>
-                    <option value="">스몰</option>
-                    <option value="">감자</option>
-                </select>
-            </div>
-            <div class="form-group">
                 <label for="title">제목</label>
-                <input type="text" id="title" name="title">
+                <input type="text" id="title" name="title" readonly>
             </div>
+            <input type="text" id="no" style="display: none">
+            <input type="text" id="nickname" style="display: none">
             <div class="form-group">
                 <label for="content">내용</label>
-                <textarea id="content" name="content"></textarea>
+                <textarea id="content" name="content" readonly></textarea>
             </div>
             <div class="button-container">
-                <button onclick="" class="">등록</button>
-                <button onclick="" class="">수정</button>
-                <button onclick="" class="">삭제</button>
-
+                <button onclick="" class="button_modify">수정</button>
+                <button onclick="" class="button_remove">삭제</button>
             </div>
         </div>
     </div>
 </div>
+
+<div id="modal2">
+    <div class="modal-content">
+        <button id="close-modal2">x</button>
+        <div class="form-container">
+            <h2>제안하기</h2>
+            <div class="form-group">
+                <label for="category">카테고리</label>
+                <select id="category" name="category">
+                    <th:block th:each="category : ${categoryList}">
+                    <option th:value="${category.name}" th:text="${category.name}"></option>
+                    </th:block>
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="title2">제목</label>
+                <input type="text" id="title2" name="title2">
+            </div>
+            <div class="form-group">
+                <label for="content2">내용</label>
+                <textarea id="content2" name="content2"></textarea>
+            </div>
+            <div class="button-container">
+                <button class="button_write">등록</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    const modal = document.getElementById("modal");
-    const openModalBtn = document.getElementById("open-modal");
-    const closeModalBtn = document.getElementById("close-modal");
-    openModalBtn.addEventListener("click", () => {
-        modal.style.display = "block";
-        document.body.style.overflow = "hidden"; // 스크롤바 제거
-    });
-    closeModalBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-        document.body.style.overflow = "auto"; // 스크롤바 보이기
-    });
+
+
+   const modal = document.getElementById("modal");
+   const closeModalBtn = document.getElementById("close-modal");
+   closeModalBtn.addEventListener("click", () => {
+       modal.style.display = "none";
+       document.body.style.overflow = "auto"; // 스크롤바 보이기
+       $('.button_modify').text('수정');
+       $('#content').attr('readonly', true);
+       $('#title').attr('readonly', true);
+   });
+
+   const modal2 = document.getElementById("modal2");
+   const openModalBtn = document.getElementById("open-modal");
+   const closeModalBtn2 = document.getElementById("close-modal2");
+   openModalBtn.addEventListener("click", () => {
+       modal2.style.display = "block";
+       document.body.style.overflow = "hidden"; // 스크롤바 제거
+   });
+   closeModalBtn2.addEventListener("click", () => {
+       modal2.style.display = "none";
+       document.body.style.overflow = "auto";
+   });
+
+   $('.button_write').click(function (){
+       let title = $('#title2').val();
+       let content = $('#content2').val();
+       let name = $('#category').val();
+       if (title.trim().length == 0 || content.trim().length == 0) {
+           alert("제목과 내용을 빈공간을 채워주세요")
+       }else{
+           $.ajax({
+               url: "/member/suggest/write",
+               type: "post",
+               data:{title,content,name},
+               success: function (data){
+                   alert(data)
+                   modal2.style.display = "none";
+                   document.body.style.overflow = "auto";
+                   location.reload();
+               }, error: function (error){
+                   alert(error)
+                   modal2.style.display = "none";
+                   document.body.style.overflow = "auto";
+               }
+           });
+       }
+   });
+
+   if (document.querySelectorAll(".suggest_title")) {
+       const $suggest = document.querySelectorAll(".suggest_title");
+       for (let i = 0; i < $suggest.length; i++) {
+           $suggest[i].onclick = function () {
+               let no = this.parentNode.children[0].innerHTML;
+               let title = this.parentNode.children[2].innerHTML;
+               let nickname = this.parentNode.children[4].innerHTML;
+               $.ajax({
+                   url: "/member/suggest/suggest",
+                   type: "post",
+                   data: {no, no},
+                   success: function (data) {
+                       modal.style.display = "block";
+                       document.body.style.overflow = "hidden";
+                       $('#title').val(title);
+                       $('#content').val(data);
+                       $('#no').val(no);
+                       $('#nickname').val(nickname);
+                   },
+                   error: function (error) {
+                       alert(error)
+                   }
+               });
+           }
+       }
+   }
+
+   $('.button_remove').click(function () {
+       let no = $('#no').val();
+       let nickname = $('#nickname').val();
+       $.ajax({
+           url: "/member/suggest/remove",
+           type: "post",
+           data: {no, nickname},
+           success: function (data) {
+               location.reload();
+               alert(data);
+           },
+           error: function (error) {
+               alert(error)
+           }
+       });
+   });
+
+   $('.button_modify').click(function () {
+       if ($('.button_modify').text() == '등록') {
+           let content = $('#content').val();
+           let title = $('#title').val();
+           let no = $('#no').val();
+           let nickname = $('#nickname').val();
+           $.ajax({
+               url: "/member/suggest/modify",
+               type: "post",
+               data: {content, title, no, nickname},
+               success: function (data) {
+                   $('.button_modify').text('수정');
+                   $('#content').attr('readonly', true);
+                   $('#title').attr('readonly', true);
+                   location.reload();
+                   alert(data);
+               }, error: function (error) {
+                   $('.button_modify').text('수정');
+                   $('#content').attr('readonly', true);
+                   $('#title').attr('readonly', true);
+                   alert(error);
+               }
+           });
+       }
+       $('.button_modify').text('등록');
+       $('#content').removeAttr('readonly');
+       $('#title').removeAttr('readonly');
+   });
+
 </script>
 <footer>
     <th:block th:include="~{/common/fragments/footer}"></th:block>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.ItemApprovalMapper">
+
+    <resultMap id="itemResultMap" type="com.idle.osmas.admin.dto.ProductDTO">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="startDate" column="START_DATE"/>
+
+        <association property="member" resultMap="memberResultMap"/>
+        <association property="productProgress" resultMap="itemProgressResultMap"/>
+    </resultMap>
+
+    <resultMap id="itemProgressResultMap" type="com.idle.osmas.admin.dto.ProductProgressDTO">
+        <id property="no" column="NO"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="status" column="STATUS"/>
+
+        <association property="productNo" resultMap="itemResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="nickname" column="NICKNAME"/>
+    </resultMap>
+
+    <!-- 상품 승인 신청자 -->
+    <select id="waitingAllItem" resultMap="itemResultMap">
+        SELECT
+            P.TITLE,
+            P.CONTENT,
+            M.ID,
+            R.STATUS,
+            P.NO
+        FROM
+            TBL_PRJ P
+                JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+                JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+        WHERE
+            R.STATUS ='SCREENING'
+        AND    L.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+          AND R.CONTENT IS NOT NULL
+    </select>
+
+    <!-- 상품 승인 보류자 -->
+    <select id="holdingAllItem" resultMap="itemResultMap">
+        SELECT
+            P.TITLE,
+            M.ID,
+            R.STATUS,
+            R.CONTENT
+        FROM
+            TBL_PRJ P
+                JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+                JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+        WHERE
+            R.STATUS ='REJECTED'
+          AND    L.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+        AND R.CONTENT IS NOT NULL
+    </select>
+
+    <!-- 상품 승인 완료자 -->
+    <select id="successAllItem" resultMap="itemResultMap">
+        SELECT
+            P.TITLE,
+            P.CONTENT,
+            M.ID,
+            R.STATUS
+        FROM
+            TBL_PRJ P
+                JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+                JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+        WHERE
+            R.STATUS ='PROCESSING'
+          AND    L.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+        )
+    </select>
+
+    <!-- 상품신청 -> 승인 -->
+    <update id="itemONGOING">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.STATUS = 'PROCESSING'
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='SCREENING'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+              AND R.CONTENT IS NOT NULL
+        )
+    </update>
+
+    <!-- 상품신청 -> 보류 -->
+    <update id="itemNO1">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.STATUS = 'REJECTED'
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='SCREENING'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+              AND R.CONTENT IS NOT NULL
+        )
+    </update>
+
+    <!-- 상품신청 -> 보류 -->
+    <update id="itemNO2">
+        UPDATE TBL_PRJ_PROGRESS R
+        SET R.CONTENT = #{reasonText}
+        WHERE R.REF_PRJ_NO = (
+            SELECT P.NO
+            FROM TBL_PRJ P
+                     JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
+                     JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
+            WHERE R.STATUS ='REJECTED'
+              AND M.ID = #{sellerId}
+              AND P.NO = #{projectNo}
+        )
+    </update>
+
+
+</mapper>

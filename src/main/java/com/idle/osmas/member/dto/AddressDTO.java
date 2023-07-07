@@ -11,7 +11,6 @@ public class AddressDTO {
     private int no;
     private String general;
     private String detail;
-    private String PostalCode;
-    private Integer shipNo;
+    private String postalCode;
     private Integer refMemberNo;
 }

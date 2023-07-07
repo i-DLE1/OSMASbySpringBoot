@@ -9,7 +9,7 @@ public interface ProjectFileService {
 
     ProjectFileDTO selectProjectFileByNo(int no);
 
-    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, String userId);
+    List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, int userNo);
 
     ProjectFileDTO selectByProjectSaveFileName(String saveFileName);
     int insertProjectFile(ProjectFileType fileType, String originFile, String savedFile, String deleteYN, int projectNo);
@@ -17,4 +17,6 @@ public interface ProjectFileService {
     int updateNonAvailableProjectFileByFileType(int projectNo, ProjectFileType fileType);
 
     int updateNonAvailableProjectFileByChangeName(String changeName);
+
+    int deleteProjectFilesByProjectNo(int projectNo);
 }

@@ -14,6 +14,12 @@
         <result property="modifyDate" column="MODIFY_DATE"/>
         <result property="name" column="NAME"/>
     </resultMap>
+    
+    <resultMap id="categoryResultMap" type="com.idle.osmas.seller.dto.CategoryDTO">
+        <id property="no" column="NO"/>
+        <result property="subNo" column="SUB_NO"/>
+        <result property="name" column="NAME"/>
+    </resultMap>
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
         SELECT
         COUNT(*)
@@ -84,4 +90,48 @@
                 ]]>
         ORDER BY 1 ASC
     </select>
+    <select id="selectContent" resultType="string">
+        SELECT
+                A.CONTENT
+          FROM TBL_SUGGEST A
+         WHERE A.NO = #{no}
+           AND A.DETELE_YN = 'N'
+    </select>
+    <update id="modifySuggest" parameterType="com.idle.osmas.member.dto.SuggestsDTO">
+        UPDATE TBL_SUGGEST A
+           SET A.TITLE = #{title},
+               A.CONTENT = #{content},
+               A.MODIFY_DATE = SYSDATE
+         WHERE A.NO = #{no}
+    </update>
+    <update id="removeSuggest">
+        UPDATE TBL_SUGGEST A
+        SET A.DETELE_YN = 'Y',
+            A.MODIFY_DATE = SYSDATE
+        WHERE A.NO = #{no}
+    </update>
+    
+    <select id="selectCategory" resultMap="categoryResultMap">
+        SELECT
+               A.NAME
+          FROM TBL_CATEGORY A
+        WHERE A.SUB_NO IS NULL
+    </select>
+
+    <select id="selectCategoryNoByName" resultType="_int">
+        SELECT
+               A.NO
+          FROM TBL_CATEGORY A
+         WHERE A.NAME = #{name}
+    </select>
+    <insert id="suggestWrite">
+        INSERT INTO TBL_SUGGEST
+        (
+            NO, REGIST_DATE, TITLE, CONTENT, REF_MEMBER_NO, STATUS, MODIFY_DATE, REF_CATEGORY_NO, DETELE_YN
+        )
+        VALUES
+            (
+            SEQ_TBL_SUGGEST_NO.nextval,SYSDATE,#{title},#{content},#{refMemberNo},'N',SYSDATE,#{refCategoryNo},'N'
+            )
+    </insert>
 </mapper>

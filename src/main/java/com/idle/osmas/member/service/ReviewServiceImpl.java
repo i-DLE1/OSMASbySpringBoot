@@ -64,7 +64,6 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    @Transactional
     public int writeReview(ReviewDTO review) {
         return mapper.writeReview(review);
     }

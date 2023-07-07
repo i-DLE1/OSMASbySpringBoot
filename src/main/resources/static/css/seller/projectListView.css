@@ -17,7 +17,7 @@ body{
 .container-project-list-view{
     margin: 6em 0 0 0;
     display: grid;
-    grid-column-gap: 4em;
+    grid-column-gap: 1em;
     grid-template-columns: auto auto auto;
 }
 
@@ -45,7 +45,7 @@ body{
     min-width: 80%;
     display: flex;
     justify-content: center;
-    margin: 0 0 10em 0;
+    margin: 0 0 2em 0;
 }
 .project-list-tag-selection, .main-category{
     max-width: 63px;

@@ -4,10 +4,14 @@ import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
 import com.idle.osmas.seller.service.ProjectFileService;
 import com.idle.osmas.seller.service.ProjectService;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,14 +31,16 @@ public class ImageFileController {
     @Value("${customSaveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
 
-
     private final ProjectService projectService;
 
     private final ProjectFileService projectFileService;
 
-    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService) {
+    private final ResourceLoader resourceLoader;
+
+    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService, ResourceLoader resourceLoader) {
         this.projectService = projectService;
         this.projectFileService = projectFileService;
+        this.resourceLoader = resourceLoader;
     }
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -48,46 +54,45 @@ public class ImageFileController {
      * @throws IOException
      */
     public int registFile(ProjectFileType fileType, MultipartFile file, int projectNo) throws IOException {
-
         if(file.getSize() > 0) {
+
             String originFileName = file.getOriginalFilename();
 
-            log.info("originFileName = " + originFileName);
-
             String ext = originFileName.substring(originFileName.lastIndexOf("."));
-
-            log.info("ext = " + ext);
 
             String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
 
 
             File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
 
-            if (!savedFile.isDirectory()) savedFile.mkdirs();
+            File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH);
 
-            file.transferTo(savedFile);
+            if (!saveDirectory.exists()) saveDirectory.mkdirs();
+
+            Thumbnails.of(file.getInputStream()).size(400,400).toFile(savedFile);
 
             int result = 0;
 
             result = projectFileService.insertProjectFile(fileType, originFileName, savedFileName, "N", projectNo);
 
             if (result > 0) {
-                log.info("파일이 정상으로 저장 됐습니다.");
                 return 1;
             } else {
-                log.info("정상적으로 ");
                 savedFile.delete();
                 return 0;
             }
         }else {
             return 0;
+        }
     }
-}
 
-
-
+    /**
+     *
+     * @param file cahngeFileName
+     * @return success 1 fail 0
+     */
     public int deleteFile(String file) {
-        System.out.println("file = " + file);
+
         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
 
         if(deleteFile.isFile()) {
@@ -104,8 +109,8 @@ public class ImageFileController {
         ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
 
         if (projectFile == null) return ResponseEntity.ok("");
+
         Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
-        log.info("saveFile"+ saveFile.toString());
 
         FileSystemResource resource = new FileSystemResource(saveFile);
 
@@ -114,6 +119,18 @@ public class ImageFileController {
         } catch (IOException e) {
             return ResponseEntity.ok("");
         }
+    }
 
+    @GetMapping("/images/{type}/{file}")
+    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
+
+        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
+
+        System.out.println("resource = " + resource);
+        try {
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.ok("");
+        }
     }
 }

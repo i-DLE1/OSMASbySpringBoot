@@ -129,6 +129,7 @@ public class SellerApprovalController {
         }
     }
 
+    //권한 회수 신청 ->보류
     @PostMapping("holdingRetrieveGo")
     public String holdingRetrieveGo(@RequestParam("sellerId") String sellerId, @RequestParam("reason") String reason,
                                     @RequestParam("sellerReq") int sellerReq, Model model) {

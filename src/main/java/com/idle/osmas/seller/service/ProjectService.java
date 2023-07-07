@@ -16,6 +16,13 @@ public interface ProjectService {
 
     List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);
 
+
+    List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
+    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
+
+    ProjectDTO selectProjectCancelInfoByProjectId(int projectNo, int userNo);
+
+
     int insertTemporaryProject(ProjectDTO project);
 
     int updateProjectInfo(ProjectDTO project);

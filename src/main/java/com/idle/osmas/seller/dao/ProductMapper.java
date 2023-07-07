@@ -8,12 +8,11 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-//    List<ProductDTO> selectProductListByProjectNo(int projectNo);
-    int deleteProductListByProjectNo(int projectNo);
+    List<ProductDTO> selectProductListByProjectNo(int projectNo, int userNo);
 
-    int deleteProductByProductNo(int productNo);
+    int selectProductListCountByProjectNo(int projectNo);
 
-    List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId);
+    List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo);
 
     int insertProjectProduct(ProductDTO product);
 
@@ -21,7 +20,7 @@ public interface ProductMapper {
 
     int updateProjectProduct(ProductDTO product);
 
-    int deleteProjectProduct(int productNo);
+    int deleteProductByProductNo(int productNo);
 
     int deleteProjectProductList(int productNo);
 

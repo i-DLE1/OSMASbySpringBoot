@@ -23,6 +23,7 @@
         <result property="registDate" column="TBL_PRJ_REGIST_DATE"/>
         <result property="views" column="TBL_PRJ_VIEWS"/>
 
+        <association property="projectProgress" resultMap="projectProgressResultMap"/>
         <collection property="category" resultMap="projectCategoryResultMap"/>
         <collection property="productList" resultMap="productListResultMap"/>
         <collection property="projectFileList" resultMap="projectFileResultMap"/>
@@ -51,15 +52,23 @@
         <result property="deleteYN" column="TBL_PRJ_FILE_DELETE_YN"/>
     </resultMap>
 
+    <resultMap id="projectProgressResultMap" type="com.idle.osmas.seller.dto.ProjectProgressDTO">
+        <id property="no" column="TBL_PRJ_PROGRESS_NO"/>
+        <result property="content" column="TBL_PRJ_PROGRESS_CONTENT"/>
+        <result property="registDate" column="TBL_PRJ_PROGRESS_REGIST_DATE"/>
+        <result property="status" column="TBL_PRJ_PROGRESS_STATUS"/>
+        <result property="refProjectNo" column="TBL_PRJ_PROGRESS_REF_PRJ_NO"/>
+    </resultMap>
+
     <select id="selectTemporaryProjectNoByUserId" resultType="_int">
         SELECT PRJ.NO
           FROM TBL_PRJ PRJ
           JOIN (SELECT *
-               FROM TBL_PRJ_PROGRESS
-               WHERE NO IN (SELECT MAX(NO) AS NO
-                              FROM TBL_PRJ_PROGRESS
-                             GROUP BY REF_PRJ_NO)
-        ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
+                  FROM TBL_PRJ_PROGRESS
+                 WHERE NO IN (SELECT MAX(NO) AS NO
+                                FROM TBL_PRJ_PROGRESS
+                               GROUP BY REF_PRJ_NO)
+               ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
          WHERE TPP.STATUS = 'TEMPORARY'
            AND PRJ.REF_MEMBER_NO = '${userNo}'
     </select>
@@ -81,16 +90,10 @@
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT
           FROM TBL_PRJ PRJ
-<!--         <if test="userId != null">-->
-<!--          JOIN TBL_MEMBER TM on PRJ.REF_MEMBER_NO = TM.NO-->
-<!--         </if>-->
          WHERE PRJ.NO = ${projectNo}
            <if test="userNo != null">
            AND PRJ.REF_MEMBER_NO = #{userNo}
            </if>
-<!--         <if test="userId != null">-->
-<!--           AND TM.ID = #{userId}-->
-<!--         </if>-->
     </select>
 
     <select id="selectProjectByProjectNo" resultMap="projectResultMap">
@@ -100,60 +103,143 @@
                PRJ.START_DATE AS TBL_PRJ_START_DATE,
                PRJ.END_DATE AS TBL_PRJ_END_DATE,
                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+               PRJ.VIEWS AS TBL_PRJ_VIEWS,
                TP.NAME AS TBL_PRODUCT_NAME,
                TP.PRICE AS TBL_PRODUCT_PRICE,
                TP.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
                TP.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
                TC.NAME AS TBL_CATEGORY_NAME
           FROM TBL_PRJ PRJ
-          JOIN TBL_PRJ_PRODUCT_LIST TPPL ON PRJ.NO = TPPL.REF_PRJ_NO
-          JOIN TBL_PRODUCT TP ON TP.NO = TPPL.REF_PRODUCT_NO
+          LEFT JOIN TBL_PRJ_PRODUCT_LIST TPPL ON PRJ.NO = TPPL.REF_PRJ_NO
+          LEFT JOIN TBL_PRODUCT TP ON TP.NO = TPPL.REF_PRODUCT_NO
           JOIN TBL_CATEGORY TC ON TC.NO = PRJ.REF_CATEGORY_NO
          WHERE PRJ.NO = #{projectNo}
            AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
 
     <select id="selectProjectByCategory" resultMap="projectResultMap" parameterType="map">
-        SELECT PRJ.NO AS TBL_PRJ_NO,
-               PRJ.TITLE AS TBL_PRJ_TITLE,
-               PRJ.START_DATE AS TBL_PRJ_START_DATE,
-               PRJ.END_DATE AS TBL_PRJ_END_DATE,
-               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
-               PRJ.VIEWS AS TBL_PRJ_VIEWS,
-               TC.NAME AS TBL_CATEGORY_NAME,
-               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+        SELECT *
+        FROM (SELECT ROWNUM AS RNUM,
+                     PRJ.NO AS TBL_PRJ_NO,
+                     PRJ.TITLE AS TBL_PRJ_TITLE,
+                     PRJ.START_DATE AS TBL_PRJ_START_DATE,
+                     PRJ.END_DATE AS TBL_PRJ_END_DATE,
+                     PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+                     PRJ.VIEWS AS TBL_PRJ_VIEWS,
+                     TC.NAME AS TBL_CATEGORY_NAME,
+                     TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+                FROM TBL_PRJ PRJ
+                JOIN TBL_CATEGORY TC ON PRJ.REF_CATEGORY_NO = TC.NO
+                JOIN (SELECT *
+                        FROM TBL_PRJ_PROGRESS
+                       WHERE NO IN (SELECT MAX(NO) AS NO
+                        FROM TBL_PRJ_PROGRESS
+                       GROUP BY REF_PRJ_NO)
+                      ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
+                LEFT JOIN (SELECT *
+                             FROM TBL_PRJ_FILE TPF2
+                            WHERE TPF2.TYPE = 'THUMBNAIL'
+                             AND TPF2.DELETE_YN = 'N'
+                ) TPF ON TPF.REF_PRJ_NO = PRJ.NO
+              <trim prefix="WHERE" prefixOverrides="AND | OR">
+                  <if test="categoryNo != null">PRJ.REF_CATEGORY_NO = #{categoryNo}
+                  </if>
+                  <if test="searchTitle != null or searchTitle != ''">
+                     AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
+                  </if>
+                  <if test="startDate != null">
+                     AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
+                  </if>
+                  <if test="endDate != null">
+                     AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
+                  </if>
+                  <if test="views != null">
+                     AND PRJ.VIEWS <![CDATA[>=]]> #{views}
+                  </if>
+                   ORDER BY PRJ.NO DESC
+              </trim>)
+        WHERE RNUM BETWEEN #{startNo} AND #{endNo}
+    </select>
+
+    <select id="selectByProgressAndSearchProjectManagementCount" resultType="_int" parameterType="map">
+        SELECT COUNT(*)
           FROM TBL_PRJ PRJ
-          JOIN TBL_CATEGORY TC ON PRJ.REF_CATEGORY_NO = TC.NO
           JOIN (SELECT *
                   FROM TBL_PRJ_PROGRESS
                  WHERE NO IN (SELECT MAX(NO) AS NO
                                 FROM TBL_PRJ_PROGRESS
                                GROUP BY REF_PRJ_NO)
-               ) TPP ON TPP.REF_PRJ_NO = PRJ.NO
-          LEFT JOIN (SELECT *
-                       FROM TBL_PRJ_FILE TPF2
-                      WHERE TPF2.TYPE = 'THUMBNAIL'
-                        AND TPF2.DELETE_YN = 'N'
-                    )TPF ON TPF.REF_PRJ_NO = PRJ.NO
-        <trim prefix="WHERE" prefixOverrides="AND | OR">
-            <if test="categoryNo != null">
-               PRJ.REF_CATEGORY_NO = #{categoryNo}
-            </if>
-            <if test="searchTitle != null or searchTitle != ''">
-               AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
-            </if>
-            <if test="startDate != null">
-               AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
-            </if>
-            <if test="endDate != null">
-               AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
-            </if>
-            <if test="views != null">
-               AND PRJ.VIEWS <![CDATA[>=]]> #{views}
-            </if>
-             ORDER BY PRJ.NO DESC
-        </trim>
+                ) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+          JOIN TBL_MEMBER TM ON TM.NO = PRJ.REF_MEMBER_NO
+         WHERE PRJ.REF_MEMBER_NO = #{userNo}
+        <if test="!listType.equalsIgnoreCase('all')">
+           AND TPP2.STATUS = #{listType}
+        </if>
+        <if test="search != null">
+           AND PRJ.TITLE LIKE '%' || #{search} || '%'
+        </if>
     </select>
+
+    <select id="selectByProgressAndSearchProjectManagement" resultMap="projectResultMap" parameterType="map">
+        SELECT *
+          FROM (SELECT ROWNUM AS RNUM,
+                       PRJ.NO AS TBL_PRJ_NO,
+                       PRJ.TITLE AS TBL_PRJ_TITLE,
+                       PRJ.CONTENT AS TBL_PRJ_CONTENT,
+                       PRJ.REGIST_DATE AS TBL_PRJ_REGIST_DATE,
+                       PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+                       PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+                       TPP2.REGIST_DATE AS TBL_PRJ_PROGRESS_REGIST_DATE,
+                       TPP2.STATUS AS TBL_PRJ_PROGRESS_STATUS,
+                       PRJ.START_DATE AS TBL_PRJ_START_DATE,
+                       PRJ.END_DATE AS TBL_PRJ_END_DATE,
+                       TPP2.CONTENT AS TBL_PRJ_PROGRESS_CONTENT,
+                       TM.NAME AS TBL_MEMBER_NAME,
+                       TM.PHONE AS TBL_MEMBER_PHONE,
+                       TM.ID AS TBL_MEMBER_ID,
+                       TM.STATUS AS TBL_MEMBER_STATUS,
+                       TC.NAME AS TBL_CATEGORY_NAME
+                  FROM TBL_PRJ PRJ
+                  JOIN (SELECT *
+                          FROM TBL_PRJ_PROGRESS
+                         WHERE NO IN (SELECT MAX(NO) AS NO
+                          FROM TBL_PRJ_PROGRESS
+                         GROUP BY REF_PRJ_NO)
+                         ) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+          JOIN TBL_MEMBER TM ON TM.NO = PRJ.REF_MEMBER_NO
+          JOIN TBL_CATEGORY TC ON TC.NO = PRJ.REF_CATEGORY_NO
+         WHERE PRJ.REF_MEMBER_NO = #{userNo}
+        <if test="!listType.equalsIgnoreCase('all')">
+           AND TPP2.STATUS = #{listType}
+        </if>
+        <if test="search != null">
+           AND PRJ.TITLE LIKE '%' || #{search} || '%'
+        </if>
+         ORDER BY PRJ.REGIST_DATE DESC)
+         WHERE RNUM BETWEEN #{startNo} AND #{endNo}
+    </select>
+
+    <select id="selectProjectCancelInfoByProjectId" resultMap="projectResultMap" parameterType="_int">
+        SELECT PRJ.NO AS TBL_PRJ_NO ,
+               PRJ.TITLE AS TBL_PRJ_TITLE,
+               PRJ.START_DATE AS TBL_PRJ_START_DATE,
+               PRJ.END_DATE AS TBL_PRJ_END_DATE,
+               PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
+               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+               TPP2.STATUS AS TBL_PRJ_PROGRESS_STATUS,
+               TPP2.CONTENT AS TBL_PRJ_PROGRESS_CONTENT
+          FROM TBL_PRJ PRJ
+          JOIN (SELECT *
+                  FROM TBL_PRJ_PROGRESS
+                 WHERE NO IN (SELECT MAX(NO) AS REF_PRJ_NO
+                                FROM TBL_PRJ_PROGRESS
+                               GROUP BY REF_PRJ_NO)
+               ) TPP2 ON TPP2.REF_PRJ_NO = PRJ.NO
+         WHERE PRJ.NO = #{projectNo}
+           AND PRJ.REF_MEMBER_NO = #{userNo}
+    </select>
+
 
     <insert id="insertTemporaryProject" parameterType="com.idle.osmas.seller.dto.ProjectDTO" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_PRJ PRJ

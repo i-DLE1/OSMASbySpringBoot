@@ -273,16 +273,12 @@ nav ul li{
     padding: 10px 12px;
 }
 
-#selectbox1{
+#selectbox{
     width: 500px;
     height: 35px;
     border-radius: 8px;
 }
-#selectbox2{
-    width: 500px;
-    height: 35px;
-    border-radius: 8px;
-}
+
 
 #totalamount{
     margin-right: 10px;
@@ -384,8 +380,9 @@ nav ul li{
 .contentsbottom {
     width: 1000px;
     padding: 3%;
-     background-color: #d8d0c8;
+    background-color: #d8d0c8;
     margin: auto;
+    margin-bottom: 20px;
 }
 
 
@@ -431,25 +428,6 @@ table td{
     width: 100px;
 }
 
-.cus-page{
-    margin-top: 3em;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-}
-
-.cus-page li{
-    border: 1px solid #ffffff;
-    padding: 5px 10px 5px 10px ;
-    margin: 5px;
-}
-
-.cus-page li:hover, .cus-page li:hover a {
-    color: rgb(0, 0, 0) !important;
-}
-a {
-    text-decoration: none;
-}
 
 #question{
     width: 800px;
@@ -481,10 +459,10 @@ input{
 
 
 
- .image-container {
-     position: relative;
-     display: inline-block;
- }
+.image-container {
+    position: relative;
+    display: inline-block;
+}
 
 .image-container .image2 {
     display: block;
@@ -543,8 +521,26 @@ input{
 .newInfoContent{
     text-align: left;
     font-size: 15px;
-    width:950px;
     height: 100%;
+    width:950px;
+    white-space: normal;
+    word-break: break-all;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+.show-details{
+    cursor: pointer;
+    font-size: 20px;
+    white-space: normal;
+    word-break: break-all;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+.hidden-details{
+    font-size: 16px;
+    color: #884A3B;
     white-space: normal;
     word-break: break-all;
     text-overflow: clip;
@@ -568,4 +564,52 @@ input{
     border-radius: 8px;
     cursor: pointer;
     opacity: 80%;
+}
+
+
+.off-screen {
+    display: none;
+}
+
+#nav-paging {
+    /*width: 500px;*/
+    /*text-align: center;*/
+
+    margin-top: 3em;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+#nav-paging a {
+    display: inline-block;
+    /*padding: 3px 5px;*/
+    /*margin-right: 10px;*/
+    /*font-family:Tahoma;*/
+    background: #C49A6C;
+    color: white;
+    text-decoration: none;
+
+    /*border: 1px solid #ffffff;*/
+    padding: 5px 10px 5px 10px ;
+    margin: 5px;
+}
+#nav-paging a.active {
+    background: #b68149;
+    color: black;
+}
+
+#nav-paging a:hover {
+    color: rgb(0, 0, 0) !important;
+}
+
+.cus-page{
+
+}
+
+.cus-page li{
+
+}
+
+a {
+    text-decoration: none;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head th:fragment="head">
   <meta charset="utf-8">
   <link rel="stylesheet" href="/css/seller/sellerDashboard.css">
@@ -24,7 +25,7 @@
       <li id="cusAllMenu" onclick="location.href='./projectList?listType=all'" >전체 조회</li>
       <li id="cusScreenMenu" onclick="location.href='./projectList?listType=screening'">심사중</li>
       <li id="cusProcessMenu" onclick="location.href='./projectList?listType=processing'">진행중</li>
-      <li id="cusRefuseMenu" onclick="location.href='./projectList?listType=refuse'">반려</li>
+      <li id="cusRefuseMenu" onclick="location.href='./projectList?listType=rejected'">반려</li>
       <li id="cusCancelMenu" onclick="location.href='./projectList?listType=cancel'">취소</li>
     </div>
   </ul>
@@ -51,14 +52,14 @@
 
 <div th:fragment="pageantion">
   <ul class="cus-page">
-    <li><</li>
-    <li th:text="${minPageNum}" th:if="${minPageNum < startPageNum}" th:onclick="|movePage(${minPageNum})|"></li>
-    <th:block th:each="num : ${#numbers.sequence(startPageNum, endPageNum)}">
-      <li th:text="${num}" th:if="${currentPageNum == num}" style="font-weight: 700" th:onclick="|movePage(${num})|"></li>
-      <li th:text="${num}" th:if="${currentPageNum != num}" th:onclick="|movePage(${num})|"></li>
+    <li th:onclick="movePage(1)" th:text="'<<'"></li>
+    <th:block th:each="num : ${#numbers.sequence(currentPageNum - 2, currentPageNum+2)}">
+      <th:block th:if="${num <= endPageNum and num >0 }">
+        <li th:text="${num}" th:if="${currentPageNum == num}" style="font-weight: 700" th:onclick="|movePage(${num})|"></li>
+        <li th:text="${num}" th:if="${currentPageNum != num}" th:onclick="|movePage(${num})|"></li>
+      </th:block>
     </th:block>
-    <li th:text="${maxPageNum}" th:if="${maxPageNum > endPageNum}" th:onclick="|movePage(${maxPageNum})|"></li>
-    <li th:text="'>'"></li>
+    <li  th:onclick="|movePage(${maxPageNum})|" th:text="'>>'"></li>
   </ul>
 </div>
 

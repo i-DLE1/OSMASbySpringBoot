@@ -22,4 +22,6 @@ public interface SalesService {
 
     public List<NewInfoDTO> selectNewInfoListByNo(int no);
 
+    int insertNewQna(QnaDTO qnaDTO);
+
 }

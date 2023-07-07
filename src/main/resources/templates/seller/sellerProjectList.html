@@ -27,7 +27,7 @@
                                 <td id="cusAll" class="col" onclick="location.href='./projectList?listType=all'">전체조회</td>
                                 <td id="cusScreen" class="col" onclick="location.href='./projectList?listType=screening'">심사중</td>
                                 <td id="cusProcess" class="col" onclick="location.href='./projectList?listType=processing'">진행중</td>
-                                <td id="cusRefuse" class="col" onclick="location.href='./projectList?listType=refuse'">반려</td>
+                                <td id="cusRefuse" class="col" onclick="location.href='./projectList?listType=rejected'">반려</td>
                                 <td id="cusCancel" class="col" onclick="location.href='./projectList?listType=cancel'">취소</td>
                                 <th class="col-4">
                                     <div class="row col">
@@ -57,7 +57,7 @@
                             <tr>
                                 <th:block th:object="${item}">
                                 <th th:text="${endRow - stat.index}"></th>
-                                <td th:text="*{title}"></td>
+                                <td th:text="*{title}" th:onclick="|moveSale(${item.no})|"></td>
                                 <td th:text="*{category.name}"></td>
                                 <td th:text="*{#numbers.formatInteger(targetAmount,0,'COMMA')}"></td>
                                 <td th:text="*{#numbers.formatInteger(currentAmount,0,'COMMA')}"></td>
@@ -97,7 +97,6 @@
         <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
         <script src="/js/seller/sellerPage.js"></script>
         <script>
-            // customerProjectList();
             activePage();
         </script>
     </body>

@@ -2,6 +2,7 @@ package com.idle.osmas.seller.dto;
 
 import lombok.*;
 
+import java.io.PipedReader;
 import java.util.List;
 
 @Getter
@@ -25,5 +26,7 @@ public class ProductDTO {
     private ProductStatus status; // 상품 주문 가능 상태
 
     private String size; // 상품 사이즈
+
+    private Integer count; // 주문 수량
 
 }

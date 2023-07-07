@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProjectMapper;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,15 @@ public class ProjectServiceImpl implements ProjectService{
         return projectMapper.selectProjectByProjectNo(projectNo, userNo);
     }
 
+    @Override
+    public List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria) {
+        return projectMapper.selectByProgressAndSearchProjectManagement(searchCriteria);
+    }
+
+    @Override
+    public int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria) {
+        return projectMapper.selectByProgressAndSearchProjectManagementCount(searchCriteria);
+    }
 
     /**
      *
@@ -52,21 +62,30 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    public ProjectDTO selectProjectCancelInfoByProjectId(int projectNo, int userNo) {
+        return projectMapper.selectProjectCancelInfoByProjectId(projectNo, userNo);
+    }
+
+    @Override
+    @Transactional
     public int insertTemporaryProject(ProjectDTO project) {
         return projectMapper.insertTemporaryProject(project);
     }
 
     @Override
+    @Transactional
     public int updateProjectInfo(ProjectDTO project) {
         return projectMapper.updateProjectInfo(project);
     }
 
     @Override
+    @Transactional
     public int deleteProjectByProjectNo(int projectNo) {
         return 0;
     }
 
     @Override
+    @Transactional
     public int updateProjectContent(Integer no,ProjectDTO project) {
         return projectMapper.updateProjectContent(no, project.getContent());
     }

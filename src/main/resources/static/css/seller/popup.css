@@ -10,6 +10,7 @@ body{
     justify-content: center;
 }
 .cancel-title{
+    max-width: 320px;
     color: #884A3B;
     font-weight: 800;
     font-size: 40px;
@@ -64,8 +65,8 @@ body{
 
 .cancel-content-area label{
     position: absolute;
-    width: 350px;
+    width: 330px;
     text-align: right;
     color: #884A3B;
-    top: 570px;
+    top: 690px;
 }

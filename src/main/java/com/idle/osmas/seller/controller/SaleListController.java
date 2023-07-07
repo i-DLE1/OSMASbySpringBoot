@@ -53,11 +53,18 @@ public class SaleListController {
     @GetMapping("/getSaleList")
     @ResponseBody
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
-                                                 @RequestParam(required = false) String searchTitle){
+                                                 @RequestParam(required = false) String searchTitle,
+                                                 @RequestParam(required = false) int startNo
+                                                 ){
 
         List<ProjectDTO> tempProjectList = new ArrayList<>();
         List<ProjectCategoryDTO> categorySubList;
         Map<String, Object> projectParams = new HashMap<>();
+
+        projectParams.put("startNo",startNo);
+        projectParams.put("endNo",startNo+11);
+
+        // 자바스크립트 수정 예정
 
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);
@@ -86,7 +93,7 @@ public class SaleListController {
 
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
-            attr.put("currentAmount", df.format(project.getCurrentAmount()));
+            attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
             attr.put("date", String.valueOf(betweenDays.getDays()) );
             if(project.getProjectFileList().size() > 0) {
                 attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());

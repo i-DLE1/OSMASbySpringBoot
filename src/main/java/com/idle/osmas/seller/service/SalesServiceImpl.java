@@ -52,5 +52,10 @@ public class SalesServiceImpl implements SalesService{
         return salesMapper.selectNewInfoListByNo(no);
     }
 
+    @Override
+    public int insertNewQna(QnaDTO qnaDTO) {
+        return salesMapper.insertNewQna(qnaDTO);
+    }
+
 
 }

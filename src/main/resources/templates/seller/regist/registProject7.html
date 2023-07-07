@@ -33,29 +33,34 @@
                     </tbody>
                 </table>
             </div>
-            <h1 class="h1-title" style="margin-top: 80px;">상품 등록 정보</h1>
-            <div class="container-justify-center-w100">
-                <table class="end-table">
-                    <tbody id="projectEndList">
-                        <tr class="row" th:each="item : ${projectInfo.productList}">
-                            <th class="col-1">상품명</th>
-                            <td class="col" th:text="${item.name}"></td>
-                            <th class="col-1">사이즈</th>
-                            <td class="col" th:text="${item.size}"></td>
-                            <th class="col-2">가격(원)</th>
-                            <td class="col" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}"></td>
-                            <th class="col-1">최대수량</th>
-                            <td class="col-1" th:text="${#numbers.formatInteger(item.maxQuantity,0,'COMMA')}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <th:block th:if="${projectInfo.productList.size() != 0}">
+                <h1 class="h1-title" style="margin-top: 80px;">상품 등록 정보</h1>
+                <div class="container-justify-center-w100">
+                    <table class="end-table">
+                        <tbody id="projectEndList">
+                            <tr class="row" th:each="item : ${projectInfo.productList}">
+                                <th class="col-1">상품명</th>
+                                <td class="col" th:text="${item.name}"></td>
+                                <th class="col-1">사이즈</th>
+                                <td class="col" th:text="${item.size}"></td>
+                                <th class="col-2">가격(원)</th>
+                                <td class="col" th:text="${#numbers.formatInteger(item.price,0,'COMMA')}"></td>
+                                <th class="col-1">최대수량</th>
+                                <td class="col-1" th:text="${#numbers.formatInteger(item.maxQuantity,0,'COMMA')}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th:block>
         </main>
+
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="history.back()"/>
             <input class="footer-btn" type="button" value="미리보기" />
-            <input class="footer-btn" type="button" value="심사요청" onclick="registProjectComplete()" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProjectComplete()" />
         </footer>
         <script src="/js/seller/registProject.js"></script>
+        <script>
+        </script>
     </body>
 </html>

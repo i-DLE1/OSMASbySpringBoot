@@ -18,103 +18,97 @@ function showSlide(index) {
     }
 }
 
-//showSlide(currentIdx);
+showSlide(currentIdx);
 
 setInterval(() => {
     showSlide(currentIdx + 1);
 
 }, 1000);
 
-// 옵션1 두번째 선택시부터
+
+// 옵션선택
 function addNewDiv() {
-    var option1 = document.getElementById("selectbox1");
-    var option2 = document.getElementById("selectbox2");
-    var originalDiv =  document.getElementsByClassName('optionmiddle')[3];
+    var option = document.getElementById("selectbox");
+    var originalDiv =  document.getElementsByClassName('optionmiddle')[2];
     var container = document.getElementById("optioncontainer");
-    var resultParagraph = document.getElementsByClassName("optioncheck");
 
-    if (resultParagraph[0].value !== "") {
-        var clonedDiv = originalDiv.cloneNode(true);
-        clonedDiv.style.display = 'none';
+    var clonedDiv = originalDiv.cloneNode(true);
+    // clonedDiv.style.display = 'none';
+    container.appendChild(clonedDiv);
 
-        if (resultParagraph.length > 1 && resultParagraph[resultParagraph.length-1].value == ""){
-            alert("옵션2을 선택해주세요.");
+    // plus버튼 이벤트추가
+    const plusButton = clonedDiv.querySelector('.plusbutton');
+    plusButton.addEventListener('click', function() {
+        let count = plusButton.previousSibling.previousSibling.value;
+        let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value);
+        let price = money/count;
+        plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
+        plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
+        calcMoney();
+
+    });
+    // minus버튼 이벤트추가
+    const minusButton = clonedDiv.querySelector('.minusbutton');
+    minusButton.addEventListener('click', function() {
+        let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
+        let money = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
+        let price = money/count;
+        if (count > 1) {
+            minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
+            minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) - price;
+            calcMoney();            } else {
+            alert("최소 수량은 1개 입니다.");
         }
-        else {
-            container.appendChild(clonedDiv);
-        }
-
-        const plusButton = clonedDiv.querySelector('.plusbutton');
-        plusButton.addEventListener('click', function() {
-            let count = plusButton.previousSibling.previousSibling.value;
-            let money = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value);
-            let price = money/count;
-            plusButton.previousSibling.previousSibling.value = parseInt(count) + 1;
-            plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(plusButton.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.value) + price;
+    });
+        // delete 버튼 이벤트추가
+        const deleteButton = clonedDiv.querySelector('.deletebutton');
+        deleteButton.addEventListener('click', function() {
+            clonedDiv.remove();
             calcMoney();
-
         });
 
-        const minusButton = clonedDiv.querySelector('.minusbutton');
-        minusButton.addEventListener('click', function() {
-            let count = minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value;
-            let money = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value);
-            let price = money/count;
-            if (count > 1) {
-                minusButton.previousSibling.previousSibling.previousSibling.previousSibling.value = parseInt(count) - 1;
-                minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value = parseInt(minusButton.nextSibling.nextSibling.nextSibling.nextSibling.value) - price;
-                calcMoney();            } else {
-                alert("최소 수량은 1개 입니다.");
-            }
-        });
-
-        const optioncheck =  document.querySelectorAll('.optioncheck');
-        optioncheck[optioncheck.length-1].value = "";
-        const optionamount =  document.querySelectorAll('.optionamount');
-        optionamount[optionamount.length-1].value = 1;
-    }
+    displaySelectedOptions();
 }
 
-// 옵션2 선택시
+
 function displaySelectedOptions() {
-    var option1 = document.getElementById("selectbox1");
-    var option2 = document.getElementById("selectbox2");
+    var option = document.getElementById("selectbox");
     const inputbox =  document.querySelectorAll('.optioncheck');
+    // 가격 박스 클래스 요소 가져오기!!!!!!!!
     const optionmoneybox =  document.querySelectorAll('.optionmoney');
+    // 옵션번호 박스 클래스 요소 가져오기!!!!!!!! (옵션 수량의 클래스는 class="optionamount" 입니다)
+    const optionNobox =  document.querySelectorAll('.optionNumber');
     var resultParagraph = document.getElementsByClassName("optioncheck");
 
-    if(option1.value !== ""){
-        var result = option1.value + " - " + option2.value;
-        inputbox[inputbox.length-1].value = result;
-        var parentDiv = inputbox[inputbox.length - 1].parentNode;
+    // 가격 가져오기!!!!!!!!!!
+    var selectedOptionIndex = selectbox.selectedIndex;
+    var selectedOption = selectbox.options[selectedOptionIndex];
+    var dataOptionPrice = selectedOption.dataset.optionPrice;
+    // 옵션번호 가져오기!!!!!!!!!!
+    var dataOptionNo = selectedOption.dataset.optionNo;
+    console.log(dataOptionNo);
 
-        var duplicateValues = checkDuplicates(resultParagraph);
-         if(duplicateValues.length !== 0 ){
-            alert("이미 선택된 옵션입니다.");
-             inputbox[inputbox.length-1].value = "";
-             option2.value="";
-        } else{
-             var match = result.match(/\d+(?=\s*원\))/);
+    var result = option.value;
+    inputbox[inputbox.length-1].value = result;
 
-             if (match) {
-                 var extractedNumber = match[0];
-                 optionmoneybox[optionmoneybox.length-1].value = extractedNumber;
-             }
-             parentDiv.style.display = 'flex';
-             option1.value="";
-             option2.value="";
-             calcMoney();
-         }
-    } else {
-        alert("옵션1을 선택해주세요.");
-        option2.value="";
+    var parentDiv = inputbox[inputbox.length - 1].parentNode;
+
+    var duplicateValues = checkDuplicates(resultParagraph);
+    if(duplicateValues.length !== 0 ){
+        alert("이미 선택된 옵션입니다.");
+        parentDiv.remove();
+        option.value="";
+    } else{
+        // 가격 넣기!!!!!!!!
+        optionmoneybox[optionmoneybox.length-1].value = dataOptionPrice;
+        // 옵션번호 넣기!!!!!!!!
+        optionNobox[optionNobox.length-1].value = dataOptionNo;
+        parentDiv.style.display = 'flex';
+        option.value="";
+        calcMoney();
     }
 
 }
-
-
-
-
 
 // 현재금액/목표금액 퍼센트구하기
 function calcPercent(){
@@ -122,7 +116,6 @@ function calcPercent(){
     var currentAmounttext = document.getElementById("currentAmount");
     var targetAmount = parseInt(document.getElementById("targetAmount").textContent);
     var targetAmounttext = document.getElementById("targetAmount");
-    var calcAmount = document.getElementById("calcAmount");
     var calcAmount = document.getElementById("calcAmount");
     var gauge1 = document.getElementById("progress-gauge1");
 
@@ -175,32 +168,24 @@ function calcBetweenDate(){
 function calcMoney() {
     var totalamount = document.getElementById("totalamount");
     const inputbox2 =  document.querySelectorAll('.optionmoney');
-    var  sum = 0;
+    var donationck = document.getElementById("donationck");
+    var donation = document.getElementById("donation");
 
-    for (var  i=0; i< inputbox2.length ; i++){
+    if (donationck.checked) {
+        var  sum = parseInt(donation.value);
+    } else {
+        var  sum = 0;
+    }
+
+    for (var  i=1; i< inputbox2.length ; i++){
         sum += parseInt(inputbox2[i].value);
     }
+
 
     totalamount.textContent = sum.toLocaleString();
 
 }
 
-// 백단위마다 컴마추가
-function numberWithCommas(number) {
-    return number.values().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-}
-
-function setcomma(){
-    // var optionPrices  =  document.querySelectorAll(".optiontext");
-    // for (var i=0; i< option2.length; i++){
-    //     option2[i].value = (parseInt(option2[i].value).toLocaleString()).toString();
-    // }
-
-    // console.log("하이");
-    // console.log(optionPrices);
-    // console.log(option2[1].textContent);
-}
 
 // 옵션 중복체크
 function checkDuplicates(arr) {
@@ -305,6 +290,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+
     var donationck = document.getElementById("donationck");
     var donation = document.getElementById("donation");
     donationck.addEventListener("change", function() {

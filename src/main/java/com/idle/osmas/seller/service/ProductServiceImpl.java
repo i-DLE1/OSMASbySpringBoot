@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProductMapper;
 import com.idle.osmas.seller.dto.ProductDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,16 +17,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int deleteProductListByProjectNo(int projectNo) {
-        return 0;
-    }
-
-    @Override
-    public int deleteProductByProductNo(int productNo) {
-        return 0;
-    }
-
-    @Override
+    @Transactional
     public int insertProjectProduct(List<ProductDTO> productList, int projectNo) {
         productList.forEach( e ->{
             if(e.getNo() == 0){
@@ -40,17 +32,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public int deleteProjectProduct(List<ProductDTO> productList) {
-        productList.forEach(e->{
-            productMapper.deleteProjectProductList(e.getNo());
-            productMapper.deleteProjectProduct(e.getNo());
-        });
+        int result = 0;
+        for (ProductDTO e : productList) {
+            System.out.println("e = " + e);
+            int subResult = 0;
+            subResult += productMapper.deleteProjectProductList(e.getNo());
+            subResult += productMapper.deleteProductByProductNo(e.getNo());
+            if(subResult == 2) result++;
+        }
+        if(result == productList.size()) return 1;
+
         return 0;
     }
 
     @Override
-    public List<ProductDTO> selectProductListByProjectNo(int projectNo, String userId) {
+    public List<ProductDTO> selectProductListByProjectNo(int projectNo, int userNo) {
 
-        return productMapper.selectProductListByProjectNo(projectNo, userId);
+        return productMapper.selectProductListByProjectNo(projectNo, userNo);
+    }
+
+    @Override
+    public int selectProductListCountByProjectNo(int projectNo) {
+        return productMapper.selectProductListCountByProjectNo(projectNo);
+    }
+
+    @Override
+    public List<ProductDTO> selectSponsoredPrjByProjectNo(int projectNo, int userNo) {
+        return productMapper.selectSponsoredPrjByProjectNo(projectNo, userNo);
     }
 }

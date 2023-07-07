@@ -20,6 +20,9 @@ public interface ProjectMapper {
 
     List<ProjectDTO> selectProjectByCategory(Map<String, Object> params);
 
+    int selectByProgressAndSearchProjectManagementCount(Map<String, Object> searchCriteria);
+    List<ProjectDTO> selectByProgressAndSearchProjectManagement(Map<String, Object> searchCriteria);
+
     int insertTemporaryProject(ProjectDTO projectDTO);
 
     int updateProjectInfo(ProjectDTO projectDTO);
@@ -28,5 +31,7 @@ public interface ProjectMapper {
 
     int deleteProjectByProjectNo(int projectNo);
 
+
+    ProjectDTO selectProjectCancelInfoByProjectId(int projectNo, int userNo);
 
 }

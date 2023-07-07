@@ -1,6 +1,7 @@
 package com.idle.osmas.admin.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -14,4 +15,13 @@ public interface SellerApprovalFormMapper {
     int deletePERMISSION(String sellerId);
 
     int deleteREQ(String sellerId);
+
+    int sellerInsert(Map<String, String> requestData);
+
+    int sellerInsertReq(String sellerId);
+
+    int sellerInsertPermission(String sellerId);
+
+    int sellerInsertFile(String originFileName,String savedFileName, String sellerId);
+
 }
