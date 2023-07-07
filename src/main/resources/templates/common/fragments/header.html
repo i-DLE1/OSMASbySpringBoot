@@ -27,7 +27,7 @@
       <button onclick="location.href='/member/signup/signUp'">회원가입</button>
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
-        <button sec:authentication="principal.nickname"></button>
+        <button sec:authentication="principal.nickname" class="id_button"></button>
         <button onclick="location.href='/member/logout'">로그아웃</button>
     </th:block>
   </div>
