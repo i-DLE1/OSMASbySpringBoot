@@ -32,7 +32,7 @@ public class SaleListController {
         this.projectCategoryService = projectCategoryService;
     }
 
-    @GetMapping("salesList")
+    @GetMapping("saleList")
     public String salesList(@RequestParam(required = false) String search,
                             Model model){
 
