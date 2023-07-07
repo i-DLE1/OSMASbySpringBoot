@@ -107,7 +107,6 @@
                        TP.AMOUNT AS TBL_PAYMENT_AMOUNT,
                        TP.PAYMENT_TYPE AS TBL_PAYMENT_PAYMENT_TYPE,
                        TP.STATUS AS TBL_PAYMENT_STATUS,
---                        TM2.NAME AS TBL_MEMBER_NAME2,
                        TPQA.CONTENT AS TBL_PRJ_QNA_ANSWER_CONTENT
                   FROM TBL_PRJ_QNA TPQ
                   JOIN TBL_PRJ PRJ ON PRJ.NO = TPQ.REF_PRJ_NO

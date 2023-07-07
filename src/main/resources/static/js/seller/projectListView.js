@@ -19,7 +19,7 @@ function projectListView(data){
         let $div = $("<div>").addClass("project-item").attr('onclick',`moveSale(${item.no})`)
         let $thumbnailDiv = $("<div>");
         const $thumbnailImg = $("<img>").addClass("project-item-thumbnail")
-        item?.img === undefined ? $thumbnailImg.attr('src','./files/images/common/notImg.jpg') : $thumbnailImg.attr("src",item.img);
+        item?.img === undefined ? $thumbnailImg.attr('src','./images/common/notImg.jpg') : $thumbnailImg.attr("src",item.img);
         let $contentDiv = $("<div>").addClass("project-row");
         const $moneyDiv = $("<div>").text(item.currentAmount);
         let $labelDiv  = $("<div>");

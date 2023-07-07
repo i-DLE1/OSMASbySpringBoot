@@ -66,8 +66,6 @@ public class SaleListController {
         projectParams.put("startNo",startNo);
         projectParams.put("endNo",startNo+11);
 
-        // 자바스크립트 수정 예정
-
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);
             tempProjectList = projectService.selectProjectByCategory(projectParams);
@@ -98,7 +96,8 @@ public class SaleListController {
             attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
             attr.put("date", String.valueOf(betweenDays.getDays()) );
             if(project.getProjectFileList().size() > 0) {
-                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
+//                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
+                attr.put("img", "/files/" + project.getProjectFileList().get(0).getChangeName());
             }
             attr.put("views", project.getViews().toString());
             attrList.add(attr);

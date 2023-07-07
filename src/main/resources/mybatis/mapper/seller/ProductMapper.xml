@@ -59,7 +59,7 @@
     <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
         DECLARE
           BEGIN
-        <foreach collection="list" item="product" separator="">
+        <foreach collection="list" item="product">
                 INSERT INTO TBL_PRODUCT TP
                 (TP.NO, TP.NAME, TP.INTRODUCTION,
                 TP.PRICE, TP.MAX_QUANTITY, TP.STATUS,
@@ -81,7 +81,7 @@
     <update id="updateProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
         DECLARE
           BEGIN
-        <foreach collection="list" item="product" separator="">
+        <foreach collection="list" item="product">
             UPDATE TBL_PRODUCT TP
             SET TP.NAME = '${product.name}',
             TP.INTRODUCTION = '${product.introduction}',

@@ -30,7 +30,7 @@ import java.util.*;
 @RequestMapping("files")
 public class ImageFileController {
 
-    @Value("${customSaveFileDirectoryPath}")
+    @Value("${saveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
 
     private final ProjectFileService projectFileService;
@@ -62,15 +62,20 @@ public class ImageFileController {
     public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo) {
         if (file.getSize() == 0) return "fail";
 
+        // files/project/no/type_file.ext
+
+
         String originFileName = file.getOriginalFilename();
 
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
 
-        String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
+        String savedFileName = fileType.toString().toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "") + ext;
 
-        File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
+//        File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
 
-        File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH);
+        File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/"+"project" +"/" + projectNo + "/" + savedFileName);
+
+        File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH+"/"+"project" +"/" + projectNo + "/");
 
         if (!saveDirectory.exists()) saveDirectory.mkdirs();
 
@@ -107,36 +112,36 @@ public class ImageFileController {
         return 1;
     }
 
-    @GetMapping(value = "/seller/project/{file}")
-    public ResponseEntity<?> fileLoads(@PathVariable String file) {
+//    @GetMapping(value = "/seller/project/{file}")
+//    public ResponseEntity<?> fileLoads(@PathVariable String file) {
+//
+//        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
+//
+//        if (projectFile == null) return ResponseEntity.ok("");
+//
+//        Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
+//
+//        FileSystemResource resource = new FileSystemResource(saveFile);
+//
+//        try {
+//            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(saveFile))).body(resource);
+//        } catch (IOException e) {
+//            return ResponseEntity.ok("");
+//        }
+//    }
 
-        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
-
-        if (projectFile == null) return ResponseEntity.ok("");
-
-        Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
-
-        FileSystemResource resource = new FileSystemResource(saveFile);
-
-        try {
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(saveFile))).body(resource);
-        } catch (IOException e) {
-            return ResponseEntity.ok("");
-        }
-    }
-
-    @GetMapping("/images/{type}/{file}")
-    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
-
-        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
-
-        System.out.println("resource = " + resource);
-        try {
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
-        } catch (IOException e) {
-            return ResponseEntity.ok("");
-        }
-    }
+//    @GetMapping("/images/{type}/{file}")
+//    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
+//
+//        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
+//
+//        System.out.println("resource = " + resource);
+//        try {
+//            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
+//        } catch (IOException e) {
+//            return ResponseEntity.ok("");
+//        }
+//    }
 
     @PostMapping("/projectBodyUpload")
     @ResponseBody()
@@ -163,10 +168,11 @@ public class ImageFileController {
             return response;
         }
 
-        image.put("url","/files/seller/project/"+saveFileName);
+        image.put("url","/files/project/" + no + "/"+ saveFileName);
         result.add(image);
         response.put("result",result);
 
+        System.out.println("result = " + response);
         return response;
     }
 }
