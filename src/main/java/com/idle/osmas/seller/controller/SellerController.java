@@ -228,7 +228,7 @@ public class SellerController {
         if(result == 0 ) return "fail";
 
         for(ProjectFileDTO file : projectFileList){
-            imageFileController.deleteFile(file.getChangeName());
+            imageFileController.deleteFile("project",no,file.getChangeName());
         }
 
         return "success";

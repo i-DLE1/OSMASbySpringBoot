@@ -39,10 +39,12 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("projectDetail")
-    public String projectDetail(@RequestParam int no, Principal principal, Model model) {
+    public String projectDetail(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
+
+        if(project == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
         List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
 
@@ -56,11 +58,13 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("cancel")
-    public String getCacnel(@RequestParam int no,  Principal principal, Model model){
+    public String getCacnel(@RequestParam int no,  Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
+
+        if(project == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
         String targetRate = String.valueOf(project.getCurrentAmount() / project.getTargetAmount()  * 100)+"%";
 
@@ -80,8 +84,6 @@ public class ProjectDeatilController {
                                             .refProjectNo(no)
                                             .build();
 
-        System.out.println("projectProgress = " + projectProgress);
-
         int insertResult = projectProgressService.insertProjectProgressStatus(projectProgress);
 
         if(insertResult > 0){
@@ -94,9 +96,9 @@ public class ProjectDeatilController {
     @GetMapping("qaAnswer")
     public String getQaAnswer(@RequestParam Integer no, Principal principal, Model model) {
 
-        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+//        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(Integer.valueOf(no));
+        ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(no);
 
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";

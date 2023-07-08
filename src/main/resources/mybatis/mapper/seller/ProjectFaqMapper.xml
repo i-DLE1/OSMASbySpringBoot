@@ -33,8 +33,8 @@
                 (TPF.NO, TPF.REF_PRJ_NO, TPF.TITLE,
                  TPF.CONTENT, TPF.REGIST_DATE)
                 VALUES
-                    (SEQ_TBL_PRJ_FAQ_NO.nextval, #{projectFaq.projectNo}, #{projectFaq.title},
-                     #{projectFaq.content}, SYSDATE);
+                (SEQ_TBL_PRJ_FAQ_NO.nextval, #{projectFaq.projectNo}, #{projectFaq.title},
+                 #{projectFaq.content}, SYSDATE);
         </foreach>
         end;
     </insert>

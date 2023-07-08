@@ -39,15 +39,15 @@
                         </tr>
                         <tr>
                             <th>목표금액(원)</th>
-                            <td colspan="2" th:text="${project.currentAmount}"></td>
+                            <td colspan="2" th:text="${#numbers.formatInteger(project.currentAmount,0,'COMMA')}"></td>
                         </tr>
                         <tr>
                             <th>달성금액(원)</th>
-                            <td colspan="2" th:text="${project.targetAmount}"></td>
+                            <td colspan="2" th:text="${#numbers.formatInteger(project.targetAmount,0,'COMMA')}"></td>
                         </tr>
                         <tr>
                             <th>참여자수(명)</th>
-                            <td colspan="2" th:text="${project.views}">1000</td>
+                            <td colspan="2" th:text="${#numbers.formatInteger(project.views,0,'COMMA')}">1000</td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,9 +70,9 @@
                         <tr th:each="item : ${productList}">
                             <th th:text="${productList.size() - itemStat.index}"></th>
                             <td th:text="${item.name}"></td>
-                            <td th:text="${item.price}"></td>
-                            <td th:text="${item.count}"></td>
-                            <td th:text="${item.price * item.count}"></td>
+                            <td th:text="${#numbers.formatInteger(item.price,0,'COMMA')}"></td>
+                            <td th:text="${#numbers.formatInteger(item.count,0,'COMMA')}"></td>
+                            <td th:text="${#numbers.formatInteger(item.price * item.count,0,'COMMA')}"></td>
                         </tr>
                     </tbody>
                 </table>

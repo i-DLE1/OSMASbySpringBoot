@@ -68,12 +68,12 @@
         UPDATE TBL_PRJ_FILE TPF
         SET TPF.DELETE_YN = 'Y'
         WHERE TPF.REF_PRJ_NO = #{projectNo}
-          AND TPF.TYPE = #{fileType};
+          AND TPF.TYPE = #{fileType}
     </update>
 
     <update id="updateNonAvailableProjectFileByChangeName" parameterType="com.idle.osmas.seller.dto.ProjectFileDTO">
         UPDATE TBL_PRJ_FILE TPF
            SET TPF.DELETE_YN = 'Y'
-         WHERE TPF.CHANGE_NAME = #{changeName};
+         WHERE TPF.CHANGE_NAME = #{changeName}
     </update>
 </mapper>

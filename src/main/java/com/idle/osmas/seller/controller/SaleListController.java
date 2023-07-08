@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -89,12 +91,12 @@ public class SaleListController {
         for(ProjectDTO project : tempProjectList){
             Map<String, String> attr = new HashMap<>();
 
-            Period betweenDays = Period.between(LocalDate.now(),project.getEndDate());
+            long betweenDays = ChronoUnit.DAYS.between(LocalDate.now(),project.getEndDate());
 
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
             attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
-            attr.put("date", String.valueOf(betweenDays.getDays()) );
+            attr.put("date", String.valueOf(betweenDays) );
             if(project.getProjectFileList().size() > 0) {
 //                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
                 attr.put("img", "/files/"+ "project/" + project.getNo() + "/" + project.getProjectFileList().get(0).getChangeName());

@@ -143,23 +143,24 @@
                                         AND TPF2.DELETE_YN = 'N'
                           ) TPF ON TPF.REF_PRJ_NO = PRJ.NO
                          WHERE PRJ.END_DATE <![CDATA[>=]]> SYSDATE
-                         <if test="categoryNo != null">PRJ.REF_CATEGORY_NO = #{categoryNo}
+                         <if test="categoryNo != null">
+                           AND PRJ.REF_CATEGORY_NO = #{categoryNo}
                          </if>
                          <if test="searchTitle != null or searchTitle != ''">
-                            AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
+                           AND PRJ.TITLE LIKE '%' || '${searchTitle}' || '%'
                          </if>
                          <if test="startDate != null">
-                            AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
+                           AND PRJ.START_DATE <![CDATA[>=]]> #{startDate}
                          </if>
                          <if test="endDate != null">
-                            AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
+                           AND PRJ.END_DATE <![CDATA[<=]]> #{endDate}
                          </if>
                          <if test="views != null">
-                            AND PRJ.VIEWS <![CDATA[>=]]> #{views}
+                           AND PRJ.VIEWS <![CDATA[>=]]> #{views}
                          </if>
-                          ORDER BY PRJ.END_DATE
+                         ORDER BY PRJ.END_DATE
                          ) ST)
-         WHERE RNUM BETWEEN #{startNo} AND #{endNo}+1
+         WHERE RNUM BETWEEN #{startNo} AND #{endNo}
     </select>
 
     <select id="selectByProgressAndSearchProjectManagementCount" resultType="_int" parameterType="map">

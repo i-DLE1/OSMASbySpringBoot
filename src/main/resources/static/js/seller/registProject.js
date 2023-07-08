@@ -400,14 +400,15 @@ function previewImage(ele) {
 function loadProductImg(imgFileList){
     // let rootUrl = location.origin+'/files/project/'+ (PAGE_NUMBER === null ? '' : PAGE_NUMBER);
     let rootUrl = location.origin+'/files/project/';
-
+    console.log(imgFileList)
     let length = 0;
     imgFileList.forEach(e=>{
         if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
         if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
         if(e.type === 'CONTENT') {
-            $(`#imgfile${length}`).prop("src",rootUrl+e?.changeName);
-            length++;
+            if(e?.changeName.includes('content0_')) $(`#imgfile0`).prop("src",rootUrl + e.projectNo + '/' + e?.changeName);
+            if(e?.changeName.includes('content1_')) $(`#imgfile1`).prop("src",rootUrl + e.projectNo + '/' +e?.changeName);
+            if(e?.changeName.includes('content2_')) $(`#imgfile2`).prop("src",rootUrl + e.projectNo + '/' +e?.changeName);
         }
     })
 }
@@ -545,12 +546,13 @@ function registProject3(temporary) {
     let formData = new FormData();
         formData.append("presentFile",presentFile)
         formData.append("thumbnailFile",thumbnailFile)
+
     let files = $(".file")
     let productListLength =$("#productList").children("div").length;
     let no = new URLSearchParams(location.search).get('no')
 
     for(let i = 0 ; i < files.length; i++ ){
-        formData.append("fileList",files[i].files[0])// }
+        formData.append(`file-${i}`,files[i].files[0])// }
     }
 
     for(let i = 1 ; i < productListLength+1; i++){
@@ -581,6 +583,7 @@ function registProject3(temporary) {
         success : function (success) {
             if(temporary){
                 alert("임시저장이 완료 됐습니다.")
+                location.reload();
             }else {
                 location.href='/seller/regist/project4' + (no === null ?  '' : `?no=${no}`);
             }

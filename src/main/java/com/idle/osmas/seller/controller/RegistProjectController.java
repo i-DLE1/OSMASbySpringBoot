@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.admin.dto.TermsDTO;
 import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
@@ -14,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,9 +36,13 @@ public class RegistProjectController {
 
     private final ProjectNewsService projectNewsService;
 
+    private final ProjectTermService termsService;
+
     private final ImageFileController imageFileController;
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+
 
     public RegistProjectController(ProjectService projectService,
                                    ProjectProgressService projectProgressService,
@@ -47,7 +51,8 @@ public class RegistProjectController {
                                    ProjectCategoryService projectCategoryService,
                                    ProjectFAQService projectFAQService,
                                    ProjectNewsService projectNewsService,
-                                   ImageFileController imageFileController) {
+                                   ImageFileController imageFileController,
+                                   ProjectTermService termsService) {
 
         this.projectService = projectService;
         this.projectProgressService = projectProgressService;
@@ -57,6 +62,7 @@ public class RegistProjectController {
         this.projectFAQService = projectFAQService;
         this.projectNewsService = projectNewsService;
         this.imageFileController = imageFileController;
+        this.termsService = termsService;
     }
 
     public Map<String, String> submitButtonNaming(int ProjectNo, String temp, String notTemp){
@@ -65,9 +71,9 @@ public class RegistProjectController {
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(ProjectNo, null);
 
         if(projectProgress.getStatus().equals(ProjectProgressStatus.TEMPORARY)){
-            submitName.put("submitName","임시저장");
+            submitName.put("submitName",temp);
         }else {
-            submitName.put("submitName", "수정");
+            submitName.put("submitName", notTemp);
         }
         return submitName;
     }
@@ -84,7 +90,7 @@ public class RegistProjectController {
     @GetMapping("tempProjectConfirm")
     @ResponseBody
     public Map<String, Object> tempProjectConfirm(Principal principal){
-        System.out.println("principal = " + principal);
+
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         Integer no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -129,13 +135,15 @@ public class RegistProjectController {
         if(no != null) return "redirect:/seller/regist/project2?no="+no;
 
 
-        String term1 = "약관1";
-        String term2 = "약관2";
+        List<TermsDTO> termsList = termsService.selectTermListByNo();
+
+        String term1 = termsList.get(0).getContent();
+        String term2 = termsList.get(1).getContent();
 
         model.addAttribute("term1", term1);
         model.addAttribute("term2", term2);
 
-        if(no !=null){
+        if(no != null){
             model.addAttribute("check1",true);
             model.addAttribute("check2",true);
         }else {
@@ -167,6 +175,7 @@ public class RegistProjectController {
         tempProject = ProjectDTO.builder()
                 .refMemberNo(user.getNo())
                 .build();
+
         projectService.insertTemporaryProject(tempProject);
 
         projectProgressService.insertProjectProgressStatus(
@@ -183,6 +192,7 @@ public class RegistProjectController {
     public String getProjectInfo(@RequestParam(required = false) Integer no,
                                  Model model, Principal principal) throws AccessAuthorityException {
 
+
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
@@ -190,6 +200,8 @@ public class RegistProjectController {
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
+
+        if(no == null ) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
         ProjectDTO project = null;
 
@@ -208,7 +220,8 @@ public class RegistProjectController {
 
     @PostMapping(value = "project2")
     @ResponseBody
-    public String postProjectIRegist(@RequestBody ProjectDTO project, Integer no, Principal principal){
+    public String postProjectRegist(@RequestBody ProjectDTO project, Integer no, Principal principal){
+
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         if (project == null) return "fail";
@@ -298,7 +311,6 @@ public class RegistProjectController {
             return templist;
         }else {
             templist = projectFileService.selectProjectFileListByProjectNo(no,user.getNo());
-            System.out.println("templist = " + templist);
             return templist;
         }
     }
@@ -309,8 +321,10 @@ public class RegistProjectController {
                                            @RequestPart List<ProjectFileDTO> projectFileList,
                                            @RequestPart(required = false) MultipartFile presentFile,
                                            @RequestPart(required = false) MultipartFile thumbnailFile,
-                                           @RequestPart(required = false) List<MultipartFile> fileList,
-                                           @RequestParam(required = false) Integer no, Principal principal) throws IOException {
+                                           @RequestPart(value = "file-0", required = false) MultipartFile file0,
+                                           @RequestPart(value = "file-1", required = false) MultipartFile file1,
+                                           @RequestPart(value = "file-2", required = false) MultipartFile file2,
+                                           @RequestParam(required = false) Integer no, Principal principal) {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
@@ -322,15 +336,15 @@ public class RegistProjectController {
         Map<String, String> oldProjectFile = new HashMap<>();
 
         projectFileList.stream().forEach(e->{
-            oldProjectFile.put(e.getType().toString(),e.getChangeName());
+            String suffix = e.getChangeName().substring(0,e.getChangeName().indexOf("_"));
+            System.out.println("suffix = " + suffix);
+            oldProjectFile.put(suffix, e.getChangeName());
         });
 
         List<ProductDTO> deleteProductList = productList.get("old")
                 .stream().filter( oldE-> productList.get("new")
                         .stream().noneMatch( newE -> oldE.getNo() == newE.getNo()) )
                 .collect(Collectors.toList());
-
-        System.out.println("deleteProductList = " + deleteProductList);
 
         if(deleteProductList.size() != 0) {
             productService.deleteProjectProduct(deleteProductList);
@@ -349,19 +363,40 @@ public class RegistProjectController {
         productService.insertProjectProduct(insertProductList);
         productService.updateProjectProduct(updateProductList);
 
+
+        System.out.println("oldProjectFile = " + oldProjectFile);
+
         if(presentFile != null) {
-            imageFileController.deleteFile(oldProjectFile.get("REPRESENT"));
+            imageFileController.deleteFile("project",no,oldProjectFile.get("represent"));
 
             imageFileController.saveFile(ProjectFileType.REPRESENT, presentFile, no);
         }
 
-        if(thumbnailFile != null) imageFileController.saveFile(ProjectFileType.THUMBNAIL, thumbnailFile, no);
-
-        if(fileList != null){
-            for (MultipartFile file : fileList) {
-                imageFileController.saveFile(ProjectFileType.CONTENT, file, no);
-            }
+        if(thumbnailFile != null) {
+            imageFileController.deleteFile("project",no,oldProjectFile.get("thumbnail"));
+            imageFileController.saveFile(ProjectFileType.THUMBNAIL, thumbnailFile, no);
         }
+
+        if(file0 != null){
+            imageFileController.deleteFile("project",no,oldProjectFile.get("content0"));
+            imageFileController.saveFile(ProjectFileType.CONTENT, file0, no, "CONTENT0");
+        }
+
+        if(file1 != null){
+            imageFileController.deleteFile("project",no,oldProjectFile.get("content1"));
+            imageFileController.saveFile(ProjectFileType.CONTENT, file1, no, "CONTENT1");
+        }
+
+        if(file2 != null){
+            imageFileController.deleteFile("project",no,oldProjectFile.get("content2"));
+            imageFileController.saveFile(ProjectFileType.CONTENT, file2, no, "CONTENT2");
+        }
+
+//        if(fileList != null){
+//            for (MultipartFile file : fileList) {
+//                imageFileController.saveFile(ProjectFileType.CONTENT, file, no);
+//            }
+//        }
 
 
         return "success";
@@ -386,6 +421,7 @@ public class RegistProjectController {
 
         model.addAttribute("project" ,project); // 웹에디터 기본값
         model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
+
         return "/seller/regist/registProject4";
     }
     
@@ -437,6 +473,7 @@ public class RegistProjectController {
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
+
         if(no == null) throw new AccessAuthorityException("접근할 권한이 없습니다.");
 
         List<ProjectFAQDTO> projectFAQList =  projectFAQService.selectProjectFaqByProjectNo(no, user.getNo());

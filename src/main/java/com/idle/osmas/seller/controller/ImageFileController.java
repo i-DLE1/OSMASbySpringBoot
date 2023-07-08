@@ -37,19 +37,22 @@ public class ImageFileController {
 
     private final ProjectService projectService;
 
-    private final ResourceLoader resourceLoader;
-
 
     public ImageFileController(ProjectFileService projectFileService,
-                               ProjectService projectService,
-                               ResourceLoader resourceLoader) {
+                               ProjectService projectService) {
 
         this.projectFileService = projectFileService;
         this.projectService = projectService;
-        this.resourceLoader = resourceLoader;
     }
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+
+    public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo){
+
+        return saveFile(fileType,file,projectNo,fileType.toString());
+    }
+
 
     /**
      *
@@ -59,16 +62,15 @@ public class ImageFileController {
      * @return fail : "fail", success :  "saveFileName"
      * @throws IOException
      */
-    public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo) {
+    public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo, String fileSuffix) {
+
         if (file.getSize() == 0) return "fail";
 
         String originFileName = file.getOriginalFilename();
 
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
 
-        String savedFileName = fileType.toString().toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "") + ext;
-
-//        File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
+        String savedFileName = fileSuffix.toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "") + ext;
 
         File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/"+"project" +"/" + projectNo + "/" + savedFileName);
 
@@ -78,7 +80,11 @@ public class ImageFileController {
 
         try {
 
-            Thumbnails.of(file.getInputStream()).size(400, 400).toFile(savedFile);
+            if(!fileType.equals(ProjectFileType.BODY)) {
+                Thumbnails.of(file.getInputStream()).size(400, 400).toFile(savedFile);
+            }else {
+                Thumbnails.of(file.getInputStream()).size(1000, 1000).toFile(savedFile);
+            }
 
             if(ProjectFileType.BODY.equals(fileType)) return savedFileName;
 
@@ -91,21 +97,25 @@ public class ImageFileController {
             if(result > 0 ) return savedFileName;
 
             return "fail";
+
         } catch (IOException e) {
 
             savedFile.delete();
             return "fail";
         }
 
-}
+    }
+
     /**
      *
      * @param file cahngeFileName
      * @return success 1 fail 0
     r */
-    public int deleteFile(String file) {
+    public int deleteFile(String type, int no, String file) {
 
-        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
+        System.out.println("file = " + file);
+
+        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + type + "/" + no + "/" + file);
 
         if (deleteFile.isFile()) {
             deleteFile.delete();
@@ -131,9 +141,7 @@ public class ImageFileController {
         List<Map<String, String>> result = new ArrayList<>();
         Map<String, String> image = new HashMap<>();
 
-        result.add(image);
-
-        String saveFileName = saveFile(ProjectFileType.BODY, file, no);
+        String saveFileName = saveFile(ProjectFileType.BODY, file, no, "body");
 
         if(saveFileName.equals("fail")){
             response.put("errorMessage","파일을 저장할 수 없습니다.");
@@ -144,7 +152,6 @@ public class ImageFileController {
         result.add(image);
         response.put("result",result);
 
-        System.out.println("result = " + response);
         return response;
     }
 }

@@ -82,14 +82,14 @@
         DECLARE
           BEGIN
         <foreach collection="list" item="product">
-            UPDATE TBL_PRODUCT TP
-            SET TP.NAME = '${product.name}',
-            TP.INTRODUCTION = '${product.introduction}',
-            TP.PRICE = ${product.price},
-            TP.MAX_QUANTITY =${product.maxQuantity},
-            TP.STATUS = '${product.status}',
-            TP.PRODUCT_SIZE ='${product.size}'
-            WHERE TP.NO = ${product.no};
+                UPDATE TBL_PRODUCT TP
+                SET TP.NAME = '${product.name}',
+                TP.INTRODUCTION = '${product.introduction}',
+                TP.PRICE = ${product.price},
+                TP.MAX_QUANTITY =${product.maxQuantity},
+                TP.STATUS = '${product.status}',
+                TP.PRODUCT_SIZE ='${product.size}'
+                WHERE TP.NO = ${product.no};
         </foreach>
             END;
     </update>
