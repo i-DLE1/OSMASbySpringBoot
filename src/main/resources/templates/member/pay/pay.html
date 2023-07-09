@@ -106,12 +106,12 @@
             </div>
             <div class="address_info">
                 <div class="address_new">
-                    <input type="text" class="address_info_old" placeholder="우편번호" style="width: 100px;"
+                    <input type="text" class="address_info_old" id="postalCode" placeholder="우편번호" style="width: 100px;"
                            th:value="${address.postalCode}" readonly>
                     <input type="button" value="수정" class="modifyButton"><br>
-                    <input type="text" class="address_info_old" placeholder="주소" th:value="${address.general}"
+                    <input type="text" class="address_info_old" placeholder="주소"  id="general" th:value="${address.general}"
                            style="width: 314px;" readonly><br>
-                    <input type="text" class="address_info_old" placeholder="상세주소" th:value="${address.detail}"
+                    <input type="text" class="address_info_old" placeholder="상세주소" id="detail" th:value="${address.detail}"
                            style="width: 314px; height: 30px; margin-top: 10px;" readonly>
                 </div>
             </div>
@@ -158,28 +158,35 @@
 </footer>
 
 <script>
-    // $(function (){
-    //     $('.add_address').click(function (){
-    //         let postalCode = $('.postalCode').val();
-    //         let detail = $('.detail').val();
-    //         let general = $('.general').val();
-    //         if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
-    //             alert("주소를 적어주세요")
-    //         }else{
-    //             $.ajax({
-    //                 url: "/member/pay/address",
-    //                 type: "post",
-    //                 data:{postalCode, detail,general },
-    //                 success: function (data){
-    //                     alert(data);
-    //                     location.reload();
-    //                 },error: function (error){
-    //                     alert(error)
-    //                 }
-    //             });
-    //         }
-    //     });
-    // });
+    $(function (){
+        $('.add_address').click(function (){
+            let postalCode = $('.postalCode').val();
+            let detail = $('.detail').val();
+            let general = $('.general').val();
+
+            let jsonObj = {
+                postalCode: postalCode
+                ,detail:detail
+                ,general:general
+            };
+            if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
+                alert("주소를 적어주세요")
+            }else{
+                $.ajax({
+                    url: "/member/pay/address",
+                    type: "post",
+                    contentType:"application/json",
+                    data: JSON.stringify(jsonObj),
+                    success: function (data){
+                        alert(data);
+                        location.reload();
+                    },error: function (error){
+                        alert(error.responseJSON.message)
+                    }
+                });
+            }
+        });
+    });
     // $(function () {
     //     $('.ok_button').click(function () {
     //
@@ -211,8 +218,33 @@
             $('.address_info_old').removeAttr('readonly');
             $('.modifyButton').val('등록');
         } else {
-            $('.modifyButton').val('수정');
-            $('.address_info_old').attr('readonly', true);
+            let postalCode = $('#postalCode').val();
+            let detail = $('#detail').val();
+            let general = $('#general').val();
+
+            let jsonObj = {
+                postalCode: postalCode
+                ,detail:detail
+                ,general:general
+            };
+            if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
+                alert("주소를 적어주세요")
+            }else{
+                $.ajax({
+                    url: "/member/pay/addressMod",
+                    type: "post",
+                    contentType:"application/json",
+                    data: JSON.stringify(jsonObj),
+                    success: function (data){
+                        alert(data);
+                        $('.modifyButton').val('수정');
+                        $('.address_info_old').attr('readonly', true);
+                        location.reload();
+                    },error: function (error){
+                        alert(error.responseJSON.message)
+                    }
+                });
+            }
         }
     });
 

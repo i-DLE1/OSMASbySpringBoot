@@ -9,4 +9,7 @@ public interface PayMapper {
 
     MemberDTO selectMemberById(String id);
     AddressDTO selectAddressByNo(int no);
+
+    int insertAddress(AddressDTO address);
+    int modAddress(AddressDTO address);
 }

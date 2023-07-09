@@ -34,4 +34,14 @@
       FROM TBL_ADDRESS A
      WHERE A.REF_MEMBER_NO =#{no}
     </select>
+    <insert id="insertAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
+        INSERT INTO TBL_ADDRESS
+        (GENERAL, DETAIL,POSTAL_CODE,NO,REF_MEMBER_NO)
+        VALUES (#{general},#{detail},#{postalCode},SEQ_TBL_ADDRESS_NO.NEXTVAL,#{refMemberNo})
+    </insert>
+
+    <update id="modAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
+        UPDATE TBL_ADDRESS SET GENERAL = #{general},DETAIL =#{detail},POSTAL_CODE=#{postalCode}
+        WHERE REF_MEMBER_NO = #{refMemberNo}
+    </update>
 </mapper>
