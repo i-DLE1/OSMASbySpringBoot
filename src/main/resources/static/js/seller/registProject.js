@@ -1,8 +1,9 @@
-let faqListCount = 1;
-let productCount = 1;
-let registProductList = [];
-let registProductImgList = [];
-let registFaqList = [];
+let FAQ_LIST_COUNT = 1;
+let PRODUCT_COUNT = 1;
+let REGIST_PRODUCT_LIST = [];
+let REGIST_PRODUCT_IMG_LIST = [];
+let REGIST_FAQ_LIST = [];
+let PAGE_NUMBER = new URLSearchParams(location.search).get("no")
 
 function removeItemButton(funcName){
     let $div = $("<div>").attr("id","subItem");
@@ -23,32 +24,31 @@ function faqAddSubItem(faqListCount) {
 }
 
 function faqItemRemove(){
-    faqListCount--;
+    FAQ_LIST_COUNT--;
 
-    if(faqListCount > 2){
-        $(`#faqIndex${faqListCount}`).remove();
-        faqAddSubItem(faqListCount);
+    if(FAQ_LIST_COUNT > 2){
+        $(`#faqIndex${FAQ_LIST_COUNT}`).remove();
+        faqAddSubItem(FAQ_LIST_COUNT);
     }else {
-        $(`#faqIndex${faqListCount}`).remove();
+        $(`#faqIndex${FAQ_LIST_COUNT}`).remove();
     }
 }
 
 function fqaLoadList(data) {
-    console.log(data)
     data.forEach(item=>{
         let text = `
-        <div id="faqIndex${faqListCount}">
+        <div id="faqIndex${FAQ_LIST_COUNT}">
             <div>
-                <div id="faqSubIndex${faqListCount}" >
+                <div id="faqSubIndex${FAQ_LIST_COUNT}" >
                     <div>
-                    <input id="faqNo${faqListCount}" value="${item.no}" hidden=/>
+                    <input id="faqNo${FAQ_LIST_COUNT}" value="${item.no}" hidden=/>
                         <div>
-                            <label class="sub-title" for="title${faqListCount}">제목</label>
-                            <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}" value="${item.title}"/>
+                            <label class="sub-title" for="title${FAQ_LIST_COUNT}">제목</label>
+                            <input class="input-box w-100" id="title${FAQ_LIST_COUNT}" name="title${FAQ_LIST_COUNT}" value="${item.title}"/>
                         </div>
                         <div class="mt-4">
-                            <label class="sub-title" for="content${faqListCount}">내용</label>
-                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${faqListCount}" name="content" >${item.content}</textarea>
+                            <label class="sub-title" for="content${FAQ_LIST_COUNT}">내용</label>
+                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${FAQ_LIST_COUNT}" name="content" >${item.content}</textarea>
                         </div>
                     </div>
                 </div>
@@ -58,18 +58,18 @@ function fqaLoadList(data) {
             </div>
         </div>`
         $('#faqList').append(text);
-        faqListCount++;
+        FAQ_LIST_COUNT++;
     })
-    // faqAddSubItem(faqListCount);
+    // faqAddSubItem(FAQ_LIST_COUNT);
 
-    if(faqListCount > 2){
-        faqAddSubItem(faqListCount);
+    if(FAQ_LIST_COUNT > 2){
+        faqAddSubItem(FAQ_LIST_COUNT);
     }
 }
 
 $("#fqaAdd").click(function (){
-    let titleVal = $(`#title${faqListCount-1}`).val();
-    let contentVal = $(`#content${faqListCount-1}`).val();
+    let titleVal = $(`#title${FAQ_LIST_COUNT-1}`).val();
+    let contentVal = $(`#content${FAQ_LIST_COUNT-1}`).val();
 
     if(titleVal === "" || contentVal === ""){
         alert("입력 되지 않은 필드가 존재합니다.");
@@ -77,21 +77,21 @@ $("#fqaAdd").click(function (){
     }
 
     $('#subItem').remove();
-    $(`#faqIndex${faqListCount-1}`).children().children().prop("class","");
+    $(`#faqIndex${FAQ_LIST_COUNT-1}`).children().children().prop("class","");
 
     let text = `
-        <div id="faqIndex${faqListCount}">
+        <div id="faqIndex${FAQ_LIST_COUNT}">
             <div>
-                <div id="faqSubIndex${faqListCount}" class="add-item-faq-col-2">
+                <div id="faqSubIndex${FAQ_LIST_COUNT}" class="add-item-faq-col-2">
                     <div>
-                        <input id="faqNo${faqListCount}" value="0" hidden/>
+                        <input id="faqNo${FAQ_LIST_COUNT}" value="0" hidden/>
                         <div>
-                            <label class="sub-title" for="title${faqListCount}">제목</label>
-                            <input class="input-box w-100" id="title${faqListCount}" name="title${faqListCount}"/>
+                            <label class="sub-title" for="title${FAQ_LIST_COUNT}">제목</label>
+                            <input class="input-box w-100" id="title${FAQ_LIST_COUNT}" name="title${FAQ_LIST_COUNT}"/>
                         </div>
                         <div class="mt-4">
-                            <label class="sub-title" for="content${faqListCount}" >내용</label>
-                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${faqListCount}" name="content"></textarea>
+                            <label class="sub-title" for="content${FAQ_LIST_COUNT}" >내용</label>
+                            <textarea class="input-box w-100" rows="2" style="resize: none; height: 80px !important;"  id="content${FAQ_LIST_COUNT}" name="content"></textarea>
                         </div>
                     </div>
                     ${removeItemButton("faqItemRemove")}
@@ -103,59 +103,59 @@ $("#fqaAdd").click(function (){
         </div>`
 
     $('#faqList').append(text);
-    faqListCount++;
+    FAQ_LIST_COUNT++;
 });
 
 $("#productAdd").click(function (){
-    let $nameVal = $(`#name${productCount-1}`).val();
-    let $sizeVal = $(`#size${productCount-1}`).val();
-    let $maxQuantityVal = $(`#maxQuantity${productCount-1}`).val();
-    let $priceVal = $(`#price${productCount-1}`).val();
-    let $introductionVal = $(`#introduction${productCount-1}`).val();
+    let $nameVal = $(`#name${PRODUCT_COUNT-1}`).val();
+    let $sizeVal = $(`#size${PRODUCT_COUNT-1}`).val();
+    let $maxQuantityVal = $(`#maxQuantity${PRODUCT_COUNT-1}`).val();
+    let $priceVal = $(`#price${PRODUCT_COUNT-1}`).val();
+    let $introductionVal = $(`#introduction${PRODUCT_COUNT-1}`).val();
 
     if($nameVal === "" || $sizeVal === ""|| $maxQuantityVal === ""|| $priceVal === ""|| $introductionVal === ""){
         alert("입력 되지 않은 필드가 존재합니다.");
         return;
     }
     $("#subItem").remove();
-    $(`#addItemProductIndex${productCount-1}`).children().prop("class","");
+    $(`#addItemProductIndex${PRODUCT_COUNT-1}`).children().prop("class","");
     let text=
-        `<div id="addItemProductIndex${productCount}">
-            <div id="productSubIndex${productCount}" class="add-item-product-col-2">
+        `<div id="addItemProductIndex${PRODUCT_COUNT}">
+            <div id="productSubIndex${PRODUCT_COUNT}" class="add-item-product-col-2">
                 <div id="item">
-                    <input id="productNo${productCount}" hidden value="0"/>
+                    <input id="productNo${PRODUCT_COUNT}" hidden value="0"/>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
-                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name${productCount}">
+                            <input class="w-100 input-box" type="text" id="name${PRODUCT_COUNT}" name="name${PRODUCT_COUNT}">
                         </div>
                         <div class="col">
                             <label class="sub-title" for="size">사이즈</label>
-                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size${productCount}">
+                            <input class="w-100 input-box" type="text" id="size${PRODUCT_COUNT}" name="size${PRODUCT_COUNT}">
                         </div>
                         
                         <div class="col-3">
                             <label for="money" class="sub-title">금액</label>
-                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price">
-<!--                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price${productCount}">-->
+                            <input class="w-100 input-box" type="number" id="price${PRODUCT_COUNT}" name="price">
+<!--                            <input class="w-100 input-box" type="number" id="price${PRODUCT_COUNT}" name="price${PRODUCT_COUNT}">-->
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label for="body" class="sub-title">설명</label>
-                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction">
-<!--                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction${productCount}">-->
+                            <input class="w-100 input-box" type="text" id="introduction${PRODUCT_COUNT}" name="introduction">
+<!--                            <input class="w-100 input-box" type="text" id="introduction${PRODUCT_COUNT}" name="introduction${PRODUCT_COUNT}">-->
                         </div>
                         <div class="col-2">
                             <label for="status" class="sub-title">상품선택</label>
-                            <select class="w-100 select-box" id="status${productCount}" name="status">
+                            <select class="w-100 select-box" id="status${PRODUCT_COUNT}" name="status">
                                 <option value="AVAILABLE" selected>선택가능</option>
                                 <option value="NOT_AVAILABLE" >선택불가</option>
                             </select>
                         </div>
                         <div class="col-2">
                             <label for="count" class="sub-title">수량</label>
-                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity">
+                            <input class="w-100 input-box" type="number" id="maxQuantity${PRODUCT_COUNT}" name="maxQuantity">
                         </div>
                     </div>
                 </div>
@@ -166,16 +166,16 @@ $("#productAdd").click(function (){
             </div>
         </div>`
     $("#productList").append(text);
-    productCount++;
+    PRODUCT_COUNT++;
 })
 
 function productItemRemove(){
-    productCount--;
-    if(productCount > 2){
-        $(`#addItemProductIndex${productCount}`).remove();
-        productAddSubItem(productCount);
+    PRODUCT_COUNT--;
+    if(PRODUCT_COUNT > 2){
+        $(`#addItemProductIndex${PRODUCT_COUNT}`).remove();
+        productAddSubItem(PRODUCT_COUNT);
     }else {
-        $(`#addItemProductIndex${productCount}`).remove();
+        $(`#addItemProductIndex${PRODUCT_COUNT}`).remove();
     }
 }
 
@@ -188,40 +188,40 @@ function productAddSubItem(productCount) {
 function productItemLoad(data){
     data.forEach(item => {
         let text=
-        `<div id="addItemProductIndex${productCount}">
-            <div id="productSubIndex${productCount}">
+        `<div id="addItemProductIndex${PRODUCT_COUNT}">
+            <div id="productSubIndex${PRODUCT_COUNT}">
                 <div id="item">
-                    <input id="productNo${productCount}" hidden value="${item.no}"/>
+                    <input id="productNo${PRODUCT_COUNT}" hidden value="${item.no}"/>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label class="sub-title" for="name">상품명</label>
-                            <input class="w-100 input-box" type="text" id="name${productCount}" name="name" value=${item.name}>
+                            <input class="w-100 input-box" type="text" id="name${PRODUCT_COUNT}" name="name" value=${item.name}>
                         </div>
                         <div class="col-4">
                             <label class="sub-title" for="size">사이즈</label>
-                            <input class="w-100 input-box" type="text" id="size${productCount}" name="size" value=${item.size}>
+                            <input class="w-100 input-box" type="text" id="size${PRODUCT_COUNT}" name="size" value=${item.size}>
                         </div>
                         
                         <div class="col-3">
                             <label for="price" class="sub-title">금액</label>
-                            <input class="w-100 input-box" type="number" id="price${productCount}" name="price" value=${item.price}>
+                            <input class="w-100 input-box" type="number" id="price${PRODUCT_COUNT}" name="price" value=${item.price}>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label for="introduction" class="sub-title">설명</label>
-                            <input class="w-100 input-box" type="text" id="introduction${productCount}" name="introduction" value=${item.introduction}>
+                            <input class="w-100 input-box" type="text" id="introduction${PRODUCT_COUNT}" name="introduction" value=${item.introduction}>
                         </div>
                         <div class="col-2">
                             <label for="status" class="sub-title">상품선택</label>
-                            <select class="w-100 select-box" id="status${productCount}" name="status">
+                            <select class="w-100 select-box" id="status${PRODUCT_COUNT}" name="status">
                                 <option value="AVAILABLE" ${item.status == 'AVAILABLE' ?  'selected' : ''}>선택가능</option>
                                 <option value="NOT_AVAILABLE" ${item.status == 'NOT_AVAILABLE' ?  'selected' : ''} >선택불가</option>
                             </select>
                         </div>
                         <div class="col-2">
                             <label for="maxQuantity" class="sub-title">수량</label>
-                            <input class="w-100 input-box" type="number" id="maxQuantity${productCount}" name="maxQuantity" value=${item.maxQuantity}>
+                            <input class="w-100 input-box" type="number" id="maxQuantity${PRODUCT_COUNT}" name="maxQuantity" value=${item.maxQuantity}>
                         </div>
                     </div>
                 </div>
@@ -232,10 +232,10 @@ function productItemLoad(data){
             </div>
         </div>`
         $("#productList").append(text);
-        productCount++
+        PRODUCT_COUNT++
     })
-    if (productCount > 2) {
-        productAddSubItem(productCount);
+    if (PRODUCT_COUNT > 2) {
+        productAddSubItem(PRODUCT_COUNT);
     }
 }
 
@@ -279,9 +279,6 @@ function subMainCategoryCode(){
         console.log(subCategoryCode)
     })
 }
-
-
-
 // 타임리프 대체 예정
 function newsList(data){
     data.forEach((item,index)=>{
@@ -302,28 +299,33 @@ function newsList(data){
 }
 
 const suneditor = (minHeight, maxHeight) => {
-    SUNEDITOR.create('content', {
-        font:[
-            'Noto Sans KR', 'Arial','Nanum Gothic',
-        ],
-        buttonList: [
-            ['undo', 'redo'],
-            ['font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
-            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-            ['fontColor', 'hiliteColor', 'textStyle'],
-            ['image','link'],
-            ['removeFormat'],
-            ['outdent', 'indent'],
-            ['align', 'horizontalRule', 'list', 'lineHeight'],
-            ['fullScreen', 'showBlocks'],
-        ],
-        lang: SUNEDITOR_LANG['ko'],
-        minHeight : minHeight,
-        maxHeight : maxHeight,
-        minWidth : 1120,
-        maxWidth : 1120,
-    })
+    let no = new URLSearchParams(location.search).get("no");
+    const editor = SUNEDITOR.create('content', {
+            font: [
+                'Noto Sans KR', 'Arial', 'Nanum Gothic',
+            ],
+            buttonList: [
+                ['undo', 'redo'],
+                ['font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['image', 'link'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['fullScreen', 'showBlocks', 'save'],
+            ],
+            lang: SUNEDITOR_LANG['ko'],
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            minWidth: 1120,
+            maxWidth: 1120,
+            imageUploadSizeLimit: 10485760,
+            imageUploadUrl : 'http://localhost:8080/files/projectBodyUpload'+ (no === null ? '' : `?no=${no}`),
+        }
+    )
 }
+
 
 //temporary : boolean
 function project3LoadData() {
@@ -334,7 +336,7 @@ function project3LoadData() {
         success : function (success) {
             console.log(success)
             let productList = [...success]
-            registProductList = [...success];
+            REGIST_PRODUCT_LIST = [...success];
             productItemLoad(productList)
         },
         error : function (error){
@@ -348,7 +350,7 @@ function project3LoadData() {
         success : function (success) {
             if(success.length === 0 ) return;
             let productImgList = [...success]
-            registProductImgList = [...success];
+            REGIST_PRODUCT_IMG_LIST = [...success];
             loadProductImg(productImgList)
         },
         error : function (error){
@@ -363,7 +365,7 @@ function project5LoadData(){
         url : '/seller/regist/project5GetData' + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
-            registFaqList = [...success];
+            REGIST_FAQ_LIST = [...success];
             fqaLoadList(success);
         },
         error : function (error){
@@ -396,14 +398,17 @@ function previewImage(ele) {
 }
 
 function loadProductImg(imgFileList){
-    let rootUrl = location.origin+'/files/seller/project/';
+    // let rootUrl = location.origin+'/files/project/'+ (PAGE_NUMBER === null ? '' : PAGE_NUMBER);
+    let rootUrl = location.origin+'/files/project/';
+    console.log(imgFileList)
     let length = 0;
     imgFileList.forEach(e=>{
-        if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl+e?.changeName);
-        if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl+e?.changeName);
+        if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
+        if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
         if(e.type === 'CONTENT') {
-            $(`#imgfile${length}`).prop("src",rootUrl+e?.changeName);
-            length++;
+            if(e?.changeName.includes('content0_')) $(`#imgfile0`).prop("src",rootUrl + e.projectNo + '/' + e?.changeName);
+            if(e?.changeName.includes('content1_')) $(`#imgfile1`).prop("src",rootUrl + e.projectNo + '/' +e?.changeName);
+            if(e?.changeName.includes('content2_')) $(`#imgfile2`).prop("src",rootUrl + e.projectNo + '/' +e?.changeName);
         }
     })
 }
@@ -466,6 +471,7 @@ function initProjectNews() {
     $($("#suneditor_content").children("div")
         .children("div")[3]).children("div")
         .html("");
+    $("#newsSumbit").val("등록")
 }
 
 function indexCheckConfirm() {
@@ -540,12 +546,13 @@ function registProject3(temporary) {
     let formData = new FormData();
         formData.append("presentFile",presentFile)
         formData.append("thumbnailFile",thumbnailFile)
+
     let files = $(".file")
     let productListLength =$("#productList").children("div").length;
     let no = new URLSearchParams(location.search).get('no')
 
     for(let i = 0 ; i < files.length; i++ ){
-        formData.append("fileList",files[i].files[0])// }
+        formData.append(`file-${i}`,files[i].files[0])// }
     }
 
     for(let i = 1 ; i < productListLength+1; i++){
@@ -561,10 +568,10 @@ function registProject3(temporary) {
 
         dataList = [...dataList, {no, name, size, price, introduction, maxQuantity, status}]
     }
-    let data = {new : dataList, old : registProductList}
+    let data = {new : dataList, old : REGIST_PRODUCT_LIST}
 
     formData.append("productList", new Blob([JSON.stringify(data)],{type:"application/json; charset=utf-8;"}));
-    formData.append("projectFileList", new Blob([JSON.stringify(registProductImgList)],{type:"application/json; charset=utf-8;"}))
+    formData.append("projectFileList", new Blob([JSON.stringify(REGIST_PRODUCT_IMG_LIST)],{type:"application/json; charset=utf-8;"}))
 
     $.ajax({
         url : '/seller/regist/project3' + (no === null ?  '' : `?no=${no}`),
@@ -576,6 +583,7 @@ function registProject3(temporary) {
         success : function (success) {
             if(temporary){
                 alert("임시저장이 완료 됐습니다.")
+                location.reload();
             }else {
                 location.href='/seller/regist/project4' + (no === null ?  '' : `?no=${no}`);
             }
@@ -632,7 +640,7 @@ function registProject5(temporary) {
         url : '/seller/regist/project5' + (no === null ?  '' : `?no=${no}`),
         type : 'post',
         contentType: "application/json; charset=utf-8",
-        data : JSON.stringify({old : registFaqList, new : dataList}),
+        data : JSON.stringify({old : REGIST_FAQ_LIST, new : dataList}),
         success : function (success) {
             if(temporary){
                 alert("임시저장이 완료 됐습니다.")
@@ -695,3 +703,6 @@ function isParamNo() {
     console.log(isParamNo === null);
 }
 
+function prevPageMove(prevPageNo){
+    location.href = `/seller/regist/project${prevPageNo}`+ (PAGE_NUMBER === null ? '' : `?no=${PAGE_NUMBER}`);
+}

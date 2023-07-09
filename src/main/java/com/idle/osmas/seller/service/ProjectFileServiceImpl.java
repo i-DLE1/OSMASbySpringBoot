@@ -35,8 +35,8 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
 
     @Override
     @Transactional
-    public int insertProjectFile(ProjectFileType fileType, String originFile, String savedFile, String deleteYN, int projectNo) {
-        return projectFileMapper.insertProjectFile(fileType, originFile, savedFile, deleteYN, projectNo);
+    public int insertProjectFile(ProjectFileDTO projectFile) {
+        return projectFileMapper.insertProjectFile(projectFile);
     }
 
     @Override

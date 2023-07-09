@@ -16,15 +16,13 @@
 </head>
 <body>
 
-<h2 style="text-align: center;">글 작성</h2><br><br><br>
+<h2 style="text-align: center;">글 수정</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
-  <form>
-    <input type="text" name="title" style="width: 40%;" placeholder="제목"/>
+    <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}"/>
     <br><br>
-    <textarea id="summernote" name="content"></textarea>
-    <input id="subBtn" type="button" value="글 작성" style="float: right;"/>
-  </form>
+    <textarea id="summernote" name="content" th:text="${content}"></textarea>
+    <input id="subBtn" type="submit" value="글 수정" style="float: right;"/>
 </div>
 
 <script>
@@ -42,8 +40,8 @@
     });
 
     function goWrite() {
-      var title = $('input[name="title"]').val();
-      var content = $('#summernote').summernote('code');
+      const title = $('input[name="title"]').val();
+      const content = $('#summernote').summernote('code');
 
       // 가져온 값 사용하기
       console.log("제목:", title);
@@ -51,7 +49,7 @@
 
       // AJAX 요청 보내기
       $.ajax({
-        url: '/admin/footerCategory/termsInputGo',
+        url: '/admin/footerCategory/termsEditGO',
         method: 'POST',
         data: {
           title: title,
@@ -59,11 +57,11 @@
         },
         success: function(response) {
           console.log('글 작성 완료');
-          alert('글 작성 완료!');
+          alert('글 수정 완료!');
           location.reload(); // 페이지 새로 고침
         },
         error: function(error) {
-          console.error("글 작성 실패", error);
+          console.error("글 수정 실패", error);
         }
       });
     }

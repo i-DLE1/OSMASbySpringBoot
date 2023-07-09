@@ -1,10 +1,10 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
 import com.idle.osmas.seller.service.ProjectFileService;
 import com.idle.osmas.seller.service.ProjectService;
-import net.coobird.thumbnailator.Thumbnailator;
 import net.coobird.thumbnailator.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,80 +23,99 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 @RequestMapping("files")
 public class ImageFileController {
 
-    @Value("${customSaveFileDirectoryPath}")
+    @Value("${saveFileDirectoryPath}")
     String SAVE_FILE_DIRECTORY_PATH;
-
-    private final ProjectService projectService;
 
     private final ProjectFileService projectFileService;
 
-    private final ResourceLoader resourceLoader;
+    private final ProjectService projectService;
 
-    public ImageFileController(ProjectService projectService, ProjectFileService projectFileService, ResourceLoader resourceLoader) {
-        this.projectService = projectService;
+
+    public ImageFileController(ProjectFileService projectFileService,
+                               ProjectService projectService) {
+
         this.projectFileService = projectFileService;
-        this.resourceLoader = resourceLoader;
+        this.projectService = projectService;
     }
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+
+    public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo){
+
+        return saveFile(fileType,file,projectNo,fileType.toString());
+    }
+
 
     /**
      *
      * @param fileType
      * @param file
      * @param projectNo
-     * @return success 1, fail 0;
+     * @return fail : "fail", success :  "saveFileName"
      * @throws IOException
      */
-    public int registFile(ProjectFileType fileType, MultipartFile file, int projectNo) throws IOException {
-        if(file.getSize() > 0) {
+    public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo, String fileSuffix) {
 
-            String originFileName = file.getOriginalFilename();
+        if (file.getSize() == 0) return "fail";
 
-            String ext = originFileName.substring(originFileName.lastIndexOf("."));
+        String originFileName = file.getOriginalFilename();
 
-            String savedFileName = UUID.randomUUID().toString().replace("-", "") + ext;
+        String ext = originFileName.substring(originFileName.lastIndexOf("."));
 
+        String savedFileName = fileSuffix.toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "") + ext;
 
-            File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + savedFileName);
+        File savedFile = new File(SAVE_FILE_DIRECTORY_PATH + "/"+"project" +"/" + projectNo + "/" + savedFileName);
 
-            File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH);
+        File saveDirectory = new File(SAVE_FILE_DIRECTORY_PATH+"/"+"project" +"/" + projectNo + "/");
 
-            if (!saveDirectory.exists()) saveDirectory.mkdirs();
+        if (!saveDirectory.exists()) saveDirectory.mkdirs();
 
-            Thumbnails.of(file.getInputStream()).size(400,400).toFile(savedFile);
+        try {
 
-            int result = 0;
-
-            result = projectFileService.insertProjectFile(fileType, originFileName, savedFileName, "N", projectNo);
-
-            if (result > 0) {
-                return 1;
-            } else {
-                savedFile.delete();
-                return 0;
+            if(!fileType.equals(ProjectFileType.BODY)) {
+                Thumbnails.of(file.getInputStream()).size(400, 400).toFile(savedFile);
+            }else {
+                Thumbnails.of(file.getInputStream()).size(1000, 1000).toFile(savedFile);
             }
-        }else {
-            return 0;
+
+            if(ProjectFileType.BODY.equals(fileType)) return savedFileName;
+
+            int result = projectFileService.insertProjectFile(
+                    ProjectFileDTO.builder().projectNo(projectNo)
+                    .deleteYN('N').changeName(savedFileName)
+                    .originName(originFileName)
+                    .type(fileType).build());
+
+            if(result > 0 ) return savedFileName;
+
+            return "fail";
+
+        } catch (IOException e) {
+
+            savedFile.delete();
+            return "fail";
         }
+
     }
 
     /**
      *
      * @param file cahngeFileName
      * @return success 1 fail 0
-     */
-    public int deleteFile(String file) {
+    r */
+    public int deleteFile(String type, int no, String file) {
 
-        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file);
+        File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + type + "/" + no + "/" + file);
 
-        if(deleteFile.isFile()) {
+        if (deleteFile.isFile()) {
             deleteFile.delete();
             projectFileService.updateNonAvailableProjectFileByChangeName(file);
         }
@@ -103,34 +123,33 @@ public class ImageFileController {
         return 1;
     }
 
-    @GetMapping(value = "/seller/project/{file}")
-    public ResponseEntity<?> fileLoads(@PathVariable String file) {
+    @PostMapping("/projectBodyUpload")
+    @ResponseBody()
+    public Map<String, Object> updateTest(@RequestParam("file-0") MultipartFile file,
+                                          @RequestParam(required = false) Integer no,
+                                          Principal principal){
 
-        ProjectFileDTO projectFile =  projectFileService.selectByProjectSaveFileName(file);
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        if (projectFile == null) return ResponseEntity.ok("");
-
-        Path saveFile = new File(SAVE_FILE_DIRECTORY_PATH+"/"+projectFile.getChangeName()).toPath();
-
-        FileSystemResource resource = new FileSystemResource(saveFile);
-
-        try {
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(saveFile))).body(resource);
-        } catch (IOException e) {
-            return ResponseEntity.ok("");
+        if(no == null) {
+            no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
-    }
 
-    @GetMapping("/images/{type}/{file}")
-    public ResponseEntity<?> staticImageLoad(@PathVariable String file, @PathVariable String type){
+        Map<String, Object> response = new HashMap<>();
+        List<Map<String, String>> result = new ArrayList<>();
+        Map<String, String> image = new HashMap<>();
 
-        Resource resource =  resourceLoader.getResource("classpath:/static/images/" + type + "/" + file);
+        String saveFileName = saveFile(ProjectFileType.BODY, file, no, "body");
 
-        System.out.println("resource = " + resource);
-        try {
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType(Files.probeContentType(resource.getFile().toPath()))).body(resource);
-        } catch (IOException e) {
-            return ResponseEntity.ok("");
+        if(saveFileName.equals("fail")){
+            response.put("errorMessage","파일을 저장할 수 없습니다.");
+            return response;
         }
+
+        image.put("url","/files/project/" + no + "/"+ saveFileName);
+        result.add(image);
+        response.put("result",result);
+
+        return response;
     }
 }

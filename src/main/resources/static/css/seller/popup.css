@@ -47,6 +47,7 @@ body{
 .cancel-content-area{
     margin-top: 50px;
     display: block;
+    position: relative;
     text-align: center;
 }
 .cancel-content-title{
@@ -65,8 +66,8 @@ body{
 
 .cancel-content-area label{
     position: absolute;
-    width: 330px;
     text-align: right;
     color: #884A3B;
-    top: 690px;
+    top: 130px;
+    right: 40px;
 }

@@ -26,19 +26,29 @@
     </select>
 
     <insert id="insertProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
-        INSERT INTO TBL_PRJ_FAQ TPF
-        (TPF.NO, TPF.REF_PRJ_NO, TPF.TITLE,
-         TPF.CONTENT, TPF.REGIST_DATE)
-        VALUES
-            (SEQ_TBL_PRJ_FAQ_NO.nextval, #{projectRefNo}, #{projectFaq.title},
-             #{projectFaq.content}, SYSDATE)
+        DECLARE
+          BEGIN
+        <foreach collection="list" item="projectFaq">
+                INSERT INTO TBL_PRJ_FAQ TPF
+                (TPF.NO, TPF.REF_PRJ_NO, TPF.TITLE,
+                 TPF.CONTENT, TPF.REGIST_DATE)
+                VALUES
+                (SEQ_TBL_PRJ_FAQ_NO.nextval, #{projectFaq.projectNo}, #{projectFaq.title},
+                 #{projectFaq.content}, SYSDATE);
+        </foreach>
+        end;
     </insert>
 
     <update id="updateProjectFAQ" parameterType="com.idle.osmas.seller.dto.ProjectFAQDTO">
-        UPDATE TBL_PRJ_FAQ TPF
-           SET TPF.CONTENT = #{content},
-               TPF.TITLE = #{title}
-         WHERE TPF.NO = ${no}
+        DECLARE
+          BEGIN
+            <foreach collection="list" item="projectFaq">
+                UPDATE TBL_PRJ_FAQ TPF
+                   SET TPF.CONTENT = #{projectFaq.content},
+                       TPF.TITLE = #{projectFaq.title}
+                 WHERE TPF.NO = ${projectFaq.no};
+            </foreach>
+           END;
     </update>
 
     <delete id="deleteProjectFAQ" parameterType="_int">

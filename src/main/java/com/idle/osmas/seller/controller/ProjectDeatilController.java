@@ -5,12 +5,10 @@ import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.channels.FileChannel;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -29,7 +27,11 @@ public class ProjectDeatilController {
 
     private final ProjectQnAService projectQnAService;
 
-    public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService, ProductService productService, ProjectService projectService, ProjectQnAService projectQnAService) {
+    public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService,
+                                   ProductService productService,
+                                   ProjectService projectService,
+                                   ProjectQnAService projectQnAService) {
+
         this.projectProgressService = projectProgressService;
         this.productService = productService;
         this.projectService = projectService;
@@ -37,13 +39,14 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("projectDetail")
-    public String projectDetail(@RequestParam int no, Principal principal, Model model) {
+    public String projectDetail(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
+        if(project == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
+
         List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
-//        List<ProductDTO> productList = productService.selectProductListByProjectNo(no,user.getNo());
 
         Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
 
@@ -55,11 +58,13 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("cancel")
-    public String getCacnel(@RequestParam int no,  Principal principal, Model model){
+    public String getCacnel(@RequestParam int no,  Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
+
+        if(project == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
         String targetRate = String.valueOf(project.getCurrentAmount() / project.getTargetAmount()  * 100)+"%";
 
@@ -79,8 +84,6 @@ public class ProjectDeatilController {
                                             .refProjectNo(no)
                                             .build();
 
-        System.out.println("projectProgress = " + projectProgress);
-
         int insertResult = projectProgressService.insertProjectProgressStatus(projectProgress);
 
         if(insertResult > 0){
@@ -91,11 +94,9 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("qaAnswer")
-    public String getQaAnswer(@RequestParam Integer no, Principal principal, Model model) {
+    public String getQaAnswer(@RequestParam Integer no, Model model) {
 
-        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-
-        ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(Integer.valueOf(no));
+        ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(no);
 
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";

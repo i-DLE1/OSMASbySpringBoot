@@ -5,10 +5,7 @@ import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,28 +23,26 @@ public class SellerController {
 
     private final ProjectService projectService;
 
-    private final ProductService productService;
-
     private final ProjectFileService projectFileService;
 
-    private final ProjectFAQService projectFAQService;
 
     private final ProjectQnAService projectQnAService;
 
-    private final ProjectNewsService projectNewsService;
 
     private final ProjectProgressService projectProgressService;
 
     private int DEFAULT_MAX_ROWS = 10;
 
-    public SellerController(ImageFileController imageFileController, ProjectService projectService, ProductService productService, ProjectFileService projectFileService, ProjectFAQService projectFAQService, ProjectQnAService projectQnAService, ProjectNewsService projectNewsService, ProjectProgressService projectProgressService) {
+    public SellerController(ImageFileController imageFileController,
+                            ProjectService projectService,
+                            ProjectFileService projectFileService,
+                            ProjectQnAService projectQnAService,
+                            ProjectProgressService projectProgressService) {
+
         this.imageFileController = imageFileController;
         this.projectService = projectService;
-        this.productService = productService;
         this.projectFileService = projectFileService;
-        this.projectFAQService = projectFAQService;
         this.projectQnAService = projectQnAService;
-        this.projectNewsService = projectNewsService;
         this.projectProgressService = projectProgressService;
     }
 
@@ -204,7 +199,6 @@ public class SellerController {
         model.addAttribute("projectQnAList", projectQnAList);
         model.addAttribute("endRow", endRow);
 
-
         model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerqa";
     }
@@ -225,43 +219,17 @@ public class SellerController {
 
         if (!projectProgress.getStatus().equals(ProjectProgressStatus.TEMPORARY)) return "fail";
 
-        int result = 0;
-
-        // delete file
         List<ProjectFileDTO> projectFileList = projectFileService.selectProjectFileListByProjectNo(no, user.getNo());
-        result = projectFileService.deleteProjectFilesByProjectNo(no);
 
-        int deletefile = 0;
-        for(ProjectFileDTO file : projectFileList){
-            deletefile += imageFileController.deleteFile(file.getChangeName());
-        }
-        if(deletefile == projectFileList.size()) return "fail";
+        int result = projectService.deleteProjectByProjectNo(no);
 
-        // delete news
-        if(result <= 0) return "fail";
-        result = projectNewsService.deleteProjectNewsByProjectNo(no);
+        if(result == 0 ) return "fail";
 
-        // delete faq
-        if(result <= 0) return "fail";
-        result = projectFAQService.deleteProjectFaqByProjectNo(no);
-
-        // delete progress
-        if(result <= 0) return "fail";
-        result = projectProgressService.deleteProjectProgressByProjectNo(no);
-
-        // delete qna
-        if(result <= 0) return "fail";
-        result = projectQnAService.deleteProjectQnAByProjectNo(no);
-
-        // delete product, productList
-        if(result <= 0) return "fail";
-        List<ProductDTO> productList = productService.selectProductListByProjectNo(no, user.getNo());
-        result = productService.deleteProjectProduct(productList);
-
-        // delete project
-        if(result <= 0) return "fail";
-        result = projectService.deleteProjectByProjectNo(no);
+        projectFileList.stream().forEach(e->{
+            imageFileController.deleteFile("project", no, e.getChangeName());
+        });
 
         return "success";
     }
+
 }

@@ -18,6 +18,6 @@ public class TermsHistoryDTO {
 
     private LocalDate lastDate; //변경날짜
 
-    private TermsDTO termsNo; //약관번호
+    private TermsDTO terms; //약관번호
 
 }

@@ -19,7 +19,8 @@
                TPJ1.CONTENT AS TBL_PRJ_PROGRESS_CONTENT,
                TPJ1.REF_PRJ_NO AS TBL_PRJ_PROGRESS_REF_PRJ_NO
           FROM TBL_PRJ_PROGRESS TPJ1
-         WHERE TPJ1.NO = (SELECT MAX(TPJ2.NO) FROM TBL_PRJ_PROGRESS TPJ2
+         WHERE TPJ1.NO = (SELECT MAX(TPJ2.NO)
+                            FROM TBL_PRJ_PROGRESS TPJ2
                            WHERE TPJ2.REF_PRJ_NO = #{projectNo}
                           <if test="status != null">
                              AND TPJ2.STATUS = '${status}'
@@ -29,9 +30,9 @@
 
     <insert id="insertProjectProgressStatus" parameterType="com.idle.osmas.seller.dto.ProjectProgressDTO">
         INSERT INTO TBL_PRJ_PROGRESS TPR
-            (TPR.NO, TPR.REGIST_DATE, TPR.STATUS, TPR.CONTENT, TPR.REF_PRJ_NO)
+        (TPR.NO, TPR.REGIST_DATE, TPR.STATUS, TPR.CONTENT, TPR.REF_PRJ_NO)
         VALUES
-            (SEQ_TBL_PRJ_PROGRESS_NO.nextval, SYSDATE, #{status}, #{content}, #{refProjectNo})
+        (SEQ_TBL_PRJ_PROGRESS_NO.nextval, SYSDATE, #{status}, #{content}, #{refProjectNo})
     </insert>
 
     <delete id="deleteProjectProgressByProjectNo">

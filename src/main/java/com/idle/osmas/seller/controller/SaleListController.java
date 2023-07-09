@@ -1,18 +1,24 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.ProjectCategoryDTO;
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 import com.idle.osmas.seller.service.ProjectCategoryService;
 import com.idle.osmas.seller.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Controller
@@ -25,18 +31,18 @@ public class SaleListController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public SaleListController(ProjectService projectService, ProjectCategoryService projectCategoryService) {
+    public SaleListController(ProjectService projectService,
+                              ProjectCategoryService projectCategoryService) {
+
         this.projectService = projectService;
         this.projectCategoryService = projectCategoryService;
     }
 
-    @GetMapping("salesList")
+    @GetMapping("saleList")
     public String salesList(@RequestParam(required = false) String search,
                             Model model){
 
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
-
-        System.out.println("search = " + search);
 
         model.addAttribute("categoryList",categoryList);
 
@@ -54,7 +60,8 @@ public class SaleListController {
     @ResponseBody
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
                                                  @RequestParam(required = false) String searchTitle,
-                                                 @RequestParam(required = false) int startNo
+                                                 @RequestParam(required = false) int startNo,
+                                                 Principal principal
                                                  ){
 
         List<ProjectDTO> tempProjectList = new ArrayList<>();
@@ -62,9 +69,7 @@ public class SaleListController {
         Map<String, Object> projectParams = new HashMap<>();
 
         projectParams.put("startNo",startNo);
-        projectParams.put("endNo",startNo+11);
-
-        // 자바스크립트 수정 예정
+        projectParams.put("endNo",startNo+12);
 
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);
@@ -86,23 +91,57 @@ public class SaleListController {
 
         DecimalFormat df = new DecimalFormat("###,###");
 
+        List<ProjectWishDTO> projectWishList = null;
+
+        if(principal != null){
+            UserImpl user = (UserImpl)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+            projectWishList = projectService.selectProjectWishByNo(user.getNo(), null);
+        }
+
+
         for(ProjectDTO project : tempProjectList){
             Map<String, String> attr = new HashMap<>();
 
-            Period betweenDays = Period.between(LocalDate.now(),project.getEndDate());
+            long betweenDays = ChronoUnit.DAYS.between(LocalDate.now(),project.getEndDate());
 
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
             attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
-            attr.put("date", String.valueOf(betweenDays.getDays()) );
-            if(project.getProjectFileList().size() > 0) {
-                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
-            }
+            attr.put("date", String.valueOf(betweenDays) );
             attr.put("views", project.getViews().toString());
+
+            if(projectWishList != null){
+                for (ProjectWishDTO e : projectWishList) {
+                    if (project.getNo() == e.getRefProjectNo()) attr.put("favorite", "true");
+                }
+            }
+
+            if(project.getProjectFileList().size() > 0) {
+                attr.put("img", "/files/"+ "project/" + project.getNo() + "/" + project.getProjectFileList().get(0).getChangeName());
+            }
+
             attrList.add(attr);
         }
 
-        log.info("attrList = " + attrList);
         return attrList;
+    }
+
+    @GetMapping("projectFavorite")
+    @ResponseBody
+    public String projectFavorite(@RequestParam int no,
+                               @RequestParam boolean isActive,
+                               Principal principal){
+
+        if(principal == null) return "noAccount";
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(isActive){
+            projectService.insertProjectWish(user.getNo(), no);
+            return "insertSuccess";
+        }else {
+            projectService.deleteProjectWish(user.getNo(), no);
+            return "deleteSuccess";
+        }
     }
 }
