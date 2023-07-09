@@ -337,7 +337,6 @@ public class RegistProjectController {
 
         projectFileList.stream().forEach(e->{
             String suffix = e.getChangeName().substring(0,e.getChangeName().indexOf("_"));
-            System.out.println("suffix = " + suffix);
             oldProjectFile.put(suffix, e.getChangeName());
         });
 
@@ -364,8 +363,6 @@ public class RegistProjectController {
         productService.updateProjectProduct(updateProductList);
 
 
-        System.out.println("oldProjectFile = " + oldProjectFile);
-
         if(presentFile != null) {
             imageFileController.deleteFile("project",no,oldProjectFile.get("represent"));
 
@@ -391,12 +388,6 @@ public class RegistProjectController {
             imageFileController.deleteFile("project",no,oldProjectFile.get("content2"));
             imageFileController.saveFile(ProjectFileType.CONTENT, file2, no, "CONTENT2");
         }
-
-//        if(fileList != null){
-//            for (MultipartFile file : fileList) {
-//                imageFileController.saveFile(ProjectFileType.CONTENT, file, no);
-//            }
-//        }
 
 
         return "success";
@@ -500,11 +491,13 @@ public class RegistProjectController {
         if(no == null) return "fail";
 
         Integer finalNo = no;
+
         List<ProjectFAQDTO> insertProjectFaqList = projectFAQList.get("new")
                 .stream().filter(e->e.getNo() == 0).map(e->{
                     e.setProjectNo(finalNo);
                     return e;
                 }).collect(Collectors.toList());
+
         List<ProjectFAQDTO> updateProjectFaqList = projectFAQList.get("new")
                 .stream().filter(e->e.getNo() != 0).map(e->{
                     e.setProjectNo(finalNo);
@@ -514,7 +507,6 @@ public class RegistProjectController {
 
         projectFAQService.insertProjectFAQ(insertProjectFaqList);
         projectFAQService.updateProjectFAQ(updateProjectFaqList);
-
 
         List<ProjectFAQDTO> deleteProjectFaq = projectFAQList.get("old")
                 .stream().filter(oldE-> projectFAQList.get("new")
@@ -650,6 +642,7 @@ public class RegistProjectController {
 
         model.addAttribute("projectInfo",project);
         model.mergeAttributes(submitButtonNaming(no,"심사요청","수정"));
+
         return "/seller/regist/registProject7";
     }
 

@@ -1,15 +1,19 @@
 package com.idle.osmas.seller.controller;
 
+import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.ProjectCategoryDTO;
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 import com.idle.osmas.seller.service.ProjectCategoryService;
 import com.idle.osmas.seller.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,8 +44,6 @@ public class SaleListController {
 
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
-        System.out.println("search = " + search);
-
         model.addAttribute("categoryList",categoryList);
 
         return "common/projectListView";
@@ -58,7 +60,8 @@ public class SaleListController {
     @ResponseBody
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
                                                  @RequestParam(required = false) String searchTitle,
-                                                 @RequestParam(required = false) int startNo
+                                                 @RequestParam(required = false) int startNo,
+                                                 Principal principal
                                                  ){
 
         List<ProjectDTO> tempProjectList = new ArrayList<>();
@@ -88,6 +91,14 @@ public class SaleListController {
 
         DecimalFormat df = new DecimalFormat("###,###");
 
+        List<ProjectWishDTO> projectWishList = null;
+
+        if(principal != null){
+            UserImpl user = (UserImpl)((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+            projectWishList = projectService.selectProjectWishByNo(user.getNo(), null);
+        }
+
+
         for(ProjectDTO project : tempProjectList){
             Map<String, String> attr = new HashMap<>();
 
@@ -97,15 +108,40 @@ public class SaleListController {
             attr.put("title", project.getTitle());
             attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
             attr.put("date", String.valueOf(betweenDays) );
+            attr.put("views", project.getViews().toString());
+
+            if(projectWishList != null){
+                for (ProjectWishDTO e : projectWishList) {
+                    if (project.getNo() == e.getRefProjectNo()) attr.put("favorite", "true");
+                }
+            }
+
             if(project.getProjectFileList().size() > 0) {
-//                attr.put("img", "/files/seller/project/" + project.getProjectFileList().get(0).getChangeName());
                 attr.put("img", "/files/"+ "project/" + project.getNo() + "/" + project.getProjectFileList().get(0).getChangeName());
             }
-            attr.put("views", project.getViews().toString());
+
             attrList.add(attr);
         }
 
-        log.info("attrList = " + attrList);
         return attrList;
+    }
+
+    @GetMapping("projectFavorite")
+    @ResponseBody
+    public String projectFavorite(@RequestParam int no,
+                               @RequestParam boolean isActive,
+                               Principal principal){
+
+        if(principal == null) return "noAccount";
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(isActive){
+            projectService.insertProjectWish(user.getNo(), no);
+            return "insertSuccess";
+        }else {
+            projectService.deleteProjectWish(user.getNo(), no);
+            return "deleteSuccess";
+        }
     }
 }

@@ -23,7 +23,6 @@ public class SellerController {
 
     private final ProjectService projectService;
 
-
     private final ProjectFileService projectFileService;
 
 
@@ -200,7 +199,6 @@ public class SellerController {
         model.addAttribute("projectQnAList", projectQnAList);
         model.addAttribute("endRow", endRow);
 
-
         model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerqa";
     }
@@ -227,10 +225,11 @@ public class SellerController {
 
         if(result == 0 ) return "fail";
 
-        for(ProjectFileDTO file : projectFileList){
-            imageFileController.deleteFile("project",no,file.getChangeName());
-        }
+        projectFileList.stream().forEach(e->{
+            imageFileController.deleteFile("project", no, e.getChangeName());
+        });
 
         return "success";
     }
+
 }

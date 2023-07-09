@@ -7,6 +7,7 @@ function projectListView(data){
 
     let color = "";
     data.forEach(item=>{
+        console.log(item)
         if(item.date >60){
             color = "days-default";
         }else if(item.date > 30){
@@ -16,6 +17,8 @@ function projectListView(data){
         }else{
             color = "days-red";
         }
+        let $divContainer = $('<div>').addClass('thumbnailWarp')
+        const $favoriteBtn = $("<input>").attr('id','favorite-btn').attr('type','button').addClass('favorite-button')
         let $div = $("<div>").addClass("project-item").attr('onclick',`moveSale(${item.no})`)
         let $thumbnailDiv = $("<div>");
         const $thumbnailImg = $("<img>").addClass("project-item-thumbnail")
@@ -27,9 +30,17 @@ function projectListView(data){
         const $titleDiv = $("<div>").text(item.title);
         let $userDiv = $("<div>");
         const $userCountSpan = $("<span>").text(item.views);
+
+        if(item?.favorite === 'true'){
+            $favoriteBtn.addClass('activate-favorite').attr('onclick',`favoriteToggle(this,${item.no},false)`)
+        }else {
+            $favoriteBtn.addClass('deactivate-favorite').attr('onclick',`favoriteToggle(this,${item.no},true)`)
+        }
+
         $userDiv.append("참여자수 : ").append($userCountSpan).append("명");
 
         $thumbnailDiv.append($thumbnailImg);
+
         $labelDiv.append($labelSpan);
         $contentDiv.append($moneyDiv)
                     .append($labelDiv);
@@ -38,7 +49,25 @@ function projectListView(data){
             .append($titleDiv)
             .append($userDiv);
 
-        $("#project-view-list").append($div);
+        $divContainer.append($favoriteBtn);
+        $divContainer.append($div)
+        $("#project-view-list").append($divContainer);
+    })
+}
+
+function favoriteToggle(e, no, isActive){
+
+    $.ajax({
+        url : `/projectFavorite?no=${no}&isActive=${isActive}`,
+        type : 'get',
+        success : function (success) {
+            if(success === 'noAccount') location.href='/member/login/login'
+            if(success === 'insertSuccess') $(e).removeClass('deactivate-favorite').addClass('activate-favorite').attr('onclick',`favoriteToggle(this,${no},false)`)
+            if(success === 'deleteSuccess') $(e).removeClass('activate-favorite').addClass('deactivate-favorite').attr('onclick',`favoriteToggle(this,${no},true)`)
+        },
+        error : function (e){
+            console.log(e)
+        }
     })
 }
 

@@ -12,7 +12,14 @@
     font-size: 15px;
     color: #884A3B;
 }
+.thumbnailWarp{
+    min-width: 350px;
+    max-width: 350px;
+    position: relative;
+    z-index: 5;
+}
 .project-item-thumbnail{
+    display: inline-block;
     width: 350px;
     height: 200px !important;
     border-radius: 10px;
@@ -20,6 +27,28 @@
     margin-bottom: 10px;
     object-fit: cover;
 }
+
+.favorite-button{
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+}
+
+.activate-favorite{
+    background-image: url("../../images/common/activate-favorite.png");
+}
+
+.deactivate-favorite{
+    background-image: url("../../images/common/deactivate-favortie.png");
+}
+
 .project-item div:nth-child(2){
     display: grid;
     grid-template-columns: auto auto;

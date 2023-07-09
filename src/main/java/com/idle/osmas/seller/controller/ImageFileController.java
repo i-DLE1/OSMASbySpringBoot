@@ -113,8 +113,6 @@ public class ImageFileController {
     r */
     public int deleteFile(String type, int no, String file) {
 
-        System.out.println("file = " + file);
-
         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + type + "/" + no + "/" + file);
 
         if (deleteFile.isFile()) {

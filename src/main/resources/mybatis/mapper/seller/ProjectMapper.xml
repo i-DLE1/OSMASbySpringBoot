@@ -60,6 +60,11 @@
         <result property="refProjectNo" column="TBL_PRJ_PROGRESS_REF_PRJ_NO"/>
     </resultMap>
 
+    <resultMap id="projectWishResultMap" type="com.idle.osmas.seller.dto.ProjectWishDTO">
+        <id property="refMemberNo" column="TBL_PRJ_WISH_REF_MEMBER_NO"/>
+        <id property="refProjectNo" column="TBL_PRJ_WISH_REF_PRJ_NO"/>
+    </resultMap>
+
     <select id="selectTemporaryProjectNoByUserId" resultType="_int">
         SELECT PRJ.NO
           FROM TBL_PRJ PRJ
@@ -128,7 +133,8 @@
                                PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
                                PRJ.VIEWS AS TBL_PRJ_VIEWS,
                                TC.NAME AS TBL_CATEGORY_NAME,
-                               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME
+                               TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
+                               TPW.REF_MEMBER_NO AS TBL_PRJ_WISH_REF_MEMBER_NO
                           FROM TBL_PRJ PRJ
                           JOIN TBL_CATEGORY TC ON PRJ.REF_CATEGORY_NO = TC.NO
                           JOIN (SELECT *
@@ -142,6 +148,7 @@
                                       WHERE TPF2.TYPE = 'THUMBNAIL'
                                         AND TPF2.DELETE_YN = 'N'
                           ) TPF ON TPF.REF_PRJ_NO = PRJ.NO
+                          LEFT JOIN TBL_PRJ_WISH TPW ON TPW.REF_PRJ_NO = PRJ.NO
                          WHERE PRJ.END_DATE <![CDATA[>=]]> SYSDATE
                          <if test="categoryNo != null">
                            AND PRJ.REF_CATEGORY_NO = #{categoryNo}
@@ -286,5 +293,32 @@
                 DELETE TBL_PRJ_PRODUCT_LIST TPPL2 WHERE TPPL2.REF_PRJ_NO = #{projectNo};
                 DELETE TBL_PRJ PRJ WHERE PRJ.NO = #{projectNo};
             END;
+    </delete>
+
+    <select id="selectProjectWishByNo" resultMap="projectWishResultMap" parameterType="_int">
+        SELECT TPW.REF_MEMBER_NO AS TBL_PRJ_WISH_REF_MEMBER_NO,
+               TPW.REF_PRJ_NO AS TBL_PRJ_WISH_REF_PRJ_NO
+          FROM TBL_PRJ_WISH TPW
+        <trim prefix="WHERE" prefixOverrides="AND">
+              <if test="memberNo != null">
+                  TPW.REF_MEMBER_NO = #{memberNo}
+              </if>
+              <if test="projectNo != null">
+                AND TPW.REF_PRJ_NO = #{projectNo}
+              </if>
+          </trim>
+    </select>
+
+    <insert id="insertProjectWish">
+        INSERT INTO TBL_PRJ_WISH  TPW
+        (TPW.REF_MEMBER_NO, TPW.REF_PRJ_NO)
+        VALUES
+        (#{memberNo}, #{projectNo})
+    </insert>
+
+    <delete id="deleteProjectWish">
+        DELETE TBL_PRJ_WISH TPW
+         WHERE TPW.REF_MEMBER_NO = #{memberNo}
+           AND TPW.REF_PRJ_NO = #{projectNo}
     </delete>
 </mapper>

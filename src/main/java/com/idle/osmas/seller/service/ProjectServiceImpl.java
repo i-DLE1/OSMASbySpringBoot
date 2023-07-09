@@ -2,6 +2,7 @@ package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.ProjectMapper;
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,4 +91,18 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
 
+    @Override
+    public List<ProjectWishDTO> selectProjectWishByNo(Integer memberNo, Integer projectNo) {
+        return projectMapper.selectProjectWishByNo(memberNo, projectNo);
+    }
+
+    @Override
+    public int insertProjectWish(int memberNo, int projectNo) {
+        return projectMapper.insertProjectWish(memberNo, projectNo);
+    }
+
+    @Override
+    public int deleteProjectWish(int memberNo, int projectNo) {
+        return projectMapper.deleteProjectWish(memberNo, projectNo);
+    }
 }

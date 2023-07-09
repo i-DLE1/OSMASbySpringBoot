@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.dao;
 
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,4 +35,9 @@ public interface ProjectMapper {
 
     ProjectDTO selectProjectCancelInfoByProjectId(int projectNo, int userNo);
 
+    List<ProjectWishDTO> selectProjectWishByNo(Integer memberNo, Integer projectNo);
+
+    int insertProjectWish(int memberNo, int projectNo);
+
+    int deleteProjectWish(int memberNo, int projectNo);
 }

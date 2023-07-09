@@ -94,9 +94,7 @@ public class ProjectDeatilController {
     }
 
     @GetMapping("qaAnswer")
-    public String getQaAnswer(@RequestParam Integer no, Principal principal, Model model) {
-
-//        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    public String getQaAnswer(@RequestParam Integer no, Model model) {
 
         ProjectQnADTO projectQnA = projectQnAService.selectByQnANo(no);
 

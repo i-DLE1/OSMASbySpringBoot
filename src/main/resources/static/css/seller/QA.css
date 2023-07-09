@@ -74,13 +74,16 @@ body{
 .retry-textarea:disabled{
     background: white;
 }
+.input-label{
+    position: relative;
+}
 
 .input-label label{
     position: absolute;
-    width: 330px;
     text-align: right;
     color: #884A3B;
-    top: 690px;
+    top: 55px;
+    right: 15px;
 }
 
 #qa-answer-area label:nth-child(1){

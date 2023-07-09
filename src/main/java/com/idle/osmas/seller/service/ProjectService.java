@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -30,5 +31,11 @@ public interface ProjectService {
 
     int updateProjectContent(Integer no, ProjectDTO project);
 
+
+    List<ProjectWishDTO> selectProjectWishByNo(Integer memberNo, Integer projectNo);
+
+    int insertProjectWish(int memberNo, int projectNo);
+
+    int deleteProjectWish(int memberNo, int projectNo);
 
 }
