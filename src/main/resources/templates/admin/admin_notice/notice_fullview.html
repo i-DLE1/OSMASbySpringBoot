@@ -43,7 +43,9 @@
         <p style="margin: 0; font-size: 14px;" th:text="${adminBoard.classifyCode}"></p>
         <br>
         <!-- 이벤트 글일 경우 링크 추가 -->
-        <p style="margin: 0; font-size: 18px; font-weight: bold;"><a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a></p>
+        <p style="margin: 0; font-size: 18px; font-weight: bold;">
+          <a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a>
+        </p>
         <p>등록날짜 : <span th:text="${adminBoard.registDate}"></span></p>
       </div>
       <img th:src="@{/images/admin/Logo.png}" alt="로고" width="100" height="100" style="margin-left: auto;">
@@ -55,7 +57,9 @@
         <p style="margin: 0; font-size: 14px;" th:text="${adminBoard.classifyCode}"></p>
         <br>
         <!-- 이벤트 글일 경우 링크 추가 -->
-        <p style="margin: 0; font-size: 18px; font-weight: bold;"><a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a></p>
+        <p style="margin: 0; font-size: 18px; font-weight: bold;">
+          <a th:href="@{/admin/user_notice/notice_content(no=${adminBoard.no})}" th:text="${adminBoard.title}"></a>
+        </p>
         <p>등록날짜 : <span th:text="${adminBoard.registDate}"></span></p>
       </div>
       <img th:src="@{/images/admin/Logo.png}" alt="로고" width="100" height="100" style="margin-left: auto;">

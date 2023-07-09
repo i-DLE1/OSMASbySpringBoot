@@ -4,7 +4,6 @@ import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.dto.AdminBoardFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -24,5 +23,6 @@ public interface AdminBoardMapper {
     AdminBoardDTO getAdminBoardByNo(@Param("no") int no); // 공지사항 번호로 해당 공지사항 조회
 
     int registNotice(AdminBoardDTO adminBoardDTO);
+
 
 }

@@ -23,4 +23,5 @@ public interface AdminBoardService {
 
 
     int registBoard(AdminBoardDTO board);
+
 }

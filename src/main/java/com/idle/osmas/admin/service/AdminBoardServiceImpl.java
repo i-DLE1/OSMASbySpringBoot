@@ -3,8 +3,6 @@ package com.idle.osmas.admin.service;
 import com.idle.osmas.admin.dao.AdminBoardMapper;
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.dto.AdminBoardFileDTO;
-import com.idle.osmas.seller.dto.QnaDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,11 +54,5 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     public int registBoard(AdminBoardDTO adminBoard) {
         return adminBoardMapper.registNotice(adminBoard);
     }
-
-//    @Override
-//    public int insertNewQna(QnaDTO qnaDTO) {
-//        return salesMapper.insertNewQna(qnaDTO);
-//    }
-
 
 }

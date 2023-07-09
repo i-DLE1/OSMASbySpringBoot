@@ -135,6 +135,7 @@
         SELECT
             *
         FROM TBL_ADMIN_BOARD
+        ORDER BY REGIST_DATE DESC
     </select>
 
 </mapper>
