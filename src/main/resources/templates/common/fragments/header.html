@@ -19,6 +19,17 @@
         dropdown.classList.remove("slide-open");
       }
     });
+
+    //관리자 페이지 표시 기능
+    function toggleMenu() {
+      var menu = document.getElementById("adminPageContent");
+
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
+    }
   </script>
 
   <div class="User_container">
@@ -30,6 +41,19 @@
         <button sec:authentication="principal.nickname" class="id_button"></button>
         <button onclick="location.href='/member/logout'">로그아웃</button>
     </th:block>
+    <div class="adminPage">
+    <th:block sec:authorize="hasRole('ADMIN')">
+      <button class="adminPageGo" onclick="toggleMenu()">관리자 페이지</button>
+      <div class="adminPage-content" id="adminPageContent">
+        <a onclick="location.href='admin/user_notice/notice_view/A'">공지사항</a>
+        <a onclick="location.href='admin/adminCategory/fundingRanking'">현재 펀딩 순위</a>
+        <a onclick="location.href='admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
+        <a onclick="location.href='admin/sellerApprovalForm/formMain'">판매자 권한 신청폼(추후 삭제 예정)</a>
+        <a onclick="location.href='admin/itemApproval/waitingItem'">상품 승인 관리</a>
+        <a onclick="location.href='admin/adminCategory/gettingProposals'">제안 받기</a>
+      </div>
+    </th:block>
+    </div>
   </div>
   <div id="logo">
     <a style="cursor: pointer" onclick="location.href='/main'">

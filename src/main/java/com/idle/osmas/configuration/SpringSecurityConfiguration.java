@@ -4,11 +4,14 @@ import com.idle.osmas.member.handler.LoginFailHandler;
 import com.idle.osmas.member.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +20,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
-public class SpringSecurityConfiguration {
+@Order(1)
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private LoginService loginService;
 
@@ -35,27 +39,22 @@ public class SpringSecurityConfiguration {
         return (web) -> web.ignoring()
                 .antMatchers("/css/**", "/js/**", "/images/**");
     }
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/seller/**").authenticated()
-//                .antMatchers(HttpMethod.GET,"/seller/**").hasRole("SELLER")
-//                .antMatchers(HttpMethod.POST,"/seller/**").hasRole("SELLER")
                 .anyRequest().permitAll()
-        .and()
+                .and()
                 .formLogin()
                 .loginPage("/member/login/login")
-                .usernameParameter("id")			// 아이디 파라미터명 설정
+                .usernameParameter("id")
                 .passwordParameter("pwd")
                 .successForwardUrl("/")
                 .failureHandler(loginFailHandler())
-        .and()
+                .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .and().build();
+                .invalidateHttpSession(true);
     }
 
     @Bean
@@ -71,4 +70,5 @@ public class SpringSecurityConfiguration {
     public LoginFailHandler loginFailHandler(){
         return new LoginFailHandler();
     }
+
 }
