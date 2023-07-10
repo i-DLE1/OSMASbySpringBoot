@@ -346,8 +346,8 @@ function optionList() {
 
     // optionNobox와 optionAmountbox의 값을 배열에 담기
     for (let i = 1; i < optionNobox.length; i++) {
-        const optionNoboxValue = optionNobox[i].value;
-        const optionAmountboxValue = optionAmountbox[i].value;
+        const optionNoboxValue = parseInt(optionNobox[i].value);
+        const optionAmountboxValue = parseInt(optionAmountbox[i].value);
         optionListArray.push({
             optionNumber: optionNoboxValue,
             optionAmount: optionAmountboxValue
