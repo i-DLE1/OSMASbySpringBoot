@@ -24,7 +24,7 @@
             <input type="hidden" name="title" th:value="${personal.title}"/>
           </div>
         </div>
-        <button class="change" type="submit">수정하기</button>
+        <button class="change" type="submit" th:if="${isAdmin}">수정하기</button>
       </form>
       <hr class="separator" th:unless="${iterStat.last}">
     </div>

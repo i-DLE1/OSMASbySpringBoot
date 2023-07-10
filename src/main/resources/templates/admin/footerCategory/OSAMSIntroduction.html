@@ -21,7 +21,7 @@
                     <h3 th:utext="${osmas.termsHistory.content}"></h3>
                     <input type="hidden" name="content" th:value="${osmas.termsHistory.content}"/>
                     <input type="hidden" name="title" th:value="${osmas.title}"/>
-                    <button class="change" type="submit">수정하기</button>
+                    <button class="change" type="submit" th:if="${isAdmin}">수정하기</button>
                 </form>
             </div>
             <hr class="separator" th:unless="${iterStat.last}">
