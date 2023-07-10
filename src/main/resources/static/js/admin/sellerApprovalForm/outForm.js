@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
             alert(`${action} 되었습니다!`);
 
             // 판매자 ID 가져오기
-            var sellerName = document.getElementById("sellerName").value;
+            var sellerId = document.getElementById("sellerId").value;
 
-            console.log(sellerName);
+            console.log(sellerId);
             console.log(reasonSelect.value);
             console.log(otherReasonInput.value);
 
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 data: {
                     'reasonSelect': reasonSelect.value,
                     'otherReasonInput': otherReasonInput.value,
-                    'sellerId': sellerName
+                    'sellerId': sellerId
                 },
                 success: function(response) {
                     console.log('권한 회수 신청이 완료되었습니다.');

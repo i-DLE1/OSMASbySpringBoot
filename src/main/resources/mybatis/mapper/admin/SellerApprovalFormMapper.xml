@@ -4,6 +4,125 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.idle.osmas.admin.dao.SellerApprovalFormMapper">
 
+    <resultMap id="permissionRoleResultMap" type="com.idle.osmas.admin.dto.PermissionRoleDTO">
+        <id property="no" column="NO"/>
+        <result property="rejectReason" column="REJECT_REASON"/>
+        <result property="permissionStatus" column="PERMISSION_STATUS"/>
+        <result property="lastDate" column="LAST_DATE"/>
+        <result property="sellerReason" column="SELLER_REASON"/>
+        <result property="otherReason" column="OTHER_REASON"/>
+
+        <association property="sellerRoleReq" resultMap="sellerRoleReqResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleReqResultMap" type="com.idle.osmas.admin.dto.SellerRoleReqDTO">
+        <id property="no" column="NO"/>
+        <result property="date" column="REGIST_DATE"/>
+
+        <association property="memberNo" resultMap="sellerRoleResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleResultMap" type="com.idle.osmas.admin.dto.SellerRoleDTO">
+        <id property="memberNo" column="REF_MEMBER_NO"/>
+        <result property="accountNo" column="ACCOUNT_NO"/>
+        <result property="registNo" column="REGIST_NO"/>
+        <result property="name" column="NAME"/>
+        <result property="callNumber" column="CALL_NUMBER"/>
+        <result property="rprsn" column="RPRSN"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="bank" column="BANK"/>
+        <result property="reportNo" column="REPORT_NO"/>
+
+        <association property="member" resultMap="memberResultMap"/>
+        <association property="reason" resultMap="permissionRoleResultMap"/>
+        <collection property="fileList" resultMap="sellerRoleFileResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleFileResultMap" type="com.idle.osmas.admin.dto.SellerRoleFileDTO">
+        <id property="no" column="NO"/>
+        <result property="idCode" column="ID_CODE"/>
+        <result property="originName" column="ORIGIN_NAME"/>
+        <result property="changeName" column="CHANGE_NAME"/>
+        <result property="deteleYN" column="DETELE_YN"/>
+
+        <association property="memberNo" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <!-- 판매자 권한 다시 신청 정보 불러오기 -->
+    <select id="getFormAgain" resultMap="sellerRoleResultMap">
+        SELECT
+            M.ID,
+            S.BANK,
+            S.ACCOUNT_NO,
+            S.NAME,
+            S.RPRSN,
+            S.CALL_NUMBER,
+            S.ADDRESS,
+            S.REGIST_NO,
+            S.REPORT_NO,
+            S.REF_MEMBER_NO
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND R.REF_MEMBER_ROLE_CODE NOT IN (2, 3)
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND P.REJECT_REASON IS NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+          AND S.BANK IS NOT NULL
+          AND M.ID = #{userID}
+    </select>
+
+    <!-- 판매자 권한 보류 다시 신청 사유값 불러오기 -->
+    <select id="findReason" resultMap="permissionRoleResultMap">
+        SELECT
+            P.REJECT_REASON
+        FROM
+            TBL_PERMISSION_ROLE P
+            JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+            JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+            JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+          AND P.REJECT_REASON IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+          AND M.ID = #{userID}
+    </select>
+
     <!-- 권한 회수 신청 -->
     <insert id="sellerOutReq" parameterType="java.lang.String">
         INSERT INTO TBL_SELLER_ROLE_REQ (NO, REF_MEMBER_NO, REGIST_DATE)
@@ -104,19 +223,26 @@
     </insert>
 
     <!-- 권한 신청 파일 insert-->
-    <insert id="sellerInsertFile" parameterType="java.lang.String">
-        INSERT INTO TBL_SELLER_ROLE_FILE (NO,ID_CODE, ORIGIN_NAME,CHANGE_NAME, DETELE_YN, REF_MEMBER_NO)
-        VALUES (
-                   SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
-                   'LICENSE',
-                   #{originFileName},
-                   #{savedFileName},
-                   'N',
-                   (SELECT M.NO
-                    FROM TBL_MEMBER M
-                    WHERE M.ID = #{sellerId}
-                   )
-               )
+    <insert id="sellerInsertFileList" parameterType="java.util.List">
+        INSERT INTO TBL_SELLER_ROLE_FILE (NO, ID_CODE, ORIGIN_NAME, CHANGE_NAME, DETELE_YN, REF_MEMBER_NO)
+        SELECT
+        SEQ_TBL_SELLER_ROLE_FILE_NO.NEXTVAL,
+        idCode,
+        originFileName,
+        savedFileName,
+        'N',
+        (SELECT M.NO
+        FROM TBL_MEMBER M
+        WHERE M.ID = #{sellerId})
+        FROM (
+        <foreach collection="fileList" item="file" separator="UNION ALL">
+            SELECT
+            #{file.fileType} AS idCode,  -- Enum 값을 사용하여 파일 유형 지정
+            #{file.originFileName} AS originFileName,
+            #{file.savedFileName} AS savedFileName
+            FROM DUAL
+        </foreach>
+        )
     </insert>
 
 </mapper>

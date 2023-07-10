@@ -1,5 +1,6 @@
 package com.idle.osmas.admin.service;
 
+import com.idle.osmas.admin.dto.SellerRoleDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -13,4 +14,7 @@ public interface SellerApprovalFormService {
 
     int sellerInsert(Map<String, String> requestParams, List<Map<String, String>> fileList);
 
+    List<SellerRoleDTO> findId(String userID);
+
+    String findReason(String userID);
 }

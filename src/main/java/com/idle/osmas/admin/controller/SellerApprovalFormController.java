@@ -1,9 +1,13 @@
 package com.idle.osmas.admin.controller;
 
+import com.idle.osmas.admin.dto.SellerRoleDTO;
 import com.idle.osmas.admin.service.SellerApprovalFormService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,20 +35,77 @@ public class SellerApprovalFormController {
         System.out.println("SAVE_FILE_DIRECTORY_PATH: " + SAVE_FILE_DIRECTORY_PATH);
     }
 
+    @GetMapping("getFormAgain")
+    public String getFormAgain(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
+
+        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+        // userid 값을 사용하여 리스트 가져오기
+        List<SellerRoleDTO> getAgain = sellerApprovalFormService.findId(userID);
+
+        model.addAttribute("getAgain", getAgain);
+
+        return "admin/sellerApprovalForm/getFormAgain";
+    }
+
+    @GetMapping("outFormAgain")
+    public String outFormAgain(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
+
+        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+        // userid 값을 사용하여 사유 가져오기
+        String reason = sellerApprovalFormService.findReason(userID);
+
+        model.addAttribute("reason", reason);
+
+        return "admin/sellerApprovalForm/outFormAgain";
+    }
+
     @GetMapping("formMain")
     public void formMain() {
     }
 
     @GetMapping("getForm")
-    public void getForm() {
+    public String getForm(Model model) {
+
+            // 현재 인증된 사용자 정보 가져오기
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // 사용자 아이디 가져오기
+            String userID = userDetails.getUsername();
+
+            // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+            model.addAttribute("userID", userID);
+
+            return "admin/sellerApprovalForm/getForm";
     }
 
     @GetMapping("outForm")
-    public void outForm() {
-    }
+    public String outForm(Model model) {
 
-    @GetMapping("outFormHolding")
-    public void outFormHolding() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+
+        return "admin/sellerApprovalForm/outForm";
     }
 
     @PostMapping("sellerOut")
@@ -138,7 +199,8 @@ public class SellerApprovalFormController {
         paramFileList.add(bankBookFile);
 
         // 파일 처리 예시
-        for (MultipartFile paramFile : paramFileList) {
+        for (int i = 0; i < paramFileList.size(); i++) {
+            MultipartFile paramFile = paramFileList.get(i);
             if (!paramFile.isEmpty()) {
                 try {
                     String originFileName = paramFile.getOriginalFilename();
@@ -160,7 +222,7 @@ public class SellerApprovalFormController {
                     Map<String, String> fileMap = new HashMap<>();
                     fileMap.put("originFileName", originFileName);
                     fileMap.put("savedFileName", savedFileName);
-                    fileMap.put("fileType", "TITLE");
+                    fileMap.put("fileType", FileType.values()[i].toString()); // Enum 값을 순서대로 저장
 
                     // 썸네일 생성
                     BufferedImage originalImage = ImageIO.read(dest);
@@ -171,6 +233,14 @@ public class SellerApprovalFormController {
                     // 썸네일 생성 성공 시 추가적인 처리를 수행할 수 있습니다.
                     System.out.println(originFileName + " 썸네일 생성 성공");
 
+                    // 원본 파일 삭제
+                    boolean isDeleted = dest.delete();
+                    if (isDeleted) {
+                        System.out.println(originFileName + " 원본 파일 삭제 완료!");
+                    } else {
+                        System.out.println(originFileName + " 원본 파일 삭제 실패!");
+                    }
+
                     fileList.add(fileMap);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -178,8 +248,8 @@ public class SellerApprovalFormController {
 
                     /* 어떤 종류의 Exception이 발생하더라도 실패 시 파일삭제해야 합니다. */
                     int cnt = 0;
-                    for (int i = 0; i < fileList.size(); i++) {
-                        Map<String, String> file = fileList.get(i);
+                    for (int j = 0; j < fileList.size(); j++) {
+                        Map<String, String> file = fileList.get(j);
 
                         File deleteFile = new File(SAVE_FILE_DIRECTORY_PATH + "/" + file.get("savedFileName"));
                         boolean isDeleted1 = deleteFile.delete();
@@ -210,5 +280,12 @@ public class SellerApprovalFormController {
         } else {
             return "redirect:/admin/errorPage";
         }
+    }
+
+    enum FileType {
+        LICENSE,
+        TELECOM,
+        SEAL,
+        BANK_BOOK
     }
 }

@@ -12,18 +12,19 @@
 <header id="header">
     <th:block th:include="~{/common/fragments/header}"></th:block>
 </header>
-<h1 style="text-align: center">이곳은 나중에 로그인이 가능 할 시 로그인한 사람의 값을 가져와야 합니당</h1>
+
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
 
-        <div class="form-group">
-            <label for="sellerName">판매자 ID</label>
-            <input type="text" id="sellerName" name="sellerName" required>
-        </div>
+    <div class="form-group">
+        <label for="sellerId">판매자 ID</label>
+        <input type="text" id="sellerId" name="sellerId" th:value="${userID}">
+    </div>
 
+    <div th:each="reason, iterStat: ${reason}">
     <div class="form-group">
         <label for="RejectReason">회수 보류 사유</label>
-        <input type="text" id="RejectReason" name="RejectReason" required>
+        <input type="text" id="RejectReason" name="RejectReason" required th:value="${reason}">
     </div>
 
         <div class="form-group">
@@ -37,6 +38,8 @@
                 <textarea id="otherReasonInput" name="otherReason" placeholder="기타 사유를 입력해주세요"></textarea>
             </div>
         </div>
+        <hr th:if="${not iterStat.last}">
+    </div>
 
         <h5 style="text-align: center;">
             권한 회수 완료 즉시 판매자님의 데이터가 영구적으로 삭제됩니다. <br>
