@@ -110,7 +110,7 @@
                 <label for="content">내용</label>
                 <textarea id="content" name="content" readonly></textarea>
             </div>
-            <div class="button-container">
+            <div class="button-container" id="button-mod">
                 <button onclick="" class="button_modify">수정</button>
                 <button onclick="" class="button_remove">삭제</button>
             </div>
@@ -201,9 +201,15 @@
        const $suggest = document.querySelectorAll(".suggest_title");
        for (let i = 0; i < $suggest.length; i++) {
            $suggest[i].onclick = function () {
+
                let no = this.parentNode.children[0].innerHTML;
                let title = this.parentNode.children[2].innerHTML;
                let nickname = this.parentNode.children[4].innerHTML;
+               if($('.id_button').text() != nickname){
+                   $('#button-mod').css('display','none');
+               }else{
+                   $('#button-mod').css('display','');
+               }
                $.ajax({
                    url: "/member/suggest/suggest",
                    type: "post",

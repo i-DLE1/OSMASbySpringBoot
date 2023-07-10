@@ -76,7 +76,7 @@
                     <label for="content">내용</label>
                     <textarea id="content" name="content" readonly></textarea>
                 </div>
-                <div class="button-container">
+                <div class="button-container" id="button-mod">
                     <button th:onclick="modify()" class="button_modify">수정</button>
                     <button th:onclick="remove()" class="button_remove">삭제</button>
                 </div>
@@ -134,6 +134,11 @@
                 let no = this.children[0].innerText;
                 let title = this.children[2].innerText;
                 let nickname = this.children[3].children[1].innerText;
+                if($('.id_button').text() != nickname){
+                    $('#button-mod').css('display','none');
+                }else{
+                    $('#button-mod').css('display','');
+                }
                 $.ajax({
                     url: "/member/review/review",
                     type: "post",

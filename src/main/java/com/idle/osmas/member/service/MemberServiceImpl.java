@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public boolean selectMemberById(String id) {
+    public boolean selectMemberById(String id){
         String result = mapper.selectMemberById(id);
         return result != null? true : false;
     }
