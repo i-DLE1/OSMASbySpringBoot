@@ -20,15 +20,14 @@
           <div class="termsContainer">
             <div class="terms">
               <h3 th:utext="${project.termsHistory.content}"></h3>
-              <input type="hidden" name="id" th:value="${project.termsHistory.content}"/>
+              <input type="hidden" name="content" th:value="${project.termsHistory.content}"/>
               <input type="hidden" name="title" th:value="${project.title}"/>
             </div>
           </div>
-          <button type="submit">수정</button>
+          <button class="change" type="submit">수정하기</button>
         </form>
+        <hr class="separator" th:unless="${iterStat.last}">
       </div>
-      <hr class="separator" th:if="${not iterStat.last}">
-    </div>
     </div>
     <div class="spann"></div>
   </main>

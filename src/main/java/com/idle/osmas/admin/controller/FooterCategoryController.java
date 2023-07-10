@@ -21,14 +21,14 @@ public class FooterCategoryController {
 
     @GetMapping("OSAMSIntroduction")
     public String OSAMSIntroduction(Model model) {
-        List<TermsDTO> osmas = termsService.OSAMS();
+        List<TermsDTO> OSAMS = termsService.OSAMS();
 
-        model.addAttribute("osmas", osmas);
+        model.addAttribute("OSAMS", OSAMS);
 
         return "/admin/footerCategory/OSAMSIntroduction";
     }
 
-    @GetMapping("useTerms")
+    @GetMapping(value = "/useTerms")
     public String useTerms(Model model) {
         List<TermsDTO> useTerms = termsService.userTermsGet();
 
@@ -37,7 +37,7 @@ public class FooterCategoryController {
         return "/admin/footerCategory/useTerms";
     }
 
-    @GetMapping("personalInformationProcessingPolicy")
+    @GetMapping(value = "/personalInformationProcessingPolicy")
     public String personalInformationProcessingPolicy(Model model) {
         List<TermsDTO> personalTerms = termsService.personalTermsGet();
 
@@ -46,7 +46,7 @@ public class FooterCategoryController {
         return "/admin/footerCategory/personalInformationProcessingPolicy";
     }
 
-    @GetMapping("projectJudgingCriteria")
+    @GetMapping(value = "/projectJudgingCriteria")
     public String projectJudgingCriteria(Model model) {
         List<TermsDTO> projectTerms = termsService.projectTermsGet();
 
@@ -61,11 +61,6 @@ public class FooterCategoryController {
         return "/admin/footerCategory/termsInput";
     }
 
-    @GetMapping("termsEdit")
-    public String termsEdit() {
-        return "/admin/footerCategory/termsEdit";
-    }
-
     @PostMapping("termsInputGo")
     public String termsInputGo(@RequestParam("title") String title, @RequestParam("content") String content) {
 
@@ -78,12 +73,12 @@ public class FooterCategoryController {
         }
     }
 
-    @PostMapping("termsEdit")
-    public String termsEdit(@RequestParam("id") String id, @RequestParam("title") String title, Model model) {
-        model.addAttribute("content", id);
+    @PostMapping (value = "/termsEdit")
+    public String termsEdit(@RequestParam("content") String content, @RequestParam("title") String title, Model model) {
+        model.addAttribute("content", content);
         model.addAttribute("title", title);
 
-        System.out.println(id);
+        System.out.println(content);
         System.out.println(title);
 
         return "/admin/footerCategory/termsEdit";
