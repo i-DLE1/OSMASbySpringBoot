@@ -37,7 +37,7 @@ public class SellerController {
                             ProjectService projectService,
                             ProjectFileService projectFileService,
                             ProjectQnAService projectQnAService,
-                            ProjectProgressService projectProgressService) {
+                            ProjectProgressService projectProgressService, SalesService salesService) {
 
         this.imageFileController = imageFileController;
         this.projectService = projectService;
@@ -145,13 +145,50 @@ public class SellerController {
         return "/seller/sellerProjectList";
     }
 
+
+
+    // miji 추가
     @GetMapping(value = {"/","/orderList"})
-    public String getOrderList(@RequestParam(required = false) String listType,
-                               @RequestParam(required = false) String searchType,
-                               @RequestParam(required = false) String search){
-        System.out.println("listType = " + listType);
-        System.out.println("searchType = " + searchType);
-        System.out.println("search = " + search);
+    public String getOrderList(@RequestParam(required = false) Optional<String> listType,
+                               @RequestParam(required = false) String search,
+                               @RequestParam(required = false) Integer pageNo,
+                               Principal principal, Model model) throws AccessAuthorityException {
+
+        if(principal == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
+
+        if(listType.isEmpty()){
+            return "redirect:/seller/projectList?listType=all";
+        }
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(pageNo == null ) pageNo = 1;
+
+        Map<String, Object> searchCriteria = new HashMap<>();
+
+        int startNo = 1 + ((pageNo - 1) * DEFAULT_MAX_ROWS);
+        int endNo = ((pageNo) * DEFAULT_MAX_ROWS);
+
+        searchCriteria.put("listType", listType.get().toString().toUpperCase());
+        searchCriteria.put("search", search);
+        searchCriteria.put("userNo", user.getNo());
+        searchCriteria.put("startNo", startNo);
+        searchCriteria.put("endNo", endNo);
+
+        List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
+
+        int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
+        int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
+        int maxPage = ((int) Math.floor((double) count / (double) DEFAULT_MAX_ROWS)) + 1;
+
+
+        String defaultSearch = search == null ? "검색할 프로젝트 명을 입력하세요" : search;
+
+        model.addAttribute("endRow", endRow);
+        model.addAttribute("search", defaultSearch);
+        model.addAttribute("listType", listType(listType));
+        model.addAttribute("userName", user.getName()); // 사용자명
+        model.addAttribute("projectList", projectList);
+        model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerOrderList";
     }
 

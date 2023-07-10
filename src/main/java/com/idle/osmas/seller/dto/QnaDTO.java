@@ -15,9 +15,9 @@ public class QnaDTO {
     private int refPrjNo;
     private LocalDate registDate;
 
-    private MemberDTO name;
+    private MemberDTO nickname;
     private QnaAnswerDTO answerContent;
     private QnaAnswerDTO answerRegistDate;
     private QnaAnswerDTO answerNo;
-    private MemberDTO answerName;
+    private MemberDTO answerNickName;
 }

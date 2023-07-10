@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>판매페이지_Q&A</title>
@@ -11,22 +12,6 @@
 
 
 <body>
-<!--    <table>-->
-<!--        <div class="contentheadline" >Q/A</div>-->
-<!--        <tr>-->
-<!--            <th style="width: 100px; font-size: 20px">NO</th>-->
-<!--            <th style="width: 850px; font-size: 20px">문의내용</th>-->
-<!--            <th style="width: 100px; font-size: 20px">문의자</th>-->
-<!--            <th style="width: 150px; font-size: 20px">등록일</th>-->
-<!--        </tr>-->
-<!--        <tr th:each="qna, index: ${qnaList}">-->
-<!--            <td class="tdindex" th:text="${index.count}" style="font-size: 20px"></td>-->
-<!--            <td th:text="${qna.content}" style="font-size: 20px; overflow: hidden"></td>-->
-<!--            <td class="tdindex" th:text="${qna.name.name}" style="font-size: 20px; overflow: hidden"></td>-->
-<!--            <td class="tdindex" th:text="${qna.registDate}" style="font-size: 20px"></td>-->
-<!--        </tr>-->
-<!--    </table>-->
-
 
         <table  id="products">
 
@@ -57,7 +42,7 @@
                     <td>
                         <a th:text="${qna.content}" class="show-details"></a>
                     </td>
-                    <td class="tdindex" th:text="${qna.name.name}" style="font-size: 20px; overflow: hidden"></td>
+                    <td class="tdindex" th:text="${qna.nickname.nickname}" style="font-size: 20px; overflow: hidden"></td>
                     <td class="tdindex" th:text="${qna.registDate}" style="font-size: 20px"></td>
                 </tr>
                 <tr class="hidden-row" style="display: none;">
@@ -68,7 +53,7 @@
                         </div>
                         <div th:unless="${qna.answerContent.content} == null" th:text="${qna.answerContent.content}" class="hidden-details"></div>
                     </td>
-                    <td class="tdindex" th:text="${qna.answerName.name}" style="font-size: 16px; color: #884A3B; overflow: hidden"></td>
+                    <td class="tdindex" th:text="${qna.answerNickName.nickname}" style="font-size: 16px; color: #884A3B; overflow: hidden"></td>
                     <td class="tdindex" th:text="${qna.answerContent.registDate}" style="font-size: 16px; color: #884A3B;"></td>
                 </tr>
             </th:block>
@@ -79,8 +64,6 @@
 
 
 <!--        <tr>-->
-<!--            <td class="tdindex">관리자</td>-->
-<!--            <td>ㄴ 이순신님, 변경해드렸습니다.</td>-->
 <!--            <td class="button-cell" >-->
 <!--                <button style="height: 30px;">수정</button>-->
 <!--                <button style="height: 30px;">삭제</button>-->
@@ -88,12 +71,18 @@
 <!--        </tr>-->
 
 
-
-    <div>
-        <span class="optiontext" id="optioncheck" type="text" style="margin-right: 10px">문의자</span>
+    <div style="display: flex">
+        <th:block sec:authorize="isAuthenticated()">
+        <div class="memberNickname" type="text" sec:authentication="principal.nickname"></div>
+            <script th:inline="javascript">
+                var memberNo = /*[[${#authentication.principal.no}]]*/ '';
+            </script>
         <input class="optiontext" id="question" type="text" placeholder="문의내용을 입력하세요" />
         <button style="font-size: 20px; width: 60px; height: 35px;" id="inputQna" th:attr="data-sales-no=${salesDTO.no}">입력</button>
+        </th:block>
     </div>
+
+
 
 </body>
 </html>

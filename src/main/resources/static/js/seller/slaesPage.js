@@ -128,7 +128,7 @@ function calcPercent(){
 }
 
 // 종료일자-시작일자 일자구하기
-function calcBetweenDate(){
+function calcBetweenDate() {
     var startDate = new Date(document.getElementById("startDate").textContent);
     var currentDate = new Date();
     var endDate = new Date(document.getElementById("endDate").textContent);
@@ -136,7 +136,7 @@ function calcBetweenDate(){
     var calcDatetext = document.getElementById("calcDatetext");
     var gauge2 = document.getElementById("progress-gauge2");
 
-    currentDate.setHours(0, 0, 0, 0); // 시간 정보를 00:00:00으로 초기화
+    currentDate.setHours(0, 0, 0, 0); // 현재시간 정보를 00:00:00으로 초기화
 
     var timeDiff = Math.abs(endDate.getTime() - currentDate.getTime()); // 남은날짜
     var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -144,23 +144,49 @@ function calcBetweenDate(){
     var timeDiff2 = Math.abs(endDate.getTime() - startDate.getTime()); // 총진행기간
     var diffDays2 = Math.ceil(timeDiff2 / (1000 * 3600 * 24));
 
-    if(diffDays >= 0 && currentDate.getTime() <= endDate.getTime() && currentDate.getTime() >= startDate.getTime()) {
-        calcDate.textContent = diffDays;
-        gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
-        if(diffDays==1){
-            calcDate.textContent = "오늘 종료!";
-            calcDatetext.textContent = "";
+//     if(diffDays >= 0 && currentDate.getTime() <= endDate.getTime() && currentDate.getTime() >= startDate.getTime()) {
+//         calcDate.textContent = diffDays;
+//         gauge2.style.width = 100 -((diffDays / diffDays2)* 100) + "%";
+//         if(diffDays==1){
+//             calcDate.textContent = "오늘 종료!";
+//             calcDatetext.textContent = "";
+//         }
+//     } else if(currentDate.getTime() > endDate.getTime()) {
+//         calcDate.textContent = "종료되었습니다";
+//         calcDatetext.textContent = "";
+//         gauge2.style.width = 100 + "%";
+//     } else {
+//         calcDate.textContent = "진행예정입니다";
+//         calcDatetext.textContent = "";
+//         gauge2.style.width = 0 + "%";
+//     }
+//
+// }
+
+    if (diffDays >= 0 && currentDate.getTime() <= endDate.getTime() && currentDate.getTime() >= startDate.getTime()) {
+        if (currentDate.getTime() === startDate.getTime()) {
+            calcDate.textContent = diffDays;
+            gauge2.style.width = 100 - ((diffDays / diffDays2) * 100) + "%";
+        } else {
+            calcDate.textContent = diffDays;
+            gauge2.style.width = 100 - ((diffDays / diffDays2) * 100) + "%";
+            if (diffDays === 1) {
+                calcDate.textContent = "오늘 종료!";
+                calcDatetext.textContent = "";
+            }
         }
-    } else if(currentDate.getTime() > endDate.getTime()) {
+    } else if (currentDate.getTime() > endDate.getTime()) {
         calcDate.textContent = "종료되었습니다";
         calcDatetext.textContent = "";
         gauge2.style.width = 100 + "%";
     } else {
-        calcDate.textContent = "진행예정입니다";
-        calcDatetext.textContent = "";
-        gauge2.style.width = 0 + "%";
+        calcDate.textContent = diffDays;
+        gauge2.style.width = 100 - ((diffDays / diffDays2) * 100) + "%";
+        if (diffDays === 1) {
+            calcDate.textContent = "오늘 종료!";
+            calcDatetext.textContent = "";
+        }
     }
-
 }
 
 

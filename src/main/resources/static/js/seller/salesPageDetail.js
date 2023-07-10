@@ -103,7 +103,7 @@ $(document).ready(function() {
     $('#inputQna').click(function (){
 
         let content =  $('#question').val();
-        let refMemberNo = 22;
+        let refMemberNo = memberNo;
         let refPrjNo = $(this).attr('data-sales-no');
 
         var param = {"content":content, "refMemberNo":refMemberNo, "refPrjNo":refPrjNo}
@@ -116,7 +116,7 @@ $(document).ready(function() {
 
             success : function (data){
             alert("등록되었습니다.");
-            $('#dynamicContent').load(location.href + ' #dynamicContent');
+            // $('#dynamicContent').load(location.href + ' #dynamicContent');
             $('#updateContent3').click();
 
             },
@@ -126,10 +126,6 @@ $(document).ready(function() {
         });
     });
 });
-
-
-
-
 
 
 

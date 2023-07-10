@@ -12,6 +12,8 @@ public interface SalesService {
 
     public List<OptionDTO> selectOptionByNo(int no);
 
+
+
     public CategoryDTO selectCategoryByNo(int no);
 
     public SellerRollDTO selectSellerRollByNo(int no);
