@@ -1,14 +1,14 @@
 function projectOrderList(filter){
     $("#projectOrderList").html("");
 
-    // 더미 데이터
-    let projectList = [
-        {id: 1, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
-        {id: 2, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
-        {id: 3, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
-        {id: 4, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
-
-    ];
+    // // 더미 데이터
+    // let projectList = [
+    //     {id: 1, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+    //     {id: 2, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+    //     {id: 3, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+    //     {id: 4, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
+    //
+    // ];
     projectList.forEach((item ,index)=>{
         let $tr = $("<tr>").attr("id",item.id);
         let $td = $("<td>");

@@ -31,19 +31,23 @@ public class SellerController {
 
     private final ProjectProgressService projectProgressService;
 
+    private final OrderListService orderListService;
+
     private int DEFAULT_MAX_ROWS = 10;
 
     public SellerController(ImageFileController imageFileController,
                             ProjectService projectService,
                             ProjectFileService projectFileService,
                             ProjectQnAService projectQnAService,
-                            ProjectProgressService projectProgressService) {
+                            ProjectProgressService projectProgressService,
+                            OrderListService orderListService) {
 
         this.imageFileController = imageFileController;
         this.projectService = projectService;
         this.projectFileService = projectFileService;
         this.projectQnAService = projectQnAService;
         this.projectProgressService = projectProgressService;
+        this.orderListService = orderListService;
     }
 
     public String listType(Optional<String> listType){
@@ -174,6 +178,7 @@ public class SellerController {
         searchCriteria.put("startNo", startNo);
         searchCriteria.put("endNo", endNo);
 
+        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList();
         List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
@@ -188,6 +193,7 @@ public class SellerController {
         model.addAttribute("listType", listType(listType));
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
+        model.addAttribute("orderList", orderList);
         model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerOrderList";
     }
