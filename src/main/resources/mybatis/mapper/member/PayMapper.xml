@@ -15,6 +15,21 @@
         <result property="detail" column="DETAIL"/>
         <result property="postalCode" column="POSTAL_CODE"/>
     </resultMap>
+
+    <resultMap id="productResultMap" type="com.idle.osmas.member.dto.ProductsDTO">
+        <result property="productNo" column="NO"/>
+        <result property="name" column="NAME"/>
+        <result property="price" column="PRICE"/>
+        <result property="size" column="PRODUCT_SIZE"/>
+    </resultMap>
+    
+    <resultMap id="payResuleMap" type="com.idle.osmas.member.dto.PayDTO">
+        <result property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="targetAmount" column="TARGET_AMOUNT"/>
+        <result property="currentAmount" column="CURRENT_AMOUNT"/>
+    </resultMap>
     <select id="selectMemberById" resultMap="memberResultMap">
         SELECT
                A.NO
@@ -33,5 +48,36 @@
          , A.POSTAL_CODE
       FROM TBL_ADDRESS A
      WHERE A.REF_MEMBER_NO =#{no}
+    </select>
+    <insert id="insertAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
+        INSERT INTO TBL_ADDRESS
+        (GENERAL, DETAIL,POSTAL_CODE,NO,REF_MEMBER_NO)
+        VALUES (#{general},#{detail},#{postalCode},SEQ_TBL_ADDRESS_NO.NEXTVAL,#{refMemberNo})
+    </insert>
+
+    <update id="modAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
+        UPDATE TBL_ADDRESS SET GENERAL = #{general},DETAIL =#{detail},POSTAL_CODE=#{postalCode}
+        WHERE REF_MEMBER_NO = #{refMemberNo}
+    </update>
+
+    <select id="selectProduct" resultMap="productResultMap">
+        SELECT
+                A.NO
+              , A.NAME
+              , A.PRICE
+              , A.PRODUCT_SIZE
+          FROM TBL_PRODUCT A
+         WHERE A.NO = #{productNo}
+    </select>
+
+    <select id="selectPay" resultMap="payResuleMap">
+        SELECT
+               A.NO
+             , A.TITLE
+             , A.END_DATE
+             , A.TARGET_AMOUNT
+             , A.CURRENT_AMOUNT
+         FROM TBL_PRJ A
+        WHERE A.NO = #{no}
     </select>
 </mapper>

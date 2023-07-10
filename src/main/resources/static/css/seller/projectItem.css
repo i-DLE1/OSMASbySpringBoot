@@ -43,10 +43,12 @@
 
 .activate-favorite{
     background-image: url("../../images/common/activate-favorite.png");
+    background-color: transparent;
 }
 
 .deactivate-favorite{
     background-image: url("../../images/common/deactivate-favortie.png");
+    background-color: transparent;
 }
 
 .project-item div:nth-child(2){
