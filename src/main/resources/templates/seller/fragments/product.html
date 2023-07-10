@@ -153,12 +153,14 @@
         contentType: 'application/json', // 요청의 컨텐츠 타입을 JSON으로 설정
         success: function (data) {
           // 데이터를 성공적으로 가져왔을 때 실행할 코드
-          console.log('데이터 가져오기 성공');
+          console.log('데이터 보내기 성공');
+          window.location.href = '/member/pay/pay';
+          console.log(param);
 
         },
         error: function () {
           // 데이터 가져오기 실패 시 실행할 코드
-          console.log('데이터 가져오기 실패');
+          console.log('데이터 보내기 실패');
         }
       });
     });
