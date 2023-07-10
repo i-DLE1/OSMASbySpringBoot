@@ -70,4 +70,16 @@ public class TermsServiceImpl implements TermsService{
         }
         return result;
     }
+
+    @Override
+    public Integer youAdmin(String userID) {
+        Integer result = termsMapper.youAdmin(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
 }

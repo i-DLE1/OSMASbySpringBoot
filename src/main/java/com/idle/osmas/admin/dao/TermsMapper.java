@@ -22,4 +22,6 @@ public interface TermsMapper {
     int termsEditGO(String title, String content);
 
     int termsEditUpdate(String title, String content);
+
+    Integer youAdmin(String userID);
 }

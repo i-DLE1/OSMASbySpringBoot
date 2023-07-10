@@ -14,15 +14,49 @@
   <script src="/resources/js/summernote-ko-KR.js"></script>
   <title>글쓰기</title>
 </head>
+<style>
+    #subBtn {
+        background-color: #FFC26F;
+        font-size: 12px;
+        height: 40px;
+        width: 80px;
+        color: white;
+        border: none;
+        text-align: center;
+        display: block;
+        margin: 20px auto;
+        float: none; /* 수정된 부분 */
+    }
+
+    #subBtn:hover {
+        background-color: #884A39;
+    }
+
+    #summernote-container {
+        max-height: 600px;
+        max-width: 1100px;
+        border: 1px solid #ccc;
+        overflow: auto;
+        padding: 10px;
+        position: relative;
+        margin: 0 auto; /* 수정된 부분 */
+    }
+</style>
 <body>
+<header>
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
 
-<h2 style="text-align: center;">글 수정</h2><br><br><br>
-
+<h2 style="text-align: center; margin-bottom: 30px">글 수정</h2>
 <div style="width: 60%; margin: auto;">
-    <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}"/>
-    <br><br>
-    <textarea id="summernote" name="content" th:text="${content}"></textarea>
-    <input id="subBtn" type="submit" value="글 수정" style="float: right;"/>
+        <input type="text" name="title" style="width: 40%; margin-bottom: 10px;" placeholder="제목" th:value="${title}"/>
+</div>
+    <div id="summernote-container">
+        <textarea id="summernote" name="content" th:text="${content}"></textarea>
+    </div>
+    <div style="text-align: center; margin-bottom: 10px">
+        <input id="subBtn" type="submit" value="글 수정"/>
+    </div>
 </div>
 
 <script>
@@ -59,6 +93,7 @@
           console.log('글 작성 완료');
           alert('글 수정 완료!');
           location.reload(); // 페이지 새로 고침
+            location.href="/main/Main";
         },
         error: function(error) {
           console.error("글 수정 실패", error);
@@ -67,6 +102,11 @@
     }
   });
 </script>
+
+<footer>
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
 
 </body>
 </html>
