@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.service;
 
+import com.idle.osmas.seller.dto.ProductStatistics;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectWishDTO;
 
@@ -37,5 +38,7 @@ public interface ProjectService {
     int insertProjectWish(int memberNo, int projectNo);
 
     int deleteProjectWish(int memberNo, int projectNo);
+
+    List<ProductStatistics> selectProductStatisticsByProjectNo(int projectNo);
 
 }

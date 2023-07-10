@@ -57,6 +57,30 @@ public class ProjectDeatilController {
         return "/seller/popup/projectDetail";
     }
 
+    @GetMapping(value = "productStatistics")
+    @ResponseBody()
+    public Map<String, Integer> productStatistics(@RequestParam(required = false) Integer no, Principal principal, Model model){
+
+        System.out.println("no = " + no);
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        List<ProductStatistics> productStatistics = projectService.selectProductStatisticsByProjectNo(no);
+
+
+        Map<String, Integer> result = new HashMap<>();
+
+        productStatistics.forEach(e-> result.put(e.getName(),e.getCount()));
+
+        System.out.println("productStatistics = " + productStatistics);
+
+        result.put("red",123132);
+
+        System.out.println("result = " + result);
+
+        return result;
+
+    }
+
     @GetMapping("cancel")
     public String getCacnel(@RequestParam int no,  Principal principal, Model model) throws AccessAuthorityException {
 

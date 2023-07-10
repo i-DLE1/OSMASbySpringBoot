@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.ProjectMapper;
+import com.idle.osmas.seller.dto.ProductStatistics;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectWishDTO;
 import org.springframework.stereotype.Service;
@@ -104,5 +105,10 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public int deleteProjectWish(int memberNo, int projectNo) {
         return projectMapper.deleteProjectWish(memberNo, projectNo);
+    }
+
+    @Override
+    public List<ProductStatistics> selectProductStatisticsByProjectNo(int projectNo) {
+        return projectMapper.selectProductStatisticsByProjectNo(projectNo);
     }
 }
