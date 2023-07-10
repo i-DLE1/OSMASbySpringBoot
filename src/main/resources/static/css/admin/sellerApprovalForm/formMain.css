@@ -6,8 +6,8 @@ body{
 
 /* 선택지 박스 */
 .box {
-    width: 500px;
-    height: 300px;
+    width: 300px;
+    height: 100px;
     text-align: center;
     align-items: center;
     background-color: #D9D9D9;
@@ -24,37 +24,6 @@ body{
     color: black;
 }
 
-.box button {
-    margin-top: -10px; /* 버튼과 텍스트 사이의 간격 조정을 위해 추가 */
-}
-
-/*버튼 css*/
-.notification {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    text-align: center;
-    width: 650px;
-    height: 150px;
-}
-
-.notification h3 {
-    margin-top: 0;
-}
-
-.notification .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-}
-
 .select {
     padding: 10px 20px;
     background-color: #D9D9D9;
@@ -67,4 +36,12 @@ body{
 
 .select:hover {
     background-color: #5B4612;
+}
+
+hr {
+    width: 50%;
+    height: 1px;
+    margin: 10px auto;
+    background-color: #5B4612;
+    border: none;
 }

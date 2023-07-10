@@ -75,8 +75,12 @@ public class SellerApprovalFormController {
         return "admin/sellerApprovalForm/outFormAgain";
     }
 
-    @GetMapping("formMain")
-    public void formMain() {
+    @GetMapping("formGetMain")
+    public void formGetMain() {
+    }
+
+    @GetMapping("formOutMain")
+    public void formOutMain() {
     }
 
     @GetMapping("getForm")
