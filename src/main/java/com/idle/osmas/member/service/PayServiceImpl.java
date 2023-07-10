@@ -1,9 +1,13 @@
 package com.idle.osmas.member.service;
 
+import com.idle.osmas.member.dto.ProductsDTO;
+import com.idle.osmas.seller.dto.ProductDTO;
 import com.idle.osmas.member.dao.PayMapper;
 import com.idle.osmas.member.dto.AddressDTO;
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.PayDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLOutput;
 
@@ -45,5 +49,15 @@ public class PayServiceImpl implements PayService{
         }else{
             throw new Exception("다시 입력해주시요");
         }
+    }
+
+    @Override
+    public ProductsDTO selectProduct(int productNo) {
+        return mapper.selectProduct(productNo);
+    }
+
+    @Override
+    public PayDTO selectPay(int no) {
+        return mapper.selectPay(no);
     }
 }
