@@ -17,10 +17,10 @@
     <h1 style="text-align: center; margin: 50px;">권한 신청하기</h1>
 
     <form id="sellerGotForm" th:action="@{/admin/sellerApprovalForm/sellerFileUpload}" th:method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="sellerId">판매자 ID</label>
-        <input type="text" id="sellerId" name="sellerId" required>
-    </div>
+        <div class="form-group">
+            <label for="sellerId">판매자 ID</label>
+            <input type="text" id="sellerId" name="sellerId" th:value="${userID}">
+        </div>
 
         <div class="form-group">
             <label for="bank">은행:</label>
