@@ -37,7 +37,7 @@ public class SellerController {
                             ProjectService projectService,
                             ProjectFileService projectFileService,
                             ProjectQnAService projectQnAService,
-                            ProjectProgressService projectProgressService, SalesService salesService) {
+                            ProjectProgressService projectProgressService) {
 
         this.imageFileController = imageFileController;
         this.projectService = projectService;
