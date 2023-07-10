@@ -28,41 +28,61 @@
         <span class="condition">영문또는 숫자를 혼합하여 5자~20자로 입력해주세요.</span>
         <div class="signup_info">
             <input type="text" name="id" id="id" placeholder="아이디" required th:onchange="idReg()">
+            <div class="error_message">
+                <p id="id-error"></p>
+            </div>
         </div>
-
         <label for="nickName">닉네임</label>
         <span class="condition">한글로 2자~8자 입력해주세요.</span>
         <div class="signup_info">
             <input type="text" name="nickname" id="nickname" placeholder="닉네임" required th:onchange="nickReg()">
+            <div class="error_message">
+                <p id="nickname-error"></p>
+            </div>
         </div>
 
         <label for="pwd">비밀번호</label>
         <span class="condition">영문,숫자 혼합하여 6자~15자로 입렬해주세요</span>
         <div class="signup_info">
             <input type="password" name="pwd" id="pwd" placeholder="비밀번호" required th:onchange="pwdReg()">
+            <div class="error_message">
+                <p id="pwd-error"></p>
+            </div>
         </div>
 
         <label for="name">이름</label>
         <div class="signup_info">
             <input type="text" name="name" id="name" placeholder="이름" required th:onchange="nameReg()">
+            <div class="error_message">
+                <p id="name-error"></p>
+            </div>
         </div>
 
         <label for="phone">휴대전화번호</label>
         <span class="condition">'-'을 포함하여 숫자로 입력해주세요</span>
         <div class="signup_info">
             <input type="tel" name="phone" id="phone" placeholder="휴대전화번호" required th:onchange="phoneReg()">
+            <div class="error_message">
+                <p id="phone-error"></p>
+            </div>
         </div>
 
         <label for="birth">생년월일</label>
         <span class="condition">생년월일은 8자리 숫자로 입력해주세요.</span>
         <div class="signup_info">
             <input type="text" name="birthString" id="birth" placeholder="생년월일 8자리" required th:onchange="birthReg()">
+            <div class="error_message">
+                <p id="birth-error"></p>
+            </div>
         </div>
 
         <label for="email">이메일</label>
         <div class="signup_info">
             <input type="text" name="email" id="email" placeholder="이메일 입력" required th:onchange="emailReg()">
             <button type="button" th:onclick="emailSend()">전송</button>
+            <div class="error_message">
+                <p id="email-error"></p>
+            </div>
         </div>
 
         <label>인증번호</label>
@@ -70,6 +90,9 @@
         <div class="signup_info">
             <input type="text" name="emailNum" placeholder="인증번호" id="emailNum" required>
             <button type="button" th:onclick="eamilOk()">확인</button>
+            <div class="error_message">
+                <p id="emailNum-error"></p>
+            </div>
         </div>
         <input th:type="text" th:id="emailCheck" style="display: none">
 
@@ -106,14 +129,12 @@
     //             type: "post",
     //             data: {id: id},
     //             success: function (data) {
-    //                 if (data == '중복된 아이디가 있습니다') {
-    //                     alert(data)
-    //                     $('#id').val('');
-    //                     $("#id").focus();
-    //                 }
+    //                 $(#login-error).val(data);
     //             },
     //             error: function (error) {
-    //                 alert(error)
+    //                 $(#login-error).val(error);
+    //                 $('#id').val('');
+    //                 $("#id").focus();
     //             }
     //         });
     //     }
@@ -208,18 +229,18 @@
     //
     // function emailSend(){
     //     const email = $('#email').val();
-    //         $.ajax({
-    //            url:"/member/email",
-    //             type: "post",
-    //             data:{email : email},
-    //             success : function (data){
-    //                alert('이메일에 인증번호를 보냈습니다')
-    //                $('#emailCheck').val(data);
-    //             },error : function (error){
-    //                 alert('이메일을 다시 확인해주세요')
-    //             }
+    //     $.ajax({
+    //         url:"/member/email",
+    //         type: "post",
+    //         data:{email : email},
+    //         success : function (data){
+    //             alert('이메일에 인증번호를 보냈습니다')
+    //             $('#emailCheck').val(data);
+    //         },error : function (error){
+    //             alert('이메일을 다시 확인해주세요')
+    //         }
     //
-    //         });
+    //     });
     //
     // }
 
