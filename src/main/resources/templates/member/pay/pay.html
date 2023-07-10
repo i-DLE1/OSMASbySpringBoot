@@ -203,33 +203,33 @@
             }
         });
     });
-    $(function () {
-        $('.ok_button').click(function () {
-            const $count = document.querySelectorAll('.count');
-            const $productNo = document.querySelectorAll('.productNo');
-            const count = [];
-            const no = $('.no').text();
-            const productNo = [];
-            for(let i = 0; i < $count.length;i++){
-                count[i] = $count[i].innerText;
-                productNo[i] = $productNo[i].innerText;
-            }
-            let jsonObj ={
-                no :no
-                ,count : count
-                , productNo : productNo
-            };
-            $.ajax({
-                type:'post',
-                url:'/pay/kakao',
-                contentType:"application/json",
-                data: JSON.stringify(jsonObj),
-                success:function (response){
-                    location.href =
-                }
-            })
-        });
-    });
+    // $(function () {
+    //     $('.ok_button').click(function () {
+    //         const $count = document.querySelectorAll('.count');
+    //         const $productNo = document.querySelectorAll('.productNo');
+    //         const count = [];
+    //         const no = $('.no').text();
+    //         const productNo = [];
+    //         for(let i = 0; i < $count.length;i++){
+    //             count[i] = $count[i].innerText;
+    //             productNo[i] = $productNo[i].innerText;
+    //         }
+    //         let jsonObj ={
+    //             no :no
+    //             ,count : count
+    //             , productNo : productNo
+    //         };
+    //         $.ajax({
+    //             type:'post',
+    //             url:'/pay/kakao',
+    //             contentType:"application/json",
+    //             data: JSON.stringify(jsonObj),
+    //             success:function (response){
+    //                 location.href =
+    //             }
+    //         })
+    //     });
+    // });
 
     window.onload = function () {
         $('.pay_term').hide();
