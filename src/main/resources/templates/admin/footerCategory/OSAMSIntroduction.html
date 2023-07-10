@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>OSMAS 소개글</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/footerCategory/terms.css">
 </head>
 <body>
 
@@ -13,17 +14,17 @@
 
 <middle>
     <div>
-        <div th:each="osmas, iterStat: ${osmas}">
+        <div th:each="osmas, iterStat: ${OSAMS}">
             <div class="termsContainer">
                 <form method="POST" th:action="@{/admin/footerCategory/termsEdit}">
                     <p th:attr="data-title=${osmas.title}"></p>
                     <h3 th:utext="${osmas.termsHistory.content}"></h3>
-                    <input type="hidden" name="id" th:value="${osmas.termsHistory.content}"/>
+                    <input type="hidden" name="content" th:value="${osmas.termsHistory.content}"/>
                     <input type="hidden" name="title" th:value="${osmas.title}"/>
-                    <button type="submit">수정</button>
+                    <button class="change" type="submit">수정하기</button>
                 </form>
             </div>
-            <hr class="separator" th:if="${not iterStat.last}">
+            <hr class="separator" th:unless="${iterStat.last}">
         </div>
     </div>
     <div class="spann"></div>

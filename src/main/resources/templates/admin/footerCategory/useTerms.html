@@ -5,8 +5,6 @@
     <title>이용 약관</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="stylesheet" href="/css/admin/footerCategory/terms.css">
-    <!-- include summernote-ko-KR -->
-    <script src="/resources/js/summernote-ko-KR.js"></script>
 </head>
 <body>
 
@@ -14,26 +12,25 @@
     <th:block th:include="~{/common/fragments/header}"></th:block>
 </header>
 
-    <main>
-        <div>
-            <div th:each="use, iterStat: ${useTerms}">
-                <form method="POST" th:action="@{/admin/footerCategory/termsEdit}">
-                    <h1 style="text-align: center;" th:text="${use.title}"></h1>
-                    <div class="termsContainer">
-                        <div class="terms">
-                            <h3 th:utext="${use.termsHistory.content}"></h3>
-                            <input type="hidden" name="id" th:value="${use.termsHistory.content}"/>
-                            <input type="hidden" name="title" th:value="${use.title}"/>
-                        </div>
+<main>
+    <div>
+        <div th:each="use, iterStat: ${useTerms}">
+            <form method="POST" th:action="@{/admin/footerCategory/termsEdit}">
+                <h1 style="text-align: center;" th:text="${use.title}"></h1>
+                <div class="termsContainer">
+                    <div class="terms">
+                        <h3 th:utext="${use.termsHistory.content}"></h3>
+                        <input type="hidden" name="content" th:value="${use.termsHistory.content}"/>
+                        <input type="hidden" name="title" th:value="${use.title}"/>
                     </div>
-                    <button type="submit">수정</button>
-                </form>
-            </div>
-            <hr class="separator" th:if="${not iterStat.last}">
+                </div>
+                <button class="change" type="submit">수정하기</button>
+            </form>
+            <hr class="separator" th:unless="${iterStat.last}">
         </div>
-        </div>
-        <div class="spann"></div>
-    </main>
+    </div>
+    <div class="spann"></div>
+</main>
 
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>

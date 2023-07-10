@@ -23,3 +23,21 @@ body{
 .terms h3 {
     font-size: 18px;
 }
+
+.change {
+    background-color: #FFC26F;
+    font-size: 12px;
+    height: 40px;
+    width: 80px;
+    margin: 20px 0;
+    color: white;
+    border: none;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.change:hover {
+    background-color: #884A39;
+}
