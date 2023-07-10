@@ -224,7 +224,8 @@
             S.REPORT_NO,
             M.ID,
             R.REF_MEMBER_ROLE_CODE,
-            P.REJECT_REASON
+            P.REJECT_REASON,
+            M.NO
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
@@ -418,4 +419,18 @@ INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ
               AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
         )
     </update>
+
+    <insert id="insertAlert">
+        INSERT INTO TBL_HOLDING_ALERT(NO, CONTENT, REGIST_DATE, REF_MEMBER_NO, REF_PERMISSION_ROLE_NO)
+        SELECT SEQ_TBL_HOLDING_ALERT_NO.NEXTVAL, '신청하신 권한 회수가 보류 되었습니다.', SYSDATE, #{sellerNo},
+               (SELECT P.NO
+                FROM TBL_PERMISSION_ROLE P
+                         JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                         JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                WHERE M.ID = #{sellerId}
+                ORDER BY P.LAST_DATE DESC
+                    FETCH FIRST 1 ROW ONLY
+               )
+        FROM DUAL
+    </insert>
 </mapper>

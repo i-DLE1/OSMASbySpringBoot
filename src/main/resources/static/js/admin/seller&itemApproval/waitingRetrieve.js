@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const sellerId = button.getAttribute('data-seller-id'); // 판매자 아이디 가져오기
             const sellerReqNoString = document.querySelector('p[data-seller-req]').getAttribute('data-seller-req');
             const sellerReqNo = parseInt(sellerReqNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
+            const sellerNoString = document.querySelector('p[data-seller-no]').getAttribute('data-seller-no');
+            const sellerNo = parseInt(sellerNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
 
             const notificationForm = document.createElement('div');
             notificationForm.classList.add('notification-form');
@@ -50,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(sellerId); // 값 출력
             console.log(sellerReqNo); // 판매자 신청 번호 값
             console.log(typeof sellerReqNo);
+            console.log(sellerNo);
+            console.log(typeof sellerNo);
 
 
             sendButton.addEventListener('click', () => {
@@ -64,7 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     data: {
                         "sellerId": sellerId,
                         "reason": reason,
-                        "sellerReq": sellerReqNo
+                        "sellerReq": sellerReqNo,
+                        "sellerNo" : sellerNo
                     },
                     success: function(response) {
                         console.log("권한 회수가 보류되었습니다.");

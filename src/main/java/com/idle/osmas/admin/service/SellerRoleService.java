@@ -25,7 +25,7 @@ public interface SellerRoleService {
 
     int holdingGrant(String sellerId, String reason, int sellerReq);
 
-    int holdingRetrieveGo(String sellerId, String reason, int sellerReq);
+    int holdingRetrieveGo(String sellerId, String reason, int sellerReq, int sellerNo);
 
 }
 

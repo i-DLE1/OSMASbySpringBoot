@@ -83,6 +83,29 @@ public class SellerApprovalFormController {
     public void formOutMain() {
     }
 
+    //판매자 권한 회수 알람 확인용
+    @GetMapping("outHoldingAlarm")
+    public String outHoldingAlarm(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
+
+        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+        Integer holding = sellerApprovalFormService.youHolding(userID);
+        boolean alert = holding != null && holding == 1;
+
+        model.addAttribute("alert", alert);
+
+        System.out.println("권한 보류 값이야? " + alert);
+
+        return "admin/sellerApprovalForm/outHoldingAlarm";
+    }
+
     @GetMapping("getForm")
     public String getForm(Model model) {
 
@@ -292,4 +315,5 @@ public class SellerApprovalFormController {
         SEAL,
         BANK_BOOK
     }
+
 }

@@ -17,4 +17,6 @@ public interface SellerApprovalFormService {
     List<SellerRoleDTO> findId(String userID);
 
     String findReason(String userID);
+
+    Integer youHolding(String userID);
 }

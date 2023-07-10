@@ -1,14 +1,12 @@
 package com.idle.osmas.admin.service;
 
+import com.idle.osmas.admin.dao.HoldingAlertMapper;
 import com.idle.osmas.admin.dao.SellerApprovalFormMapper;
 import com.idle.osmas.admin.dto.PermissionRoleDTO;
 import com.idle.osmas.admin.dto.SellerRoleDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +14,12 @@ import java.util.Map;
 public class SellerApprovalFormServiceImpl implements SellerApprovalFormService {
 
     private final SellerApprovalFormMapper sellerApprovalFormMapper;
+    private final HoldingAlertMapper holdingAlertMapper;
 
-    public SellerApprovalFormServiceImpl(SellerApprovalFormMapper sellerApprovalFormMapper) {
+    public SellerApprovalFormServiceImpl(SellerApprovalFormMapper sellerApprovalFormMapper,
+                                         HoldingAlertMapper holdingAlertMapper) {
         this.sellerApprovalFormMapper = sellerApprovalFormMapper;
+        this.holdingAlertMapper = holdingAlertMapper;
     }
 
     @Override
@@ -79,5 +80,17 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
     public String findReason(String userID) {
         PermissionRoleDTO permissionRoleDTO = sellerApprovalFormMapper.findReason(userID);
         return permissionRoleDTO != null ? permissionRoleDTO.getRejectReason() : null;
+    }
+
+    @Override
+    public Integer youHolding(String userID) {
+        Integer result = holdingAlertMapper.youHolding(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
     }
 }

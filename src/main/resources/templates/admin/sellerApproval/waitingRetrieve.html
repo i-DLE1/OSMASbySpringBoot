@@ -35,6 +35,7 @@
                     <h3 class="seller-name" th:text="${seller.member.id}">신청자 아이디</h3>
                     <p class="apply-content" th:text="${seller.name}">회사 이름</p>
                     <p th:data-seller-req="${seller.req.no}"></p>
+                    <p th:data-seller-no="${seller.memberNo}"></p>
                 </div>
                 <p class="alert-content" th:text="${seller.reason.sellerReason}">신청 사유 내용</p>
                 <p class="alert-content" th:text="${seller.reason.otherReason}">신청 사유 기타 내용</p>
@@ -64,7 +65,9 @@
             $.ajax({
                 url: "/admin/sellerApproval/dropPermission",
                 method: "POST",
-                data: { "sellerId": sellerId },
+                data: {
+                    "sellerId": sellerId
+                },
                 success: function(response) {
                     console.log("권한이 회수되었습니다.");
                     location.reload(); // 페이지 새로 고침
