@@ -37,7 +37,7 @@ public class SellerController {
                             ProjectService projectService,
                             ProjectFileService projectFileService,
                             ProjectQnAService projectQnAService,
-                            ProjectProgressService projectProgressService) {
+                            ProjectProgressService projectProgressService, SalesService salesService) {
 
         this.imageFileController = imageFileController;
         this.projectService = projectService;
@@ -145,6 +145,9 @@ public class SellerController {
         return "/seller/sellerProjectList";
     }
 
+
+
+    // miji 추가
     @GetMapping(value = {"/","/orderList"})
     public String getOrderList(@RequestParam(required = false) Optional<String> listType,
                                @RequestParam(required = false) String search,
