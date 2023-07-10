@@ -5,6 +5,7 @@ import com.idle.osmas.seller.dao.ProjectMapper;
 import com.idle.osmas.seller.dto.ProjectFileDTO;
 import com.idle.osmas.seller.dto.ProjectFileType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,8 +34,9 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     }
 
     @Override
-    public int insertProjectFile(ProjectFileType fileType, String originFile, String savedFile, String deleteYN, int projectNo) {
-        return projectFileMapper.insertProjectFile(fileType, originFile, savedFile, deleteYN, projectNo);
+    @Transactional
+    public int insertProjectFile(ProjectFileDTO projectFile) {
+        return projectFileMapper.insertProjectFile(projectFile);
     }
 
     @Override
@@ -43,11 +45,13 @@ public class ProjectFileServiceImpl implements  ProjectFileService{
     }
 
     @Override
+    @Transactional
     public int updateNonAvailableProjectFileByChangeName(String changeName) {
         return projectFileMapper.updateNonAvailableProjectFileByChangeName(changeName);
     }
 
     @Override
+    @Transactional
     public int deleteProjectFilesByProjectNo(int projectNo) {
         return projectFileMapper.deleteProjectFilesByProjectNo(projectNo);
     }

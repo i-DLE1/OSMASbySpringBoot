@@ -34,9 +34,12 @@ body {
 }
 
 .scroll-box{
+    font-size: 12px !important;
     border: 1px solid #884A3B ;
     width: 100%;
     padding: 1em;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
 .item{

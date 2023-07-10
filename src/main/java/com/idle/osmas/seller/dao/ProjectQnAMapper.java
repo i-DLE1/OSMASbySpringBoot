@@ -1,6 +1,5 @@
 package com.idle.osmas.seller.dao;
 
-import com.idle.osmas.seller.dto.ProjectQnAAnswerDTO;
 import com.idle.osmas.seller.dto.ProjectQnADTO;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -12,7 +12,7 @@ public interface ProjectFileService {
     List<ProjectFileDTO> selectProjectFileListByProjectNo(int projectNo, int userNo);
 
     ProjectFileDTO selectByProjectSaveFileName(String saveFileName);
-    int insertProjectFile(ProjectFileType fileType, String originFile, String savedFile, String deleteYN, int projectNo);
+    int insertProjectFile(ProjectFileDTO projectFileList);
 
     int updateNonAvailableProjectFileByFileType(int projectNo, ProjectFileType fileType);
 

@@ -2,7 +2,6 @@ package com.idle.osmas.seller.dao;
 
 import com.idle.osmas.seller.dto.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 @Mapper

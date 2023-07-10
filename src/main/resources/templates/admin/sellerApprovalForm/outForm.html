@@ -16,10 +16,10 @@
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
 
-        <div class="form-group">
-            <label for="sellerName">판매자 ID</label>
-            <input type="text" id="sellerName" name="sellerName" required>
-        </div>
+    <div class="form-group">
+        <label for="sellerId">판매자 ID</label>
+        <input type="text" id="sellerId" name="sellerId" th:value="${userID}">
+    </div>
 
         <div class="form-group">
             <label for="reason">회수 사유</label>

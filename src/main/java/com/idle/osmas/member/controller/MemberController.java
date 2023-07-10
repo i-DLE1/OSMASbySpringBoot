@@ -62,13 +62,11 @@ public class MemberController {
         stringBirth= birthFormat.format(utilBirth);
         java.sql.Date birth = java.sql.Date.valueOf(stringBirth);
 
-        System.out.println(birth);
-
         member.setBirth(birth);
         member.setPwd(passwordEncoder.encode(member.getPwd()));
-
         memberService.signUpMember(member);
         rttr.addAttribute("nickname",member.getNickname());
+
         return "redirect:/member/signup/signUpSuccess";
     }
 
@@ -77,7 +75,6 @@ public class MemberController {
     // email로 id 찾기
     @PostMapping("/findinfo/findid")
     public String findId(@RequestParam("email") String email, Model m) throws MessagingException, UnsupportedEncodingException {
-        System.out.println(email);
         String result = emailService.selectIdByEmail(email);
         m.addAttribute("result",result);
         return "/member/findinfo/findsuccess";
@@ -88,7 +85,6 @@ public class MemberController {
 
     @PostMapping("/findinfo/findpwd")
     public String findPwd(@RequestParam("email") String email, Model m) throws Exception {
-        System.out.println(email);
         String result = emailService.selectPwdByEmail(email);
         m.addAttribute("result", result);
         return "/member/findinfo/findsuccess";

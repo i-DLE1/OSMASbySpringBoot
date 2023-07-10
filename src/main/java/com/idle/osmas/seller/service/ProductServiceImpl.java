@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProductMapper;
 import com.idle.osmas.seller.dto.ProductDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,26 +17,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int insertProjectProduct(List<ProductDTO> productList, int projectNo) {
-        productList.forEach( e ->{
-            if(e.getNo() == 0){
-                productMapper.insertProjectProduct(e);
-                productMapper.insertProjectProductList(projectNo, e.getNo());
-            }else {
-                productMapper.updateProjectProduct(e);
-            }
-        });
-
+    @Transactional
+    public int insertProjectProduct(List<ProductDTO> productList) {
+        if(productList.size() > 0) return productMapper.insertProjectProduct(productList);
         return 1;
     }
 
     @Override
+    public int updateProjectProduct(List<ProductDTO> productList) {
+        if(productList.size() > 0) return productMapper.updateProjectProduct(productList);
+        return 1;
+    }
+
+    @Override
+    @Transactional
     public int deleteProjectProduct(List<ProductDTO> productList) {
         int result = 0;
         for (ProductDTO e : productList) {
             int subResult = 0;
             subResult += productMapper.deleteProjectProductList(e.getNo());
-            subResult += productMapper.deleteProjectProduct(e.getNo());
+            subResult += productMapper.deleteProductByProductNo(e.getNo());
             if(subResult == 2) result++;
         }
         if(result == productList.size()) return 1;

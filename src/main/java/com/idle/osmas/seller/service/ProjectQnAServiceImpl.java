@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProjectQnAMapper;
 import com.idle.osmas.seller.dto.ProjectQnADTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -32,16 +33,19 @@ public class ProjectQnAServiceImpl implements ProjectQnAService {
     }
 
     @Override
+    @Transactional
     public int insertProjectQnAAnswer(Map<String, Object> insertData) {
         return projectQnAMapper.insertProjectQnAAnswer(insertData);
     }
 
     @Override
+    @Transactional
     public int updateProjectQnAAnswer(Map<String, Object> updateData) {
         return projectQnAMapper.updateProjectQnAAnswer(updateData);
     }
 
     @Override
+    @Transactional
     public int deleteProjectQnAByProjectNo(int projectNo) {
         return projectQnAMapper.deleteProjectQnAByProjectNo(projectNo);
     }

@@ -10,8 +10,8 @@ public interface ProjectFAQMapper {
 
     List<ProjectFAQDTO> selectProjectFaqByProjectNo(int projectNo, int userNo);
 
-    int insertProjectFAQ(int projectRefNo, ProjectFAQDTO projectFaq);
-    int updateProjectFAQ(ProjectFAQDTO projectFAQ);
+    int insertProjectFAQ(List<ProjectFAQDTO> projectFaqList);
+    int updateProjectFAQ(List<ProjectFAQDTO> projectFaqList);
 
     int deleteProjectFAQ(int no);
 

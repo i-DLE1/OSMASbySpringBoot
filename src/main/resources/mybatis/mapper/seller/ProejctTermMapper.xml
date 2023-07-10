@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.seller.dao.ProjectTermMapper">
+    <resultMap id="termsResultMap" type="com.idle.osmas.admin.dto.TermsDTO">
+        <id property="no" column="TBL_TERMS_NO"/>
+        <result property="content" column="TBL_TERMS_CONTENT"/>
+        <result property="termsIndex" column="TBL_TERMS_TERMS_INDEX"/>
+    </resultMap>
+    
+    <select id="selectTermListByNo" resultMap="termsResultMap">
+        SELECT TT.CONTENT AS TBL_TERMS_CONTENT,
+               TERMS_INDEX AS TBL_TERMS_TERMS_INDEX
+          FROM TBL_TERMS_HISTORY TTH
+          JOIN TBL_TERMS TT ON TT.NO = TTH.REF_TERMS_NO
+         WHERE TTH.NO IN (SELECT MAX(NO)
+                            FROM TBL_TERMS_HISTORY TTH
+                           GROUP BY REF_TERMS_NO)
+           AND TTH.REF_TERMS_NO IN (49, 50)
+    </select>
+
+</mapper>

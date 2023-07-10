@@ -22,73 +22,24 @@
         </nav>
     </div>
 
-    <h4 style="color: rgb(168, 164, 164); text-align: center;">상품 판매 승인이 완료 되었습니다.</h4>
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="sale-description">판매 내용</p>
-        </div>
-        <h4 class="box2">승인 완료</h4>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="sale-description">판매 내용</p>
-        </div>
-        <h4 class="box2">승인 완료</h4>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="sale-description">판매 내용</p>
-        </div>
-        <h4 class="box2">승인 완료</h4>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="sale-description">판매 내용</p>
-        </div>
-        <h4 class="box2">승인 완료</h4>
-    </div>
-
-    <div class="product">
-        <div class="image-container">
-            <img src="image.jpg" alt="Product Image">
-        </div>
-        <div class="content-container">
-            <h3 class="seller-name">판매자 이름</h3>
-            <p class="sale-description">판매 내용</p>
-        </div>
-        <h4 class="box2">승인 완료</h4>
-    </div>
-
     <div>
-        <ul class="pagenation">
-            <li><a href=#><</a></li>
-            <li><a href=#>1</a></li>
-            <li><a href=#>2</a></li>
-            <li><a href=#>3</a></li>
-            <li><a href=#>4</a></li>
-            <li><a href=#>5</a></li>
-            <li><a href=#>></a></li>
-        </ul>
+        <h4 style="color: rgb(168, 164, 164); text-align: center;">상품 판매 승인이 완료 되었습니다.</h4>
+        <div th:each="seller, iterStat: ${sellerItem}">
+            <div class="product">
+                <div class="image-container">
+                    <img src="image.jpg" alt="Product Image">
+                </div>
+                <div class="content-container">
+                    <h3 class="seller-id" th:text="${seller.member.id}">판매자 아이디</h3>
+                    <p class="itemn-content" th:text="${seller.title}">판매 제목</p>
+                </div>
+                <h4 class="box2">승인 완료</h4>
+            </div>
+            <hr class="separator" th:if="${not iterStat.last}">
+        </div>
     </div>
+    <div class="spann"></div>
+
 </middle>
 
 <footer >

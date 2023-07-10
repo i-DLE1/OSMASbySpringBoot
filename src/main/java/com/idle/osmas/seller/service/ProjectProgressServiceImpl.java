@@ -5,8 +5,7 @@ import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectProgressDTO;
 import com.idle.osmas.seller.dto.ProjectProgressStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProjectProgressServiceImpl implements ProjectProgressService {
@@ -43,6 +42,7 @@ public class ProjectProgressServiceImpl implements ProjectProgressService {
     }
 
     @Override
+    @Transactional
     public int deleteProjectProgressByProjectNo(int projectNo) {
         return projectProgressMapper.deleteProjectProgressByProjectNo(projectNo);
     }

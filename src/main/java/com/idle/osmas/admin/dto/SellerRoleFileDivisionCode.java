@@ -6,8 +6,8 @@ public enum SellerRoleFileDivisionCode {
 
     TELECOM, //통신판매업사업자
 
-    BANK_BOOK, //통장사본
+    SEAL, //인감증명
 
-    SEAL; //인감증명
+    BANK_BOOK //통장사본
 
 }

@@ -1,7 +1,9 @@
 package com.idle.osmas.admin.service;
 
+import com.idle.osmas.admin.dto.SellerRoleDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SellerApprovalFormService {
@@ -10,6 +12,9 @@ public interface SellerApprovalFormService {
 
     int sellerOutCancel(String sellerId);
 
-    int sellerInsert(Map<String, String> requestParams);
+    int sellerInsert(Map<String, String> requestParams, List<Map<String, String>> fileList);
 
+    List<SellerRoleDTO> findId(String userID);
+
+    String findReason(String userID);
 }

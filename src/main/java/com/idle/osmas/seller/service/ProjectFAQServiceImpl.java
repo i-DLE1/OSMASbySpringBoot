@@ -3,6 +3,7 @@ package com.idle.osmas.seller.service;
 import com.idle.osmas.seller.dao.ProjectFAQMapper;
 import com.idle.osmas.seller.dto.ProjectFAQDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,16 +19,21 @@ public class ProjectFAQServiceImpl implements ProjectFAQService {
     }
 
     @Override
-    public int insertProjectFAQ(int projectNo, ProjectFAQDTO projectFAQ) {
-        return projectFAQMapper.insertProjectFAQ(projectNo, projectFAQ);
+    @Transactional
+    public int insertProjectFAQ(List<ProjectFAQDTO> projectFAQList) {
+        if(projectFAQList.size() > 0 ) return projectFAQMapper.insertProjectFAQ(projectFAQList);
+        return 1;
     }
 
     @Override
-    public int updateProjectFAQ(ProjectFAQDTO projectFAQ) {
-        return projectFAQMapper.updateProjectFAQ(projectFAQ);
+    @Transactional
+    public int updateProjectFAQ(List<ProjectFAQDTO> projectFAQList) {
+        if(projectFAQList.size() > 0) return projectFAQMapper.updateProjectFAQ(projectFAQList);
+        return 1;
     }
 
     @Override
+    @Transactional
     public int deleteProjectFAQ(List<ProjectFAQDTO> projectFAQList) {
         result = 0;
         int length = projectFAQList.size();
@@ -48,6 +54,7 @@ public class ProjectFAQServiceImpl implements ProjectFAQService {
     }
 
     @Override
+    @Transactional
     public int deleteProjectFaqByProjectNo(int projectNo) {
         return projectFAQMapper.deleteProjectFaqByProjectNo(projectNo);
     }

@@ -15,4 +15,5 @@ public class SponsoredsDTO {
     private String nickname;
     private int refPrjProductListNo;
     private int memberNo;
+    private String productName;
 }

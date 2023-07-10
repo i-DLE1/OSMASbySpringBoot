@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- include libraries(jQuery, bootstrap) -->
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+  <!-- include summernote css/js-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+  <!-- include summernote-ko-KR -->
+  <script src="/resources/js/summernote-ko-KR.js"></script>
+  <title>글쓰기</title>
+</head>
+<body>
+
+<h2 style="text-align: center;">글 수정</h2><br><br><br>
+
+<div style="width: 60%; margin: auto;">
+    <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}"/>
+    <br><br>
+    <textarea id="summernote" name="content" th:text="${content}"></textarea>
+    <input id="subBtn" type="submit" value="글 수정" style="float: right;"/>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#summernote').summernote({
+      placeholder: 'content',
+      minHeight: 370,
+      maxHeight: null,
+      focus: true,
+      lang : 'ko-KR'
+    });
+
+    $('#subBtn').on('click', function() {
+      goWrite();
+    });
+
+    function goWrite() {
+      const title = $('input[name="title"]').val();
+      const content = $('#summernote').summernote('code');
+
+      // 가져온 값 사용하기
+      console.log("제목:", title);
+      console.log("내용:", content);
+
+      // AJAX 요청 보내기
+      $.ajax({
+        url: '/admin/footerCategory/termsEditGO',
+        method: 'POST',
+        data: {
+          title: title,
+          content: content
+        },
+        success: function(response) {
+          console.log('글 작성 완료');
+          alert('글 수정 완료!');
+          location.reload(); // 페이지 새로 고침
+        },
+        error: function(error) {
+          console.error("글 수정 실패", error);
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

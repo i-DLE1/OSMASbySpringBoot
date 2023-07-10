@@ -1,7 +1,6 @@
 package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.ProjectCategoryMapper;
-import com.idle.osmas.seller.dto.CategoryDTO;
 import com.idle.osmas.seller.dto.ProjectCategoryDTO;
 import org.springframework.stereotype.Service;
 

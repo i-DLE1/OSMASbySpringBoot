@@ -73,9 +73,11 @@ nav ul li a{
     margin-right: 15px; /* 조금 왼쪽으로 이동 */
 }
 
-.seller-name {
-    font-size: 18px;
-    margin-bottom: 5px;
+.alert-content {
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 200px;
 }
 
 .sale-description {
@@ -116,33 +118,6 @@ nav ul li a{
     pointer-events: none; /* 클릭 효과 비활성화 */
 }
 
-/* 아랫단 숫자 페이지 */
-.pagenation {
-    margin-top: 3em;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-}
-
-.pagenation li {
-    padding: 5px 10px 5px 10px;
-    margin: 5px;
-}
-
-.pagenation li:hover,
-.pagenation li:hover a {
-    background-color: #bea376;
-    color: white !important;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.pagenation li a {
-    color: black; /* 숫자 글씨 색상을 변경하려면 원하는 색상으로 설정하세요 */
-    text-decoration: none;
-}
-
 /*버튼 알림 폼*/
 .notification-form {
     position: fixed;
@@ -180,4 +155,8 @@ nav ul li a{
     width: 200px;
     height: 200px;
     border: solid 1px black;
+}
+
+.spann {
+    margin-bottom: 50px;
 }

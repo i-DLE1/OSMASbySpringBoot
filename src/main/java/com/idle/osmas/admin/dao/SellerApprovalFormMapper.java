@@ -1,8 +1,11 @@
 package com.idle.osmas.admin.dao;
 
+import com.idle.osmas.admin.dto.PermissionRoleDTO;
+import com.idle.osmas.admin.dto.SellerRoleDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -21,12 +24,12 @@ public interface SellerApprovalFormMapper {
     int sellerInsertReq(String sellerId);
 
     int sellerInsertPermission(String sellerId);
+    
 
-    int sellerInsertFile1(String registFileName, String sellerId);
+    List<SellerRoleDTO> getFormAgain(String userID);
 
-    int sellerInsertFile2(String reportFileName, String sellerId);
+    int sellerInsertFileList(List<Map<String, String>> fileList, String sellerId);
 
-    int sellerInsertFile3(String certificateFileName, String sellerId);
 
-    int sellerInsertFile4(String bankBookFileName, String sellerId);
+    PermissionRoleDTO findReason(String userID);
 }

@@ -2,7 +2,9 @@ package com.idle.osmas.seller.service;
 
 import com.idle.osmas.seller.dao.ProjectMapper;
 import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectWishDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,6 @@ import java.util.Map;
 public class ProjectServiceImpl implements ProjectService{
 
     private final ProjectMapper projectMapper;
-    private int result;
 
     public ProjectServiceImpl(ProjectMapper projectMapper) {
         this.projectMapper = projectMapper;
@@ -66,22 +67,42 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
+    @Transactional
     public int insertTemporaryProject(ProjectDTO project) {
         return projectMapper.insertTemporaryProject(project);
     }
 
     @Override
+    @Transactional
     public int updateProjectInfo(ProjectDTO project) {
         return projectMapper.updateProjectInfo(project);
     }
 
     @Override
+    @Transactional
     public int deleteProjectByProjectNo(int projectNo) {
-        return 0;
+        return projectMapper.deleteProjectByProjectNo(projectNo);
     }
 
     @Override
+    @Transactional
     public int updateProjectContent(Integer no,ProjectDTO project) {
         return projectMapper.updateProjectContent(no, project.getContent());
+    }
+
+
+    @Override
+    public List<ProjectWishDTO> selectProjectWishByNo(Integer memberNo, Integer projectNo) {
+        return projectMapper.selectProjectWishByNo(memberNo, projectNo);
+    }
+
+    @Override
+    public int insertProjectWish(int memberNo, int projectNo) {
+        return projectMapper.insertProjectWish(memberNo, projectNo);
+    }
+
+    @Override
+    public int deleteProjectWish(int memberNo, int projectNo) {
+        return projectMapper.deleteProjectWish(memberNo, projectNo);
     }
 }
