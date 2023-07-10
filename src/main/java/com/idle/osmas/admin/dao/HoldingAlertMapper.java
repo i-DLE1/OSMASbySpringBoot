@@ -6,5 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface HoldingAlertMapper {
 
     Integer youHolding(String userID);
+
+    Integer youSuccess(String userID);
 }
 

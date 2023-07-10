@@ -19,4 +19,6 @@ public interface SellerApprovalFormService {
     String findReason(String userID);
 
     Integer youHolding(String userID);
+
+    Integer youSuccess(String userID);
 }

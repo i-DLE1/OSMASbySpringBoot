@@ -44,6 +44,12 @@
             <button onclick="location.href='/admin/sellerApprovalForm/outFormAgain'">확인하러 가기</button>
         </div>
     </th:block>
+
+    <th:block th:if="${alertGo}">
+        <div class="mypage_alarm" style="margin: 5%;">
+            <p>판매자님의 권한 회수가 완료 되었습니다.</p>
+        </div>
+    </th:block>
 </main>
 
 <footer>

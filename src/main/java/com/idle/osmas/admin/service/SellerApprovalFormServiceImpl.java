@@ -93,4 +93,16 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         }
         return 0;
     }
+
+    @Override
+    public Integer youSuccess(String userID) {
+        Integer result = holdingAlertMapper.youSuccess(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
 }

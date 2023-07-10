@@ -100,11 +100,11 @@ public class SellerApprovalController {
 
     //권한 회수신청 -> 완료
     @PostMapping("dropPermission")
-    public String dropPermission(@RequestParam("sellerId") String sellerId,
+    public String dropPermission(@RequestParam("sellerId") String sellerId, @RequestParam("sellerNo") int sellerNo,
                                  Model model) {
         model.addAttribute("sellerId", sellerId);
 
-        int result = sellerRoleService.drop(sellerId);
+        int result = sellerRoleService.drop(sellerId, sellerNo);
 
         if (result > 0) {
             return "redirect:/admin/sellerApproval/waitingRetrieve";

@@ -73,16 +73,18 @@ public class SellerRoleServiceImpl implements SellerRoleService {
     //권한 회수 신청 -> 완료
     @Override
     @Transactional
-    public int drop(String sellerId) {
+    public int drop(String sellerId, int sellerNo) {
         int result1 = sellerRoleMapper.addRoleToSellerDrop(sellerId);
         System.out.println("result1 : " + result1);
         int result2 =sellerRoleMapper.changeSellerRoleDropState(sellerId);
         System.out.println("result2 : " + result2);
+        int result3 =sellerRoleMapper.InsertAlert(sellerId, sellerNo);
+        System.out.println("result3 : " + result3);
 
         int result = 0;
 
         // sellerRoleMapper의 작업 수행 후 결과를 result 변수에 할당
-        if ((result1 > 0) && (result2 > 0)) {
+        if ((result1 > 0) && (result2 > 0) && (result3 > 0)) {
             result = 1;
         }
         return result;

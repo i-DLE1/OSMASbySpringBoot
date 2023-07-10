@@ -41,4 +41,6 @@ public interface SellerRoleMapper {
 
 
     int insertAlert(String sellerId, String reason, int sellerNo);
+
+    int InsertAlert(String sellerId, int sellerNo);
 }

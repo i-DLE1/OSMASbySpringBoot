@@ -6,18 +6,39 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', () => {
             // 알림 메시지 표시
             alert('권한이 회수되었습니다!');
+
+            const product = button.closest('.product');
+            const sellerId = button.getAttribute('data-seller-id'); // 판매자 아이디 가져오기
+            const sellerNoString = product.querySelector('p[data-seller-no]').getAttribute('data-seller-no');
+            const sellerNo = parseInt(sellerNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
+
+            // 권한 부여 Ajax 요청
+            $.ajax({
+                url: "/admin/sellerApproval/dropPermission",
+                method: "POST",
+                data: {
+                    "sellerId": sellerId,
+                    "sellerNo": sellerNo
+                },
+                success: function(response) {
+                    console.log("권한이 회수되었습니다.");
+                    location.reload(); // 페이지 새로 고침
+                },
+                error: function(error) {
+                    console.error("권한 회수에 실패했습니다.", error);
+                }
+            });
         });
     });
 
     noButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-
             const product = button.closest('.product');
             const sellerName = product.querySelector('.seller-name').textContent;
             const sellerId = button.getAttribute('data-seller-id'); // 판매자 아이디 가져오기
-            const sellerReqNoString = document.querySelector('p[data-seller-req]').getAttribute('data-seller-req');
+            const sellerReqNoString = product.querySelector('p[data-seller-req]').getAttribute('data-seller-req');
             const sellerReqNo = parseInt(sellerReqNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
-            const sellerNoString = document.querySelector('p[data-seller-no]').getAttribute('data-seller-no');
+            const sellerNoString = product.querySelector('p[data-seller-no]').getAttribute('data-seller-no');
             const sellerNo = parseInt(sellerNoString, 10); // 10은 진수를 나타내는 옵션입니다 (10진수)
 
             const notificationForm = document.createElement('div');
@@ -48,13 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     reasonText.value = reasonText.value.slice(0, currentCursorPosition) + '\n' + reasonText.value.slice(currentCursorPosition);
                 }
             });
-
-            console.log(sellerId); // 값 출력
-            console.log(sellerReqNo); // 판매자 신청 번호 값
-            console.log(typeof sellerReqNo);
-            console.log(sellerNo);
-            console.log(typeof sellerNo);
-
 
             sendButton.addEventListener('click', () => {
                 const reason = reasonText.value;

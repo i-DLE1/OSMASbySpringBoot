@@ -36,6 +36,7 @@
                     <p class="apply-content" th:text="${seller.name}">회사 이름</p>
                     <p th:data-seller-req="${seller.req.no}"></p>
                     <p th:data-seller-no="${seller.memberNo}"></p>
+
                 </div>
                 <p class="alert-content" th:text="${seller.reason.sellerReason}">신청 사유 내용</p>
                 <p class="alert-content" th:text="${seller.reason.otherReason}">신청 사유 기타 내용</p>
@@ -54,31 +55,6 @@
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
-
-<script>
-    $(function(){
-        $(".goButton").click(function() {
-            var sellerId = $(this).attr("data-seller-id");
-            console.log(sellerId); // 값 출력
-
-            // 권한 부여 Ajax 요청
-            $.ajax({
-                url: "/admin/sellerApproval/dropPermission",
-                method: "POST",
-                data: {
-                    "sellerId": sellerId
-                },
-                success: function(response) {
-                    console.log("권한이 회수되었습니다.");
-                    location.reload(); // 페이지 새로 고침
-                },
-                error: function(error) {
-                    console.error("권한 회수에 실패했습니다.", error);
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 </html>
