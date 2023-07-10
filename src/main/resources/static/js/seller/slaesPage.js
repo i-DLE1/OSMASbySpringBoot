@@ -333,5 +333,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
 });
+
+function optionList() {
+    // 옵션번호 박스 클래스 요소 가져오기
+    const optionNobox = document.querySelectorAll('.optionNumber');
+    // 옵션수량 박스 클래스 요소 가져오기
+    const optionAmountbox = document.querySelectorAll('.optionamount');
+
+    // 값을 담을 배열 생성
+    const optionListArray = [];
+
+    // optionNobox와 optionAmountbox의 값을 배열에 담기
+    for (let i = 1; i < optionNobox.length; i++) {
+        const optionNoboxValue = optionNobox[i].value;
+        const optionAmountboxValue = optionAmountbox[i].value;
+        optionListArray.push({
+            optionNumber: optionNoboxValue,
+            optionAmount: optionAmountboxValue
+        });
+    }
+
+    return optionListArray;
+}
+
+
