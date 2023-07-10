@@ -2,6 +2,7 @@ package com.idle.osmas.member.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.member.service.MypageService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Map;
 
@@ -42,10 +45,18 @@ public class MypageController {
     public void mypageAccountDeleteNext(){
     }
     @PostMapping("MypageAccountDeleteNext")
-    public void mypageAccountDeleteNextValue(Principal principal, Model model){
+    @ResponseBody
+    public String mypageAccountDeleteNextValue(@RequestParam String reason,
+                                             Principal principal,
+                                             HttpServletRequest request) throws ServletException {
         UserImpl user = (UserImpl) userDetailsService.loadUserByUsername(principal.getName());
-        System.out.println("user = " + user.getNo());
-//        mypageService.updateMemberStatusByNo(, "DROP", "test2");
+        int result = mypageService.updateMemberStatusByNo(user.getNo(), MemberStatus.DROP, reason);
+        if (result > 0){
+            request.logout();
+            return "success";
+        } else {
+            return "fail";
+        }
     }
     @GetMapping("MypageAlarm")
     public void mypageAlarm(){}

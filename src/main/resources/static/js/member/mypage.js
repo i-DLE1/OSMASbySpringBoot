@@ -55,6 +55,24 @@ function showMessageDelete() {
     const messageContainer = document.querySelector('.message-container');
     const saveButton = document.querySelector('.btn_save');
 
+    const reason = $('#reason').val()
+
+    $.ajax({
+        url: '/member/mypage/MypageAccountDeleteNext',
+        type: 'post',
+        data: {reason},
+        success: function (success) {
+            if (success == "success") {
+                location.href = "/"
+            } else {
+                alert("탈퇴에 실패했습니다.")
+            }
+        },
+        error : function(e) {
+            console.log(e)
+        }
+    })
+
     messageContainer.textContent = '완료되었습니다!';
     messageContainer.classList.add('show');
 

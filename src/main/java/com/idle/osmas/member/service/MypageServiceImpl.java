@@ -2,6 +2,7 @@ package com.idle.osmas.member.service;
 
 import com.idle.osmas.member.dao.MypageMapper;
 import com.idle.osmas.member.dto.MemberDTO;
+import com.idle.osmas.member.dto.MemberStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ private final MypageMapper mypageMapper;
     }
     @Override
     @Transactional //rollback , commit
-    public int updateMemberStatusByNo(int no, String status, String reason) {
+    public int updateMemberStatusByNo(int no, MemberStatus status, String reason) {
         return mypageMapper.updateMemberStatusByNo(no, status, reason);
     }
 
