@@ -1,13 +1,15 @@
 package com.idle.osmas.member.service;
 
-import com.idle.osmas.member.dto.ProductsDTO;
+import com.idle.osmas.member.dto.*;
 import com.idle.osmas.seller.dto.ProductDTO;
 import com.idle.osmas.member.dao.PayMapper;
-import com.idle.osmas.member.dto.AddressDTO;
-import com.idle.osmas.member.dto.MemberDTO;
-import com.idle.osmas.member.dto.PayDTO;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLOutput;
 
@@ -59,5 +61,37 @@ public class PayServiceImpl implements PayService{
     @Override
     public PayDTO selectPay(int no) {
         return mapper.selectPay(no);
+    }
+
+    public ReadyResponse payReady(PayInfo pay,String user_id){
+
+        String order_id = "111111111";
+
+        MultiValueMap<String,String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("cid", "TC0ONETIME"); // 테스트시 가맹점 코드로 사용
+        parameters.add("partner_order_id", order_id);
+        parameters.add("partner_user_id",user_id);
+        parameters.add("item_name",pay.getTitle()); // 상품 이름
+        parameters.add("quantity","1"); // 상품 수량
+        parameters.add("total_amount", String.valueOf(pay.getPrice()));// 상품 총액
+        parameters.add("tax_free_amount", "0");
+        parameters.add("approval_url", "http://localhost:8080/member/pay/paysuccess"); // 결제승인시 넘어갈 url
+        parameters.add("cancel_url", "http://localhost:8080/member/pay/cancel"); // 결제취소시 넘어갈 url
+        parameters.add("fail_url", "http://localhost:8080/member/pay/fail"); // 결제 실패시 넘어갈 url
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
+
+        RestTemplate template = new RestTemplate();
+        String url = "https://kapi.kakao.com/v1/payment/ready";
+        ReadyResponse readyResponse = template.postForObject(url, requestEntity, ReadyResponse.class);
+        return readyResponse;
+    }
+
+    private HttpHeaders getHeaders(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "KakaoAK 417ea429496f34db62fc8863263221c5");
+        headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        return headers;
     }
 }
