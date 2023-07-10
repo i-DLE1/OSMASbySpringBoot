@@ -1,5 +1,7 @@
 package com.idle.osmas.member.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idle.osmas.member.dto.*;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import com.idle.osmas.member.service.PayServiceImpl;
@@ -7,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -45,8 +49,11 @@ public class PayController {
 //        m.addAttribute("member",member);
 //        m.addAttribute("address",address);
 //    }
+
+
     @PostMapping("/pay/pay")
     public void goPay(Model m, Principal principal, @RequestParam("no") int no,@RequestParam("productList") List<OptionDTO> productList){
+
         String id = principal.getName();
         MemberDTO member = payService.selectMemberById(id);
         AddressDTO address = payService.selectAddressByNo(member.getNo());
@@ -66,7 +73,9 @@ public class PayController {
         m.addAttribute("pay",pay);
         m.addAttribute("member",member);
         m.addAttribute("address",address);
+
     }
+
     @PostMapping("/pay/address")
     @ResponseBody
     public String addAddress(Principal principal,@RequestBody AddressDTO address) throws Exception {

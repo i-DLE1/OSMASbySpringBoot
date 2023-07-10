@@ -144,26 +144,33 @@
     $('#orderbutton').click(function() {
       const optionListData = optionList();
 
-      var param = {"no":salesNo, "productList":optionListData}
+      // 폼 엘리먼트 생성
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/member/pay/pay';
 
-      $.ajax({
-        url: '/member/pay/pay' , // 데이터를 보낼 URL
-        method: 'POST',  // 요청 메소드 (GET, POST 등)
-        data: JSON.stringify(param), // optionListData를 JSON 문자열로 변환하여 전달
-        contentType: 'application/json', // 요청의 컨텐츠 타입을 JSON으로 설정
-        success: function (data) {
-          // 데이터를 성공적으로 가져왔을 때 실행할 코드
-          console.log('데이터 보내기 성공');
-          window.location.href = '/member/pay/pay';
-          console.log(param);
+      // salesNo 파라미터 추가
+      var salesNoInput = document.createElement('input');
+      salesNoInput.type = 'hidden';
+      salesNoInput.name = 'no';
+      salesNoInput.value = salesNo;
+      form.appendChild(salesNoInput);
 
-        },
-        error: function () {
-          // 데이터 가져오기 실패 시 실행할 코드
-          console.log('데이터 보내기 실패');
-        }
-      });
+      // productList 파라미터 추가
+      var productListInput = document.createElement('input');
+      productListInput.type = 'hidden';
+      productListInput.name = 'productList';
+      productListInput.value = JSON.stringify(optionListData);
+
+      form.appendChild(productListInput);
+
+      console.log(form);
+
+      // 폼을 body에 추가하고 전송
+      document.body.appendChild(form);
+      form.submit();
     });
+
   });
 </script>
 
