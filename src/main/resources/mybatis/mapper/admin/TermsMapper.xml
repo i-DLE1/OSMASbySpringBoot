@@ -23,6 +23,37 @@
         <association property="termsHistory" resultMap="termsHistoryResultMap"/>
     </resultMap>
 
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <resultMap id="memberRoleResultMap" type="com.idle.osmas.member.dto.RoleListDTO">
+        <id property="refMemberRoleCode" column="REF_MEMBER_ROLE_CODE"/>
+
+        <association property="refMemberNo" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <!-- 관리자 인지 아닌지 판단 -->
+    <select id="youAdmin">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_ROLE_LIST R
+                 JOIN TBL_MEMBER M ON R.REF_MEMBER_NO = M.NO
+        WHERE M.ID = #{userID}
+          AND R.REF_MEMBER_ROLE_CODE = 0
+    </select>
+
+
     <!-- OSMAS 소개글 -->
     <select id="OSAMS" resultMap="termsResultMap">
         SELECT

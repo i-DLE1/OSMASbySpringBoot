@@ -16,4 +16,6 @@ public interface TermsService {
     List<TermsDTO> OSAMS();
 
     int termsEditGO(String title, String content);
+
+    Integer youAdmin(String userID);
 }

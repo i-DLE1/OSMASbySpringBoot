@@ -3,6 +3,9 @@ package com.idle.osmas.admin.controller;
 import com.idle.osmas.admin.dto.ProductDTO;
 import com.idle.osmas.admin.dto.TermsDTO;
 import com.idle.osmas.admin.service.TermsService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,18 @@ public class FooterCategoryController {
 
     @GetMapping("OSAMSIntroduction")
     public String OSAMSIntroduction(Model model) {
-        List<TermsDTO> OSAMS = termsService.OSAMS();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userID = userDetails.getUsername();
+        model.addAttribute("userID", userID);
+        Integer admin = termsService.youAdmin(userID);
+        boolean isAdmin = admin != null && admin == 1;
 
+        model.addAttribute("isAdmin", isAdmin);
+
+        System.out.println("관리자야? " + isAdmin);
+
+        List<TermsDTO> OSAMS = termsService.OSAMS();
         model.addAttribute("OSAMS", OSAMS);
 
         return "/admin/footerCategory/OSAMSIntroduction";
@@ -30,6 +43,17 @@ public class FooterCategoryController {
 
     @GetMapping(value = "/useTerms")
     public String useTerms(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userID = userDetails.getUsername();
+        model.addAttribute("userID", userID);
+        Integer admin = termsService.youAdmin(userID);
+        boolean isAdmin = admin != null && admin == 1;
+
+        model.addAttribute("isAdmin", isAdmin);
+
+        System.out.println("관리자야? " + isAdmin);
+
         List<TermsDTO> useTerms = termsService.userTermsGet();
 
         model.addAttribute("useTerms", useTerms);
@@ -39,6 +63,17 @@ public class FooterCategoryController {
 
     @GetMapping(value = "/personalInformationProcessingPolicy")
     public String personalInformationProcessingPolicy(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userID = userDetails.getUsername();
+        model.addAttribute("userID", userID);
+        Integer admin = termsService.youAdmin(userID);
+        boolean isAdmin = admin != null && admin == 1;
+
+        model.addAttribute("isAdmin", isAdmin);
+
+        System.out.println("관리자야? " + isAdmin);
+
         List<TermsDTO> personalTerms = termsService.personalTermsGet();
 
         model.addAttribute("personalTerms", personalTerms);
@@ -48,6 +83,17 @@ public class FooterCategoryController {
 
     @GetMapping(value = "/projectJudgingCriteria")
     public String projectJudgingCriteria(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userID = userDetails.getUsername();
+        model.addAttribute("userID", userID);
+        Integer admin = termsService.youAdmin(userID);
+        boolean isAdmin = admin != null && admin == 1;
+
+        model.addAttribute("isAdmin", isAdmin);
+
+        System.out.println("관리자야? " + isAdmin);
+
         List<TermsDTO> projectTerms = termsService.projectTermsGet();
 
         model.addAttribute("projectTerms", projectTerms);
