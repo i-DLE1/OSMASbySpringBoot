@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.member.dao.MypageMapper">
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="NO"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="email" column="EMAIL"/>
+        <result property="introduction" column="INTRODUCTION"/>
+    </resultMap>
+
+    <select id="selectMemberByNo" parameterType="_int" resultMap="memberResultMap">
+        SELECT  NO, NICKNAME, EMAIL, INTRODUCTION
+        FROM TBL_MEMBER WHERE NO = #{no}
+    </select>
+
+    <update id="updateMemberbyNo">
+        update TBL_MEMBER
+        <choose>
+            <when test="colName == 'intro'">
+                set INTRODUCTION = #{changeVal}
+            </when>
+            <when test="colName == 'nickname'">
+                set NICKNAME = #{changeVal}
+            </when>
+            <when test="colName == 'email'">
+                set EMAIL =  #{changeVal}
+            </when>
+        </choose>
+        WHERE NO= #{no}
+    </update>
+
+    <update id="updateMemberStatusByNo">
+        update TBL_MEMBER TM
+        set TM.STATUS = #{status},
+            TM.DROP_REASON = #{reason}
+        where TM.NO = #{no}
+    </update>
+
+</mapper>

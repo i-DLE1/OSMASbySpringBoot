@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>MypageAccount</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="/static/js/member/mypage.js"></script>
+    <script th:src="@{/js/member/mypage.js}"></script>
     <link rel="stylesheet" href="/css/member/mypagebasic.css">
     <link rel="stylesheet" href="/css/member/mypagemain.css">
 </head>
@@ -28,8 +28,8 @@
 
     <div class="mypage_email">
         <h3>이메일</h3>
-        <input type="text" placeholder="이메일을 입력해주세요"/><br>
-        <button class="btn_save" onclick="showMessageAccount()">저장</button>
+        <input id="email" type="text" th:value="${member.email}"/><br>
+        <button class="btn_save" onclick="showMessageAccount(this)">저장</button>
     </div>
     <div class="mypage_pwd">
         <h3>비밀번호</h3>
