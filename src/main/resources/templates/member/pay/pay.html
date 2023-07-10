@@ -39,7 +39,6 @@
                 <div style="margin-top: 15px;" th:text="${pay.title}">
                     프로젝트 이름
                 </div>
-                배열 값 가져오기
                 <div style="font-size: 12px; margin-top: 5px;">
                     목표액 : <span th:text="|${pay.targetAmount}원 |">
                                 목표액
@@ -215,7 +214,20 @@
                 count[i] = $count[i].innerText;
                 productNo[i] = $productNo[i].innerText;
             }
-            alert(no);
+            let jsonObj ={
+                no :no
+                ,count : count
+                , productNo : productNo
+            };
+            $.ajax({
+                type:'post',
+                url:'/pay/kakao',
+                contentType:"application/json",
+                data: JSON.stringify(jsonObj),
+                success:function (response){
+                    location.href =
+                }
+            })
         });
     });
 
