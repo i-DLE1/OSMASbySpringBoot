@@ -1,10 +1,7 @@
 package com.idle.osmas.member.service;
 
-import com.idle.osmas.member.dto.ProductsDTO;
+import com.idle.osmas.member.dto.*;
 import com.idle.osmas.seller.dto.ProductDTO;
-import com.idle.osmas.member.dto.AddressDTO;
-import com.idle.osmas.member.dto.MemberDTO;
-import com.idle.osmas.member.dto.PayDTO;
 
 public interface PayService {
 
@@ -18,4 +15,8 @@ public interface PayService {
     public ProductsDTO selectProduct(int productNo);
 
     public PayDTO selectPay(int no);
+
+    public ReadyResponse payReady(PayInfo pay,String user_id);
+
+
 }
