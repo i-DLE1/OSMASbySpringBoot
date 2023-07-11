@@ -28,15 +28,30 @@
 
     <div class="mypage_shipping">
         <h3>배송지 추가</h3>
+        <form method="post">
         <p>받는 사람</p>
-        <input type="text" placeholder="받는 분 성함을 입력해주세요"/>
+        <input th:id="joinName" th:name="joinName" type="text" th:value="${userJoin.name}"/>
         <p>주소</p>
-        <input type="text" placeholder="주소를 입력해주세요"/>
+
+        <input th:id="postalCode" th:name="postalCode" th:value="${userJoin.addressList.get(0).postalCode}" th:if="${userJoin.addressList.size() > 0}" type="text" required/>
+        <input th:id="postalCode" th:name="postalCode" th:if="${userJoin.addressList.size() == 0}" type="text" required/>
+
+        <button class="find_ship" onclick="daumPost()">우편번호 찾기</button><br>
+        <input th:id="general" th:name="general" th:value="${userJoin.addressList.get(0).general}" th:if="${userJoin.addressList.size() > 0}" type="text" required/>
+        <input th:id="general" th:name="general" th:if="${userJoin.addressList.size() == 0}" type="text" required/>
+
+        <input th:id="joinDetail" th:name="joinDetail" th:value="${userJoin.addressList.get(0).detail}" th:if="${userJoin.addressList.size() > 0}" type="text" required/>
+        <input th:id="joinDetail" th:name="joinDetail" th:if="${userJoin.addressList.size() == 0}" type="text" placeholder="상세 주소를 입력해주세요." required/>
+
         <p>받는 사람 휴대폰 번호</p>
-        <input type="text" placeholder="받는 분 휴대폰 번호를 입력해주세요."/>
+        <input th:id="joinPhone" th:name="joinPhone" type="text" th:value="${userJoin.phone}"/>
         <br><br>
-        <button class="btn_save" onclick="showMessageShippingAd()">저장</button>
+<!--        <button class="btn_save" onclick="showMessageShippingAd()">저장</button>-->
+        <button class="btn_save" type="submit">저장</button>
+        </form>
     </div>
+
+
 
     <div class="message-container"></div>
 
@@ -45,6 +60,16 @@
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function daumPost() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                $('#postalCode').val(data.zonecode)
+                $('#general').val(data.address)
+            }
+        }).open();
+    }
+</script>
 </body>
 </html>

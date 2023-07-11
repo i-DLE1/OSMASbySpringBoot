@@ -28,4 +28,31 @@ private final MypageMapper mypageMapper;
         return mypageMapper.updateMemberStatusByNo(no, status, reason);
     }
 
+    @Override
+    public MemberDTO selectJoinByNo(int no) {
+        return mypageMapper.selectJoinByNo(no);
+    }
+
+    @Override
+    @Transactional
+    public int allInfoByNO(int no, String name, String phone, String general, String detail, String postCode) {
+
+        Integer result = mypageMapper.selectAddressSearchByNo(no);
+
+        int allNum = 0;
+
+        if( result == null ) {
+            allNum = mypageMapper.insertAddressByNo(general, detail, postCode, no);
+        } else {
+            allNum = mypageMapper.updateAddressStatusByNo(result, general, detail, postCode);
+        }
+            allNum += mypageMapper.updateMemberInfoByNo(no, name, phone);
+
+        if (allNum == 2 ) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
 }

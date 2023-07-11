@@ -14,4 +14,8 @@ public interface MypageService {
 
     int updateMemberStatusByNo(int no, MemberStatus status, String reason);
 
+    MemberDTO selectJoinByNo(int no);
+
+    int allInfoByNO(int no, String name, String phone, String general, String detail, String postCode);
+
 }

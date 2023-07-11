@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,12 +31,15 @@ public class MypageController {
 
     private final UserDetailsService userDetailsService;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final SellerApprovalFormService sellerApprovalFormService;
 
-    public MypageController(MypageService mypageService, UserDetailsService userDetailsService,
-                            SellerApprovalFormService sellerApprovalFormService) {
+
+    public MypageController(MypageService mypageService, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, SellerApprovalFormService sellerApprovalFormService) {
         this.mypageService = mypageService;
         this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
         this.sellerApprovalFormService = sellerApprovalFormService;
     }
 
@@ -43,7 +49,22 @@ public class MypageController {
         MemberDTO member = mypageService.selectMemberByNo(user.getNo());
 
         model.addAttribute("member", member);
+
+        System.out.println("user = " + user.getPwd());
+        System.out.println("seller02");
+        System.out.println("passwordEncoder.matches(\"seller02\",user.getPwd()) = " + passwordEncoder.matches("seller02",user.getPwd()));
+        System.out.println("passwordEncoder = " + passwordEncoder.encode("seller02"));
+
     }
+
+    @PostMapping("MypageAccount")
+    public void submitAccount(Principal principal){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+
+
+    }
+
     @GetMapping("MypageAccountDelete")
     public void  mypageAccountDelete(){
     }
@@ -55,6 +76,7 @@ public class MypageController {
     public String mypageAccountDeleteNextValue(@RequestParam String reason,
                                              Principal principal,
                                              HttpServletRequest request) throws ServletException {
+//        return "success";
         UserImpl user = (UserImpl) userDetailsService.loadUserByUsername(principal.getName());
         int result = mypageService.updateMemberStatusByNo(user.getNo(), MemberStatus.DROP, reason);
         if (result > 0){
@@ -65,6 +87,7 @@ public class MypageController {
         }
     }
     @GetMapping("MypageAlarm")
+    public void mypageAlarm(){}
     public String mypageAlarm(Model model){
         //판매자 권한 신청 알람 보류/완료 확인용
         // 현재 인증된 사용자 정보 가져오기
@@ -97,6 +120,7 @@ public class MypageController {
     @GetMapping("MypageMessage")
     public void mypageMessage(){}
 
+
     @GetMapping("MypageProfile")
     public void mypageProfile(Principal principal, Model model) throws AccessAuthorityException {
         if (principal == null) throw new AccessAuthorityException("e");
@@ -121,7 +145,34 @@ public class MypageController {
     }
 
     @GetMapping("MypageShippingAd")
-    public void mypageShippingAd(){}
+    public void mypageShippingAd(Principal principal, Model model){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        MemberDTO userJoin = mypageService.selectJoinByNo(user.getNo());
+        model.addAttribute("userJoin", userJoin);
+        System.out.println("userJoin = " + userJoin);
+
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for(int i=0; i < memberDTOList.size() ; i++){
+            System.out.println("memberDTOList = " + memberDTOList.get(i));
+        }
+    }
+
+    @PostMapping("MypageShippingAd")
+//    @ResponseBody
+    public String test(@RequestParam Map<String, String> test, Principal principal){
+
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        int resultInfo = mypageService.allInfoByNO(user.getNo(), test.get("joinName"), test.get("joinPhone"), test.get("general"), test.get("joinDetail"), test.get("postalCode"));
+
+        if (resultInfo == 1) {
+            return "redirect:/";
+//            return "success";
+        } else {
+            return "fail";
+        }
+
+    }
+
     @GetMapping("MypageSponsor")
     public void mypageSponsor(){}
 }
