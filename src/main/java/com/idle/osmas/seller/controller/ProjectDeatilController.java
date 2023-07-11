@@ -7,6 +7,8 @@ import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -67,13 +69,13 @@ public class ProjectDeatilController {
         List<ProductStatistics> productStatistics = projectService.selectProductStatisticsByProjectNo(no);
 
 
-        Map<String, Integer> result = new HashMap<>();
+        Map<String, Integer> result = new HashMap<>() {};
 
-        productStatistics.forEach(e-> result.put(e.getName(),e.getCount()));
-
+        for(int i = productStatistics.size()-1; i >= 0 ; i--){
+            int count = productStatistics.get(i).getCount()  == 0 ? 1 : productStatistics.get(i).getCount();
+            result.put(i+"."+productStatistics.get(i).getName(), count);
+        }
         System.out.println("productStatistics = " + productStatistics);
-
-        result.put("red",123132);
 
         System.out.println("result = " + result);
 

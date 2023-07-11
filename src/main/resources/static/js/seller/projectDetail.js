@@ -43,7 +43,6 @@ function projectRetrySubmit(){
 }
 
 function chart1(data) {
-    console.log(data)
     const ctx = document.getElementById('myChart');
     new Chart(ctx, {
         type: 'pie',
@@ -60,10 +59,10 @@ function chart1(data) {
             },
         },
         data: {
-            labels: [Object.keys(data)],
+            labels: [...Object.keys(data)],
             datasets: [{
                 label: '판매 비율',
-                data: [Object.values(data)],
+                data: [...Object.values(data)],
                 borderWidth: 1
             }]
         },
@@ -103,10 +102,10 @@ function chart2(data) {
             },
         },
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: [...Object.keys(data)],
             datasets: [{
                 label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                data: [...Object.values(data)],
                 borderWidth: 1
             }]
         },
@@ -178,6 +177,7 @@ function getData() {
         url : `/seller/projectDetail/productStatistics?no=${no}`,
         success : function (success){
             chart1(success);
+            chart2(success);
         },
         error : function (e){
             console.log(e)

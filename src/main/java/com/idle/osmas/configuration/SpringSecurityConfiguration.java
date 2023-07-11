@@ -57,6 +57,8 @@ public class SpringSecurityConfiguration {
                 .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/projectDetail/**").hasRole("SELLER");
 
+
+        // 사용자 관리 페이지
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/member/mypage/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/member/mypage/**").hasRole("USER")

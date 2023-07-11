@@ -57,7 +57,8 @@
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="prevPageMove(6)"/>
             <input class="footer-btn" type="button" value="미리보기" />
-            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProjectComplete()" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProjectComplete(true)"  th:if="${submitName == '임시저장'}" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProjectComplete(false)"  th:if="${submitName != '임시저장'}" />
         </footer>
         <script src="/js/seller/registProject.js"></script>
         <script>

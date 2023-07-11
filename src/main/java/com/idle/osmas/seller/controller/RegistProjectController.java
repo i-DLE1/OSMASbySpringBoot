@@ -69,12 +69,12 @@ public class RegistProjectController {
         Map<String, String> submitName = new HashMap<>();
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(ProjectNo, null);
-
         if(projectProgress.getStatus().equals(ProjectProgressStatus.TEMPORARY)){
             submitName.put("submitName",temp);
         }else {
             submitName.put("submitName", notTemp);
         }
+        System.out.println("submitName = " + submitName);
         return submitName;
     }
 
