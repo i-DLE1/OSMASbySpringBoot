@@ -58,13 +58,17 @@ public class SellerRoleServiceImpl implements SellerRoleService {
     public int grant(String sellerId) {
         int result1 = sellerRoleMapper.addRoleToSeller(sellerId);
         System.out.println("result1 : " + result1);
-        int result2 =sellerRoleMapper.changeSellerRoleState(sellerId);
+        int result2 =sellerRoleMapper.changeSellerRoleReqState(sellerId);
         System.out.println("result2 : " + result2);
+        int result3 =sellerRoleMapper.changeSellerRoleState(sellerId);
+        System.out.println("result3 : " + result3);
+        int result4 =sellerRoleMapper.InsertAlertSuccess(sellerId);
+        System.out.println("result4 : " + result4);
 
         int result = 0;
 
         // sellerRoleMapper의 작업 수행 후 결과를 result 변수에 할당
-        if ((result1 > 0) && (result2 > 0)) {
+        if ((result1 > 0) && (result2 > 0) && (result3 > 0) && (result4 > 0)) {
             result = 1;
         }
         return result;
@@ -93,16 +97,16 @@ public class SellerRoleServiceImpl implements SellerRoleService {
     //권한 신청 -> 보류
     @Override
     @Transactional
-    public int holdingGrant(String sellerId, String reason, int sellerReq) {
+    public int holdingGrant(String sellerId, String reason, int sellerReq, int sellerNo) {
         int result1 = sellerRoleMapper.addRoleToSellerReason(sellerId, reason, sellerReq);
         System.out.println("result1 : " + result1);
-        int result2 =sellerRoleMapper.changeSellerRoleState2(sellerReq);
-        System.out.println("result2 : " + result2);
+        int result3 =sellerRoleMapper.hholdingAlert(sellerId, sellerNo);
+        System.out.println("result3 : " + result3);
 
         int result = 0;
 
         // sellerRoleMapper의 작업 수행 후 결과를 result 변수에 할당
-        if ((result1 > 0) && (result2 > 0)) {
+        if ((result1 > 0) && (result3 > 0)) {
             result = 1;
         }
         return result;

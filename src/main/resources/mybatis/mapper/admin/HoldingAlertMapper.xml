@@ -45,7 +45,7 @@
         <result property="dropReason" column="DROP_REASON"/>
     </resultMap>
 
-    <!-- 판매자 보류 시 알람 확인하기-->
+    <!-- 판매자 권한 회수/권한 신청 보류 시 알람 확인하기-->
     <select id="youHolding">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM TBL_HOLDING_ALERT H
@@ -61,12 +61,21 @@
                                    FETCH FIRST 1 ROW ONLY)
     </select>
 
-    <!-- 판매자 완료 시 알람 확인하기-->
+    <!-- 판매자 권한 회수 완료 시 알람 확인하기-->
     <select id="youSuccess">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM TBL_MEMBER M
                  JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
         WHERE M.ID = #{userID}
           AND (R.REF_MEMBER_ROLE_CODE = 3)
+    </select>
+
+    <!-- 판매자 권한 신청 완료 시 알람 확인하기-->
+    <select id="getYouSeller">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_MEMBER M
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE M.ID = #{userID}
+          AND R.REF_MEMBER_ROLE_CODE = 2
     </select>
 </mapper>

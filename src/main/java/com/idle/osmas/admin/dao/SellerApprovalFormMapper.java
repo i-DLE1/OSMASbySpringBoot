@@ -32,4 +32,12 @@ public interface SellerApprovalFormMapper {
 
 
     PermissionRoleDTO findReason(String userID);
+
+    int sellerUpdate(String accountNo,String registNo, String name, String callNumber, String rprsn, String address, String bank, String reportNo, String sellerId);
+
+    int sellerInserUpdateReq(String sellerId);
+
+    int sellerInsertUpdatePermission(String sellerId);
+
+    int sellerUpdateFileList(List<Map<String, String>> fileList, String sellerId);
 }

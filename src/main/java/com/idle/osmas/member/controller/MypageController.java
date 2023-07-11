@@ -1,11 +1,14 @@
 package com.idle.osmas.member.controller;
 
+import com.idle.osmas.admin.service.SellerApprovalFormService;
 import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.MemberDTO;
 import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.member.service.MypageService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -25,10 +28,13 @@ public class MypageController {
 
     private final UserDetailsService userDetailsService;
 
+    private final SellerApprovalFormService sellerApprovalFormService;
 
-    public MypageController(MypageService mypageService, UserDetailsService userDetailsService) {
+    public MypageController(MypageService mypageService, UserDetailsService userDetailsService,
+                            SellerApprovalFormService sellerApprovalFormService) {
         this.mypageService = mypageService;
         this.userDetailsService = userDetailsService;
+        this.sellerApprovalFormService = sellerApprovalFormService;
     }
 
     @GetMapping("MypageAccount")
@@ -59,7 +65,33 @@ public class MypageController {
         }
     }
     @GetMapping("MypageAlarm")
-    public void mypageAlarm(){}
+    public String mypageAlarm(Model model){
+        //판매자 권한 신청 알람 보류/완료 확인용
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
+
+        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+        Integer holding = sellerApprovalFormService.youHolding(userID);
+        boolean alert = holding != null && holding == 1;
+
+        //권한 회수 완료자
+        Integer success = sellerApprovalFormService.youSuccess(userID);
+        boolean alertGo = success != null && success == 1;
+
+        model.addAttribute("alert", alert);
+        model.addAttribute("alertGo", alertGo);
+
+        System.out.println("권한 신청 보류 값이야? " + alert);
+        System.out.println("권한 회수 성공 값이야? " + alertGo);
+
+        return "/member/mypage/MypageAlarm";
+    }
     @GetMapping("MypageMain")
     public void mypageMain(){}
     @GetMapping("MypageMessage")
