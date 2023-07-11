@@ -55,4 +55,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
         return adminBoardMapper.registNotice(adminBoard);
     }
 
+    // 공지사항 삭제 메소드 구현
+    @Override
+    @Transactional
+    public int deleteAdminBoard(int no) {
+        return adminBoardMapper.deleteNotice(no);
+    }
+
 }

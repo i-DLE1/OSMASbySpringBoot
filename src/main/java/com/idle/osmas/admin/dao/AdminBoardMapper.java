@@ -24,5 +24,6 @@ public interface AdminBoardMapper {
 
     int registNotice(AdminBoardDTO adminBoardDTO);
 
+    int deleteNotice(@Param("no") int no);
 
 }

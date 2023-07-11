@@ -395,6 +395,7 @@ a {
 .btn5{
     color: black;
     background: white;
+    text-decoration: none;
 
     border: none;
     font-size: 15px;
