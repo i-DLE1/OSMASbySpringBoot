@@ -148,7 +148,12 @@
                        , C.NO
                      FROM TBL_SPONSORED_PRJ C
                      JOIN TBL_MEMBER D ON(D.NO = C.REF_MEMBER_NO)
+                     JOIN TBL_PAYMENT_HISTORY H ON(C.NO = H.REF_SPONSORED_PRJ_NO)
+                     JOIN TBL_PAYMENT I ON(I.CODE = H.REF_PAYMENT_NO)
+                     JOIN TBL_SHIPPING_TRACK_INFO J ON(J.REF_PAYMENT_NO = I.CODE)
+                     JOIN TBL_DELIVERY_STATUS K ON(K.REF_SHIPPING_TRACK_INFO_NO = J.NO)
                 WHERE D.ID = #{searchValue}
+                  AND K.STATUS = 'COMPLETED'
                ORDER BY C.REGIST_DATE DESC)B
               <![CDATA[
                WHERE ROWNUM <= #{endRow}
