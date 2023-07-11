@@ -23,13 +23,12 @@ public class PayController {
     private final MemberServiceImpl memberService;
     private String tid;
 
-    public PayController(PayServiceImpl payService, MemberServiceImpl memberService) {
+    public PayController(PayServiceImpl payService,MemberServiceImpl memberService){
 
         this.payService = payService;
         this.memberService = memberService;
     }
-
-    //    @GetMapping("/pay/pay")
+//    @GetMapping("/pay/pay")
 //    public void goPay(Model m, Principal principal, @RequestParam("no") int no,@RequestParam("productNo") List<Integer> productNo,@RequestParam("count") List<Integer> count){
 //        String id = principal.getName();
 //        MemberDTO member = payService.selectMemberById(id);
@@ -52,11 +51,11 @@ public class PayController {
 //        m.addAttribute("address",address);
 //    }
     @PostMapping("/pay/pay")
-    public void goPay(Model m, Principal principal, @RequestParam("no") int no,@RequestParam Map<String,String> map) {
+    public void goPay(Model m,Principal principal, @RequestParam("no") int no,@RequestParam("productNo") int[] productNo,@RequestParam("count") int[] count){
         System.out.println("===============");
         System.out.println(no);
-        System.out.println(map.get("productList"));
-        System.out.println("======================");
+        System.out.println(productNo[0]);
+
         String id = principal.getName();
 
 
@@ -69,32 +68,30 @@ public class PayController {
         ProductsDTO products;
 
 
-//        for(int i = 0 ; i < productList.size();i++){
-//            products = payService.selectProduct(productList.get(i).getOptionNumber());
-//            products.setCount(productList.get(i).getOptionAmount());
-//            product.add(products);
-//            price += products.getPrice() * products.getCount();
-//        }
+        for(int i = 0 ; i < productNo.length;i++){
+            products = payService.selectProduct(productNo[i]);
+            products.setCount(count[i]);
+            product.add(products);
+            price += products.getPrice() * products.getCount();
+        }
         System.out.println(product);
         PayDTO pay = payService.selectPay(no);
         pay.setSumPrice(price);
         m.addAttribute("productList", product);
-        m.addAttribute("pay", pay);
-        m.addAttribute("member", member);
-        m.addAttribute("address", address);
+        m.addAttribute("pay",pay);
+        m.addAttribute("member",member);
+        m.addAttribute("address",address);
     }
-
     @PostMapping("/pay/address")
     @ResponseBody
-    public String addAddress(Principal principal, @RequestBody AddressDTO address) throws Exception {
+    public String addAddress(Principal principal,@RequestBody AddressDTO address) throws Exception {
         String id = principal.getName();
         address.setRefMemberNo(memberService.selectNoByNickname(memberService.selectNicknameById(id)));
         return payService.insertAddress(address);
     }
-
     @PostMapping("/pay/addressMod")
     @ResponseBody
-    public String addAddressMod(Principal principal, @RequestBody AddressDTO address) throws Exception {
+    public String addAddressMod(Principal principal,@RequestBody AddressDTO address) throws Exception {
         System.out.println("===============");
         String id = principal.getName();
         address.setRefMemberNo(memberService.selectNoByNickname(memberService.selectNicknameById(id)));
@@ -103,57 +100,50 @@ public class PayController {
 
     @PostMapping("/pay/kakao")
     public @ResponseBody ReadyResponse payReady(HttpServletRequest request, @RequestBody PayInfo pay, Principal principal
-            , Model model) {
+    , Model model){
         HttpSession session = request.getSession();
         System.out.println(pay);
         String user_id = principal.getName();
-        ReadyResponse readyResponse = payService.payReady(pay, user_id);
-        model.addAttribute("tid", readyResponse.getTid());
+        ReadyResponse readyResponse = payService.payReady(pay,user_id);
+        model.addAttribute("tid",readyResponse.getTid());
         tid = readyResponse.getTid();
         System.out.println("pay=========kakao" + pay);
-        session.setAttribute("pay", pay);
+        session.setAttribute("pay",pay);
         return readyResponse;
     }
-
     @GetMapping("/paysuccess")
-    public String payCompleted(HttpServletRequest request, @RequestParam("pg_token") String pgToken, Principal principal) throws Exception {
+    public String payCompleted(HttpServletRequest request,@RequestParam("pg_token") String pgToken,Principal principal) throws Exception {
         PayInfo pay = (PayInfo) request.getSession().getAttribute("pay");
         System.out.println("==========");
-        System.out.println("pg_token :" + pgToken);
+        System.out.println("pg_token :" +pgToken);
         System.out.println("pay ====" + pay);
         String user_id = principal.getName();
-        ApproveResponse approveResponse = payService.payApprove(tid, pgToken, pay, user_id);
+        ApproveResponse approveResponse = payService.payApprove(tid, pgToken,pay,user_id);
+
 
 
         System.out.println("approveResponse ======================== " + approveResponse);
-        if (payService.paySuccess(pay, user_id)) {
+        if(payService.paySuccess(pay,user_id)) {
             request.getSession().removeAttribute("pay");
             return "redirect:/member/pay/paysuccess";
-        } else {
+        }else{
             throw new Exception("고객센터에 문의 바랍니다.");
         }
 
     }
-
     @GetMapping("/pay/paysuccess")
-    public void goSuccess() {
-    }
-
+    public void goSuccess(){}
     @GetMapping("/pay/paycancel")
-    public void goCancel() {
-    }
-
+    public void goCancel(){}
     @GetMapping("/pay/payfail")
-    public void goFail() {
-    }
+    public void goFail(){}
 
     @GetMapping("/paycancel")
-    public String payCancel() {
+    public String payCancel(){
         return "redirect:/member/pay/paycancel";
     }
-
     @GetMapping("/payfail")
-    public String payFail() {
+    public String payFail(){
         return "redirect:/member/pay/payfail";
     }
 

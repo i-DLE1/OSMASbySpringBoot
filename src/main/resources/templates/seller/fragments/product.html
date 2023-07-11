@@ -12,167 +12,180 @@
 </head>
 
 <body th:fragment="product">
-  <div class="contents" th:if="${salesDTO}">
-      <div class="top">
-        <div class="categorybox"><div class="categoryboxtext" th:text="${categoryDTO.name}"></div></div>
+<div class="contents" th:if="${salesDTO}">
+    <div class="top">
+        <div class="categorybox">
+            <div class="categoryboxtext" th:text="${categoryDTO.name}"></div>
+        </div>
         <div class="title" th:text="${salesDTO.title}"></div>
         <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
-      </div>
+    </div>
 
     <div class="product">
-      <!-- <div class="productimg"><img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진"></div> -->
+        <!-- <div class="productimg"><img class="image" src="../resources/image/썸네일1.PNG" alt="상품사진"></div> -->
 
-      <div class="imagecontainer">
-        <div class="productimg">
-          <img class="image" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
-          <img class="image" src="/images/seller/sales/sales2.PNG" alt="상품사진1">
-          <img class="image" src="/images/seller/sales/sales3.PNG" alt="상품사진1">
-        </div>
-        <div class="imagebuttoncontainer">
-          <button class="imagebutton" onclick="showSlide(0)"></button>
-          <button class="imagebutton"  onclick="showSlide(1)"></button>
-          <button class="imagebutton" onclick="showSlide(2)"></button>
-        </div>
-      </div>
-
-
-
-      <div class="option">
-        <div class="optiontop">
-          <div class="optiontitle">목표금액</div>
-          <div class="optiontop-sub">
-            <div th:text="${salesDTO.currentAmount}" id="currentAmount"></div> <!--현재금액-->
-            <div>원 /</div>
-            <div th:text="${salesDTO.targetAmount}" id="targetAmount"></div> <!--목표액-->
-            <div>원</div>
-          </div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar">
-            <div id="progress-gauge1"></div>
-            <div class="progresstext">
-              <div id="calcAmount"></div>
-              <div>% 달성중</div>
+        <div class="imagecontainer">
+            <div class="productimg">
+                <img class="image" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
+                <img class="image" src="/images/seller/sales/sales2.PNG" alt="상품사진1">
+                <img class="image" src="/images/seller/sales/sales3.PNG" alt="상품사진1">
             </div>
-          </div>
-
-        </div>
-
-        <div class="optiontop">
-          <div class="optiontitle">남은날짜</div>
-          <div class="optiontop-sub">
-            <div>펀딩기간 : </div>
-            <div id="startDate" th:text="${salesDTO.startDate}"></div>
-            <div>~</div>
-            <div id="endDate" th:text="${salesDTO.endDate}"></div>
-          </div>
-        </div>
-
-        <div class="progress-bar-container">
-          <div class="progress-bar">
-            <div id="progress-gauge2"></div>
-            <div class="progresstext">
-              <div id="calcDate"></div>
-              <div id="calcDatetext">일 남았습니다</div>
+            <div class="imagebuttoncontainer">
+                <button class="imagebutton" onclick="showSlide(0)"></button>
+                <button class="imagebutton" onclick="showSlide(1)"></button>
+                <button class="imagebutton" onclick="showSlide(2)"></button>
             </div>
-          </div>
-        </div>
-
-        <div class="optiontop">
-          <div class="optiontitle">프로젝트 후원하기</div>
-        </div>
-
-        <div class="optionmiddle">
-          <input type="checkbox" id="donationck" style="width: 30px;">
-          <div class="optiontext" style="margin-left: -75px; margin-top: 5px" >옵션선택 없이 후원</div>
-          <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;" onclick="clearText()" oninput="checkNumericInput(this)">
-          <div class="optiontext">원</div>
-        </div>
-
-        <div class="optionmiddle">
-          <div class="optiontext">옵션선택</div>
-          <select class="optiontext" id="selectbox" onchange="addNewDiv()">
-            <option value=""></option>
-            <option th:each="option: ${optionList}" th:attr="data-option-price=${option.price}, data-option-no=${option.no}" th:text="${option.name + ' - ' + option.productSize + '   (' + #numbers.formatInteger(option.price, 3, 'COMMA') + '원)'}"></option>
-
-          </select>
         </div>
 
 
+        <div class="option">
+            <div class="optiontop">
+                <div class="optiontitle">목표금액</div>
+                <div class="optiontop-sub">
+                    <div th:text="${salesDTO.currentAmount}" id="currentAmount"></div> <!--현재금액-->
+                    <div>원 /</div>
+                    <div th:text="${salesDTO.targetAmount}" id="targetAmount"></div> <!--목표액-->
+                    <div>원</div>
+                </div>
+            </div>
 
-        <div class="optiontop">
-          <div class="optiontitle">선택옵션 확인</div>
-          <div class="optiontop-sub" style="margin-bottom: 10px">
-            <div class="optiontext" id="totalamount">0</div>
-            <div class="optiontext" id="amounttext">원</div>
-            <button id="orderbutton" type="submit" >후원하기</button>
-          </div>
-        </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div id="progress-gauge1"></div>
+                    <div class="progresstext">
+                        <div id="calcAmount"></div>
+                        <div>% 달성중</div>
+                    </div>
+                </div>
 
-        <div class="optionbottom" id="originoptioncontainer" hidden="hidden" >
-          <div class="optionmiddle">
-            <div class="optiontext">선택</div>
-            <input class="optioncheck" type="text" readonly style="font-size: 20px">
-            <div class="optiontext">수량</div>
-            <input class="optionamount" type="text" readonly value="1" style="font-size: 20px" >
-            <button class="plusbutton">+</button>
-            <button class="minusbutton">-</button>
-            <button class="deletebutton">x</button>
-            <input class="optionmoney" type="text" hidden="hidden">
-            <input class="optionNumber" type="text" hidden="hidden">
-          </div>
+            </div>
+
+            <div class="optiontop">
+                <div class="optiontitle">남은날짜</div>
+                <div class="optiontop-sub">
+                    <div>펀딩기간 :</div>
+                    <div id="startDate" th:text="${salesDTO.startDate}"></div>
+                    <div>~</div>
+                    <div id="endDate" th:text="${salesDTO.endDate}"></div>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div id="progress-gauge2"></div>
+                    <div class="progresstext">
+                        <div id="calcDate"></div>
+                        <div id="calcDatetext">일 남았습니다</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="optiontop">
+                <div class="optiontitle">프로젝트 후원하기</div>
+            </div>
+
+            <div class="optionmiddle">
+                <input type="checkbox" id="donationck" style="width: 30px;">
+                <div class="optiontext" style="margin-left: -75px; margin-top: 5px">옵션선택 없이 후원</div>
+                <input class="optiontext" id="donation" type="text" value="1000+" style="margin-right: -85px;"
+                       onclick="clearText()" oninput="checkNumericInput(this)">
+                <div class="optiontext">원</div>
+            </div>
+
+            <div class="optionmiddle">
+                <div class="optiontext">옵션선택</div>
+                <select class="optiontext" id="selectbox" onchange="addNewDiv()">
+                    <option value=""></option>
+                    <option th:each="option: ${optionList}"
+                            th:attr="data-option-price=${option.price}, data-option-no=${option.no}"
+                            th:text="${option.name + ' - ' + option.productSize + '   (' + #numbers.formatInteger(option.price, 3, 'COMMA') + '원)'}"></option>
+
+                </select>
+            </div>
+
+
+            <div class="optiontop">
+                <div class="optiontitle">선택옵션 확인</div>
+                <div class="optiontop-sub" style="margin-bottom: 10px">
+                    <div class="optiontext" id="totalamount">0</div>
+                    <div class="optiontext" id="amounttext">원</div>
+                    <button id="orderbutton" type="submit">후원하기</button>
+                </div>
+            </div>
+
+            <div class="optionbottom" id="originoptioncontainer" hidden="hidden">
+                <div class="optionmiddle">
+                    <div class="optiontext">선택</div>
+                    <input class="optioncheck" type="text" readonly style="font-size: 20px">
+                    <div class="optiontext">수량</div>
+                    <input class="optionamount" type="text" readonly value="1" style="font-size: 20px">
+                    <button class="plusbutton">+</button>
+                    <button class="minusbutton">-</button>
+                    <button class="deletebutton">x</button>
+                    <input class="optionmoney" type="text" hidden="hidden">
+                    <input class="optionNumber" type="text" hidden="hidden">
+                </div>
+            </div>
+            <div class="optionbottom" id="optioncontainer">
+            </div>
         </div>
-        <div class="optionbottom" id="optioncontainer">
-        </div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+</div>
 </body>
 
 <script th:inline="javascript">
-  var salesNo = /*[[${salesDTO.no}]]*/ null;
-  // JSON 데이터를 JavaScript 변수에 할당
+    var salesNo = /*[[${salesDTO.no}]]*/ null;
+    // JSON 데이터를 JavaScript 변수에 할당
 </script>
 
 <script>
-  calcPercent();
-  calcBetweenDate();
+    calcPercent();
+    calcBetweenDate();
 
-  $(document).ready(function() {
-    $('#orderbutton').click(function() {
-      const optionListData = optionList();
+    $(document).ready(function () {
+        $('#orderbutton').click(function () {
+            const optionListData = optionList();
+            const count = [];
+            const productNo = [];
+            for (let i = 0; i < optionListData.length; i++) {
+                count[i] = optionListData[i].optionAmount;
+                productNo[i] = optionListData[i].optionNumber;
+            }
 
-      // 폼 엘리먼트 생성
-      var form = document.createElement('form');
-      form.method = 'POST';
-      form.action = '/member/pay/pay';
+            // 폼 엘리먼트 생성
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/member/pay/pay';
 
-      // salesNo 파라미터 추가
-      var salesNoInput = document.createElement('input');
-      salesNoInput.type = 'hidden';
-      salesNoInput.name = 'no';
-      salesNoInput.value = salesNo;
-      form.appendChild(salesNoInput);
+            // salesNo 파라미터 추가
+            var salesNoInput = document.createElement('input');
+            salesNoInput.type = 'hidden';
+            salesNoInput.name = 'no';
+            salesNoInput.value = salesNo;
+            form.appendChild(salesNoInput);
 
-      // productList 파라미터 추가
-      var productListInput = document.createElement('input');
-      productListInput.type = 'hidden';
-      productListInput.name = 'productList';
-      // productListInput.value = optionListData;
-      productListInput.value = JSON.stringify(optionListData);
+            // productList 파라미터 추가
+            var productList = document.createElement('input');
+            productList.type = 'hidden';
+            productList.name = 'productNo';
+            productList.value = productNo;
+            form.appendChild(productList);
 
-      form.appendChild(productListInput);
+            var countList = document.createElement('input');
+            countList.type = 'hidden';
+            countList.name = 'count';
+            countList.value = count;
+            form.appendChild(countList);
 
-      console.log(form);
+            console.log(form);
 
-      // 폼을 body에 추가하고 전송
-      document.body.appendChild(form);
-      form.submit();
+            // 폼을 body에 추가하고 전송
+            document.body.appendChild(form);
+            form.submit();
+        });
+
     });
-
-  });
 </script>
 
 </html>

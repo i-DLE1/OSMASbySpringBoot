@@ -58,9 +58,10 @@
                     <li th:text="${product.productNo}" style="display: none" class="productNo">
                     </li>
                     <li>
-                        상품 이름 : <span th:text="${product.name}"></span> <span
-                            th:text="${product.count}" class="count"></span>개<span
-                            th:text="|${product.price}원|"></span>
+                        상품 이름 : <span th:text="${product.name}"></span>
+                        <span th:text="|${product.price}원|"></span>
+                        <span th:text="${product.count}" class="count"></span>개
+
                     </li>
                 </th:block>
             </ul>
@@ -216,24 +217,24 @@
 
             request = $('.address_request').val();
 
-            for(let i = 0; i < $count.length;i++){
+            for (let i = 0; i < $count.length; i++) {
                 count[i] = $count[i].innerText;
                 productNo[i] = $productNo[i].innerText;
             }
-            let jsonObj ={
-                no :no
-                ,count : count
-                , productNo : productNo
-                , price : price
+            let jsonObj = {
+                no: no
+                , count: count
+                , productNo: productNo
+                , price: price
                 , title: title
                 , request: request
             };
             $.ajax({
-                type:"post",
-                url:"/member/pay/kakao",
-                contentType:"application/json",
+                type: "post",
+                url: "/member/pay/kakao",
+                contentType: "application/json",
                 data: JSON.stringify(jsonObj),
-                success:function (response){
+                success: function (response) {
                     location.href = response.next_redirect_pc_url;
                 }
             });
