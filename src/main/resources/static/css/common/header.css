@@ -100,6 +100,7 @@ aside#main {
     width: 250px;
     height: 100vh;
     transition: left 0.3s ease;
+    z-index: 999;
 
 }
 .slide-open {

@@ -74,7 +74,7 @@ public class RegistProjectController {
         }else {
             submitName.put("submitName", notTemp);
         }
-        System.out.println("submitName = " + submitName);
+
         return submitName;
     }
 
@@ -154,6 +154,7 @@ public class RegistProjectController {
         return "/seller/regist/registProject1";
 
     }
+
     @PostMapping("project1")
     @ResponseBody
     public String postProjectTerms(@RequestParam boolean check1, @RequestParam boolean check2,
@@ -272,6 +273,7 @@ public class RegistProjectController {
 
         return "/seller/regist/registProject3";
     }
+
     @GetMapping("project3ProductGetdata")
     @ResponseBody
     public List<ProductDTO> getProjectProductData(@RequestParam(required = false) Integer no,
@@ -518,7 +520,6 @@ public class RegistProjectController {
         return "success";
     }
 
-
     @GetMapping("project6")
     public String getProjectNEWS(@RequestParam(required = false) Integer no,
                                  Model model, Principal principal) throws AccessAuthorityException {
@@ -645,8 +646,6 @@ public class RegistProjectController {
 
         return "/seller/regist/registProject7";
     }
-
-
 
     @GetMapping("projectRegist")
     @ResponseBody

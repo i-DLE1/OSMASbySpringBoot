@@ -7,8 +7,6 @@ import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -61,13 +59,9 @@ public class ProjectDeatilController {
 
     @GetMapping(value = "productStatistics")
     @ResponseBody()
-    public Map<String, Integer> productStatistics(@RequestParam(required = false) Integer no, Principal principal, Model model){
-
-        System.out.println("no = " + no);
-        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    public Map<String, Integer> productStatistics(@RequestParam(required = false) Integer no){
 
         List<ProductStatistics> productStatistics = projectService.selectProductStatisticsByProjectNo(no);
-
 
         Map<String, Integer> result = new HashMap<>() {};
 
@@ -75,9 +69,6 @@ public class ProjectDeatilController {
             int count = productStatistics.get(i).getCount()  == 0 ? 1 : productStatistics.get(i).getCount();
             result.put(i+"."+productStatistics.get(i).getName(), count);
         }
-        System.out.println("productStatistics = " + productStatistics);
-
-        System.out.println("result = " + result);
 
         return result;
 
@@ -127,6 +118,7 @@ public class ProjectDeatilController {
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";
     }
+
     @PostMapping("qaAnswer")
     @ResponseBody
     public String postQaAswer(@RequestBody String content,
@@ -155,7 +147,6 @@ public class ProjectDeatilController {
 
         return result;
     }
-
 
     @GetMapping("refuse")
     public String refuse(@RequestParam String no){
