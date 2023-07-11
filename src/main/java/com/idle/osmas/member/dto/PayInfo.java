@@ -15,4 +15,5 @@ public class PayInfo {
     private List<Integer> count;
     private long price;
     private String title;
+    private String request;
 }

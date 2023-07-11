@@ -12,7 +12,7 @@ public class PaymentDTO {
     private int code;
     private java.sql.Date paymentDate;
     private String status;
-    private Integer amount;
+    private Long amount;
     private String paymentType;
     private List<ShippingTrackInfoDTO> shippingTrackInfo;
     private List<PaymentHistoryDTO> paymentHistory;

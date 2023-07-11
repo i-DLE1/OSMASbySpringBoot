@@ -18,5 +18,8 @@ public interface PayService {
 
     public ReadyResponse payReady(PayInfo pay,String user_id);
 
+    public ApproveResponse payApprove(String tid,String pgToken,PayInfo pay, String user_id);
+
+    public boolean paySuccess(PayInfo pay,String user_id) throws Exception;
 
 }
