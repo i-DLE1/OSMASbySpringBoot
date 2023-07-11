@@ -31,19 +31,23 @@ public class SellerController {
 
     private final ProjectProgressService projectProgressService;
 
+    private final OrderListService orderListService;
+
     private int DEFAULT_MAX_ROWS = 10;
 
     public SellerController(ImageFileController imageFileController,
                             ProjectService projectService,
                             ProjectFileService projectFileService,
                             ProjectQnAService projectQnAService,
-                            ProjectProgressService projectProgressService) {
+                            ProjectProgressService projectProgressService,
+                            OrderListService orderListService) {
 
         this.imageFileController = imageFileController;
         this.projectService = projectService;
         this.projectFileService = projectFileService;
         this.projectQnAService = projectQnAService;
         this.projectProgressService = projectProgressService;
+        this.orderListService = orderListService;
     }
 
     public String listType(Optional<String> listType){
@@ -152,9 +156,14 @@ public class SellerController {
     public String getOrderList(@RequestParam(required = false) Optional<String> listType,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) Integer pageNo,
+                               @RequestParam(required = false) Integer no,
                                Principal principal, Model model) throws AccessAuthorityException {
 
         if(principal == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
+
+        if (no == null) {
+            no=180;
+        }
 
         if(listType.isEmpty()){
             return "redirect:/seller/projectList?listType=all";
@@ -167,6 +176,7 @@ public class SellerController {
 
         int startNo = 1 + ((pageNo - 1) * DEFAULT_MAX_ROWS);
         int endNo = ((pageNo) * DEFAULT_MAX_ROWS);
+        int projectNo = 0;
 
         searchCriteria.put("listType", listType.get().toString().toUpperCase());
         searchCriteria.put("search", search);
@@ -175,6 +185,7 @@ public class SellerController {
         searchCriteria.put("endNo", endNo);
 
         List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
+        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList(no);
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -188,6 +199,7 @@ public class SellerController {
         model.addAttribute("listType", listType(listType));
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
+        model.addAttribute("orderList", orderList); // 주문목록
         model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerOrderList";
     }

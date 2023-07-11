@@ -99,7 +99,7 @@ $(document).ready(function() {
         }
     });
 
-    // QnA 입력기능
+    // QnA 입력기능입니다.
     $('#inputQna').click(function (){
 
         let content =  $('#question').val();

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.seller.dao.OrderListMapper">
+
+    <resultMap type="com.idle.osmas.seller.dto.SponsoredPRJDTO" id="sponsoredPRJResultMap">
+        <id property="no" column="NO"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="refPrjProductListNo" column="REF_PRJ_PRODUCT_LIST_NO"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+
+        <association property="paymentHistory" resultMap="paymentHistoryResultMap"/>
+        <association property="memberName" resultMap="memberResultMap"/>
+        <association property="general" resultMap="addressResultMap"/>
+        <association property="detail" resultMap="addressResultMap"/>
+        <association property="request" resultMap="shippingTrackInfoResultMap"/>
+        <association property="phone" resultMap="memberResultMap"/>
+        <association property="productName" resultMap="productResultMap"/>
+        <association property="productSize" resultMap="productResultMap"/>
+        <association property="paymentAmount" resultMap="paymentResultMap"/>
+        <association property="paymentType" resultMap="paymentResultMap"/>
+        <association property="payDate" resultMap="paymentResultMap"/>
+        <association property="deliveryStatus" resultMap="deliveryStatusResultMap"/>
+    </resultMap>
+
+
+    <resultMap type="com.idle.osmas.seller.dto.MemberDTO" id="memberResultMap">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="MEMBERNAME"/> <!---->
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.AddressDTO" id="addressResultMap">
+        <id property="no" column="NO"/>
+        <result property="general" column="GENERAL"/>
+        <result property="detail" column="DETAIL"/>
+        <result property="postalCode" column="POSTAL_CODE"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.PaymentHistoryDTO" id="paymentHistoryResultMap">
+        <id property="refPaymentNo" column="REF_PAYMENT_NO"/>
+        <id property="refSponsoredPrjNo" column="REF_SPONSORED_PRJ_NO"/>
+    </resultMap>
+
+
+    <resultMap type="com.idle.osmas.seller.dto.ShippingTrackInfoDTO" id="shippingTrackInfoResultMap">
+        <id property="no" column="NO"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+        <result property="corp" column="CORP"/>
+        <result property="docNo" column="DOC_NO"/>
+        <result property="request" column="REQUEST"/>
+        <result property="refPaymentNo" column="REF_PAYMENT_NO"/>
+    </resultMap>
+
+
+    <resultMap type="com.idle.osmas.seller.dto.PrjProductListDTO" id="prjProductListResultMap">
+        <id property="no" column="NO"/>
+        <result property="refPrjNo" column="REF_PRJ_NO"/>
+        <result property="refProductNo" column="REF_PRODUCT_NO"/>
+    </resultMap>
+
+
+    <resultMap type="com.idle.osmas.seller.dto.ProductDTO" id="productResultMap">
+        <id property="no" column="NO"/>
+        <result property="name" column="PRODUCTNAME"/> <!---->
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="price" column="PRICE"/>
+        <result property="maxQuantity" column="MAX_QUANTITY"/>
+        <result property="status" column="STATUS"/>
+        <result property="size" column="PRODUCT_SIZE"/>
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.PaymentDTO" id="paymentResultMap">
+        <id property="code" column="CODE"/>
+        <result property="status" column="STATUS"/>
+        <result property="amount" column="PAYMENTAMOUNT"/> <!---->
+        <result property="paymentType" column="PAYMENT_TYPE"/>
+        <result property="paymentDate" column="PAYDATE"/> <!---->
+    </resultMap>
+
+    <resultMap type="com.idle.osmas.seller.dto.DeliveryStatusDTO" id="deliveryStatusResultMap">
+        <id property="no" column="NO"/>
+        <result property="status" column="DELIVERYSTATUS"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="refShippingTrackInfoNo" column="REF_SHIPPING_TRACK_INFO_NO"/>
+    </resultMap>
+
+
+
+    <select id="selectOrderList" resultMap="sponsoredPRJResultMap" parameterType="_Integer">
+        SELECT
+            D.REF_PAYMENT_NO,
+            B.NAME AS MEMBERNAME,
+            C.GENERAL,
+            C.DETAIL,
+            E.REQUEST,
+            B.PHONE,
+            G.NAME AS PRODUCTNAME,
+            G.PRODUCT_SIZE,
+            A.AMOUNT,
+            H.AMOUNT AS PAYMENTAMOUNT,
+            H.PAYMENT_TYPE,
+            I.STATUS AS DELIVERYSTATUS,
+            H.PAYMENT_DATE AS PAYDATE
+        FROM TBL_SPONSORED_PRJ A
+                 LEFT JOIN TBL_MEMBER B
+                           ON A.REF_MEMBER_NO = B.NO
+                 LEFT JOIN TBL_ADDRESS C
+                           ON A.REF_MEMBER_NO = C.REF_MEMBER_NO
+                 LEFT JOIN TBL_PAYMENT_HISTORY D
+                           ON A.NO = D.REF_SPONSORED_PRJ_NO
+                 LEFT JOIN TBL_SHIPPING_TRACK_INFO E
+                           ON D.REF_PAYMENT_NO=E.REF_PAYMENT_NO
+                 LEFT JOIN TBL_PRJ_PRODUCT_LIST F
+                           ON A.REF_PRJ_PRODUCT_LIST_NO = F.NO
+                 LEFT JOIN TBL_PRODUCT G
+                           ON F.REF_PRODUCT_NO = G.NO
+                 LEFT JOIN TBL_PAYMENT H
+                           ON D.REF_PAYMENT_NO = H.CODE
+                 LEFT JOIN TBL_DELIVERY_STATUS I
+                           ON E.NO = I.REF_SHIPPING_TRACK_INFO_NO
+
+        WHERE F.REF_PRJ_NO = #{ no }
+
+        ORDER BY H.CODE DESC
+    </select>
+
+
+
+
+
+
+
+
+</mapper>
