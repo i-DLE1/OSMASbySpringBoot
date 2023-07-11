@@ -224,7 +224,8 @@
             S.REPORT_NO,
             M.ID,
             R.REF_MEMBER_ROLE_CODE,
-            P.REJECT_REASON
+            P.REJECT_REASON,
+            M.NO
         FROM
             TBL_SELLER_ROLE S
                 JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
@@ -322,27 +323,34 @@
         SET PERMISSION_STATUS = 'APPROVAL'
         WHERE REF_SELLER_ROLE_REQ_NO = (
             SELECT Q.NO
-            FROM
-                TBL_SELLER_ROLE S
-                    JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                    JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
-                    JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
-                    JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
-            WHERE
-                R.REF_MEMBER_ROLE_CODE = 1
-              AND EXISTS (
-                SELECT 1
-                FROM TBL_ROLE_LIST
-                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
-            )
-              AND EXISTS (
-                SELECT 1
-                FROM TBL_ROLE_LIST
-                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
-            )
+            FROM TBL_SELLER_ROLE S
+                     JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                     JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                     JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                     JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
+                     JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
+                     JOIN TBL_HOLDING_ALERT H ON H.REF_PERMISSION_ROLE_NO = P.NO
+            WHERE  P.PERMISSION_STATUS = 'SCREENING'
               AND M.ID = #{sellerId}
+            GROUP BY Q.NO
+            ORDER BY MAX(H.REGIST_DATE) DESC
+                FETCH FIRST 1 ROW ONLY
         )
     </update>
+
+    <insert id="InsertAlert">
+        INSERT INTO TBL_HOLDING_ALERT(NO, CONTENT, REGIST_DATE, REF_MEMBER_NO, REF_PERMISSION_ROLE_NO)
+        SELECT SEQ_TBL_HOLDING_ALERT_NO.NEXTVAL, '신청하신 권한 회수가 완료 되었습니다.', SYSDATE, #{sellerNo},
+               (SELECT P.NO
+                FROM TBL_PERMISSION_ROLE P
+                         JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                         JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                WHERE M.ID = #{sellerId}
+                ORDER BY P.LAST_DATE DESC
+                    FETCH FIRST 1 ROW ONLY
+               )
+        FROM DUAL
+    </insert>
 
     <!-- 권한 신청 -> 보류 -->
     <insert id="addRoleToSellerReason">
@@ -418,4 +426,18 @@ INSERT INTO TBL_PERMISSION_ROLE(NO,REJECT_REASON, LAST_DATE, REF_SELLER_ROLE_REQ
               AND P.REF_SELLER_ROLE_REQ_NO = #{ sellerReq }
         )
     </update>
+
+    <insert id="insertAlert">
+        INSERT INTO TBL_HOLDING_ALERT(NO, CONTENT, REGIST_DATE, REF_MEMBER_NO, REF_PERMISSION_ROLE_NO)
+        SELECT SEQ_TBL_HOLDING_ALERT_NO.NEXTVAL, '신청하신 권한 회수가 보류 되었습니다.', SYSDATE, #{sellerNo},
+               (SELECT P.NO
+                FROM TBL_PERMISSION_ROLE P
+                         JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                         JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                WHERE M.ID = #{sellerId}
+                ORDER BY P.LAST_DATE DESC
+                    FETCH FIRST 1 ROW ONLY
+               )
+        FROM DUAL
+    </insert>
 </mapper>

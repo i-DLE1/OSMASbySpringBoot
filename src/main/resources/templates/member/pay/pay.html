@@ -36,7 +36,7 @@
         <div style="display: flex;">
             <img src="./grid.png" height="80px" width="100px" alt="">
             <div style="margin-left: 10px;">
-                <div style="margin-top: 15px;" th:text="${pay.title}">
+                <div style="margin-top: 15px;" th:text="${pay.title}" class="title">
                     프로젝트 이름
                 </div>
                 <div style="font-size: 12px; margin-top: 5px;">
@@ -73,7 +73,7 @@
         </th:block>
         <div class="paycontent">
             총 결제 금액 :
-            <span th:text="|${pay.sumPrice}원|">6000원</span>
+            <span th:text="|${pay.sumPrice}원|" class="sumPrice">6000원</span>
         </div>
 
     </section>
@@ -209,7 +209,9 @@
     //         const $productNo = document.querySelectorAll('.productNo');
     //         const count = [];
     //         const no = $('.no').text();
+    //         const price = $('.sumPrice').text();
     //         const productNo = [];
+    //         const title = $('.title').text();
     //         for(let i = 0; i < $count.length;i++){
     //             count[i] = $count[i].innerText;
     //             productNo[i] = $productNo[i].innerText;
@@ -218,16 +220,18 @@
     //             no :no
     //             ,count : count
     //             , productNo : productNo
+    //             , price : price
+    //             , title: title
     //         };
     //         $.ajax({
-    //             type:'post',
-    //             url:'/pay/kakao',
+    //             type:"post",
+    //             url:"/member/pay/kakao",
     //             contentType:"application/json",
     //             data: JSON.stringify(jsonObj),
     //             success:function (response){
-    //                 location.href =
+    //                 location.href = response.next_redirect_pc_url;
     //             }
-    //         })
+    //         });
     //     });
     // });
 

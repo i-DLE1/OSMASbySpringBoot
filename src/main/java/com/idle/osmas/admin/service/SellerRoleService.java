@@ -21,11 +21,11 @@ public interface SellerRoleService {
 
     int grant(String sellerId); //권한 신청 -> 완료
 
-    int drop(String sellerId); //권한 회수 신청 -> 완료
+    int drop(String sellerId, int sellerNo); //권한 회수 신청 -> 완료
 
     int holdingGrant(String sellerId, String reason, int sellerReq);
 
-    int holdingRetrieveGo(String sellerId, String reason, int sellerReq);
+    int holdingRetrieveGo(String sellerId, String reason, int sellerReq, int sellerNo);
 
 }
 

@@ -35,18 +35,37 @@ public class SpringSecurityConfiguration {
         return (web) -> web.ignoring()
                 .antMatchers("/css/**", "/js/**", "/images/**");
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+
+        // 판매 관리 페이지
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/seller/regist").authenticated()
+                .antMatchers(HttpMethod.GET,"/seller/regist/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/seller/regist/**").hasRole("SELLER")
+                .antMatchers("/seller/projectList").authenticated()
+                .antMatchers(HttpMethod.GET,"/seller/projectList").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/seller/projectList").hasRole("SELLER")
+                .antMatchers("/seller/projectQnAList").authenticated()
+                .antMatchers(HttpMethod.GET,"/seller/projectQnAList").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/seller/projectQnAList").hasRole("SELLER")
+                .antMatchers("/seller/orderList").authenticated()
+                .antMatchers(HttpMethod.GET,"/seller/orderList").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/seller/orderList").hasRole("SELLER")
+                .antMatchers("/seller/projectDetail/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/seller/projectDetail/**").hasRole("SELLER");
+
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/member/mypage/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/member/mypage/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/member/mypage**").hasRole("USER");
+
+
+        // 사용자 인증
+        http.csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/seller/regist").authenticated()
-//                .antMatchers("/seller/projectList").authenticated()
-//                .antMatchers("/seller/projectQnAList").authenticated()
-//                .antMatchers("/seller/projectDetail/**").authenticated()
-//                .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
-//                .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
-//                .antMatchers(HttpMethod.POST,"/seller/projectDetail/**").hasRole("SELLER")
-//                .antMatchers(HttpMethod.POST,"/seller/regist/**").hasRole("SELLER")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -59,8 +78,9 @@ public class SpringSecurityConfiguration {
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .and().build();
+                .invalidateHttpSession(true);
+
+        return http.build();
     }
 
     @Bean

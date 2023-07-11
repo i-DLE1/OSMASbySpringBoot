@@ -31,6 +31,17 @@
       }
     }
 
+    //판매자 페이지 표시 기능
+    function toggleSellerMenu() {
+      var menu = document.getElementById("sellerPageContent");
+
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
+    }
+
     //관리자 페이지 표시 기능
     function toggleAdminMenu() {
       var menu = document.getElementById("adminPageContent");
@@ -54,12 +65,23 @@
     </th:block>
 
     <!-- 사용자 마이페이지 -->
-    <th:block sec:authorize="hasRole('USER') and not hasRole('ADMIN')">
+    <th:block sec:authorize="hasRole('USER') and not hasRole('ADMIN') and not hasRole('SELLER')">
       <div class="userPage">
         <button class="userPageGo" onclick="toggleUserMenu()">마이 페이지</button>
         <div class="userPage-content" id="userPageContent">
-          <a onclick="location.href='/'">마이 페이지</a>
-          <a onclick="location.href='/admin/sellerApprovalForm/formMain'">판매자 권한 신청</a>
+          <a onclick="location.href='/member/mypage/MypageMain'">마이 페이지</a>
+          <a onclick="location.href='/admin/sellerApprovalForm/formGetMain'">판매자 권한 신청</a>
+        </div>
+      </div>
+    </th:block>
+
+    <!-- 판매자 마이페이지 -->
+    <th:block sec:authorize="hasRole('SELLER')">
+      <div class="sellerPage">
+        <button class="sellerPageGo" onclick="toggleSellerMenu()">마이 페이지</button>
+        <div class="sellerPage-content" id="sellerPageContent">
+          <a onclick="location.href='/admin/sellerApprovalForm/outHoldingAlarm'">(보류)알림</a>
+          <a onclick="location.href='/admin/sellerApprovalForm/formOutMain'">판매자 권한 회수 신청</a>
         </div>
       </div>
     </th:block>

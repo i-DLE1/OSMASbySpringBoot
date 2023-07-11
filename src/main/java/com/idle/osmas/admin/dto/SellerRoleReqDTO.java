@@ -16,5 +16,6 @@ public class SellerRoleReqDTO {
 
     private SellerRoleDTO memberNo; //판매자번호
 
+
     private LocalDate date; //신청일자
 }

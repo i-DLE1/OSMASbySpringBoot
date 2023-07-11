@@ -20,8 +20,6 @@
         <ul class="mypage_bar">
             <li><a th:href="@{MypageProfile}">프로필</a></li>
             <li><a th:href="@{MypageAccount}">계정</a></li>
-            <li><a th:href="@{MypageSponsor}">후원한 프로젝트</a></li>
-            <li><a th:href="@{MypageShippingAd}">배송지</a></li>
             <li><a th:href="@{MypageAlarm}">알림</a></li>
         </ul>
     </div>
@@ -39,6 +37,19 @@
             <p>좋아하신 <b>스몰월드 프로젝트</b>의 창작자의 새 게시글이 올라왔습니다.</p>
         </div>
     </div>
+
+    <th:block th:if="${alert}">
+        <div class="mypage_alarm" style="margin: 5%;">
+            <p>판매자님의 권한 회수 신청이 보류 되었습니다.</p>
+            <button onclick="location.href='/admin/sellerApprovalForm/outFormAgain'">확인하러 가기</button>
+        </div>
+    </th:block>
+
+    <th:block th:if="${alertGo}">
+        <div class="mypage_alarm" style="margin: 5%;">
+            <p>판매자님의 권한 회수가 완료 되었습니다.</p>
+        </div>
+    </th:block>
 </main>
 
 <footer>

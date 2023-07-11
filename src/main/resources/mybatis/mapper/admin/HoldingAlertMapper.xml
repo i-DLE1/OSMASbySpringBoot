@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.idle.osmas.admin.dao.HoldingAlertMapper">
+
+    <resultMap id="HoldingAlertResultMap" type="com.idle.osmas.admin.dto.HoldingAlertDTO">
+        <id property="no" column="NO"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+
+        <association property="refMemberNo" resultMap="memberResultMap"/>
+        <association property="refPermissionRoleNo" resultMap="permissionRoleResultMap"/>
+    </resultMap>
+
+    <resultMap id="sellerRoleReqResultMap" type="com.idle.osmas.admin.dto.SellerRoleReqDTO">
+        <id property="no" column="NO"/>
+        <result property="date" column="REGIST_DATE"/>
+
+        <association property="memberNo" resultMap="memberResultMap"/>
+    </resultMap>
+
+    <resultMap id="permissionRoleResultMap" type="com.idle.osmas.admin.dto.PermissionRoleDTO">
+        <id property="no" column="NO"/>
+        <result property="rejectReason" column="REJECT_REASON"/>
+        <result property="permissionStatus" column="PERMISSION_STATUS"/>
+        <result property="lastDate" column="LAST_DATE"/>
+        <result property="sellerReason" column="SELLER_REASON"/>
+        <result property="otherReason" column="OTHER_REASON"/>
+    </resultMap>
+
+    <resultMap id="memberResultMap" type="com.idle.osmas.member.dto.MemberDTO">
+        <id property="no" column="MEMBERNO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <!-- 판매자 보류 시 알람 확인하기-->
+    <select id="youHolding">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_HOLDING_ALERT H
+                 JOIN TBL_PERMISSION_ROLE P ON H.REF_PERMISSION_ROLE_NO = P.NO
+                 JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                 JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+        WHERE M.ID = #{userID}
+          AND H.CONTENT IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+          AND H.REGIST_DATE = (SELECT H.REGIST_DATE
+                               FROM TBL_HOLDING_ALERT H
+                               ORDER BY H.REGIST_DATE DESC
+                                   FETCH FIRST 1 ROW ONLY)
+    </select>
+
+    <!-- 판매자 완료 시 알람 확인하기-->
+    <select id="youSuccess">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_MEMBER M
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE M.ID = #{userID}
+          AND (R.REF_MEMBER_ROLE_CODE = 3)
+    </select>
+</mapper>

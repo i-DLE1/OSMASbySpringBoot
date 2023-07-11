@@ -1,5 +1,6 @@
 package com.idle.osmas.seller.dao;
 
+import com.idle.osmas.seller.dto.ProductStatistics;
 import com.idle.osmas.seller.dto.ProjectDTO;
 import com.idle.osmas.seller.dto.ProjectWishDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -40,4 +41,6 @@ public interface ProjectMapper {
     int insertProjectWish(int memberNo, int projectNo);
 
     int deleteProjectWish(int memberNo, int projectNo);
+
+    List<ProductStatistics> selectProductStatisticsByProjectNo(int projectNo);
 }
