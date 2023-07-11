@@ -9,23 +9,23 @@ function projectOrderList(filter){
     //     {id: 4, title : "홍길동",address:"서울시00구", comment:"문앞에놔주세요",call:"010-1234-5678",option:"블랙,90(S),1",money:"46,000",payment:"카카오페이",date:"2023.06.01",state:"주문접수"},
     //
     // ];
-    projectList.forEach((item ,index)=>{
-        let $tr = $("<tr>").attr("id",item.id);
-        let $td = $("<td>");
-        $tr.append($("<th>").text(index+1)); // 인덱스 번호
-        $tr.append($("<td>").text(item.title)); // 주문자
-        $tr.append($("<td>").text(item.address)); // 배송지
-        $tr.append($("<td>").text(item.comment)); // 요청사항
-        $tr.append($("<td>").text(item.call)); // 연락처
-        $tr.append($("<td>").text(item.option)); // 구매옵션
-        $tr.append($("<td>").text(item.money)); // 결제금액
-        $tr.append($("<td>").text(item.payment)); // 결제수단
-        $tr.append($("<td>").text(item.date)); // 주문일자
-        $tr.append($("<td>").text(item.state)); // 배송상태
-        $tr.append($td);
-
-        $("#projectOrderList").append($tr);
-    })
+    // projectList.forEach((item ,index)=>{
+    //     let $tr = $("<tr>").attr("id",item.id);
+    //     let $td = $("<td>");
+    //     $tr.append($("<th>").text(index+1)); // 인덱스 번호
+    //     $tr.append($("<td>").text(item.title)); // 주문자
+    //     $tr.append($("<td>").text(item.address)); // 배송지
+    //     $tr.append($("<td>").text(item.comment)); // 요청사항
+    //     $tr.append($("<td>").text(item.call)); // 연락처
+    //     $tr.append($("<td>").text(item.option)); // 구매옵션
+    //     $tr.append($("<td>").text(item.money)); // 결제금액
+    //     $tr.append($("<td>").text(item.payment)); // 결제수단
+    //     $tr.append($("<td>").text(item.date)); // 주문일자
+    //     $tr.append($("<td>").text(item.state)); // 배송상태
+    //     $tr.append($td);
+    //
+    //     $("#projectOrderList").append($tr);
+    // })
 }
 
 const screenCenterPopup = (popupWidth, popupHeight) =>{

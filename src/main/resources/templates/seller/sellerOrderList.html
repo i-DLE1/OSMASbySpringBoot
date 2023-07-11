@@ -61,7 +61,6 @@
                         </div>
 
 
-
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -79,31 +78,26 @@
                         <tbody id="projectOrderList">
                             <!-- javacript 반복 구간 -->
                             <!-- 타임 리프 반복 시작 -->
+
                             <th:block th:each="item, index : ${orderList}">
                             <tr>
+                                <th th:text="${index.count}"></th>
 <!--                                <th:block th:object="${item}">-->
-                                <th th:text="${index}"></th>
-                                <td th:text="*{item.name}"></td>
-                                <td th:text="*{item.general}"></td>
-                                <td th:text="*{item.request}"></td>
-                                <td th:text="*{item.phone}"></td>
-                                <td th:text="*{item.productName}"></td>
-                                <td th:text="*{item.paymentAmount}"></td>
-                                <td th:text="*{item.paymentType}"></td>
-                                <td th:text="*{item.paymentDate}"></td>
-                                <td th:text="*{item.status}"></td>
-<!--                                <td>-->
-<!--                                    <input value="통계" class="cus-button" type="button" th:onclick="|popupStatics(*{item.id})|">-->
-<!--                                    <input value="수정" class="cus-button" type="button" th:onclick="|projectModify(*{item.id})|">-->
-<!--                                    <input value="재심사" class="cus-button" type="button" th:onclick="|popupRetry(*{item.id})|">-->
-<!--                                    <input value="취소" class="cus-button" type="button" th:onclick="|popupCancel(*{item.id})|">-->
-<!--                                </td>-->
+                                <td th:text="${item.memberName.name}"></td>
+                                <td th:text="${item.general.general}"></td>
+                                <td th:text="${item.request.request}"></td>
+                                <td th:text="${item.memberName.phone}"></td>
+                                <td th:text="${item.productName.name}"></td>
+                                <td th:text="${item.paymentAmount.amount}"></td>
+                                <td th:text="${item.paymentAmount.paymentType}"></td>
+<!--                                <td th:text="${item.paymentAmount.paymentDate}"></td>-->
+                                <td th:text="${item.deliveryStatus.status}"></td>
 <!--                                </th:block>-->
                             </tr>
                             </th:block>
                             <!-- 타임 리프 끝 -->
                         </tbody>
-                        </tbody>
+<!--                        </tbody>-->
                     </table>
                     <!-- cus-page start -->
                     <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>

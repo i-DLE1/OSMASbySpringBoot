@@ -178,8 +178,8 @@ public class SellerController {
         searchCriteria.put("startNo", startNo);
         searchCriteria.put("endNo", endNo);
 
-        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList();
         List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
+        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList();
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -193,7 +193,7 @@ public class SellerController {
         model.addAttribute("listType", listType(listType));
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
-        model.addAttribute("orderList", orderList);
+        model.addAttribute("orderList", orderList); // 주문목록
         model.mergeAttributes(getPagenation(pageNo,maxPage));
         return "/seller/sellerOrderList";
     }

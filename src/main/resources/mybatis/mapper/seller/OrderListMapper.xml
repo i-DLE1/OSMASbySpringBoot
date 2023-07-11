@@ -11,7 +11,7 @@
         <result property="refPrjProductListNo" column="REF_PRJ_PRODUCT_LIST_NO"/>
         <result property="refMemberNo" column="REF_MEMBER_NO"/>
 
-        <association property="name" resultMap="memberResultMap"/>
+        <association property="memberName" resultMap="memberResultMap"/>
         <association property="general" resultMap="addressResultMap"/>
         <association property="detail" resultMap="addressResultMap"/>
         <association property="request" resultMap="shippingTrackInfoResultMap"/>
@@ -21,7 +21,7 @@
         <association property="paymentAmount" resultMap="paymentResultMap"/>
         <association property="paymentType" resultMap="paymentResultMap"/>
         <association property="paymentDate" resultMap="paymentResultMap"/>
-        <association property="status" resultMap="deliveryStatusResultMap"/>
+        <association property="deliveryStatus" resultMap="deliveryStatusResultMap"/>
     </resultMap>
 
 
@@ -29,7 +29,7 @@
         <id property="no" column="NO"/>
         <result property="id" column="ID"/>
         <result property="pwd" column="PWD"/>
-        <result property="name" column="NAME"/>
+        <result property="name" column="MEMBERNAME"/> <!---->
         <result property="phone" column="PHONE"/>
         <result property="birth" column="BIRTH"/>
         <result property="email" column="EMAIL"/>
@@ -73,7 +73,7 @@
 
     <resultMap type="com.idle.osmas.seller.dto.ProductDTO" id="productResultMap">
         <id property="no" column="NO"/>
-        <result property="name" column="NAME"/> <!---->
+        <result property="name" column="PRODUCTNAME"/> <!---->
         <result property="introduction" column="INTRODUCTION"/>
         <result property="price" column="PRICE"/>
         <result property="maxQuantity" column="MAX_QUANTITY"/>
@@ -83,15 +83,15 @@
 
     <resultMap type="com.idle.osmas.seller.dto.PaymentDTO" id="paymentResultMap">
         <id property="code" column="CODE"/>
-        <result property="paymentDate" column="PAYMENT_DATE"/>
         <result property="status" column="STATUS"/>
-        <result property="amount" column="AMOUNT"/> <!---->
+        <result property="amount" column="PAYMENTAMOUNT"/> <!---->
         <result property="paymentType" column="PAYMENT_TYPE"/>
+        <result property="paymentDate" column="PAYMENT_DATE"/> <!---->
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.DeliveryStatusDTO" id="deliveryStatusResultMap">
         <id property="no" column="NO"/>
-        <result property="status" column="STATUS"/>
+        <result property="status" column="DELIVERYSTATUS"/>
         <result property="registDate" column="REGIST_DATE"/>
         <result property="refShippingTrackInfoNo" column="REF_SHIPPING_TRACK_INFO_NO"/>
     </resultMap>
@@ -100,18 +100,18 @@
 
     <select id="selectOrderList" resultMap="sponsoredPRJResultMap">
         SELECT
-            B.NAME,
+            B.NAME AS MEMBERNAME,
             C.GENERAL,
             C.DETAIL,
             E.REQUEST,
             B.PHONE,
-            G.NAME,
+            G.NAME AS PRODUCTNAME,
             G.PRODUCT_SIZE,
             A.AMOUNT,
-            H.AMOUNT,
+            H.AMOUNT AS PAYMENTAMOUNT,
             H.PAYMENT_TYPE,
             H.PAYMENT_DATE,
-            I.STATUS
+            I.STATUS AS DELIVERYSTATUS
         FROM TBL_SPONSORED_PRJ A
                  LEFT JOIN TBL_MEMBER B
                            ON A.REF_MEMBER_NO = B.NO
@@ -129,7 +129,7 @@
                            ON D.REF_PAYMENT_NO = H.CODE
                  LEFT JOIN TBL_DELIVERY_STATUS I
                            ON E.NO = I.REF_SHIPPING_TRACK_INFO_NO
-        WHERE F.REF_PRJ_NO = 53
+        WHERE F.REF_PRJ_NO = 180
     </select>
 
 
