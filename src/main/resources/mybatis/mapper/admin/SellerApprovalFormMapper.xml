@@ -314,4 +314,24 @@ ORDER BY H.REGIST_DATE DESC
         </foreach>
         )
     </insert>
+
+    <!-- 권한 신청 취소 -->
+    <delete id="deleteRole">
+        DELETE FROM TBL_SELLER_ROLE
+        WHERE REF_MEMBER_NO = (
+            SELECT M.NO
+            FROM TBL_MEMBER M
+            WHERE ID = #{sellerId}
+        )
+    </delete>
+
+    <!-- 권한 신청 취소 -->
+    <delete id="deleteFile">
+        DELETE FROM TBL_SELLER_ROLE_FILE
+        WHERE REF_MEMBER_NO = (
+            SELECT M.NO
+            FROM TBL_MEMBER M
+            WHERE ID = #{sellerId}
+        )
+    </delete>
 </mapper>
