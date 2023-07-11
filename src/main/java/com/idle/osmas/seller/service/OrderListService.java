@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface OrderListService {
 
-    List<SponsoredPRJDTO> selectOrderList();
+    List<SponsoredPRJDTO> selectOrderList(Integer no);
 
 }

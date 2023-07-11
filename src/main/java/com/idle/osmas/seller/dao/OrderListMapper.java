@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 @Mapper
 public interface OrderListMapper {
-    List<SponsoredPRJDTO> selectOrderList();
+    List<SponsoredPRJDTO> selectOrderList(Integer no);
 }

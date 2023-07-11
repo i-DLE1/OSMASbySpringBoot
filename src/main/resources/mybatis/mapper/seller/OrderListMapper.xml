@@ -99,7 +99,7 @@
 
 
 
-    <select id="selectOrderList" resultMap="sponsoredPRJResultMap">
+    <select id="selectOrderList" resultMap="sponsoredPRJResultMap" parameterType="_Integer">
         SELECT
             D.REF_PAYMENT_NO,
             B.NAME AS MEMBERNAME,
@@ -131,7 +131,9 @@
                            ON D.REF_PAYMENT_NO = H.CODE
                  LEFT JOIN TBL_DELIVERY_STATUS I
                            ON E.NO = I.REF_SHIPPING_TRACK_INFO_NO
-        WHERE F.REF_PRJ_NO = 180
+
+        WHERE F.REF_PRJ_NO = #{ no }
+
         ORDER BY H.CODE DESC
     </select>
 

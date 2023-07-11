@@ -16,7 +16,7 @@ public class OrderListServiceImpl implements OrderListService{
 
 
     @Override
-    public List<SponsoredPRJDTO> selectOrderList() {
-        return orderListMapper.selectOrderList();
+    public List<SponsoredPRJDTO> selectOrderList(Integer no) {
+        return orderListMapper.selectOrderList(no);
     }
 }

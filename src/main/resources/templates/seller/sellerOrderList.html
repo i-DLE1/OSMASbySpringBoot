@@ -49,8 +49,10 @@
                     <table class="cus-table table-font">
                         <div class="tbaletop">
                             <label style="margin-right: 10px;">프로젝트명
-                                <select style="width: 300px;" class="col-4 me-3 search-bar" >
-                                    <option th:each="project: ${projectList}" th:text="${project.title}"></option>
+                                <select style="width: 300px;" class="col-4 me-3 search-bar" id="projectSelectBox" onchange="displaySelectedOptions()">
+                                    <th:block th:each="project: ${projectList}">
+                                    <option  th:text="${project.title}" th:attr="data-project-no=${project.no}"></option>
+                                    </th:block>
                                 </select>
                             </label>
                             <div>
@@ -86,7 +88,6 @@
                                 <th>
                                     <span th:text="${endRow - stat.index}" th:unless="${endRow - stat.index == 0}"></span>
                                 </th>
-
 
                                 <th:block th:object="${item}">
 <!--                                <td th:text="*{paymentHistory.refPaymentNo}"></td>-->
