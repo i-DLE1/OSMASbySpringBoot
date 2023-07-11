@@ -147,7 +147,7 @@
     <section>
         <h2>약관 동의</h2>
         <div style="margin-left: 10px;">
-            <input type="checkbox" id="chk_box1">
+            <input type="checkbox" id="chk_box1" required>
             <label for="chk_box1" style="margin-left: 0px;"> 개인정보 제 3자 제공동의(필수)</label>
             <span style="float: right;" class="term_open">보기</span>
             <div style="margin-left: 25px; margin-top: 10px;" class="pay_term">
@@ -166,7 +166,7 @@
         </div>
     </section>
     <div style="text-align: center;">
-        <button type="button" class="ok_button" style="margin-top: 10px;">결제 하기
+        <button type="button" class="ok_button" style="margin-top: 10px;" disabled>결제 하기
         </button>
     </div>
 </div>
@@ -175,6 +175,13 @@
 </footer>
 
 <script>
+    $('#chk_box1').click(function (){
+        if($('#chk_box1').is(':checked')==true&&$('.add_address').val()==null){
+            $('.ok_button').removeAttr('disabled');
+        }else{
+            $('.ok_button').attr('disabled','true');
+        }
+    });
     $(function () {
         $('.add_address').click(function () {
             let postalCode = $('.postalCode').val();
