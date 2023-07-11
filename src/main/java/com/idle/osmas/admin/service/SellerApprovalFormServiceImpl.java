@@ -40,6 +40,21 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
 
     @Override
     @Transactional
+    public int sellerInsertCancel(String sellerId) {
+
+        int result1 = sellerApprovalFormMapper.deleteRole(sellerId);
+        int result2 = sellerApprovalFormMapper.deleteFile(sellerId);
+
+        int result = 0;
+
+        if (result1 > 0 && result2 > 0) {
+            result = 1;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
     public int sellerOutCancel(String sellerId) {
         int result1 = sellerApprovalFormMapper.deletePERMISSION(sellerId);
         int result2 = sellerApprovalFormMapper.deleteREQ(sellerId);
@@ -143,4 +158,5 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
 
         return result;
     }
+
 }

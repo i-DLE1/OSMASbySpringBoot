@@ -163,6 +163,20 @@ public class SellerApprovalFormController {
         }
     }
 
+    @PostMapping("sellerInsertCancel")
+    public String sellerInsertCancel(@RequestParam("sellerId") String sellerId, Model model) {
+
+        model.addAttribute("sellerId", sellerId);
+
+        int result = sellerApprovalFormService.sellerInsertCancel(sellerId);
+
+        if (result > 0) {
+            return "redirect:/admin/sellerApprovalForm/getForm";
+        } else {
+            return "redirect:/admin/errorPage";
+        }
+    }
+
     @PostMapping("sellerOutCancel")
     public String sellerOutCancel(@RequestParam("sellerId") String sellerId, Model model) {
 

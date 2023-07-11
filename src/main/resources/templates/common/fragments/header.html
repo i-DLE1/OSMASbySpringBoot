@@ -65,9 +65,9 @@
     </th:block>
 
     <!-- 사용자 마이페이지 -->
-    <th:block sec:authorize="hasRole('USER') and (hasRole('SELLERDROP') and hasRole('SELLER'))
+    <th:block sec:authorize="hasRole('USER') or (hasRole('SELLERDROP') and hasRole('SELLER'))
                               and not hasRole('ADMIN')">
-      <div class="userPage">
+      <div class="userPage" sec:authorize="not hasRole('ADMIN')">
         <button class="userPageGo" onclick="toggleUserMenu()">마이 페이지</button>
         <div class="userPage-content" id="userPageContent">
           <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>

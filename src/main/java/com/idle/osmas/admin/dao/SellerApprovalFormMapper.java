@@ -40,4 +40,8 @@ public interface SellerApprovalFormMapper {
     int sellerInsertUpdatePermission(String sellerId);
 
     int sellerUpdateFileList(List<Map<String, String>> fileList, String sellerId);
+
+    int deleteRole(String sellerId);
+
+    int deleteFile(String sellerId);
 }
