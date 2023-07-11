@@ -3,6 +3,7 @@ package com.idle.osmas.seller.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 
 @NoArgsConstructor

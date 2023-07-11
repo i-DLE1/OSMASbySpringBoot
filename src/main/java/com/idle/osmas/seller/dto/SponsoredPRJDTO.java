@@ -16,6 +16,7 @@ public class SponsoredPRJDTO {
     private int refPrjProductListNo;
     private int refMemberNo;
 
+    private PaymentHistoryDTO paymentHistory;
     private MemberDTO memberName;
     private AddressDTO general;
     private AddressDTO detail;
@@ -25,7 +26,7 @@ public class SponsoredPRJDTO {
     private ProductDTO productSize;
     private PaymentDTO paymentAmount; // 결제금액
     private PaymentDTO paymentType;
-    private PaymentDTO paymentDate;
+    private PaymentDTO payDate;
     private DeliveryStatusDTO deliveryStatus;
 
 }

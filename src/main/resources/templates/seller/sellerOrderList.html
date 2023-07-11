@@ -76,28 +76,40 @@
                             </tr>
                         </thead>
                         <tbody id="projectOrderList">
+
                             <!-- javacript 반복 구간 -->
                             <!-- 타임 리프 반복 시작 -->
+                            <th:block th:each="item, stat : ${orderList}">
+                            <tr th:if="${stat.index == 0 || item.paymentHistory.refPaymentNo != orderList[stat.index - 1]?.paymentHistory?.refPaymentNo}">
 
-                            <th:block th:each="item, index : ${orderList}">
-                            <tr>
-                                <th th:text="${index.count}"></th>
-<!--                                <th:block th:object="${item}">-->
-                                <td th:text="${item.memberName.name}"></td>
-                                <td th:text="${item.general.general}"></td>
-                                <td th:text="${item.request.request}"></td>
-                                <td th:text="${item.memberName.phone}"></td>
-                                <td th:text="${item.productName.name}"></td>
-                                <td th:text="${item.paymentAmount.amount}"></td>
-                                <td th:text="${item.paymentAmount.paymentType}"></td>
-<!--                                <td th:text="${item.paymentAmount.paymentDate}"></td>-->
-                                <td th:text="${item.deliveryStatus.status}"></td>
-<!--                                </th:block>-->
+<!--                                <th th:text="${endRow - stat.index + 1}"></th>-->
+                                <th>
+                                    <span th:text="${endRow - stat.index}" th:unless="${endRow - stat.index == 0}"></span>
+                                </th>
+
+
+                                <th:block th:object="${item}">
+<!--                                <td th:text="*{paymentHistory.refPaymentNo}"></td>-->
+                                <td th:text="*{memberName.name}"></td>
+                                <td th:text="*{general.general +' '+ general.detail}"></td>
+                                <td th:text="*{request.request}"></td>
+                                <td th:text="*{memberName.phone}"></td>
+                                    <td>
+                                        <th:block th:each="product, iterStat : ${orderList}" th:if="${product.paymentHistory.refPaymentNo == item.paymentHistory.refPaymentNo}">
+                                        <span th:text="${product.productName.name+ '/'+ product.productName.size +'('+ product.amount +'EA)'}"></span>
+                                            <span th:if="${!iterStat.last}">, </span>
+                                        </th:block>
+                                    </td>
+<!--                                <td th:text="*{productName.name + '/'+ productName.size +'('+ amount +'EA)'}"></td>-->
+                                <td th:text="*{paymentAmount.amount}"></td>
+                                <td th:text="*{paymentAmount.paymentType}"></td>
+                                <td th:text="*{paymentAmount.paymentDate}"></td>
+                                <td th:text="*{deliveryStatus.status}"></td>
+                                </th:block>
                             </tr>
                             </th:block>
                             <!-- 타임 리프 끝 -->
                         </tbody>
-<!--                        </tbody>-->
                     </table>
                     <!-- cus-page start -->
                     <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
@@ -109,8 +121,8 @@
         <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
         <script src="/js/seller/sellerPage.js"></script>
         <script>
-            projectOrderList();
             activePage();
         </script>
+
     </body>
 </html>
