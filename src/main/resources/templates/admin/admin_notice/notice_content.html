@@ -6,8 +6,13 @@
     <title>공지사항_내용</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/admin/adminBoard.js"></script>
-    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminbasicstyle.css}">
-    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminmainstyle.css}">
+    <link rel="stylesheet" href="/css/admin/adminmypage/adminbasicstyle.css">
+    <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
+
+
+
+
+
 </head>
 
 <body>
@@ -40,28 +45,36 @@
         </ul>
     </nav>
 </div>
-<div class="notice_content">
+<!--<div class="notice-content">-->
     <br>
     <h5 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.category}"></h5>
     <h6 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.registDate}"></h6>
     <hr>
     <!-- content 내용 표시 -->
-    <div class="notice-content" th:if="${noticeContent}">
-        <h3 th:text="${noticeContent.title}"></h3>
-        <h6 style="font-weight: lighter;" th:text="${noticeContent.registDate}"></h6>
-        <hr>
-        <div th:utext="${noticeContent.content}" style="/* 스타일을 그대로 적용할 스타일 속성들 */"></div>
+<div class="notice-content" th:if="${noticeContent}">
+    <div class="notice-category">
+        <h6 style="font-weight: lighter; font-size: 12px;" th:text="${noticeContent.category}"></h6>
     </div>
-    <!-- 수정 및 삭제 버튼 -->
+    <div class="notice-title">
+        <h3 th:text="${noticeContent.title}"></h3>
+    </div>
+    <div class="notice-date">
+        <h6 style="font-weight: lighter; font-size: 12px;" th:text="${noticeContent.registDate}"></h6>
+    </div>
+    <hr>
+    <div class="notice-content-text">
+        <div th:utext="${noticeContent.content}"></div>
+    </div>
+</div>
+
+
+
+<!-- 수정 및 삭제 버튼 -->
     <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
         <a th:href="@{/admin/user_notice/notice_edit(no=${noticeContent.no})}" class="btn">수정</a>
         <a href="javascript:void(0);" onclick="deleteNotice(/*[[${noticeContent.no}]]*/)" class="btn">삭제</a>
     </div>
 </div>
-
-<footer>
-    <th:block th:include="~{/common/fragments/footer}"></th:block>
-</footer>
 
 <!-- 자바스크립트 코드 -->
 <script>

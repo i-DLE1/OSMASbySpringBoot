@@ -37,7 +37,6 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        ORDER BY S.REGIST_DATE DESC
         <where>
             <if test='boardtype == "N"'>
                 S.CLASSIFY_CODE = '공지사항'
@@ -49,6 +48,7 @@
                 S.CLASSIFY_CODE = '보도자료'
             </if>
         </where>
+        ORDER BY S.REGIST_DATE DESC
     </select>
 
 
@@ -86,8 +86,8 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '공지사항'
         ORDER BY S.REGIST_DATE DESC
+        WHERE S.CLASSIFY_CODE = '공지사항'
     </select>
 
 
@@ -102,8 +102,8 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '이벤트'
         ORDER BY S.REGIST_DATE DESC
+        WHERE S.CLASSIFY_CODE = '이벤트'
     </select>
 
     <select id="getAdminArticle" resultMap="adminBoardResultMap">
@@ -117,8 +117,8 @@
             S.REF_MEMBER_NO,
             S.DELETE_YN
         FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '보도자료'
         ORDER BY S.REGIST_DATE DESC
+        WHERE S.CLASSIFY_CODE = '보도자료'
     </select>
 
     <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
@@ -141,9 +141,5 @@
         ORDER BY REGIST_DATE DESC
     </select>
 
-    <delete id="deleteNotice" parameterType="int">
-        DELETE FROM TBL_ADMIN_BOARD
-        WHERE NO = #{no}
-    </delete>
 
 </mapper>
