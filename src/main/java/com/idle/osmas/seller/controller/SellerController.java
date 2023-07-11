@@ -156,14 +156,16 @@ public class SellerController {
     public String getOrderList(@RequestParam(required = false) Optional<String> listType,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) Integer pageNo,
-                               @RequestParam(required = false) Integer no,
+                               @RequestParam(value = "projectNo2", required = false) Integer projectNo2,
                                Principal principal, Model model) throws AccessAuthorityException {
+
+        System.out.println("projectNo2? " + projectNo2);
 
         if(principal == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
-        if (no == null) {
-            no=180;
-        }
+  //      if (no == null) {
+  //          no = 180;
+  //      }
 
         if(listType.isEmpty()){
             return "redirect:/seller/projectList?listType=all";
@@ -185,7 +187,7 @@ public class SellerController {
         searchCriteria.put("endNo", endNo);
 
         List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
-        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList(no);
+        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList(projectNo2);
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -201,6 +203,7 @@ public class SellerController {
         model.addAttribute("projectList", projectList);
         model.addAttribute("orderList", orderList); // 주문목록
         model.mergeAttributes(getPagenation(pageNo,maxPage));
+        System.out.println("projectNo22 " + projectNo2);
         return "/seller/sellerOrderList";
     }
 

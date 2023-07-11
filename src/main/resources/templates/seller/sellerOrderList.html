@@ -51,6 +51,7 @@
                             <label style="margin-right: 10px;">프로젝트명
                                 <select style="width: 300px;" class="col-4 me-3 search-bar" id="projectSelectBox" onchange="displaySelectedOptions()">
                                     <th:block th:each="project: ${projectList}">
+                                       <!-- <option>""</option>-->
                                     <option  th:text="${project.title}" th:attr="data-project-no=${project.no}"></option>
                                     </th:block>
                                 </select>
