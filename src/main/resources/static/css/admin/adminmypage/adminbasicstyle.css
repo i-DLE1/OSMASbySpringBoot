@@ -419,6 +419,8 @@ body {
     padding: 100px; /* 내부 여백 설정 */
     width: 1000px; /* 원하는 너비 설정 */
     margin: 0 auto; /* 가운데 정렬을 위한 margin 설정 */
+    margin-top: 200px;
+    margin-bottom: 100px;
 }
 
 .notice-content .notice-title {
@@ -430,5 +432,5 @@ body {
 }
 
 .notice-content .notice-content-text {
-    /* 내용 스타일 설정 */
+   margin-bottom: 20px;
 }

@@ -6,6 +6,7 @@
     <title>공지사항_내용</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/admin/adminBoard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/css/admin/adminmypage/adminbasicstyle.css">
     <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
 
@@ -50,22 +51,23 @@
     <h5 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.category}"></h5>
     <h6 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.registDate}"></h6>
     <hr>
-    <!-- content 내용 표시 -->
 <div class="notice-content" th:if="${noticeContent}">
     <div class="notice-category">
-        <h6 style="font-weight: lighter; font-size: 12px;" th:text="${noticeContent.category}"></h6>
+        <h6 style="font-weight: lighter; font-size: 12px;">카테고리: <span th:text="${noticeContent.classifyCode}"></span></h6>
     </div>
     <div class="notice-title">
-        <h3 th:text="${noticeContent.title}"></h3>
+        <h3><span th:text="${noticeContent.title}"></span></h3>
     </div>
     <div class="notice-date">
-        <h6 style="font-weight: lighter; font-size: 12px;" th:text="${noticeContent.registDate}"></h6>
+        <h6 style="font-weight: lighter; font-size: 12px;">등록날짜: <span th:text="${noticeContent.registDate}"></span></h6>
     </div>
     <hr>
     <div class="notice-content-text">
         <div th:utext="${noticeContent.content}"></div>
     </div>
 </div>
+
+
 
 
 
