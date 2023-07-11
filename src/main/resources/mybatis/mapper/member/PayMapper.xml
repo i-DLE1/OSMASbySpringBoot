@@ -22,7 +22,7 @@
         <result property="price" column="PRICE"/>
         <result property="size" column="PRODUCT_SIZE"/>
     </resultMap>
-    
+
     <resultMap id="payResuleMap" type="com.idle.osmas.member.dto.PayDTO">
         <result property="no" column="NO"/>
         <result property="title" column="TITLE"/>
@@ -31,53 +31,89 @@
         <result property="currentAmount" column="CURRENT_AMOUNT"/>
     </resultMap>
     <select id="selectMemberById" resultMap="memberResultMap">
-        SELECT
-               A.NO
+        SELECT A.NO
              , A.NAME
              , A.PHONE
              , A.EMAIL
         FROM TBL_MEMBER A
-       WHERE A.ID = #{id}
-        AND STATUS = 'USE'
+        WHERE A.ID = #{id}
+          AND STATUS = 'USE'
     </select>
-    
+
     <select id="selectAddressByNo" resultMap="addressResultMap">
-    SELECT
-           A.GENERAL
-         , A.DETAIL
-         , A.POSTAL_CODE
-      FROM TBL_ADDRESS A
-     WHERE A.REF_MEMBER_NO =#{no}
+        SELECT A.GENERAL
+             , A.DETAIL
+             , A.POSTAL_CODE
+        FROM TBL_ADDRESS A
+        WHERE A.REF_MEMBER_NO = #{no}
     </select>
     <insert id="insertAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
         INSERT INTO TBL_ADDRESS
-        (GENERAL, DETAIL,POSTAL_CODE,NO,REF_MEMBER_NO)
-        VALUES (#{general},#{detail},#{postalCode},SEQ_TBL_ADDRESS_NO.NEXTVAL,#{refMemberNo})
+            (GENERAL, DETAIL, POSTAL_CODE, NO, REF_MEMBER_NO)
+        VALUES (#{general}, #{detail}, #{postalCode}, SEQ_TBL_ADDRESS_NO.NEXTVAL, #{refMemberNo})
     </insert>
 
     <update id="modAddress" parameterType="com.idle.osmas.member.dto.AddressDTO">
-        UPDATE TBL_ADDRESS SET GENERAL = #{general},DETAIL =#{detail},POSTAL_CODE=#{postalCode}
+        UPDATE TBL_ADDRESS
+        SET GENERAL    = #{general},
+            DETAIL     =#{detail},
+            POSTAL_CODE=#{postalCode}
         WHERE REF_MEMBER_NO = #{refMemberNo}
     </update>
 
     <select id="selectProduct" resultMap="productResultMap">
-        SELECT
-                A.NO
-              , A.NAME
-              , A.PRICE
-              , A.PRODUCT_SIZE
-          FROM TBL_PRODUCT A
-         WHERE A.NO = #{productNo}
+        SELECT A.NO
+             , A.NAME
+             , A.PRICE
+             , A.PRODUCT_SIZE
+        FROM TBL_PRODUCT A
+        WHERE A.NO = #{productNo}
     </select>
 
     <select id="selectPay" resultMap="payResuleMap">
-        SELECT
-               A.NO
+        SELECT A.NO
              , A.TITLE
              , A.END_DATE
              , A.TARGET_AMOUNT
              , A.CURRENT_AMOUNT
-         FROM TBL_PRJ A
+        FROM TBL_PRJ A
         WHERE A.NO = #{no}
     </select>
+
+    <select id="selectProductListNo" parameterType="hashMap">
+        SELECT A.NO
+        FROM TBL_PRJ_PRODUCT_LIST A
+        WHERE A.REF_PRJ_NO = #{projectNo}
+          AND A.REF_PRODUCT_NO = #{productNo}
+    </select>
+    <insert id="insertSponsoredProject" parameterType="com.idle.osmas.member.dto.SponsoredProjectDTO"
+            useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO TBL_SPONSORED_PRJ(NO,REGIST_DATE,AMOUNT,REF_PRJ_PRODUCT_LIST_NO
+        ,REF_MEMBER_NO)
+        VALUES (SEQ_TBL_SPONSORED_PRJ_NO.nextval,SYSDATE,#{amount},#{refProjectProductListNo},#{refMemberNo})
+
+        <selectKey resultType="_int" order="AFTER" keyProperty="no">
+            SELECT SEQ_TBL_SPONSORED_PRJ_NO.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+
+    <insert id="insertPayment" parameterType="com.idle.osmas.member.dto.PaymentDTO" useGeneratedKeys="true"
+            keyProperty="code">
+        INSERT INTO TBL_PAYMENT(CODE, PAYMENT_DATE, STATUS, AMOUNT, PAYMENT_TYPE)
+        VALUES (SEQ_TBL_PAYMENT_CODE.nextval,SYSDATE,'APPROVAL',#{amount},'KAKAO')
+        <selectKey resultType="_int" order="AFTER" keyProperty="code">
+            SELECT SEQ_TBL_PAYMENT_CODE.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <insert id="insertPaymentHistory" parameterType="hashMap">
+        INSERT INTO TBL_PAYMENT_HISTORY(REF_PAYMENT_NO, REF_SPONSORED_PRJ_NO)
+        VALUES (#{refPaymentNo}, #{refSponsoredPrjNo})
+    </insert>
+    
+    <insert id="inserttrackInfo" parameterType="com.idle.osmas.member.dto.ShippingTrackInfoDTO">
+        INSERT INTO TBL_SHIPPING_TRACK_INFO("NO", REF_MEMBER_NO,REQUEST, REF_PAYMENT_NO)
+        VALUES (SEQ_TBL_SHIPPING_TRACK_INFO_NO.nextval,#{refMemberNo},#{request},#{refPaymentNo})
+    </insert>
 </mapper>

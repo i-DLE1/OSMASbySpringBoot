@@ -58,9 +58,10 @@
                     <li th:text="${product.productNo}" style="display: none" class="productNo">
                     </li>
                     <li>
-                        상품 이름 : <span th:text="${product.name}"></span> <span
-                            th:text="${product.count}" class="count"></span>개<span
-                            th:text="|${product.price}원|"></span>
+                        상품 이름 : <span th:text="${product.name}"></span>
+                        <span th:text="|${product.price}원|"></span>
+                        <span th:text="${product.count}" class="count"></span>개
+
                     </li>
                 </th:block>
             </ul>
@@ -73,7 +74,7 @@
         </th:block>
         <div class="paycontent">
             총 결제 금액 :
-            <span th:text="|${pay.sumPrice}원|" class="sumPrice">6000원</span>
+            <span th:text="${pay.sumPrice}" class="sumPrice">6000원</span>원
         </div>
 
     </section>
@@ -132,8 +133,8 @@
                 </div>
             </div>
         </div>
-        <div style="margin-top: 10px; margin-left: 5px">배송시 요청사항(선택)
-            <input type="text" placeholder="ex)부재 시 경비실에 맡겨주세요" class="address_request" style="margin-top: 5px">
+        <div style="margin-top: 10px; margin-left: 5px">배송시 요청사항(선택) ex) 부재시 경비실에 맡겨주세요.
+            <input type="text" class="address_request" style="margin-top: 5px">
         </div>
     </section>
     <section>
@@ -203,37 +204,42 @@
             }
         });
     });
-    // $(function () {
-    //     $('.ok_button').click(function () {
-    //         const $count = document.querySelectorAll('.count');
-    //         const $productNo = document.querySelectorAll('.productNo');
-    //         const count = [];
-    //         const no = $('.no').text();
-    //         const price = $('.sumPrice').text();
-    //         const productNo = [];
-    //         const title = $('.title').text();
-    //         for(let i = 0; i < $count.length;i++){
-    //             count[i] = $count[i].innerText;
-    //             productNo[i] = $productNo[i].innerText;
-    //         }
-    //         let jsonObj ={
-    //             no :no
-    //             ,count : count
-    //             , productNo : productNo
-    //             , price : price
-    //             , title: title
-    //         };
-    //         $.ajax({
-    //             type:"post",
-    //             url:"/member/pay/kakao",
-    //             contentType:"application/json",
-    //             data: JSON.stringify(jsonObj),
-    //             success:function (response){
-    //                 location.href = response.next_redirect_pc_url;
-    //             }
-    //         });
-    //     });
-    // });
+    $(function () {
+        $('.ok_button').click(function () {
+            const $count = document.querySelectorAll('.count');
+            const $productNo = document.querySelectorAll('.productNo');
+            const count = [];
+            const no = $('.no').text();
+            const price = $('.sumPrice').text();
+            const productNo = [];
+            let request
+            const title = $('.title').text();
+
+            request = $('.address_request').val();
+
+            for (let i = 0; i < $count.length; i++) {
+                count[i] = $count[i].innerText;
+                productNo[i] = $productNo[i].innerText;
+            }
+            let jsonObj = {
+                no: no
+                , count: count
+                , productNo: productNo
+                , price: price
+                , title: title
+                , request: request
+            };
+            $.ajax({
+                type: "post",
+                url: "/member/pay/kakao",
+                contentType: "application/json",
+                data: JSON.stringify(jsonObj),
+                success: function (response) {
+                    location.href = response.next_redirect_pc_url;
+                }
+            });
+        });
+    });
 
     window.onload = function () {
         $('.pay_term').hide();
