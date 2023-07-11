@@ -8,5 +8,7 @@ public interface HoldingAlertMapper {
     Integer youHolding(String userID);
 
     Integer youSuccess(String userID);
+
+    Integer getYouSeller(String userID);
 }
 

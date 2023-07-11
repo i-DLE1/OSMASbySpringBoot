@@ -71,25 +71,22 @@ document.addEventListener('DOMContentLoaded', function() {
             // 알림창 표시
             alert(`${action} 되었습니다!`);
 
-            // 판매자 ID 가져오기
-            var sellerId = document.getElementById("sellerId").value;
-
-            console.log(sellerId);
+            // 폼 데이터 가져오기
+            const form = document.getElementById('sellerGotForm');
+            const formData = new FormData(form);
 
             // AJAX 요청
             $.ajax({
-                url: "/admin/sellerApprovalForm/sellerUpdate",
+                url: form.getAttribute('action'),
                 method: 'POST',
-                data: {
-                    'sellerId': sellerId
-                },
+                data: formData,
                 success: function(response) {
-                    console.log('신청이 수정되었습니다.');
-                    alert('신청이 수정되었습니다!');
+                    console.log('신청이 수정 후 제출 되었습니다.');
+                    alert('신청이 수정 후 제출 되었습니다!');
                     location.reload(); // 페이지 새로 고침
                 },
                 error: function(error) {
-                    console.error("신청 수정에 실패했습니다.", error);
+                    console.error("신청 수정 후 제출에 실패했습니다.", error);
                 }
             });
         });

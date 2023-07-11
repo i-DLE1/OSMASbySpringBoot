@@ -21,4 +21,8 @@ public interface SellerApprovalFormService {
     Integer youHolding(String userID);
 
     Integer youSuccess(String userID);
+
+    Integer youSeller(String userID);
+
+    int sellerUpdate(Map<String, String> requestParams, List<Map<String, String>> fileList);
 }
