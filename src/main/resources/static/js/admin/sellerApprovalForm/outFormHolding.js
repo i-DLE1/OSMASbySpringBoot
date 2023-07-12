@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 success: function(response) {
                     console.log('권한 회수 신청이 완료되었습니다.');
                     alert('권한 회수 신청이 완료되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "changeSuccess";
                 },
                 error: function(error) {
                     console.error("권한 회수 신청에 실패했습니다.", error);
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 success: function(response) {
                     console.log('신청이 취소되었습니다.');
                     alert('신청이 취소되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "outnoSuccess";
                 },
                 error: function(error) {
                     console.error("신청 취소에 실패했습니다.", error);

@@ -480,4 +480,61 @@ public class SellerApprovalFormController {
         BANK_BOOK
     }
 
+    @GetMapping("goSuccess")
+    public void goSuccess(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+    }
+
+    @GetMapping("noSuccess")
+    public void noSuccess(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+    }
+
+    @GetMapping("changeSuccess")
+    public void changeSuccess(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+
+    }
+
+    @GetMapping("outnoSuccess")
+    public void outnoSuccess(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+    }
+
+    @GetMapping("outChangeSuccess")
+    public void outChangeSuccess(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+
+    }
+
 }

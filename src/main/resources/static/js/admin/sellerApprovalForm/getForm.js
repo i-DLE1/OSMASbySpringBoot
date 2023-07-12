@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 success: function(response) {
                     console.log('권한 신청 되었습니다.');
                     alert('권한 신청 되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "goSuccess";
                 },
                 error: function(error) {
                     console.error('제출에 실패했습니다.', error);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 success: function(response) {
                     console.log('신청이 취소되었습니다.');
                     alert('신청이 취소되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "noSuccess";
                 },
                 error: function(error) {
                     console.error("신청 취소에 실패했습니다.", error);
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 success: function(response) {
                     console.log('신청이 수정 후 제출 되었습니다.');
                     alert('신청이 수정 후 제출 되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "changeSuccess";
                 },
                 error: function(error) {
                     console.error("신청 수정 후 제출에 실패했습니다.", error);

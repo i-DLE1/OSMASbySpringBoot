@@ -220,6 +220,11 @@ ORDER BY H.REGIST_DATE DESC
                        FROM TBL_SELLER_ROLE_REQ Q
                                 JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
                        WHERE M.ID = #{sellerId}
+                         AND Q.REGIST_DATE = (
+                           SELECT MAX(REGIST_DATE)
+                           FROM TBL_SELLER_ROLE_REQ
+                           WHERE REF_MEMBER_NO = Q.REF_MEMBER_NO
+                       )
                    )
                )
     </insert>

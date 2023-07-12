@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     var otherReasonDiv = document.getElementById("otherReasonDiv");
     var otherReasonInput = document.getElementById("otherReasonInput");
     var goButtons = document.querySelectorAll('.submit-container #go');
-    var noButtons = document.querySelectorAll('.submit-container #no');
 
     // 페이지 로드 시 이전에 선택한 값 복원
     var savedReason = localStorage.getItem("selectedReason");
@@ -50,43 +49,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 success: function(response) {
                     console.log('권한 회수 신청이 완료되었습니다.');
                     alert('권한 회수 신청이 완료되었습니다!');
-                    location.reload(); // 페이지 새로 고침
+                    location.href = "goSuccess";
                 },
                 error: function(error) {
                     console.error("권한 회수 신청에 실패했습니다.", error);
-                }
-            });
-        });
-    });
-
-    noButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            event.preventDefault(); // 기본 동작 방지
-
-            const action = button.value;
-
-            // 알림창 표시
-            alert(`${action} 되었습니다!`);
-
-            // 판매자 ID 가져오기
-            var sellerName = document.getElementById("sellerName").value;
-
-            console.log(sellerName);
-
-            // AJAX 요청
-            $.ajax({
-                url: "/admin/sellerApprovalForm/sellerOutCancel",
-                method: 'POST',
-                data: {
-                    'sellerId': sellerName
-                },
-                success: function(response) {
-                    console.log('신청이 취소되었습니다.');
-                    alert('신청이 취소되었습니다!');
-                    location.reload(); // 페이지 새로 고침
-                },
-                error: function(error) {
-                    console.error("신청 취소에 실패했습니다.", error);
                 }
             });
         });
