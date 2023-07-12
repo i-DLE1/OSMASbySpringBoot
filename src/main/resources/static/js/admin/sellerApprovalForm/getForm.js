@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
             var form = document.getElementById('sellerGotForm');
             var formData = new FormData(form);
 
-
             // AJAX 요청
             $.ajax({
                 url: form.getAttribute('action'),
@@ -30,65 +29,4 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
-    var noButton = document.querySelectorAll('.submit-container #no');
-    noButton.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const action = button.value;
-
-            // 알림창 표시
-            alert(`${action} 되었습니다!`);
-
-            // 판매자 ID 가져오기
-            var sellerId = document.getElementById("sellerId").value;
-
-            console.log(sellerId);
-
-            // AJAX 요청
-            $.ajax({
-                url: "/admin/sellerApprovalForm/sellerInsertCancel",
-                method: 'POST',
-                data: {
-                    'sellerId': sellerId
-                },
-                success: function(response) {
-                    console.log('신청이 취소되었습니다.');
-                    alert('신청이 취소되었습니다!');
-                    location.href = "noSuccess";
-                },
-                error: function(error) {
-                    console.error("신청 취소에 실패했습니다.", error);
-                }
-            });
-        });
-    });
-
-    var changeButton = document.querySelectorAll('.submit-container #change');
-    changeButton.forEach(button => {
-        button.addEventListener('click', (event) => {
-            const action = button.value;
-
-            // 알림창 표시
-            alert(`${action} 되었습니다!`);
-
-            // 폼 데이터 가져오기
-            const form = document.getElementById('sellerGotForm');
-            const formData = new FormData(form);
-
-            // AJAX 요청
-            $.ajax({
-                url: form.getAttribute('action'),
-                method: 'POST',
-                data: formData,
-                success: function(response) {
-                    console.log('신청이 수정 후 제출 되었습니다.');
-                    alert('신청이 수정 후 제출 되었습니다!');
-                    location.href = "changeSuccess";
-                },
-                error: function(error) {
-                    console.error("신청 수정 후 제출에 실패했습니다.", error);
-                }
-            });
-        });
-    });
 });

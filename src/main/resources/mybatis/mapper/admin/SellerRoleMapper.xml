@@ -87,7 +87,6 @@
                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
         WHERE
             R.REF_MEMBER_ROLE_CODE = 1
-          AND P.PERMISSION_STATUS = 'SCREENING'
           AND NOT EXISTS (
             SELECT 1
             FROM TBL_ROLE_LIST
@@ -98,6 +97,7 @@
             SELECT MAX(LAST_DATE)
             FROM TBL_PERMISSION_ROLE
             WHERE REF_SELLER_ROLE_REQ_NO = Q.NO
+            AND P.PERMISSION_STATUS = 'SCREENING'
         )
     </select>
 
@@ -371,25 +371,18 @@
     </insert>
 
     <!-- 권한 회수 신청 -> 완료 -->
-    <update id="changeSellerRoleDropState">
-        UPDATE TBL_PERMISSION_ROLE
-        SET PERMISSION_STATUS = 'APPROVAL'
-        WHERE REF_SELLER_ROLE_REQ_NO = (
-            SELECT Q.NO
-            FROM TBL_SELLER_ROLE S
-                     JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
-                     JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
-                     JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
-                     JOIN TBL_ROLE_LIST R1 ON M.NO = R1.REF_MEMBER_NO AND R1.REF_MEMBER_ROLE_CODE = 1
-                     JOIN TBL_ROLE_LIST R2 ON M.NO = R2.REF_MEMBER_NO AND R2.REF_MEMBER_ROLE_CODE = 2
-                     JOIN TBL_HOLDING_ALERT H ON H.REF_PERMISSION_ROLE_NO = P.NO
-            WHERE  P.PERMISSION_STATUS = 'SCREENING'
-              AND M.ID = #{sellerId}
-            GROUP BY Q.NO
-            ORDER BY MAX(H.REGIST_DATE) DESC
-                FETCH FIRST 1 ROW ONLY
-        )
-    </update>
+    <insert id="changeSellerRoleDropState">
+            INSERT INTO TBL_PERMISSION_ROLE(NO, PERMISSION_STATUS, LAST_DATE, REF_SELLER_ROLE_REQ_NO)
+        SELECT SEQ_TBL_PERMISSION_ROLE_NO.NEXTVAL, 'APPROVAL', SYSDATE,
+               (SELECT Q.NO
+                FROM TBL_SELLER_ROLE_REQ Q
+                         JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                WHERE M.ID = #{sellerId}
+                ORDER BY Q.REGIST_DATE DESC
+                    FETCH FIRST 1 ROW ONLY
+               )
+        FROM DUAL
+    </insert>
 
     <insert id="InsertAlert">
         INSERT INTO TBL_HOLDING_ALERT(NO, CONTENT, REGIST_DATE, REF_MEMBER_NO, REF_PERMISSION_ROLE_NO)

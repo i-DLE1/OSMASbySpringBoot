@@ -5,10 +5,8 @@
     <title>판매자 권한 획득 신청 양식</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="stylesheet" href="/css/admin/sellerApprovalForm/form.css">
-    <script src="/js/admin/sellerApprovalForm/getForm.js"></script>
 </head>
 <body>
-
 <header id="header">
     <th:block th:include="~{/common/fragments/header}"></th:block>
 </header>
@@ -16,7 +14,7 @@
 <middle>
     <h1 style="text-align: center; margin: 50px;">권한 신청하기</h1>
 
-    <form id="sellerGotForm" th:action="@{/admin/sellerApprovalForm/sellerFileReload}" th:method="post" enctype="multipart/form-data">
+    <form id="sellerGetForm" th:action="@{/admin/sellerApprovalForm/sellerFileReload}" th:method="post" enctype="multipart/form-data">
         <div th:each="user, iterStat: ${getAgain}">
             <div class="form-group">
                 <label for="sellerId">판매자 ID</label>
@@ -79,9 +77,9 @@
             <input type="text" id="reportNo" name="reportNo" required th:value="${user.reportNo}">
         </div>
 
-            <h3 style="text-align: center;">파일을 다시 업로드 해주세요</h3>
+            <h2 style="text-align: center; color: red">※ 파일을 다시 업로드 해주세요 ※</h2>
 
-            <div class="file-upload">
+            <div class="file-upload" style="margin-top: 40px">
                 <label for="registFile">사업자등록증 사본</label>
                 <input type="file" id="registFile" name="registFile" required>
             </div>
@@ -101,29 +99,29 @@
                 <input type="file" id="bankBookFile" name="bankBookFile" required>
             </div>
 
+            <h5 style="text-align: center;">
+                사업자등록증 : 최근 1년 이내 발급 / 공정거래위원회(http://www.ftc.go.kr)에서 조회 되는 통신판매업 사업자 정보와 일치 확인<br>
+                인감증명서 : 최근 3개월 이내 발급 / 주민등록번호 뒤 7자리 마스킹<br>
+                부가가치세 면세사업자 / 면세사업자 : 통신판매업신고증 필수<br><br>
+                통신판매업신고<br>
+
+                - 미신고자 : 스마트스토어 가입 절차 완료 후 안내에 따라 통신판매업신고 별도 진행<br>
+                - 신고자 : 가입 시 통신판매업 신고번호만 입력하면 별도 서류제출 필요 없음<br>
+            </h5>
+            <br><br>
+
         <div class="submit-container">
-            <input id="change" type="submit" value="확인 후 제출">
+            <input id="change" type="submit" value="다시 제출">
             <input id="no" type="submit" value="신청 취소">
         </div>
         <hr th:if="${not iterStat.last}">
         </div>
      </form>
-
-        <h5 style="text-align: center;">
-            사업자등록증 : 최근 1년 이내 발급 / 공정거래위원회(http://www.ftc.go.kr)에서 조회 되는 통신판매업 사업자 정보와 일치 확인<br>
-            인감증명서 : 최근 3개월 이내 발급 / 주민등록번호 뒤 7자리 마스킹<br>
-            부가가치세 면세사업자 / 면세사업자 : 통신판매업신고증 필수<br><br>
-            통신판매업신고<br>
-
-            - 미신고자 : 스마트스토어 가입 절차 완료 후 안내에 따라 통신판매업신고 별도 진행<br>
-            - 신고자 : 가입 시 통신판매업 신고번호만 입력하면 별도 서류제출 필요 없음<br>
-        </h5>
-        <br><br>
 </middle>
 
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
-
+<script src="/js/admin/sellerApprovalForm/getAgainForm.js"></script>
 </body>
 </html>
