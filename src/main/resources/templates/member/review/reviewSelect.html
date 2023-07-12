@@ -139,7 +139,7 @@
                     document.body.style.overflow = "auto";
                     location.reload();
                 }, error: function (error) {
-                    alert('다시 이용해주시 바랍니다');
+                    alert(error.responseJSON.message);
                     modal.style.display = "none";
                     document.body.style.overflow = "auto";
                     location.reload();

@@ -123,7 +123,7 @@ public class EmailServiceImpl implements EmailService{
         }
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(RecipientType.TO,email);
-        message.setSubject("OSMAS 아이디 메일 전송합니다");
+        message.setSubject("OSMAS 비밀번호 메일 전송합니다");
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
         msgg += "<h1> 안녕하세요</h1>";

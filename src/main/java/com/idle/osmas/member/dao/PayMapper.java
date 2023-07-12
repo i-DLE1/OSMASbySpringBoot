@@ -1,6 +1,8 @@
 package com.idle.osmas.member.dao;
 
 import com.idle.osmas.member.dto.*;
+import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -27,4 +29,13 @@ public interface PayMapper {
     int insertPaymentHistory(Map<String,Integer> paymentHistory);
 
     int inserttrackInfo(ShippingTrackInfoDTO shippingTrackInfo);
+
+    Long selectCurrentAmount(int projectNo);
+
+    int modAmountPrj(ProjectDTO prj);
+
+    ProjectFileDTO selectProjectFileDTO(int no);
+
+    int insertDeleveryStatus(int refShippingTrackInfoNo);
 }
+

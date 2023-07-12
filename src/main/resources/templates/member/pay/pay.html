@@ -22,7 +22,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>-->
 </head>
 
 <body>
@@ -35,6 +36,7 @@
     <section>
         <div style="display: flex;">
             <img src="./grid.png" height="80px" width="100px" alt="">
+<!--            <img src="/files/project/162/thumbnail_0d883ab42de54010864ccaf483d84260.PNG" height="80px" width="100px" alt="">-->
             <div style="margin-left: 10px;">
                 <div style="margin-top: 15px;" th:text="${pay.title}" class="title">
                     프로젝트 이름
@@ -140,7 +142,7 @@
     <section>
         <h2>결제 수단</h2>
         <div style="margin-left: 10px;">
-            <input type="checkbox" id="kakao">
+            <input type="checkbox" id="kakao" checked>
             <label for="kakao" style="margin-left: 0px;">카카오 페이</label>
         </div>
     </section>

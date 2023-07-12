@@ -64,7 +64,11 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public int writeReview(ReviewDTO review) {
-        return mapper.writeReview(review);
-    }
+    public int writeReview(ReviewDTO review) throws Exception {
+       try {
+           return mapper.writeReview(review);
+       }catch (Exception e){
+           throw new Exception("리뷰 작성에 실패했습니다");
+       }
+       }
 }
