@@ -71,6 +71,8 @@
         <button class="userPageGo" onclick="toggleUserMenu()">마이 페이지</button>
         <div class="userPage-content" id="userPageContent">
           <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>
+          <a onclick="location.href='/member/suggest/suggest'">제안하기</a>
+          <a onclick="location.href='/member/review/review'">리뷰하기</a>
           <a sec:authorize="not hasRole('SELLERDROP')" onclick="location.href='/admin/sellerApprovalForm/formGetMain'">판매자 권한 신청</a>
         </div>
       </div>
