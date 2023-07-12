@@ -79,7 +79,6 @@ public class ReviewController {
             selectCriteria = Pagenation.getSelectCriteria(pageNo, totalCount, limit, buttonAmount);
         }
         List<ReviewsDTO> reviewList = reviewService.selectReviewList(selectCriteria);
-        System.out.println(reviewList.get(0));
 
         m.addAttribute("reviewList", reviewList);
         m.addAttribute("selectCriteria", selectCriteria);
@@ -124,6 +123,7 @@ public class ReviewController {
         String result = "리뷰 작성에 성공했습니다";
         int memberNo = memberService.selectNoByNickname(nickname);
         int refDeliveryStatusCode = reviewService.selectDeliveryStatusCodeistNoBySponsoredNo(SponsoredNo);
+
         System.out.println(memberNo);
         System.out.println(refDeliveryStatusCode);
         ReviewDTO review = new ReviewDTO();

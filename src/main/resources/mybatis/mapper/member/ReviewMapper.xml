@@ -69,8 +69,8 @@
         , K.NICKNAME
         , I.TITLE
 --              사진
-        , I.NO
-        , P.CHANGE_NAME
+--         , I.NO
+--         , P.CHANGE_NAME
 --
         FROM(SELECT ROWNUM RNUM
         , B.REF_DELIVERY_STATUS_CODE
@@ -122,12 +122,12 @@
         JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)
         JOIN TBL_MEMBER K ON (A.REF_MEMBER_NO = K.NO)
 --             사진
-        JOIN TBL_PRJ_FILE P ON(I.NO = P.REF_PRJ_NO)
+--         JOIN TBL_PRJ_FILE P ON(I.NO = P.REF_PRJ_NO)
         <![CDATA[
                  WHERE A.RNUM >= #{startRow}
                 ]]>
 --                     사진
-        AND P.TYPE = 'THUMBNAIL'
+--         AND P.TYPE = 'THUMBNAIL'
         ORDER BY 1 ASC
     </select>
 
@@ -147,8 +147,8 @@
              , A.NO
              , D.NICKNAME
 --               사진
-             , E.REF_PRJ_NO
-             , P.CHANGE_NAME
+--              , E.REF_PRJ_NO
+--              , P.CHANGE_NAME
              , F.TITLE
              , G.NAME
           FROM(SELECT ROWNUM RNUM
@@ -177,12 +177,12 @@
                 JOIN TBL_PRJ_PRODUCT_LIST E ON(A.REF_PRJ_PRODUCT_LIST_NO = E.NO)
                 JOIN TBL_PRJ F ON(E.REF_PRJ_NO = F.NO)
                 JOIN TBL_PRODUCT G ON(G.NO = E.REF_PRODUCT_NO)
-                JOIN TBL_PRJ_FILE P ON(F.NO = P.REF_PRJ_NO)
+--                 JOIN TBL_PRJ_FILE P ON(F.NO = P.REF_PRJ_NO)
                 <![CDATA[
                 WHERE A.RNUM >= #{startRow}
                  ]]>
              --   사진
-                  AND P.TYPE = 'THUMBNAIL'
+--                   AND P.TYPE = 'THUMBNAIL'
                 ORDER BY 1 ASC
     </select>
     

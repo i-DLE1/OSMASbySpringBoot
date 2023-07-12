@@ -68,7 +68,7 @@ public class ReviewServiceImpl implements ReviewService{
        try {
            return mapper.writeReview(review);
        }catch (Exception e){
-           throw new Exception("리뷰 작성에 실패했습니다");
+           throw new Exception("이미 리뷰를 작성했습니다");
        }
        }
 }

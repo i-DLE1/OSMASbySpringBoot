@@ -36,7 +36,8 @@
     <section>
         <div style="display: flex;">
             <img src="./grid.png" height="80px" width="100px" alt="">
-<!--            <img src="/files/project/162/thumbnail_0d883ab42de54010864ccaf483d84260.PNG" height="80px" width="100px" alt="">-->
+<!--사진이 있다는 가정<img th:src="@{|/files/project/${projectFile.projectNo}/${projectFile.changeName}|}" height="80px" width="100px" alt="">-->
+
             <div style="margin-left: 10px;">
                 <div style="margin-top: 15px;" th:text="${pay.title}" class="title">
                     프로젝트 이름

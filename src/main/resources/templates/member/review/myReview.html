@@ -34,9 +34,8 @@
             <th:block th:each="review : ${reviewList}">
                 <ul class="review_list">
                     <div>
-                        <a href="">
                             <img src="./grid.png" width="90px" height="90px">
-                        </a>
+                        <!--사진이 있다는 가정<img th:src="@{|/files/project/${review.projectNo}/${review.changeName}|}" height="90px" width="90px" alt="">-->
                     </div>
                     <div style="margin-left: 20px;" class="review">
                         <li th:text="${review.refDeliveryStatusCode}" style="display: none">
