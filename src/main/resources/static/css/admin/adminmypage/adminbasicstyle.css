@@ -454,3 +454,7 @@ body {
     margin-bottom: 300px;
 }
 
+/* 스타일 우선순위 조정 예시 */
+.note-editor {
+    font-size: 14px !important;
+}
