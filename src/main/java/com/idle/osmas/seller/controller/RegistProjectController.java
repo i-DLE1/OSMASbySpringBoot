@@ -8,6 +8,7 @@ import com.idle.osmas.seller.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -211,6 +212,15 @@ public class RegistProjectController {
         }
 
         if(project == null ) throw new AccessAuthorityException("접근 권한이 없습니다.");
+
+        ProjectProgressDTO progress = projectProgressService.progressLastStatusById(no,null);
+
+        if(progress.getStatus().equals(ProjectProgressStatus.PROCESSING)){
+            model.addAttribute("modifyDate",false);
+        }else {
+            model.addAttribute("modifyDate",true);
+        }
+
         
         model.addAttribute("project", project);
         model.addAttribute("mainCategory",categoryList);

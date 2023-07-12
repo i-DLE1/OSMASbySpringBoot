@@ -31,11 +31,13 @@
                 <div class="row w-75 mt-3">
                     <div class="col">
                         <label th:for="startDate" class="sub-title">프로젝트 시작<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" />
+                        <input th:if="${modifyDate == true}" type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" />
+                        <input th:if="${modifyDate == false}" type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" disabled/>
                     </div>
                     <div class="col">
                         <label th:for="endDate" class="sub-title">프로젝트 종료<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}"/>
+                        <input th:if="${modifyDate == true}" type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}"/>
+                        <input th:if="${modifyDate == false}" type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}" disabled/>
                     </div>
                 </div>
             </div>
