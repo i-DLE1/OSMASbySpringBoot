@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/layout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
 <head>
     <meta charset="UTF-8">
     <title>공지사항 수정</title>
@@ -8,74 +12,51 @@
 
     <link rel="stylesheet" href="/css/admin/adminmypage/adminbasicstyle.css">
     <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
-    <!-- include summernote css/js-->
-    <!-- include libraries(jQuery, bootstrap) -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
-<body>
 
+<body>
 <header id="header">
     <div th:include="~{/common/fragments/header}"></div>
 </header>
 
-
 <h2 style="text-align: center;">글 수정</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
-    <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}"/>
-    <br><br>
-    <textarea id="summernote" name="content" th:text="${content}"></textarea>
-    <input id="subBtn" type="submit" value="글 수정" style="float: right;"/>
+    <form id="editForm" th:action="@{/admin/user_notice/notice_edit}" method="post">
+        <input type="hidden" name="no" th:value="${no}" /> <!-- 수정할 공지사항 ID -->
+        <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}" />
+        <br><br>
+        <textarea name="content" rows="10" cols="80" th:text="${content}"></textarea>
+        <input type="submit" value="글 수정" style="float: right;"/>
+    </form>
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#summernote').summernote({
-            placeholder: 'content',
-            minHeight: 370,
-            maxHeight: null,
-            focus: true,
-            lang : 'ko-KR'
-        });
+    const editForm = document.getElementById('editForm');
 
-        $('#subBtn').on('click', function() {
-            goWrite();
-        });
+    editForm.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-        function goWrite() {
-            const title = $('input[name="title"]').val();
-            const content = $('#summernote').summernote('code');
+        // FormData 생성
+        const formData = new FormData(this);
 
-            // 가져온 값 사용하기
-            console.log("제목:", title);
-            console.log("내용:", content);
-
-            // AJAX 요청 보내기
-            $.ajax({
-                url: 'admin/user_notice/noticeEditGo',
-                method: 'POST',
-                data: {
-                    title: title,
-                    content: content
-                },
-                success: function(response) {
-                    console.log('글 작성 완료');
-                    alert('글 수정 완료!');
-                    location.reload(); // 페이지 새로 고침
-                },
-                error: function(error) {
-                    console.error("글 수정 실패", error);
-                }
+        // AJAX 요청 보내기
+        axios({
+            method: 'post',
+            url: '/admin/user_notice/notice_edit',
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+            .then(function (response) {
+                console.log('글 수정 완료');
+                alert('글 수정 완료!');
+                location.reload(); // 페이지 새로 고침
+            })
+            .catch(function (error) {
+                console.error('글 수정 실패', error);
             });
-
-        }
     });
 </script>
-
 </body>
+
 </html>
