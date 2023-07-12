@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 메인 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/adminMain.css">
+    <script src="/js/admin/adminMain.js"></script>
+
+    <script>
+        var menuVisible = false; // 드롭다운 메뉴의 표시 여부를 저장하는 변수
+
+        function toggleMenu() {
+            var menu = document.getElementById("adminMenuContent");
+
+            if (menuVisible) {
+                menu.style.display = "none"; // 드롭다운 메뉴를 숨김
+                menuVisible = false;
+            } else {
+                menu.style.display = "block"; // 드롭다운 메뉴를 표시
+                menuVisible = true;
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="adminMenu">
+        <button class="adminLogin" onclick="toggleMenu()">관리자</button>
+        <div class="adminMenu-content" id="adminMenuContent">
+            <a onclick="href='admin/user_notice/notice_view/A'">공지사항</a>
+            <a onclick="href='admin/adminCategory/fundingRanking'">현재 펀딩 순위</a>
+            <a onclick="href='admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
+            <a onclick="href='admin/sellerApprovalForm/formMain'">판매자 권한 신청폼(추후 삭제 예정)</a>
+            <a onclick="href='admin/itemApproval/waitingItem'">상품 승인 관리</a>
+            <a onclick="href='admin/adminCategory/gettingProposals'">제안 받기</a>
+            <a href="">로그아웃</a>
+        </div>
+    </div>
+
+    <div id="logo">
+        <a style="cursor: pointer" onclick="location.href='/main'">
+            <img src="/images/member/logo.png">
+        </a>
+    </div>
+    <nav>
+        <ul class="ctg">
+            <li class="category">
+                <button class="gugu" onclick="toggleDropdown()">카테고리</button>
+            </li>
+
+            <div class="slide-content" id="dropdownContent">
+                <div style="text-align: center;">
+                    <img src="/images/admin/Logo.png" width="150px" style="margin-top: 30px; margin-bottom: 30px;">
+                </div>
+                <a href="">전체 상품</a>
+                <a href="">인기 상품</a>
+                <a href="">빅 사이즈</a>
+                <a href="">스몰 사이즈</a>
+                <a href="">오늘 오픈</a>
+                <a href="">마감 임박</a>
+                <a href="">맞춤 의류</a>
+
+            </div>
+
+            <button class="gugu" style="color: black;">오늘 오픈</button>
+            <button class="gugu" style="color: black;">인기 상품</button>
+            <button class="gugu" style="color: black;">오픈 예정</button>
+            <button class="gugu" style="color: black;">이벤트</button>
+            <li class="search">
+                <input type="text" placeholder="검색할 내용을 입력해주세요">
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<middle>
+    <div class="product">
+        <div class="left-column">
+            <h2>오늘 오픈했어요!</h2>
+            <div class="popular1">
+                <div class="item">오늘 나온 상품 1</div>
+                <div class="item">오늘 나온 상품 2</div>
+                <div class="item">오늘 나온 상품 3</div>
+                <div class="item">오늘 나온 상품 4</div>
+            </div>
+            <h2>곧 마감이에요!</h2>
+            <div class="popular1">
+                <div class="item">곧 마감 상품 1</div>
+                <div class="item">곧 마감 상품 2</div>
+                <div class="item">곧 마감 상품 3</div>
+                <div class="item">곧 마감 상품 4</div>
+            </div>
+        </div>
+        <div class="right-column">
+            <h2>실시간 인기 랭킹</h2>
+            <div class="popular2">
+                <div class="item">인기목록 상품 1</div>
+                <div class="item">인기목록 상품 2</div>
+                <div class="item">인기목록 상품 3</div>
+                <div class="item">인기목록 상품 4</div>
+                <div class="item">인기목록 상품 5</div>
+                <div class="item">인기목록 상품 6</div>
+                <div class="item">인기목록 상품 7</div>
+                <div class="item">인기목록 상품 8</div>
+                <div class="item">인기목록 상품 9</div>
+                <div class="item">인기목록 상품 10</div>
+            </div>
+        </div>
+    </div>
+</middle>
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>
