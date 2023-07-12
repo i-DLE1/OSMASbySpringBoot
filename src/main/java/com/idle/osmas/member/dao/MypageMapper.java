@@ -15,4 +15,6 @@ public interface MypageMapper {
     MemberDTO selectJoinByNo(int no);
     Integer selectAddressSearchByNo(int no);
 
+    int updatePwdStatusByNo(int no, String pwd);
+
 }

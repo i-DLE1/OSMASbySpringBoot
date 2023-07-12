@@ -28,7 +28,8 @@
             <th:block th:each="sponsored : ${sponsoredList}">
                 <ul class="review_list">
                     <div>
-                        <img src="./grid.png" width="90px" height="90px">
+<!--                        <img src="./grid.png" width="90px" height="90px">-->
+                        <img th:src="@{|/files/project/${sponsored.refPrjNo}/${sponsored.changeName}|}" height="90px" width="90px" alt="">
                     </div>
                     <div style="margin-left: 20px;" class="sponsor">
                         <li th:text="${sponsored.no}" style="display: none">
@@ -139,7 +140,7 @@
                     document.body.style.overflow = "auto";
                     location.reload();
                 }, error: function (error) {
-                    alert('다시 이용해주시 바랍니다');
+                    alert(error.responseJSON.message);
                     modal.style.display = "none";
                     document.body.style.overflow = "auto";
                     location.reload();

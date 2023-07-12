@@ -50,5 +50,6 @@
         LEFT JOIN TBL_ROLE_LIST B ON(A.NO = B.REF_MEMBER_NO)
         LEFT JOIN TBL_MEMBER_ROLE C ON(B.REF_MEMBER_ROLE_CODE = C.ROLE_CODE)
        WHERE A.ID = #{memberId}
+         AND A.STATUS = 'USE'
     </select>
 </mapper>

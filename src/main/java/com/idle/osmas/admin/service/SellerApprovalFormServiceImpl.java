@@ -139,13 +139,13 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         String sellerId = requestParams.get("sellerId");
 
         int result1 = sellerApprovalFormMapper.sellerUpdate(requestParams.get("accountNo"),
-                                                            requestParams.get("registNo"),
-                                                            requestParams.get("name"),
-                                                            requestParams.get("callNumber"),
-                                                            requestParams.get("rprsn"),
-                                                            requestParams.get("address"),
-                                                            requestParams.get("bank"),
-                                                            requestParams.get("reportNo"), sellerId);
+                requestParams.get("registNo"),
+                requestParams.get("name"),
+                requestParams.get("callNumber"),
+                requestParams.get("rprsn"),
+                requestParams.get("address"),
+                requestParams.get("bank"),
+                requestParams.get("reportNo"), sellerId);
         int result2 = sellerApprovalFormMapper.sellerInserUpdateReq(sellerId);
         int result3 = sellerApprovalFormMapper.sellerInsertUpdatePermission(sellerId);
 
@@ -159,4 +159,41 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         return result;
     }
 
+    @Override
+    public Integer checkgetFormHistory(String userID) {
+        Integer result = sellerApprovalFormMapper.checkgetFormHistory(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer checkoutFormHistory(String userID) {
+        Integer result = sellerApprovalFormMapper.checkoutFormHistory(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public List<PermissionRoleDTO> sellerReason(String userID) {
+
+        List<PermissionRoleDTO> sellerReasonList = sellerApprovalFormMapper.sellerReason(userID);
+        System.out.println("값 확인 : " + sellerReasonList);
+
+        return sellerReasonList;
+    }
+
+    @Override
+    public List<SellerRoleDTO> getFormConfirmation(String userID) {
+        return sellerApprovalFormMapper.getFormConfirmation(userID);
+    }
 }

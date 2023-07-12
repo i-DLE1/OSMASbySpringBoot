@@ -2,6 +2,7 @@ package com.idle.osmas.member.service;
 
 import com.idle.osmas.member.dto.*;
 import com.idle.osmas.seller.dto.ProductDTO;
+import com.idle.osmas.seller.dto.ProjectFileDTO;
 
 public interface PayService {
 
@@ -17,6 +18,8 @@ public interface PayService {
     public PayDTO selectPay(int no);
 
     public ReadyResponse payReady(PayInfo pay,String user_id);
+
+    public ProjectFileDTO selectProjectFile(int no);
 
     public ApproveResponse payApprove(String tid,String pgToken,PayInfo pay, String user_id);
 

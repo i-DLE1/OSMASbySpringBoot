@@ -57,12 +57,42 @@ public class SpringSecurityConfiguration {
                 .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/projectDetail/**").hasRole("SELLER");
 
+        // 리뷰 페이지 제안페이지 결제페이지
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/member/review/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/member/review/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/member/review/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/member/review/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/member/review/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.GET,"/member/review/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/member/review/**").hasRole("ADMIN")
+                .antMatchers("/member/suggest/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/member/suggest/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/member/suggest/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/member/suggest/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/member/suggest/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.GET,"/member/suggest/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/member/suggest/**").hasRole("ADMIN")
+                .antMatchers("/member/pay/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/member/pay/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/member/pay/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"/member/pay/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.POST,"/member/pay/**").hasRole("SELLER")
+                .antMatchers(HttpMethod.GET,"/member/pay/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/member/pay/**").hasRole("ADMIN");
+
+
+
+
+
+
+
 
         // 사용자 관리 페이지
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/member/mypage/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/member/mypage/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/member/mypage**").hasRole("USER");
+                .antMatchers(HttpMethod.POST, "/member/mypage/**").hasRole("USER");
 
 
         // 사용자 인증

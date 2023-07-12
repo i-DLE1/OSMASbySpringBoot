@@ -156,6 +156,7 @@
                           ) TPF ON TPF.REF_PRJ_NO = PRJ.NO
                           LEFT JOIN TBL_PRJ_WISH TPW ON TPW.REF_PRJ_NO = PRJ.NO
                          WHERE PRJ.END_DATE <![CDATA[>=]]> TRUNC(SYSDATE)
+                           AND TPP.STATUS = 'PROCESSING'
                          <if test="categoryNo != null">
                            AND PRJ.REF_CATEGORY_NO = #{categoryNo}
                          </if>
@@ -340,16 +341,18 @@
                NVL(TSP.AMOUNT,0) AS AMOUNT
           FROM TBL_PRJ_PRODUCT_LIST TPPL
           JOIN TBL_PRODUCT TPRO ON TPRO.NO = TPPL.REF_PRODUCT_NO
-          LEFT JOIN (SELECT REF_PRJ_PRODUCT_LIST_NO,
-                            SUM(AMOUNT) AS AMOUNT
-                       FROM TBL_SPONSORED_PRJ
-                      GROUP BY REF_PRJ_PRODUCT_LIST_NO
-                    ) TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPRO.NO
---           LEFT JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
---           LEFT JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
---           LEFT JOIN TBL_SHIPPING_TRACK_INFO TSTI ON TSTI.REF_PAYMENT_NO = TP.CODE
---           LEFT JOIN TBL_DELIVERY_STATUS TDS ON TDS.REF_SHIPPING_TRACK_INFO_NO = TSTI.NO
-         WHERE TPPL.REF_PRJ_NO = #{projectNo}
-
+          LEFT JOIN (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,
+                            SUM(TSP.AMOUNT) AS AMOUNT
+                     FROM TBL_SHIPPING_TRACK_INFO TSTI
+                              JOIN (SELECT TDS2.REF_SHIPPING_TRACK_INFO_NO
+                                    FROM TBL_DELIVERY_STATUS TDS2
+                                    WHERE STATUS = 'COMPLETED'
+                              ) TDS ON TDS.REF_SHIPPING_TRACK_INFO_NO = TSTI.NO
+                              JOIN TBL_PAYMENT TP ON TP.CODE = TSTI.REF_PAYMENT_NO
+                              JOIN TBL_PAYMENT_HISTORY TPH ON TPH.REF_PAYMENT_NO = TP.CODE
+                              JOIN TBL_SPONSORED_PRJ TSP ON TSP.NO = TPH.REF_SPONSORED_PRJ_NO
+                     GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO
+        ) TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPRO.NO
+        WHERE TPPL.REF_PRJ_NO = #{projectNo}
     </select>
 </mapper>

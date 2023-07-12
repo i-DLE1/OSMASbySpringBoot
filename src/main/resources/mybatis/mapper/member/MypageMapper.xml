@@ -48,7 +48,7 @@
             TM.DROP_REASON = #{reason}
         where TM.NO = #{no}
     </update>
-    
+
     <update id="updateMemberInfoByNo">
         update TBL_MEMBER TM
         set TM.NAME = #{name},
@@ -92,4 +92,9 @@
         where REF_MEMBER_NO = #{no}
     </select>
 
+    <update id="updatePwdStatusByNo">
+        update TBL_MEMBER TM
+        set TM.PWD = #{pwd}
+        where TM.NO = #{no}
+    </update>
 </mapper>

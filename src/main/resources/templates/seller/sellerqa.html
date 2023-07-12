@@ -68,20 +68,20 @@
                 <td th:text="*{member.phone}"></td>
                 <td>
                     <span th:if="${item.payment?.amount == null}" th:text="없음"></span>
-                    <span th:if="${item.payment?.amount != null}" th:text="*{payment.amount}"></span>
+                    <span th:unless="${item.payment?.amount == null}" th:text="*{#numbers.formatInteger(payment.amount,0,'COMMA')}"></span>
                 </td>
                 <td>
                     <span th:if="${item.payment?.paymentType == null}" th:text="없음"></span>
-                    <span th:if="${item.payment?.paymentType != null}" th:text="*{payment.paymentType}"></span>
+                    <span th:unless="${item.payment?.paymentType == null}" th:text="*{payment.paymentType}"></span>
                 </td>
                   <td>
                       <span th:if="${item.payment?.status == null}" th:text="없음"></span>
-                      <span th:if="${item.payment?.status != null}" th:text="*{payment.status}"></span>
+                      <th:block th:unless="${item.payment?.status == null}" th:replace="/seller/fragments/sellerFrag :: payStatus(${item.payment?.status.toString()})"></th:block>
                   </td>
                 <td th:text="*{registDate}"></td>
                 <td>
                     <span th:if="${item.projectQnAAnswer?.content == null}" th:text="답변대기중"></span>
-                    <span th:if="${item.projectQnAAnswer?.content != null}" th:text="답변완료"></span>
+                    <span th:unless="${item.projectQnAAnswer?.content == null}" th:text="답변완료"></span>
                 </td>
               </tr>
             </th:block>

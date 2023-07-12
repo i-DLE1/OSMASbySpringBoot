@@ -3,7 +3,6 @@ $("#retry-body").on("input",function (){
 });
 
 $("#qa-answer").on("input",function (){
-    console.log($(this).siblings("label")[0])
     $(this).siblings("label").children("span").text(this.value.length)
 })
 
@@ -20,7 +19,6 @@ function qaAnswerSubmit(submitType) {
             window.close()
         },
         error : function (error) {
-            console.log(error)
         }
     })
 }
@@ -37,7 +35,6 @@ function projectRetrySubmit(){
             window.close();
         },
         error : function (error){
-            console.log(error);
         }
     })
 }
@@ -126,49 +123,6 @@ function chart2(data) {
         },
     });
 }
-
-function chart3(data){
-    const ctx3 = document.getElementById('myChart3');
-    new Chart(ctx3, {
-        type: 'bar',
-        animation: {
-            onComplete: () => {
-                delayed = true;
-            },
-            delay: (context) => {
-                let delay = 0;
-                if (context.type === 'data' && context.mode === 'default' && !delayed) {
-                    delay = context.dataIndex * 300 + context.datasetIndex * 100;
-                }
-                return delay;
-            },
-        },
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: '상품별 판매 비중',
-                    font: {
-                        size: 20,
-                    },
-                }
-            }
-        },
-    });
-}
-
 let data ={};
 function getData() {
     const no = new URLSearchParams(location.search).get('no')
@@ -180,7 +134,6 @@ function getData() {
             chart2(success);
         },
         error : function (e){
-            console.log(e)
         }
     })
 

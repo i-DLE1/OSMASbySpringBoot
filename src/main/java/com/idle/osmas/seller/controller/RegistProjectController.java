@@ -2,20 +2,18 @@ package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.admin.dto.TermsDTO;
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,10 +37,6 @@ public class RegistProjectController {
     private final ProjectTermService termsService;
 
     private final ImageFileController imageFileController;
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-
 
     public RegistProjectController(ProjectService projectService,
                                    ProjectProgressService projectProgressService,
@@ -128,6 +122,10 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
+
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
@@ -167,7 +165,6 @@ public class RegistProjectController {
 
         if(no == null) {
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
-
         }
 
         if(no != null) return "success";
@@ -196,6 +193,10 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
+
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
         if(no == null){
@@ -211,7 +212,16 @@ public class RegistProjectController {
         }
 
         if(project == null ) throw new AccessAuthorityException("접근 권한이 없습니다.");
-        
+
+        ProjectProgressDTO progress = projectProgressService.progressLastStatusById(no,null);
+
+        if(progress.getStatus().equals(ProjectProgressStatus.PROCESSING)){
+            model.addAttribute("modifyDate",false);
+        }else {
+            model.addAttribute("modifyDate",true);
+        }
+
+        model.addAttribute("minDate", LocalDate.now().plusDays(10));
         model.addAttribute("project", project);
         model.addAttribute("mainCategory",categoryList);
         model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
@@ -237,6 +247,7 @@ public class RegistProjectController {
         if (startDate == null ) return "fail";
         if (endDate == null ) return "fail";
         if (category == null) return "fail";
+        if (ChronoUnit.DAYS.between(startDate,endDate) < 30) return "fail";
         if (targetAmount == null || targetAmount < 100000 ) return "fail";
 
         if(no == null){
@@ -256,6 +267,10 @@ public class RegistProjectController {
 
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         boolean existProject = false;
 
@@ -367,7 +382,6 @@ public class RegistProjectController {
 
         if(presentFile != null) {
             imageFileController.deleteFile("project",no,oldProjectFile.get("represent"));
-
             imageFileController.saveFile(ProjectFileType.REPRESENT, presentFile, no);
         }
 
@@ -399,6 +413,10 @@ public class RegistProjectController {
     public String getProjectProductDetail(@RequestParam(required = false) Integer no, Model model,Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -441,6 +459,10 @@ public class RegistProjectController {
                                 Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -525,6 +547,10 @@ public class RegistProjectController {
                                  Model model, Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -623,6 +649,10 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
+
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
@@ -671,4 +701,15 @@ public class RegistProjectController {
         return "success";
     }
 
+
+    @GetMapping("/previewInfo")
+    public String privewInfo(@RequestParam(required = false) Integer no, Principal principal){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(no == null){
+            no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
+        }
+
+        return "redirect:/seller/sales/detail?no="+no;
+    }
 }

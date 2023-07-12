@@ -31,11 +31,13 @@
                 <div class="row w-75 mt-3">
                     <div class="col">
                         <label th:for="startDate" class="sub-title">프로젝트 시작<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" />
+                        <input th:if="${modifyDate == true}" th:min="${minDate}" type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" />
+                        <input th:unless="${modifyDate == true}" type="date" class="input-box" style="width: 100%;" th:id="startDate" name="startDate" th:value="${project?.startDate}" disabled/>
                     </div>
                     <div class="col">
-                        <label th:for="endDate" class="sub-title">프로젝트 종료<span class="required-item">*</span></label>
-                        <input type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}"/>
+                        <label th:for="endDate" class="sub-title">프로젝트 종료(최소 30일 이상)<span class="required-item">*</span></label>
+                        <input th:if="${modifyDate == true}" th:min="${minDate}" type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}"/>
+                        <input th:unless="${modifyDate == true}" type="date" class="input-box" style="width: 100%;" th:id="endDate" name="endDate" th:value="${project?.endDate}" disabled/>
                     </div>
                 </div>
             </div>
@@ -51,7 +53,7 @@
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="prevPageMove(1)"/>
             <input class="footer-btn" type="button" th:value="${submitName}" onclick="projectInitRegist(true)" th:if="${submitName == '임시저장'}" />
-            <input class="footer-btn" type="button" th:value="${submitName}" onclick="projectInitRegist(false)" th:if="${submitName != '임시저장'}" />
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="projectInitRegist(false)" th:unless="${submitName == '임시저장'}" />
             <input class="footer-btn" type="button" value="다음" onclick="projectInitRegist(false)" />
         </footer>
         <script src="/js/seller/registProject.js"></script>

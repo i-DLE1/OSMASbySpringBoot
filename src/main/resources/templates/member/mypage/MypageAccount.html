@@ -31,14 +31,24 @@
         <input id="email" type="text" th:value="${member.email}"/><br>
         <button class="btn_save" onclick="showMessageAccount(this)">저장</button>
     </div>
+
     <div class="mypage_pwd">
         <h3>비밀번호</h3>
         <h4>현재 비밀번호</h4>
-        <input type="password" placeholder="현재 비밀번호"/><br>
+        <form method="post">
+        <input id="curPassword" name="curPassword" type="password" placeholder="현재 비밀번호"/>
+            <span th:if="${confirmPwdError != null}" th:text="${confirmPwdError}"></span>
+            <br>
+
         <h4>변경할 비밀번호</h4>
-        <input type="password" placeholder="현재 비밀번호"/><br>
-        <input type="password" placeholder="변경할 비밀번호"/><br>
-        <button class="btn_save" onclick="showMessageAccount()">저장</button>
+        <input id="changePassword" name="changePassword" type="password" placeholder="변경할 비밀번호"/><br>
+        <input id="checkPassword" name="checkPassword" type="password" placeholder="변경할 비밀번호 확인"/>
+            <span th:if="${changePwdError != null}" th:text="${changePwdError}"></span>
+            <br>
+            <span th:if="${failPwdError != null}" th:text="${failPwdError}"></span>
+            <br>
+        <button class="btn_save" onclick="submit">저장</button>
+        </form>
     </div>
 
     <div class="mypage_delete">

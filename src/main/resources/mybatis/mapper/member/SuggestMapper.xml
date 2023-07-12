@@ -75,8 +75,8 @@
             <if test="searchCondition == 'title'">
                 C.TITLE LIKE '%' || #{searchValue} || '%'
             </if>
-            AND C.DETELE_YN = 'N'
         </where>
+        AND C.DETELE_YN = 'N'
         ORDER BY C.MODIFY_DATE DESC
         )B
         <![CDATA[

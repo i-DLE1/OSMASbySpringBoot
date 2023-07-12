@@ -4,6 +4,8 @@ import com.idle.osmas.member.dao.MemberMapper;
 import com.idle.osmas.member.dto.*;
 import com.idle.osmas.seller.dto.ProductDTO;
 import com.idle.osmas.member.dao.PayMapper;
+import com.idle.osmas.seller.dto.ProjectDTO;
+import com.idle.osmas.seller.dto.ProjectFileDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -118,6 +120,11 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
+    public ProjectFileDTO selectProjectFile(int no) {
+        return mapper.selectProjectFileDTO(no);
+    }
+
+    @Override
     @Transactional
     public boolean paySuccess(PayInfo pay, String user_id) throws Exception {
         Map<String,Integer> productMap = new HashMap<>();
@@ -128,16 +135,25 @@ public class PayServiceImpl implements PayService {
         int productListNo;                                  // 상품 리스트 번호
         SponsoredProjectDTO sponsoredProject = new SponsoredProjectDTO();// 후원한 프로젝트 생성
         int refMemberNo = memberMapper.selectNoByNickname(memberMapper.selectNicknameById(user_id));   // 회원번호 찾기
+        Long prjCurrentAmount = mapper.selectCurrentAmount(projectNo);  // 프로젝트의 현재 모금액 조회
+        prjCurrentAmount += price;
+        ProjectDTO prj = new ProjectDTO();
+        prj.setNo(projectNo);
+        prj.setCurrentAmount(prjCurrentAmount);
+        int prjResult = mapper.modAmountPrj(prj);
+        if(!(prjResult>0)){
+            throw new Exception("프로젝트 현재 모금액 추가 실패");
+        }
 
         if(pay.getRequest().equals("")){
             pay.setRequest("부재시 경비실에 맡겨주세요");
         }
         PaymentDTO payment = new PaymentDTO();
-        payment.setAmount(pay.getPrice());
+        payment.setAmount(price);
         int payResult = mapper.insertPayment(payment);      // 결제결과
 
         if(!(payResult>0)){
-            throw new Exception("결제내욥 삽입이 안됨");
+            throw new Exception("결제내용 삽입 실패");
         }
         int refPaymentNo = payment.getCode();               // 결제코드 받기
         int refSponsoredPrjNo;                              // 후원한 프로젝트 코드
@@ -186,6 +202,15 @@ public class PayServiceImpl implements PayService {
         if(!(trackInfoResult>0)){
             throw new Exception("배송정보 삽입 실패");
         }
+        System.out.println("============");
+        int refShippingTrackInfoNo = shippingTrackInfo.getNo();
+        System.out.println(refShippingTrackInfoNo);
+
+        int deliveryStatusResult = mapper.insertDeleveryStatus(refShippingTrackInfoNo);
+        if(!(deliveryStatusResult>0)){
+            throw new Exception("배송상태이력 삽입 실패");
+        }
+
         return true;
     }
 }

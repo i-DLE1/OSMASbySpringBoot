@@ -17,4 +17,6 @@ public class ReviewsDTO {
     private java.sql.Date registDate;
     private java.sql.Date modifyDate;
     private char deteleYn;
+    private int projectNo;              // 사진
+    private String changeName;          // 사진
 }

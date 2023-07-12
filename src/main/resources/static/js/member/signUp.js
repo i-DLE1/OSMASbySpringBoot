@@ -89,6 +89,8 @@ function  pwdReg(){
         $('#pwd-error').text('비밀번호는 영문,숫자 혼합하여 8자~15자로 입력해주세요.');
         $('#pwd').val('');
         $('#pwd').focus();
+    }else{
+        $('#pwd-error').text('');
     }
 }
 function nameReg(){

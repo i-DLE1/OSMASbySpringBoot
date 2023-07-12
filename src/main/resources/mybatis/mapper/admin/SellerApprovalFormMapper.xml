@@ -63,6 +63,43 @@
         <result property="dropReason" column="DROP_REASON"/>
     </resultMap>
 
+    <!-- 판매자 권한 신청 정보 보기 -->
+    <select id="getFormConfirmation" resultMap="sellerRoleResultMap">
+        SELECT
+            M.ID,
+            S.BANK,
+            S.ACCOUNT_NO,
+            S.NAME,
+            S.RPRSN,
+            S.CALL_NUMBER,
+            S.ADDRESS,
+            S.REGIST_NO,
+            S.REPORT_NO,
+            S.REF_MEMBER_NO,
+            P.REJECT_REASON
+        FROM
+            TBL_SELLER_ROLE S
+                JOIN TBL_MEMBER M ON S.REF_MEMBER_NO = M.NO
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.REF_MEMBER_NO = M.NO
+                JOIN TBL_PERMISSION_ROLE P ON P.REF_SELLER_ROLE_REQ_NO = Q.NO
+                JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE
+            R.REF_MEMBER_ROLE_CODE = 1
+          AND R.REF_MEMBER_ROLE_CODE NOT IN (2, 3)
+          AND NOT EXISTS (
+            SELECT 1
+            FROM TBL_ROLE_LIST
+            WHERE REF_MEMBER_NO = M.NO
+              AND REF_MEMBER_ROLE_CODE = 2
+        )
+          AND Q.NO = (
+            SELECT MAX(NO)
+            FROM TBL_SELLER_ROLE_REQ
+            WHERE REF_MEMBER_NO = M.NO
+        )
+          AND M.ID = #{userId}
+    </select>
+
     <!-- 판매자 권한 다시 신청 정보 불러오기 -->
     <select id="getFormAgain" resultMap="sellerRoleResultMap">
         SELECT
@@ -93,6 +130,11 @@
               AND REF_MEMBER_ROLE_CODE = 2
         )
           AND P.PERMISSION_STATUS = 'REJECTED'
+          AND Q.NO = (
+            SELECT MAX(NO)
+            FROM TBL_SELLER_ROLE_REQ
+            WHERE REF_MEMBER_NO = M.NO
+        )
           AND M.ID = #{userId}
     </select>
 
@@ -125,6 +167,23 @@ ORDER BY H.REGIST_DATE DESC
     FETCH FIRST 1 ROW ONLY
     </select>
 
+    <!-- 판매자 권한 회수 신청 정보 불러오기 -->
+    <select id="sellerReason" resultMap="permissionRoleResultMap">
+        SELECT
+            P.SELLER_REASON,
+            P.OTHER_REASON
+        FROM
+            TBL_PERMISSION_ROLE P
+                JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+        WHERE  M.ID = #{userId}
+          AND P.LAST_DATE = (
+            SELECT MAX(LAST_DATE)
+            FROM TBL_PERMISSION_ROLE
+            WHERE PERMISSION_STATUS = 'SCREENING')
+
+    </select>
+
     <!-- 권한 회수 신청 -->
     <insert id="sellerOutReq" parameterType="java.lang.String">
         INSERT INTO TBL_SELLER_ROLE_REQ (NO, REF_MEMBER_NO, REGIST_DATE)
@@ -155,13 +214,11 @@ ORDER BY H.REGIST_DATE DESC
     <!-- 권한 회수 신청 취소 -->
     <delete id="deletePERMISSION">
         DELETE FROM TBL_PERMISSION_ROLE
-        WHERE REF_SELLER_ROLE_REQ_NO = (
+        WHERE REF_SELLER_ROLE_REQ_NO IN (
             SELECT Q.NO
             FROM TBL_SELLER_ROLE_REQ Q
                      JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
             WHERE M.ID = #{sellerId}
-            ORDER BY Q.REGIST_DATE DESC
-                FETCH FIRST 1 ROW ONLY
         )
     </delete>
 
@@ -179,7 +236,7 @@ ORDER BY H.REGIST_DATE DESC
     </delete>
 
     <!-- 권한 신청 insert-->
-    <insert id="sellerInsert" parameterType="java.util.Map">
+    <insert id="sellerInsert" parameterType="java.lang.String">
         INSERT INTO TBL_SELLER_ROLE (ACCOUNT_NO,REGIST_NO, NAME, CALL_NUMBER, RPRSN, ADDRESS, REF_MEMBER_NO, BANK, REPORT_NO)
         VALUES (
                    #{accountNo},
@@ -220,6 +277,11 @@ ORDER BY H.REGIST_DATE DESC
                        FROM TBL_SELLER_ROLE_REQ Q
                                 JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
                        WHERE M.ID = #{sellerId}
+                         AND Q.REGIST_DATE = (
+                           SELECT MAX(REGIST_DATE)
+                           FROM TBL_SELLER_ROLE_REQ
+                           WHERE REF_MEMBER_NO = Q.REF_MEMBER_NO
+                       )
                    )
                )
     </insert>
@@ -334,4 +396,31 @@ ORDER BY H.REGIST_DATE DESC
             WHERE ID = #{sellerId}
         )
     </delete>
+
+    <!-- 판매자 권한 신청 이력 확인-->
+    <select id="checkgetFormHistory">
+        SELECT
+            *
+        FROM TBL_SELLER_ROLE
+        WHERE REF_MEMBER_NO = (
+            SELECT NO
+            FROM TBL_MEMBER
+                WHERE ID = #{userID}
+            )
+    </select>
+
+    <!-- 판매자 권한 신청 회수 이력 확인 -->
+    <select id="checkoutFormHistory">
+        SELECT
+            NO
+        FROM TBL_PERMISSION_ROLE
+        WHERE PERMISSION_STATUS = 'SCREENING'
+          AND REF_SELLER_ROLE_REQ_NO IN
+            (SELECT Q.NO
+            FROM TBL_SELLER_ROLE_REQ Q
+            JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+            WHERE M.ID = #{userID}
+            ORDER BY Q.REGIST_DATE DESC
+            FETCH FIRST 1 ROW ONLY)
+    </select>
 </mapper>

@@ -24,14 +24,11 @@ public interface SellerApprovalFormMapper {
     int sellerInsertReq(String sellerId);
 
     int sellerInsertPermission(String sellerId);
+
+    int sellerInsertFileList(List<Map<String, String>> fileList, String sellerId);
     
 
     List<SellerRoleDTO> getFormAgain(String userID);
-
-    int sellerInsertFileList(List<Map<String, String>> fileList, String sellerId);
-
-
-    PermissionRoleDTO findReason(String userID);
 
     int sellerUpdate(String accountNo,String registNo, String name, String callNumber, String rprsn, String address, String bank, String reportNo, String sellerId);
 
@@ -44,4 +41,14 @@ public interface SellerApprovalFormMapper {
     int deleteRole(String sellerId);
 
     int deleteFile(String sellerId);
+
+    Integer checkgetFormHistory(String userID);
+
+    List<SellerRoleDTO> getFormConfirmation(String userID);
+
+    Integer checkoutFormHistory(String userID);
+
+    PermissionRoleDTO findReason(String userID);
+
+    List<PermissionRoleDTO> sellerReason(String userID);
 }

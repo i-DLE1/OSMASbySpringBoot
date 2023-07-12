@@ -17,11 +17,11 @@ function popupCancel(id) {
 }
 
 function popupStatics(id){
-    window.open(`./projectDetail/projectDetail?no=${id}`,"popup",`${screenCenterPopup(1600,1000)}, resizable=no, name=projectStatics, location=no`);
+    window.open(`./projectDetail/projectDetail?no=${id}`,"statics",`${screenCenterPopup(1600,1000)}, resizable=no, name=projectStatics, location=no`);
 }
 
 function projectModify(id){
-    window.open(`/seller/regist/project1?no=${id}`,"popup");
+    window.open(`/seller/regist/project1?no=${id}`,"modifyProject");
 }
 function popupRetry(no){
     window.open(`./projectDetail/retry?no=${no}`,"popup",`${screenCenterPopup(450,600)}, resizable=no, name=projectRetry, location=no`);

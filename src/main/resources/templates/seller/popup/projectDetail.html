@@ -47,7 +47,7 @@
                         </tr>
                         <tr>
                             <th>참여자수(명)</th>
-                            <td colspan="2" th:text="${#numbers.formatInteger(project.views,0,'COMMA')}">1000</td>
+                            <td colspan="2" th:text="${#numbers.formatInteger(project.views,0,'COMMA')}"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -95,13 +95,9 @@
         </footer>
     </div>
     <script src="/js/seller/projectDetail.js"></script>
-    <script>
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         getData();
-        chart2();
-        chart3();
     </script>
 
 

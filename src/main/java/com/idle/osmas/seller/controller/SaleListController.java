@@ -12,12 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.Principal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -28,8 +25,6 @@ public class SaleListController {
     private final ProjectService projectService;
 
     private final ProjectCategoryService projectCategoryService;
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public SaleListController(ProjectService projectService,
                               ProjectCategoryService projectCategoryService) {
@@ -78,7 +73,6 @@ public class SaleListController {
         }
 
         if(openExpect != null && openExpect){
-            System.out.println("openExpect = " + openExpect);
             projectParams.put("openExpect", openExpect);
         }
 
@@ -123,6 +117,7 @@ public class SaleListController {
             attr.put("startDate", String.valueOf(startDays));
 
             attr.put("views", project.getViews().toString());
+
             if(project.getStartDate().isEqual(LocalDate.now())){
                 attr.put("today","true");
             }else {

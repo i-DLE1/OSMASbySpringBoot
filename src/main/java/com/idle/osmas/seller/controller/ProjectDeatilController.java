@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
@@ -27,20 +28,28 @@ public class ProjectDeatilController {
 
     private final ProjectQnAService projectQnAService;
 
+    private final SellerController sellerController;
+
     public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService,
                                    ProductService productService,
                                    ProjectService projectService,
-                                   ProjectQnAService projectQnAService) {
+                                   ProjectQnAService projectQnAService,
+                                   SellerController sellerController) {
 
         this.projectProgressService = projectProgressService;
         this.productService = productService;
         this.projectService = projectService;
         this.projectQnAService = projectQnAService;
+        this.sellerController = sellerController;
     }
 
     @GetMapping("projectDetail")
     public String projectDetail(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
@@ -78,6 +87,10 @@ public class ProjectDeatilController {
     public String getCacnel(@RequestParam int no,  Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
 
@@ -157,6 +170,10 @@ public class ProjectDeatilController {
     public String retry(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(no, ProjectProgressStatus.REJECTED);
 

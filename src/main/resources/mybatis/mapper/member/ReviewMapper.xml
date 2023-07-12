@@ -14,6 +14,8 @@
         <result property="registDate" column="REGIST_DATE"/>
         <result property="modifyDate" column="MODIFY_DATE"/>
         <result property="deteleYn" column="DETELE_YN"/>
+        <result property="projectNo" column="NO"/>              <!--사진 -->
+        <result property="changeName" column="CHANGE_NAME"/>    <!--사진 -->
     </resultMap>
 
     <resultMap id="sponsoredResultMap" type="com.idle.osmas.member.dto.SponsoredsDTO">
@@ -24,6 +26,8 @@
         <result property="refPrjProductListNo" column="REF_PRJ_PRODUCT_LIST_NO"/>
         <result property="memberNo" column="REF_MEMBER_NO"/>
         <result property="productName" column="NAME"/>
+        <result property="refPrjNo" column="REF_PRJ_NO"/>       <!--사진 -->
+        <result property="changeName" column="CHANGE_NAME"/>    <!--사진 -->
     </resultMap>
 
     <select id="selectTotalCount" resultType="_int" parameterType="hashmap">
@@ -62,18 +66,24 @@
         , A.REF_MEMBER_NO
         , A.MODIFY_DATE
         , A.REVIEW_TITLE
+        , A.REF_SPONSORED_PRJ_NO
         , K.NICKNAME
         , I.TITLE
+--              사진
+        , I.NO
+        , P.CHANGE_NAME
         FROM(SELECT ROWNUM RNUM
         , B.REF_DELIVERY_STATUS_CODE
         , B.REF_MEMBER_NO
         , B.MODIFY_DATE
         , B.REVIEW_TITLE
+        , B.REF_SPONSORED_PRJ_NO
         FROM(SELECT
         C.REF_DELIVERY_STATUS_CODE
         , C.REF_MEMBER_NO
         , C.MODIFY_DATE
         , C.REVIEW_TITLE
+        , C.REF_SPONSORED_PRJ_NO
         FROM TBL_REVIEW C
         <if test="searchCondition == 'projectTitle'">
             JOIN TBL_DELIVERY_STATUS J ON(C.REF_DELIVERY_STATUS_CODE = J.NO)
@@ -113,17 +123,27 @@
         JOIN TBL_PRJ_PRODUCT_LIST H ON(G.REF_PRJ_PRODUCT_LIST_NO = H.NO)
         JOIN TBL_PRJ I ON(H.REF_PRJ_NO = I.NO)
         JOIN TBL_MEMBER K ON (A.REF_MEMBER_NO = K.NO)
+--             사진
+        JOIN TBL_PRJ_FILE P ON(I.NO = P.REF_PRJ_NO)
         <![CDATA[
                  WHERE A.RNUM >= #{startRow}
                 ]]>
+--                     사진
+        AND P.TYPE = 'THUMBNAIL'
+        AND G.NO = A.REF_SPONSORED_PRJ_NO
         ORDER BY 1 ASC
     </select>
 
     <select id="selectTotalCountSponsored" resultType="_int">
         SELECT COUNT(*)
         FROM TBL_SPONSORED_PRJ A
-                 JOIN TBL_MEMBER B on A.REF_MEMBER_NO = B.NO
+                 JOIN TBL_MEMBER B on (A.REF_MEMBER_NO = B.NO)
+                 JOIN TBL_PAYMENT_HISTORY C ON (C.REF_SPONSORED_PRJ_NO = A.NO)
+                 JOIN TBL_PAYMENT D ON (C.REF_PAYMENT_NO = D.CODE)
+                 JOIN TBL_SHIPPING_TRACK_INFO E ON (D.CODE = E.REF_PAYMENT_NO)
+                 JOIN TBL_DELIVERY_STATUS F ON (F.REF_SHIPPING_TRACK_INFO_NO = E.NO)
         WHERE B.ID = #{id}
+          AND F.STATUS = 'COMPLETED'
     </select>
 
     <select id="selectSponsoredList" resultMap="sponsoredResultMap">
@@ -134,6 +154,9 @@
              , A.REF_MEMBER_NO
              , A.NO
              , D.NICKNAME
+--               사진
+             , E.REF_PRJ_NO
+             , P.CHANGE_NAME
              , F.TITLE
              , G.NAME
           FROM(SELECT ROWNUM RNUM
@@ -162,9 +185,12 @@
                 JOIN TBL_PRJ_PRODUCT_LIST E ON(A.REF_PRJ_PRODUCT_LIST_NO = E.NO)
                 JOIN TBL_PRJ F ON(E.REF_PRJ_NO = F.NO)
                 JOIN TBL_PRODUCT G ON(G.NO = E.REF_PRODUCT_NO)
+                JOIN TBL_PRJ_FILE P ON(F.NO = P.REF_PRJ_NO)
                 <![CDATA[
                 WHERE A.RNUM >= #{startRow}
                  ]]>
+             --   사진
+                  AND P.TYPE = 'THUMBNAIL'
                 ORDER BY 1 ASC
     </select>
     
@@ -211,6 +237,7 @@
           ,  DETELE_YN
           ,  MODIFY_DATE
           ,  REF_DELIVERY_STATUS_CODE
+          ,  REF_SPONSORED_PRJ_NO
         )
             VALUES
         (
@@ -221,6 +248,7 @@
           , 'N'
           , SYSDATE
           , #{refDeliveryStatusCode}
+          , #{SponsoredNo}
         )
     </insert>
     

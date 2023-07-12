@@ -1,10 +1,12 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -131,6 +133,10 @@ public class SellerController {
             return "redirect:/seller/projectList?listType=all";
         }
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        System.out.println("user = " + user.getStatus());
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(pageNo == null ) pageNo = 1;
 
@@ -160,6 +166,7 @@ public class SellerController {
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
         model.mergeAttributes(getPagenation(pageNo,maxPage));
+
 
         return "/seller/sellerProjectList";
     }
@@ -234,6 +241,10 @@ public class SellerController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
+
         if(pageNo == null ) pageNo = 1;
 
         int startNo = 1 + ((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -267,13 +278,15 @@ public class SellerController {
         return "/seller/sellerqa";
     }
 
-
-
     @GetMapping("deleteTempProject")
     @ResponseBody
-    public String deleteTempProject(@RequestParam int no, Principal principal){
+    public String deleteTempProject(@RequestParam int no, Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(user.getStatus().equals(MemberStatus.DROP.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         boolean validationProject = projectService.existProjectByProjectNo(no, user.getNo());
 

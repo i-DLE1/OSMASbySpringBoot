@@ -23,7 +23,8 @@ function projectListView(data){
         let $div = $("<div>").addClass("project-item").attr('onclick',`moveSale(${item.no})`)
         let $thumbnailDiv = $("<div>");
         const $thumbnailImg = $("<img>").addClass("project-item-thumbnail")
-        item?.img === undefined ? $thumbnailImg.attr('src','./images/common/notImg.jpg') : $thumbnailImg.attr("src",item.img);
+            .attr("src",item?.img === undefined ? '' : item?.img)
+            .attr('onerror',"this.src='/images/common/notImg.jpg'")
         let $contentDiv = $("<div>").addClass("project-row");
         const $moneyDiv = $("<div>");
         let $labelDiv  = $("<div>");
@@ -90,7 +91,6 @@ function favoriteToggle(e, no, isActive){
             if(success === 'deleteSuccess') $(e).removeClass('activate-favorite').addClass('deactivate-favorite').attr('onclick',`favoriteToggle(this,${no},true)`)
         },
         error : function (e){
-            console.log(e)
         }
     })
 }
@@ -130,7 +130,6 @@ function subCategoryGetdata(no){
             subCategoryList(no, success)
         },
         error : function (error){
-            console.log(error)
         }
     }))
 }
@@ -192,12 +191,10 @@ function salesListAjax(pageNo, filter) {
             + (openExpect === null ? '' : `&openExpect=${true}`),
         type : "get",
         success : function (success) {
-            console.log(success)
             if(success.length === 0 ) END_LIST = true;
             projectListView(success)
         },
         error : function (error){
-            console.log(error)
         }
     })
 }

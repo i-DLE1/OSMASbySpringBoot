@@ -15,13 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/member/mypage/*")
@@ -43,26 +47,63 @@ public class MypageController {
         this.sellerApprovalFormService = sellerApprovalFormService;
     }
 
-    @GetMapping("MypageAccount")
-    public void mypageAccount(Principal principal, Model model){
+    @GetMapping(value = "MypageAccount")
+    public void mypageAccount(@RequestParam(required = false) String confirmPwdError,
+                              @RequestParam(required = false) String failPwdError,
+                              String changePwdError,
+                              Principal principal,
+                              Model model){
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
         MemberDTO member = mypageService.selectMemberByNo(user.getNo());
 
         model.addAttribute("member", member);
 
-        System.out.println("user = " + user.getPwd());
-        System.out.println("seller02");
-        System.out.println("passwordEncoder.matches(\"seller02\",user.getPwd()) = " + passwordEncoder.matches("seller02",user.getPwd()));
-        System.out.println("passwordEncoder = " + passwordEncoder.encode("seller02"));
+        if (confirmPwdError != null) {
+            model.addAttribute("confirmPwdError", URLDecoder.decode(confirmPwdError));
+        }
 
+        if (changePwdError != null) {
+            model.addAttribute("changePwdError", URLDecoder.decode(changePwdError));
+        }
+
+        if (failPwdError != null) {
+            model.addAttribute("failPwdError", URLDecoder.decode(failPwdError));
+        }
     }
 
     @PostMapping("MypageAccount")
-    public void submitAccount(Principal principal){
+//    @ResponseBody
+    public String submitAccount(@RequestParam String curPassword,
+                                @RequestParam String changePassword,
+                                @RequestParam String checkPassword,
+                                Principal principal,
+                                RedirectAttributes rattr,
+                                HttpServletRequest request) throws ServletException {
+
+
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        if (!passwordEncoder.matches(curPassword, user.getPwd())){
+            rattr.addAttribute("confirmPwdError" , URLEncoder.encode("비밀번호가 일치하지 않습니다."));
+            return "redirect:/member/mypage/MypageAccount";
+        }
 
+        if (!changePassword.equals(checkPassword)) {
+            rattr.addAttribute("changePwdError", URLEncoder.encode("변경할 비밀번호가 일치하지 않습니다."));
+            return "redirect:/member/mypage/MypageAccount";
+        }
 
+        changePassword = passwordEncoder.encode(changePassword);
+
+        int pwdResult = mypageService.updatePwdStatusByNo(user.getNo(), changePassword);
+        if (pwdResult > 0) {
+            request.logout();
+            return "redirect:/member/mypage/MypageProfile";
+        } else {
+                rattr.addAttribute("failPwdError", URLEncoder.encode("변경에 실패했습니다."));
+                return "redirect:/member/mypage/MypageAccount";
+        }
     }
 
     @GetMapping("MypageAccountDelete")
@@ -87,7 +128,6 @@ public class MypageController {
         }
     }
     @GetMapping("MypageAlarm")
-    public void mypageAlarm(){}
     public String mypageAlarm(Model model){
         //판매자 권한 신청 알람 보류/완료 확인용
         // 현재 인증된 사용자 정보 가져오기
@@ -119,8 +159,6 @@ public class MypageController {
     public void mypageMain(){}
     @GetMapping("MypageMessage")
     public void mypageMessage(){}
-
-
     @GetMapping("MypageProfile")
     public void mypageProfile(Principal principal, Model model) throws AccessAuthorityException {
         if (principal == null) throw new AccessAuthorityException("e");
@@ -170,7 +208,6 @@ public class MypageController {
         } else {
             return "fail";
         }
-
     }
 
     @GetMapping("MypageSponsor")
