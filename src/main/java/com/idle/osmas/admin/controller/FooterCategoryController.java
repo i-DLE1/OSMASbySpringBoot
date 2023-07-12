@@ -118,7 +118,6 @@ public class FooterCategoryController {
             return "redirect:/admin/errorPage";
         }
     }
-
     @PostMapping (value = "/termsEdit")
     public String termsEdit(@RequestParam("content") String content, @RequestParam("title") String title, Model model) {
         model.addAttribute("content", content);
