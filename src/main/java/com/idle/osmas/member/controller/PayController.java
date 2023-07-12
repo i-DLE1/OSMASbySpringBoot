@@ -56,14 +56,9 @@ public class PayController {
         System.out.println("===============");
         System.out.println(no);
         System.out.println(productNo[0]);
-
         String id = principal.getName();
-
-
         MemberDTO member = payService.selectMemberById(id);
         AddressDTO address = payService.selectAddressByNo(member.getNo());
-
-
         Long price = 0L;
         List<ProductsDTO> product = new ArrayList<>();
         ProductsDTO products;

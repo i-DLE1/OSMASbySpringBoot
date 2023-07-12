@@ -133,8 +133,13 @@
     <select id="selectTotalCountSponsored" resultType="_int">
         SELECT COUNT(*)
         FROM TBL_SPONSORED_PRJ A
-                 JOIN TBL_MEMBER B on A.REF_MEMBER_NO = B.NO
+                 JOIN TBL_MEMBER B on (A.REF_MEMBER_NO = B.NO)
+                 JOIN TBL_PAYMENT_HISTORY C ON (C.REF_SPONSORED_PRJ_NO = A.NO)
+                 JOIN TBL_PAYMENT D ON (C.REF_PAYMENT_NO = D.CODE)
+                 JOIN TBL_SHIPPING_TRACK_INFO E ON (D.CODE = E.REF_PAYMENT_NO)
+                 JOIN TBL_DELIVERY_STATUS F ON (F.REF_SHIPPING_TRACK_INFO_NO = E.NO)
         WHERE B.ID = #{id}
+          AND F.STATUS = 'COMPLETED'
     </select>
 
     <select id="selectSponsoredList" resultMap="sponsoredResultMap">
