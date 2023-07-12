@@ -40,6 +40,21 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
 
     @Override
     @Transactional
+    public int sellerInsertCancel(String sellerId) {
+
+        int result1 = sellerApprovalFormMapper.deleteRole(sellerId);
+        int result2 = sellerApprovalFormMapper.deleteFile(sellerId);
+
+        int result = 0;
+
+        if (result1 > 0 && result2 > 0) {
+            result = 1;
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
     public int sellerOutCancel(String sellerId) {
         int result1 = sellerApprovalFormMapper.deletePERMISSION(sellerId);
         int result2 = sellerApprovalFormMapper.deleteREQ(sellerId);
@@ -105,4 +120,43 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         }
         return 0;
     }
+
+    @Override
+    public Integer youSeller(String userID) {
+        Integer result = holdingAlertMapper.getYouSeller(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    @Transactional
+    public int sellerUpdate(Map<String, String> requestParams, List<Map<String, String>> fileList) {
+        String sellerId = requestParams.get("sellerId");
+
+        int result1 = sellerApprovalFormMapper.sellerUpdate(requestParams.get("accountNo"),
+                                                            requestParams.get("registNo"),
+                                                            requestParams.get("name"),
+                                                            requestParams.get("callNumber"),
+                                                            requestParams.get("rprsn"),
+                                                            requestParams.get("address"),
+                                                            requestParams.get("bank"),
+                                                            requestParams.get("reportNo"), sellerId);
+        int result2 = sellerApprovalFormMapper.sellerInserUpdateReq(sellerId);
+        int result3 = sellerApprovalFormMapper.sellerInsertUpdatePermission(sellerId);
+
+        int result4 = sellerApprovalFormMapper.sellerUpdateFileList(fileList, sellerId);
+
+        int result = 0;
+        if (result1 > 0 && result2 > 0 && result3 > 0 && result4 == fileList.size()) {
+            result = 1;
+        }
+
+        return result;
+    }
+
 }

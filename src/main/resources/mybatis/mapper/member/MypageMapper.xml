@@ -9,6 +9,16 @@
         <result property="nickname" column="NICKNAME"/>
         <result property="email" column="EMAIL"/>
         <result property="introduction" column="INTRODUCTION"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE" />
+        <collection property="addressList" resultMap="addressResultMap"/>
+<!--        <association property=""></association>-->
+    </resultMap>
+
+    <resultMap id="addressResultMap" type="com.idle.osmas.member.dto.AddressDTO">
+        <result property="general" column="GENERAL"/>
+        <result property="detail" column="DETAIL"/>
+        <result property="postalCode" column="POSTAL_CODE"/>
     </resultMap>
 
     <select id="selectMemberByNo" parameterType="_int" resultMap="memberResultMap">
@@ -38,5 +48,48 @@
             TM.DROP_REASON = #{reason}
         where TM.NO = #{no}
     </update>
+    
+    <update id="updateMemberInfoByNo">
+        update TBL_MEMBER TM
+        set TM.NAME = #{name},
+            TM.PHONE = #{phone}
+        where TM.NO = #{no}
+    </update>
+
+    <insert id="insertAddressByNo">
+        insert into TBL_ADDRESS
+        (GENERAL, DETAIL, POSTAL_CODE, NO, REF_MEMBER_NO)
+        values
+        (#{general}, #{detail}, #{postCode}, SEQ_TBL_ADDRESS_NO.nextval, #{refMemberNo})
+    </insert>
+
+    <update id="updateAddressStatusByNo">
+        update TBL_ADDRESS TA
+        set TA.GENERAL = #{general},
+            TA.DETAIL = #{detail},
+            TA.POSTAL_CODE = #{postalCode}
+        where TA.NO = #{no}
+    </update>
+
+    <select id="selectJoinByNo" resultMap="memberResultMap">
+        select
+            TM.NAME
+            ,   TM.PHONE
+            ,   TA.GENERAL
+            ,   TA.DETAIL
+            ,   TA.POSTAL_CODE
+        from
+            TBL_MEMBER TM
+                LEFT join TBL_ADDRESS TA on TA.REF_MEMBER_NO = TM.NO
+        where TM.NO = #{no}
+    </select>
+
+    <select id="selectAddressSearchByNo" resultType="Integer">
+        select
+            NO
+        from
+            TBL_ADDRESS
+        where REF_MEMBER_NO = #{no}
+    </select>
 
 </mapper>

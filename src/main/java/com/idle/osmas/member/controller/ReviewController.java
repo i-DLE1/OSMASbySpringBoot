@@ -114,8 +114,12 @@ public class ReviewController {
     public String writeReview(@RequestParam("no") int SponsoredNo,
                               @RequestParam("nickname") String nickname,
                               @RequestParam("title") String title,
-                              @RequestParam("content") String content){
-
+                              @RequestParam("content") String content) throws Exception {
+        System.out.println("===============");
+        System.out.println(SponsoredNo);
+        System.out.println(nickname);
+        System.out.println(title);
+        System.out.println(content);
         String result = "리뷰 작성에 성공했습니다";
         int memberNo = memberService.selectNoByNickname(nickname);
         int refDeliveryStatusCode = reviewService.selectDeliveryStatusCodeistNoBySponsoredNo(SponsoredNo);

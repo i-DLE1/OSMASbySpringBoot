@@ -59,23 +59,16 @@ public class ProjectDeatilController {
 
     @GetMapping(value = "productStatistics")
     @ResponseBody()
-    public Map<String, Integer> productStatistics(@RequestParam(required = false) Integer no, Principal principal, Model model){
-
-        System.out.println("no = " + no);
-        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+    public Map<String, Integer> productStatistics(@RequestParam(required = false) Integer no){
 
         List<ProductStatistics> productStatistics = projectService.selectProductStatisticsByProjectNo(no);
 
+        Map<String, Integer> result = new HashMap<>() {};
 
-        Map<String, Integer> result = new HashMap<>();
-
-        productStatistics.forEach(e-> result.put(e.getName(),e.getCount()));
-
-        System.out.println("productStatistics = " + productStatistics);
-
-        result.put("red",123132);
-
-        System.out.println("result = " + result);
+        for(int i = productStatistics.size()-1; i >= 0 ; i--){
+            int count = productStatistics.get(i).getCount()  == 0 ? 1 : productStatistics.get(i).getCount();
+            result.put(i+"."+productStatistics.get(i).getName(), count);
+        }
 
         return result;
 
@@ -125,6 +118,7 @@ public class ProjectDeatilController {
         model.addAttribute("projectQnA", projectQnA);
         return "/seller/popup/qa_answer";
     }
+
     @PostMapping("qaAnswer")
     @ResponseBody
     public String postQaAswer(@RequestBody String content,
@@ -153,7 +147,6 @@ public class ProjectDeatilController {
 
         return result;
     }
-
 
     @GetMapping("refuse")
     public String refuse(@RequestParam String no){

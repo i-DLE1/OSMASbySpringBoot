@@ -61,21 +61,24 @@ function showMessageDelete() {
         url: '/member/mypage/MypageAccountDeleteNext',
         type: 'post',
         data: {reason},
-        success: function (success) {
+        success: function (success){
             if (success == "success") {
-                location.href = "/"
+                messageContainer.textContent = '완료되었습니다!';
+                messageContainer.classList.add('show');
+                setTimeout(() => {
+                    location.href = "/"
+                },1000)
+
             } else {
-                alert("탈퇴에 실패했습니다.")
+                messageContainer.textContent = '실패했습니다!';
+                messageContainer.classList.add('show');
             }
         },
         error : function(e) {
-            console.log(e)
+            messageContainer.textContent = '실패했습니다!';
+            messageContainer.classList.add('show');
         }
     })
-
-    messageContainer.textContent = '완료되었습니다!';
-    messageContainer.classList.add('show');
-
     saveButton.disabled = true;
 
     setTimeout(function () {
@@ -83,6 +86,7 @@ function showMessageDelete() {
         saveButton.disabled = false;
     }, 1000);
 }
+
 
 // MypageMessage
 function showMessageMessage() {
@@ -103,7 +107,6 @@ function showMessageMessage() {
 function saveNickName() {
     const nickname = $("#nickname").val();
     console.log(nickname)
-
 }
 
 async function memberInfoSubmit(inputId, inputVal) {
@@ -142,11 +145,11 @@ async function showMessageProfile(param) {
     //     type : 'post',
     //     data : {inputId, inputVal},
     //     success : function (success) {
-    //         console.log(success)
-    //         if (success == "success") {
-    //             messageContainer.textContent = '저장되었습니다!'
-    //         } else {
-    //             messageContainer.textContent = '실패하였습니다!'
+    //     //         console.log(success)
+    //     //         if (success == "success") {
+    //     //             messageContainer.textContent = '저장되었습니다!'
+    //     //         } else {
+    //     //             messageContainer.textContent = '실패하였습니다!'
     //         }
     //     },
     //     error : function (e) {
@@ -173,7 +176,35 @@ function showMessageShippingAd() {
     const messageContainer = document.querySelector('.message-container');
     const saveButton = document.querySelector('.btn_save');
 
-    messageContainer.textContent = '저장되었습니다!';
+    const joinName = $('#joinName').val();
+    const postalCode = $('#postalCode').val();
+    const general = $('#general').val();
+    const joinDetail = $('#joinDetail').val();
+    const joinPhone = $('#joinPhone').val();
+
+    console.log(joinName, postalCode, general, joinDetail, joinPhone)
+
+
+    $.ajax({
+        url : '/member/mypage/MypageShippingAd',
+        type : 'post',
+        data : {joinName, postalCode, general, joinDetail, joinPhone},
+        success : function (success) {
+                if (success == "success") {
+                    messageContainer.textContent = '저장되었습니다!'
+                    messageContainer.classList.add('show');
+                } else {
+                    messageContainer.textContent = '실패하였습니다!'
+                    messageContainer.classList.add('show');
+            }
+        },
+        error : function (e) {
+            console.log(e)
+            messageContainer.textContent = '실패하였습니다!'
+        }
+    })
+
+    // messageContainer.textContent = '저장되었습니다!';
     messageContainer.classList.add('show');
 
     saveButton.disabled = true;

@@ -9,4 +9,10 @@ public interface MypageMapper {
     MemberDTO selectMemberByNo(int no);
     int updateMemberbyNo(int no, String colName, String changeVal);
     int updateMemberStatusByNo(int no, MemberStatus status, String reason);
+    int updateMemberInfoByNo(int no, String name, String phone);
+    int insertAddressByNo(String general, String detail, String postCode, int refMemberNo);
+    int updateAddressStatusByNo(int no, String general, String detail, String postalCode);
+    MemberDTO selectJoinByNo(int no);
+    Integer selectAddressSearchByNo(int no);
+
 }

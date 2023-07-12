@@ -37,7 +37,6 @@ public class ImageFileController {
 
     private final ProjectService projectService;
 
-
     public ImageFileController(ProjectFileService projectFileService,
                                ProjectService projectService) {
 
@@ -47,12 +46,10 @@ public class ImageFileController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-
     public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo){
 
         return saveFile(fileType,file,projectNo,fileType.toString());
     }
-
 
     /**
      *

@@ -18,6 +18,22 @@
     position: relative;
     z-index: 5;
 }
+
+.today-label{
+    background-image: url("../../images/common/todayLabel.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 25px;
+    top: 30px;
+    z-index: 5;
+    position: absolute;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
 .project-item-thumbnail{
     display: inline-block;
     width: 350px;
@@ -26,6 +42,21 @@
     background-color: rgb(184, 182, 182);
     margin-bottom: 10px;
     object-fit: cover;
+}
+
+.alert-btn{
+    margin: 10px 0 0 0;
+    border: 1px solid #0d99a5;
+    border-radius: 5px;
+    width: 100%;
+    height: 40px;
+    color: #0d99a5;
+    background: white;
+    text-align: center;
+}
+.alert-btn:hover{
+    color: white;
+    background: #0d99a5;
 }
 
 .favorite-button{
@@ -107,4 +138,13 @@
 .days-green{
     background-color: green;
     color: white;
+}
+
+.days-cyan{
+    background: #0d99a5;
+    color: white;
+}
+
+.font-cyan{
+    color: #0d99a5 !important;
 }
