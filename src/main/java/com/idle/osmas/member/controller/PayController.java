@@ -77,9 +77,9 @@ public class PayController {
         System.out.println(product);
         PayDTO pay = payService.selectPay(no);
         pay.setSumPrice(price);
-//        ProjectFileDTO projectFile = payService.selectProjectFile(no); // 프로젝트no로 썸네일 파일 가져옴
-//        System.out.println(projectFile);
-//        m.addAttribute("projectFile",projectFile);
+        ProjectFileDTO projectFile = payService.selectProjectFile(no); // 프로젝트no로 썸네일 파일 가져옴
+        System.out.println(projectFile);
+        m.addAttribute("projectFile",projectFile);
         m.addAttribute("productList", product);
         m.addAttribute("pay",pay);
         m.addAttribute("member",member);
