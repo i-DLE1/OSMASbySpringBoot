@@ -11,15 +11,13 @@
     <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
 
 
-
-
-
 </head>
 
 <body>
 <header id="header">
     <div th:include="~{/common/fragments/header}"></div>
 </header>
+
 
 <div class="">
     <nav class="box3">
@@ -36,21 +34,18 @@
             <li class="box" th:style="${type == 'AT' ? 'background-color: #bea376;':''}">
                 <a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a>
             </li>
-            <!-- 관리자 일때 공지사항 등록 버튼 보이게 -->
+            <!-- 관리자 일때  버튼 보이게 -->
             <th:block sec:authorize="hasRole('ADMIN')">
                 <div style="text-align: center;">
-                    <a th:href="@{/admin/user_notice/notice_view/${type}}" class="btn5"
+                    <a th:href="@{/admin/user_notice/notice_view/${type}}" class="btn6"
                        style="padding-top: 5px;">공지사항 목록으로 돌아가기</a>
                 </div>
             </th:block>
         </ul>
     </nav>
 </div>
-<!--<div class="notice-content">-->
-    <br>
-    <h5 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.category}"></h5>
-    <h6 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.registDate}"></h6>
-    <hr>
+
+
 <div class="notice-content" th:if="${noticeContent}">
     <div class="notice-category">
         <h6 style="font-weight: lighter; font-size: 12px;"><span th:text="${noticeContent.classifyCode}"></span></h6>
@@ -72,20 +67,15 @@
 
 
 <!-- 수정 및 삭제 버튼 -->
-    <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-        <a th:href="@{/admin/user_notice/notice_edit(no=${noticeContent.no})}" class="btn">수정</a>
-<!--        <a href="javascript:void(0);" onclick="deleteNotice(/*[[${noticeContent.no}]]*/)" class="btn">삭제</a>-->
-        <button onclick="deleteNotice()" class="btn">삭제</button>
-    </div>
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="btn-group">
+    <a th:href="@{/admin/user_notice/notice_edit(no=${noticeContent.no})}" class="btn5" style="text-decoration: none;">수정</a>
+    <span style="margin: 0 20px;"></span>
+    <a href="#" onclick="deleteNotice()" class="btn5">삭제</a>
 </div>
+
 
 <!-- 자바스크립트 코드 -->
 <script>
-    // 수정 버튼 클릭 시
-    function editNotice(no) {
-        // 해당 공지사항의 수정 페이지로 이동하는 로직 구현
-        window.location.href = "/admin/user_notice/notice_edit?no=" + no;
-    }
 
     // 삭제 버튼 클릭 시
     function deleteNotice() {

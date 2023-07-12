@@ -392,7 +392,7 @@ a {
     /* margin-left: 260px; */
 }
 
-.btn5{
+.btn6{
     color: black;
     background: white;
     text-decoration: none;
@@ -420,7 +420,7 @@ body {
     width: 1000px; /* 원하는 너비 설정 */
     margin: 0 auto; /* 가운데 정렬을 위한 margin 설정 */
     margin-top: 200px;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .notice-content .notice-title {
@@ -434,3 +434,22 @@ body {
 .notice-content .notice-content-text {
    margin-bottom: 20px;
 }
+
+/*공지사항 수정 삭제 버튼 */
+.btn5{
+    color: white;
+    background: #cca77f;
+
+    border: none;
+    font-size: 15px;
+    text-align: center;
+    display: inline-block;
+}
+.btn5:hover{
+    background: #b68149;
+}
+
+.btn-group {
+    text-align: center;
+}
+
