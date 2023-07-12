@@ -36,24 +36,51 @@
     </select>
 
     <select id="selectSponsoredPrjByProjectNo" resultMap="productListResultMap">
-        SELECT TP.NO AS TBL_PRODUCT_NO,
-               NAME AS TBL_PRODUCT_NAME,
-               PRICE AS TBL_PRODUCT_PRICE,
-               MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
-               STATUS AS TBL_PRODUCT_STATUS,
-               PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
-               NVL(COUNT,0) AS TBL_PRODUCT_COUNT
-          FROM (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,
-                       count(*) AS COUNT
-                  FROM TBL_SPONSORED_PRJ TSP
-                  JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.NO = TSP.REF_PRJ_PRODUCT_LIST_NO
-                 GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO) TJ
-                 RIGHT JOIN TBL_PRJ_PRODUCT_LIST TPPL2 ON TPPL2.NO = TJ.REF_PRJ_PRODUCT_LIST_NO
-                 RIGHT JOIN TBL_PRJ PRJ ON PRJ.NO = TPPL2.REF_PRJ_NO
-                  JOIN TBL_PRODUCT TP ON TP.NO = TPPL2.REF_PRODUCT_NO
-         WHERE PRJ.NO = #{projectNo}
+        SELECT TPRO.NO AS TBL_PRODUCT_NO,
+               TPRO.NAME AS TBL_PRODUCT_NAME,
+               TPRO.PRICE AS TBL_PRODUCT_PRICE,
+               TPRO.MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,
+               TPRO.STATUS AS TBL_PRODUCT_STATUS,
+               TPRO.PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,
+               NVL(TSP.AMOUNT,0) AS TBL_PRODUCT_COUNT
+          FROM TBL_PRJ_PRODUCT_LIST TPPL
+          JOIN TBL_PRODUCT TPRO ON TPRO.NO = TPPL.REF_PRODUCT_NO
+          LEFT JOIN (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,
+                            SUM(TSP.AMOUNT) AS AMOUNT
+                       FROM TBL_SHIPPING_TRACK_INFO TSTI
+                       JOIN (SELECT TDS2.REF_SHIPPING_TRACK_INFO_NO
+                               FROM TBL_DELIVERY_STATUS TDS2
+                              WHERE STATUS = 'COMPLETED'
+                            ) TDS ON TDS.REF_SHIPPING_TRACK_INFO_NO = TSTI.NO
+                       JOIN TBL_PAYMENT TP ON TP.CODE = TSTI.REF_PAYMENT_NO
+                       JOIN TBL_PAYMENT_HISTORY TPH ON TPH.REF_PAYMENT_NO = TP.CODE
+                       JOIN TBL_SPONSORED_PRJ TSP ON TSP.NO = TPH.REF_SPONSORED_PRJ_NO
+                      GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO
+               ) TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPRO.NO
+          JOIN TBL_PRJ PRJ ON PRJ.NO = TPPL.REF_PRJ_NO
+         WHERE TPPL.REF_PRJ_NO = #{projectNo}
            AND PRJ.REF_MEMBER_NO = #{userNo}
     </select>
+
+<!--    <select id="selectSponsoredPrjByProjectNo" resultMap="productListResultMap">-->
+<!--        SELECT TP.NO AS TBL_PRODUCT_NO,-->
+<!--               NAME AS TBL_PRODUCT_NAME,-->
+<!--               PRICE AS TBL_PRODUCT_PRICE,-->
+<!--               MAX_QUANTITY AS TBL_PRODUCT_MAX_QUANTITY,-->
+<!--               STATUS AS TBL_PRODUCT_STATUS,-->
+<!--               PRODUCT_SIZE AS TBL_PRODUCT_PRODUCT_SIZE,-->
+<!--               NVL(COUNT,0) AS TBL_PRODUCT_COUNT-->
+<!--        FROM (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,-->
+<!--                     count(*) AS COUNT-->
+<!--              FROM TBL_SPONSORED_PRJ TSP-->
+<!--                       JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.NO = TSP.REF_PRJ_PRODUCT_LIST_NO-->
+<!--              GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO) TJ-->
+<!--                 RIGHT JOIN TBL_PRJ_PRODUCT_LIST TPPL2 ON TPPL2.NO = TJ.REF_PRJ_PRODUCT_LIST_NO-->
+<!--                 RIGHT JOIN TBL_PRJ PRJ ON PRJ.NO = TPPL2.REF_PRJ_NO-->
+<!--                 JOIN TBL_PRODUCT TP ON TP.NO = TPPL2.REF_PRODUCT_NO-->
+<!--        WHERE PRJ.NO = #{projectNo}-->
+<!--          AND PRJ.REF_MEMBER_NO = #{userNo}-->
+<!--    </select>-->
     
     
     <insert id="insertProjectProduct" parameterType="com.idle.osmas.seller.dto.ProductDTO">
@@ -83,13 +110,13 @@
           BEGIN
         <foreach collection="list" item="product">
                 UPDATE TBL_PRODUCT TP
-                SET TP.NAME = '${product.name}',
-                TP.INTRODUCTION = '${product.introduction}',
-                TP.PRICE = ${product.price},
-                TP.MAX_QUANTITY =${product.maxQuantity},
-                TP.STATUS = '${product.status}',
-                TP.PRODUCT_SIZE ='${product.size}'
-                WHERE TP.NO = ${product.no};
+                   SET TP.NAME = '${product.name}',
+                       TP.INTRODUCTION = '${product.introduction}',
+                       TP.PRICE = ${product.price},
+                       TP.MAX_QUANTITY =${product.maxQuantity},
+                       TP.STATUS = '${product.status}',
+                       TP.PRODUCT_SIZE ='${product.size}'
+                 WHERE TP.NO = ${product.no};
         </foreach>
             END;
     </update>

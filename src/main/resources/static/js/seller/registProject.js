@@ -515,15 +515,13 @@ function projectInitRegist(temporary) {
                 if(temporary){
                     alert("저장이 완료 됐습니다.")
                 }else {
-
                     location.href='/seller/regist/project3' + (no === null ?  '' : `?no=${no}`);
                 }
             }else {
-                alert("입력 되지 않은 필수 항목이 존재합니다.");
+                alert("입력 되지 않은 항목이 있거나 조건이 맞지 않는 값이 존재합니다.");
             }
         },
         error : function (error){
-            console.log(error)
         }
 
     })
@@ -589,7 +587,7 @@ function registProject3(temporary) {
             }
         },
         error: function (error){
-            console.log(error)
+
         }
     })
 }
@@ -615,7 +613,7 @@ function registProject4(temporary) {
             }
         },
         error : function (error){
-            console.log(error)
+
         }
     })
 }
@@ -649,7 +647,7 @@ function registProject5(temporary) {
             }
         },
         error: function (error){
-            console.log(error)
+
         }
     })
 
@@ -670,7 +668,7 @@ function registProject6(){
             location.reload()
         },
         error : function (error){
-            console.log(error)
+
         }
     })
 }
@@ -705,4 +703,9 @@ function isParamNo() {
 
 function prevPageMove(prevPageNo){
     location.href = `/seller/regist/project${prevPageNo}`+ (PAGE_NUMBER === null ? '' : `?no=${PAGE_NUMBER}`);
+}
+
+function previewProject(){
+    const projectNo = new URLSearchParams(location.search).get('no')
+    window.open('/seller/regist/previewInfo'+`?no=${projectNo}`)
 }

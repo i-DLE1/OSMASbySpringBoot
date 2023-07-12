@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -221,7 +222,7 @@ public class RegistProjectController {
             model.addAttribute("modifyDate",true);
         }
 
-        
+        model.addAttribute("minDate", LocalDate.now().plusDays(10));
         model.addAttribute("project", project);
         model.addAttribute("mainCategory",categoryList);
         model.mergeAttributes(submitButtonNaming(no,"임시저장","수정"));
@@ -247,6 +248,7 @@ public class RegistProjectController {
         if (startDate == null ) return "fail";
         if (endDate == null ) return "fail";
         if (category == null) return "fail";
+        if (ChronoUnit.DAYS.between(startDate,endDate) < 30) return "fail";
         if (targetAmount == null || targetAmount < 100000 ) return "fail";
 
         if(no == null){
@@ -681,4 +683,15 @@ public class RegistProjectController {
         return "success";
     }
 
+
+    @GetMapping("/previewInfo")
+    public String privewInfo(@RequestParam(required = false) Integer no, Principal principal){
+        UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        if(no == null){
+            no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
+        }
+
+        return "redirect:/seller/sales/detail?no="+no;
+    }
 }
