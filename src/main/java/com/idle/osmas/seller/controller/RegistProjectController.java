@@ -2,6 +2,7 @@ package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.admin.dto.TermsDTO;
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
@@ -37,8 +38,6 @@ public class RegistProjectController {
 
     private final ImageFileController imageFileController;
 
-    private final SellerController sellerController;
-
     public RegistProjectController(ProjectService projectService,
                                    ProjectProgressService projectProgressService,
                                    ProductService productService,
@@ -47,8 +46,7 @@ public class RegistProjectController {
                                    ProjectFAQService projectFAQService,
                                    ProjectNewsService projectNewsService,
                                    ImageFileController imageFileController,
-                                   ProjectTermService termsService,
-                                   SellerController sellerController) {
+                                   ProjectTermService termsService) {
 
         this.projectService = projectService;
         this.projectProgressService = projectProgressService;
@@ -59,7 +57,6 @@ public class RegistProjectController {
         this.projectNewsService = projectNewsService;
         this.imageFileController = imageFileController;
         this.termsService = termsService;
-        this.sellerController = sellerController;
     }
 
     public Map<String, String> submitButtonNaming(int ProjectNo, String temp, String notTemp){
@@ -125,7 +122,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -194,7 +193,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
@@ -267,7 +268,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         boolean existProject = false;
 
@@ -379,7 +382,6 @@ public class RegistProjectController {
 
         if(presentFile != null) {
             imageFileController.deleteFile("project",no,oldProjectFile.get("represent"));
-
             imageFileController.saveFile(ProjectFileType.REPRESENT, presentFile, no);
         }
 
@@ -412,7 +414,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -456,7 +460,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -542,7 +548,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -641,7 +649,9 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());

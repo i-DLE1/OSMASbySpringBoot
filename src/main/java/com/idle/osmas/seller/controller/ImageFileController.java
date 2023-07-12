@@ -37,8 +37,6 @@ public class ImageFileController {
         this.projectService = projectService;
     }
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     public String saveFile(ProjectFileType fileType, MultipartFile file, int projectNo){
 
         return saveFile(fileType,file,projectNo,fileType.toString());
@@ -79,17 +77,19 @@ public class ImageFileController {
             if(ProjectFileType.BODY.equals(fileType)) return savedFileName;
 
             int result = projectFileService.insertProjectFile(
-                    ProjectFileDTO.builder().projectNo(projectNo)
-                    .deleteYN('N').changeName(savedFileName)
-                    .originName(originFileName)
-                    .type(fileType).build());
+                    ProjectFileDTO.builder()
+                            .projectNo(projectNo)
+                            .deleteYN('N')
+                            .changeName(savedFileName)
+                            .originName(originFileName)
+                            .type(fileType)
+                            .build()
+            );
 
             if(result > 0 ) return savedFileName;
-
             return "fail";
 
         } catch (IOException e) {
-
             savedFile.delete();
             return "fail";
         }

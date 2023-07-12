@@ -91,7 +91,6 @@ function favoriteToggle(e, no, isActive){
             if(success === 'deleteSuccess') $(e).removeClass('activate-favorite').addClass('deactivate-favorite').attr('onclick',`favoriteToggle(this,${no},true)`)
         },
         error : function (e){
-            console.log(e)
         }
     })
 }
@@ -131,7 +130,6 @@ function subCategoryGetdata(no){
             subCategoryList(no, success)
         },
         error : function (error){
-            console.log(error)
         }
     }))
 }
@@ -193,12 +191,10 @@ function salesListAjax(pageNo, filter) {
             + (openExpect === null ? '' : `&openExpect=${true}`),
         type : "get",
         success : function (success) {
-            console.log(success)
             if(success.length === 0 ) END_LIST = true;
             projectListView(success)
         },
         error : function (error){
-            console.log(error)
         }
     })
 }

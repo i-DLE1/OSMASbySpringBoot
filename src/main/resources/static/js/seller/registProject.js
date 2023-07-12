@@ -60,7 +60,6 @@ function fqaLoadList(data) {
         $('#faqList').append(text);
         FAQ_LIST_COUNT++;
     })
-    // faqAddSubItem(FAQ_LIST_COUNT);
 
     if(FAQ_LIST_COUNT > 2){
         faqAddSubItem(FAQ_LIST_COUNT);
@@ -137,14 +136,12 @@ $("#productAdd").click(function (){
                         <div class="col-3">
                             <label for="money" class="sub-title">금액</label>
                             <input class="w-100 input-box" type="number" id="price${PRODUCT_COUNT}" name="price">
-<!--                            <input class="w-100 input-box" type="number" id="price${PRODUCT_COUNT}" name="price${PRODUCT_COUNT}">-->
                         </div>
                     </div>
                     <div class="row" style="margin-top: 1em;">
                         <div class="col">
                             <label for="body" class="sub-title">설명</label>
                             <input class="w-100 input-box" type="text" id="introduction${PRODUCT_COUNT}" name="introduction">
-<!--                            <input class="w-100 input-box" type="text" id="introduction${PRODUCT_COUNT}" name="introduction${PRODUCT_COUNT}">-->
                         </div>
                         <div class="col-2">
                             <label for="status" class="sub-title">상품선택</label>
@@ -267,7 +264,6 @@ function getMainCategoryCode(){
                 subCategory(mainCategoryCode, success);
             },
             error : function (error){
-                console.log(error);
             }
         })
 
@@ -276,10 +272,8 @@ function getMainCategoryCode(){
 function subMainCategoryCode(){
     $("#subCategoryCode").bind("change",function () {
         const subCategoryCode = $("#subCategoryCode").val()
-        console.log(subCategoryCode)
     })
 }
-// 타임리프 대체 예정
 function newsList(data){
     data.forEach((item,index)=>{
         let $deleteBtn = $('<input>').addClass("cus-button")
@@ -327,20 +321,17 @@ const suneditor = (minHeight, maxHeight) => {
 }
 
 
-//temporary : boolean
 function project3LoadData() {
     let no = new URLSearchParams(location.search).get('no')
     $.ajax({
         url : '/seller/regist/project3ProductGetdata'  + (no === null ?  '' : `?no=${no}`),
         type : "get",
         success : function (success) {
-            console.log(success)
             let productList = [...success]
             REGIST_PRODUCT_LIST = [...success];
             productItemLoad(productList)
         },
         error : function (error){
-            console.log(error)
         }
     })
 
@@ -354,7 +345,6 @@ function project3LoadData() {
             loadProductImg(productImgList)
         },
         error : function (error){
-            console.log(error)
         }
     })
 }
@@ -369,7 +359,6 @@ function project5LoadData(){
             fqaLoadList(success);
         },
         error : function (error){
-            console.log(error);
         }
     })
 
@@ -383,7 +372,6 @@ function project6LoadData() {
             newsList(succuess)
         },
         error : function (error){
-            console.log(error)
         }
     })
 
@@ -398,10 +386,7 @@ function previewImage(ele) {
 }
 
 function loadProductImg(imgFileList){
-    // let rootUrl = location.origin+'/files/project/'+ (PAGE_NUMBER === null ? '' : PAGE_NUMBER);
     let rootUrl = location.origin+'/files/project/';
-    console.log(imgFileList)
-    let length = 0;
     imgFileList.forEach(e=>{
         if(e.type === 'REPRESENT') $("#present").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
         if(e.type === 'THUMBNAIL') $("#thumbnail").prop("src",rootUrl + e.projectNo + '/' + e.changeName);
@@ -490,7 +475,6 @@ function indexCheckConfirm() {
             }
         },
         error : function (error) {
-            console.log(error)
         }
     })
 }
@@ -527,7 +511,6 @@ function projectInitRegist(temporary) {
     })
 }
 
-// temporary : boolean
 function registProject3(temporary) {
     let presentFile = $("#presentImg")[0].files[0]
     let thumbnailFile = $("#thumbnailImg")[0].files[0]

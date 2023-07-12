@@ -26,8 +26,6 @@ public class SaleListController {
 
     private final ProjectCategoryService projectCategoryService;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
     public SaleListController(ProjectService projectService,
                               ProjectCategoryService projectCategoryService) {
 
@@ -75,7 +73,6 @@ public class SaleListController {
         }
 
         if(openExpect != null && openExpect){
-            System.out.println("openExpect = " + openExpect);
             projectParams.put("openExpect", openExpect);
         }
 
@@ -120,6 +117,7 @@ public class SaleListController {
             attr.put("startDate", String.valueOf(startDays));
 
             attr.put("views", project.getViews().toString());
+
             if(project.getStartDate().isEqual(LocalDate.now())){
                 attr.put("today","true");
             }else {

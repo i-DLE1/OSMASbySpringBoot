@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
@@ -46,7 +47,9 @@ public class ProjectDeatilController {
     public String projectDetail(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
@@ -85,7 +88,9 @@ public class ProjectDeatilController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
 
@@ -166,7 +171,9 @@ public class ProjectDeatilController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        sellerController.hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(no, ProjectProgressStatus.REJECTED);
 

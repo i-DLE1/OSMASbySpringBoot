@@ -1,6 +1,7 @@
 package com.idle.osmas.seller.controller;
 
 import com.idle.osmas.common.exception.AccessAuthorityException;
+import com.idle.osmas.member.dto.MemberStatus;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
@@ -49,18 +50,6 @@ public class SellerController {
         this.projectQnAService = projectQnAService;
         this.projectProgressService = projectProgressService;
         this.orderListService = orderListService;
-    }
-
-
-    public void hasRoleSellerValidation(UserImpl user) throws AccessAuthorityException {
-
-        boolean hasRoleSeller = false;
-
-        for (GrantedAuthority e : user.getAuthorities()) {
-            if (e.toString().equals("ROLE_SELLER")) hasRoleSeller = true;
-        }
-
-        if(!hasRoleSeller) throw new AccessAuthorityException("접근 권한이 없습니다.");
     }
 
     public String listType(Optional<String> listType){
@@ -129,8 +118,10 @@ public class SellerController {
             return "redirect:/seller/projectList?listType=all";
         }
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-
-        hasRoleSellerValidation(user);
+        System.out.println("user = " + user.getStatus());
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(pageNo == null ) pageNo = 1;
 
@@ -235,7 +226,9 @@ public class SellerController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        hasRoleSellerValidation(user);
+        if(!user.getStatus().equals(MemberStatus.USE.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         if(pageNo == null ) pageNo = 1;
 
@@ -270,15 +263,15 @@ public class SellerController {
         return "/seller/sellerqa";
     }
 
-
-
     @GetMapping("deleteTempProject")
     @ResponseBody
     public String deleteTempProject(@RequestParam int no, Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        hasRoleSellerValidation(user);
+        if(user.getStatus().equals(MemberStatus.DROP.toString())) {
+            throw new AccessAuthorityException("접근 권한이 없습니다.");
+        }
 
         boolean validationProject = projectService.existProjectByProjectNo(no, user.getNo());
 
