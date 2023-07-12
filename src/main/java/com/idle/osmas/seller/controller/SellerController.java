@@ -76,6 +76,21 @@ public class SellerController {
             case "complete" :
                 resultListType = "완료";
                 break;
+            case "receipt" :
+                resultListType = "주문접수";
+                break;
+            case "delivery" :
+                resultListType = "배송처리";
+                break;
+            case "refund" :
+                resultListType = "교환환불";
+                break;
+            case "cancelList" :
+                resultListType = "취소내역";
+                break;
+            case "calculate" :
+                resultListType = "주문정보";
+                break;
             default:
                 resultListType = "전체조회";
         }
@@ -156,20 +171,16 @@ public class SellerController {
     public String getOrderList(@RequestParam(required = false) Optional<String> listType,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) Integer pageNo,
-                               @RequestParam(value = "projectNo2", required = false) Integer projectNo2,
+                               @RequestParam(defaultValue= "-1" ,required = false) int projectNo2,
                                Principal principal, Model model) throws AccessAuthorityException {
-
-        System.out.println("projectNo2? " + projectNo2);
 
         if(principal == null) throw new AccessAuthorityException("접근 권한이 없습니다.");
 
-  //      if (no == null) {
-  //          no = 180;
-  //      }
 
         if(listType.isEmpty()){
-            return "redirect:/seller/projectList?listType=all";
+            return "redirect:/seller/orderList?listType=all";
         }
+
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         if(pageNo == null ) pageNo = 1;
@@ -185,9 +196,11 @@ public class SellerController {
         searchCriteria.put("userNo", user.getNo());
         searchCriteria.put("startNo", startNo);
         searchCriteria.put("endNo", endNo);
+        searchCriteria.put("projectNo2", projectNo2);
 
-        List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
-        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList(projectNo2);
+//        List<ProjectDTO> projectList = projectService.selectByProgressAndSearchProjectManagement(searchCriteria);
+        List<SponsoredPRJDTO> orderList = orderListService.selectOrderList(searchCriteria);
+        List<SalesDTO> projectList = orderListService.selectProjectByUserNo(searchCriteria);
 
         int count = projectService.selectByProgressAndSearchProjectManagementCount(searchCriteria);
         int endRow = count - ((pageNo -1) * DEFAULT_MAX_ROWS) < 0 ? count % DEFAULT_MAX_ROWS : count -((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -203,7 +216,6 @@ public class SellerController {
         model.addAttribute("projectList", projectList);
         model.addAttribute("orderList", orderList); // 주문목록
         model.mergeAttributes(getPagenation(pageNo,maxPage));
-        System.out.println("projectNo22 " + projectNo2);
         return "/seller/sellerOrderList";
     }
 

@@ -14,7 +14,7 @@
                 <div class="main">
                     <div class="main-header">
                         <div>
-                            <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label>  주문관리 관리 - <span th:text="${listType}"></span></h1>
+                            <h1 class="h1-title"><label id="toggleLabel" for="navTogglesub">=</label>  주문관리 관리 - <span id="listLabel" th:text="${listType}"></span></h1>
                         </div>
                         <div>
                             <h5>
@@ -23,12 +23,12 @@
                     </div>
                     <div class="nav-list-area">
                         <table id="orderMenu" class="w-100 list-nav mt-5">
-                            <tr class="row">
+                            <tr class="row" >
                                 <td id="orderAll" class="col" onclick="location.href='./orderList?listType=all'">전체조회</td>
-                                <td id="orderReceipt" class="col" onclick="location.href='./orderList?listType=receipt'">주문접수</td>
+                                <td id="orderReceipt" class="col" onclick="location.href='./orderList?listType=receipt'" >주문접수</td>
                                 <td id="orderDelivery" class="col" onclick="location.href='./orderList?listType=delivery'">배송처리</td>
                                 <td id="orderRefund" class="col" onclick="location.href='./orderList?listType=refund'">교환환불</td>
-                                <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancel'">취소내역</td>
+                                <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancelList'">취소내역</td>
                                 <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>
                                 <th class="col-4">
                                     <div class="row col">
@@ -50,16 +50,16 @@
                         <div class="tbaletop">
                             <label style="margin-right: 10px;">프로젝트명
                                 <select style="width: 300px;" class="col-4 me-3 search-bar" id="projectSelectBox" onchange="displaySelectedOptions()">
+                                    <option value=""></option>
                                     <th:block th:each="project: ${projectList}">
-                                       <!-- <option>""</option>-->
-                                    <option  th:text="${project.title}" th:attr="data-project-no=${project.no}"></option>
+                                    <option  th:text="${project.title}" th:attr="data-project-no=${project.no}, data-project-title=${project.title}, data-list-type=${listType}"></option>
                                     </th:block>
                                 </select>
                             </label>
                             <div>
-                                <button class="submitbutton" onclick="orderConfirmation()">배송처리</button>
-                                <button class="submitbutton" onclick="orderExchange()">교환처리</button>
-                                <button class="submitbutton" onclick="orderRefund()">환불처리</button>
+                                <button id="orderConfirmationBtn" class="submitbutton" onclick="orderConfirmation()" >배송처리</button>
+                                <button id="orderExchangeBtn" class="submitbutton" onclick="orderExchange()" >교환처리</button>
+                                <button id="orderRefundBtn" class="submitbutton" onclick="orderRefund()" >환불처리</button>
                             </div>
                         </div>
 
@@ -79,40 +79,47 @@
                             </tr>
                         </thead>
                         <tbody id="projectOrderList">
-
-                            <!-- javacript 반복 구간 -->
                             <!-- 타임 리프 반복 시작 -->
                             <th:block th:each="item, stat : ${orderList}">
-                            <tr th:if="${stat.index == 0 || item.paymentHistory.refPaymentNo != orderList[stat.index - 1]?.paymentHistory?.refPaymentNo}">
+                                <tr th:if="${stat.index == 0 || item.paymentHistory.refPaymentNo != orderList[stat.index - 1]?.paymentHistory?.refPaymentNo}">
+                                    <th class="orderrow-number"></th> <!-- 번호 출력을 위한 빈 td 요소 -->
 
-<!--                                <th th:text="${endRow - stat.index + 1}"></th>-->
-                                <th>
-                                    <span th:text="${endRow - stat.index}" th:unless="${endRow - stat.index == 0}"></span>
-                                </th>
-
-                                <th:block th:object="${item}">
-<!--                                <td th:text="*{paymentHistory.refPaymentNo}"></td>-->
-                                <td th:text="*{memberName.name}"></td>
-                                <td th:text="*{general.general +' '+ general.detail}"></td>
-                                <td th:text="*{request.request}"></td>
-                                <td th:text="*{memberName.phone}"></td>
-                                    <td>
-                                        <th:block th:each="product, iterStat : ${orderList}" th:if="${product.paymentHistory.refPaymentNo == item.paymentHistory.refPaymentNo}">
-                                        <span th:text="${product.productName.name+ '/'+ product.productName.size +'('+ product.amount +'EA)'}"></span>
-                                            <span th:if="${!iterStat.last}">, </span>
-                                        </th:block>
+                                    <th:block th:object="${item}">
+                                    <td th:text="*{memberName.name}"></td>
+                                    <td th:text="*{general.general +' '+ general.detail}"></td>
+                                    <td th:text="*{request.request}"></td>
+                                    <td th:text="*{memberName.phone}"></td>
+                                        <td class="remove-last-character">
+                                            <span th:each="product, iterStat : ${orderList}" th:if="${product.paymentHistory.refPaymentNo == item.paymentHistory.refPaymentNo}">
+                                                    <span th:text="${product.productName.name+ '/'+ product.productName.size +'('+ product.amount +'EA)'}"></span>
+                                                    <span>,</span>
+                                            </span>
+                                        </td>
+                                    <td th:text="*{ #numbers.formatInteger(paymentAmount.amount, 3, 'COMMA')}"></td>
+                                    <td th:text="*{paymentAmount.paymentType}"></td>
+                                    <td th:text="*{paymentAmount.paymentDate}"></td>
+                                    <td th:if="${listType == '전체조회'}">
+                                        <span th:text="*{deliveryStatus.status}" />
                                     </td>
-<!--                                <td th:text="*{productName.name + '/'+ productName.size +'('+ amount +'EA)'}"></td>-->
-                                <td th:text="*{paymentAmount.amount}"></td>
-                                <td th:text="*{paymentAmount.paymentType}"></td>
-                                <td th:text="*{paymentAmount.paymentDate}"></td>
-                                <td th:text="*{deliveryStatus.status}"></td>
-                                </th:block>
-                            </tr>
+                                    <td th:if="${listType == '주문접수'}">
+                                        <input  type="checkbox" th:value="*{paymentAmount.code}" />
+                                    </td>
+                                    <td th:if="${listType == '배송처리'}">
+                                        <span th:text="*{request.docNo}" />
+                                    </td>
+                                    <td th:if="${listType == '교환환불'}">
+                                        <input class="deliveryChk" type="checkbox" th:value="*{paymentAmount.code}" onclick='deliveryCheck()'/>
+                                    </td>
+                                        <td th:text="*{paymentAmount.code}"></td>
+
+                                    </th:block>
+                                </tr>
                             </th:block>
                             <!-- 타임 리프 끝 -->
+
                         </tbody>
                     </table>
+
                     <!-- cus-page start -->
                     <div th:replace="~{/seller/fragments/sellerFrag :: pageantion}"></div>
                 <!-- cus-page end -->
@@ -124,6 +131,7 @@
         <script src="/js/seller/sellerPage.js"></script>
         <script>
             activePage();
+            removeLastComma();
         </script>
 
     </body>
