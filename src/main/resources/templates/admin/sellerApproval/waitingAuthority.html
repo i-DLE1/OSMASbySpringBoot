@@ -35,6 +35,7 @@
                     <h3 class="seller-name" th:text="${seller.member.id}">신청자 아이디</h3>
                     <p class="apply-content" th:text="${seller.name}">회사 이름</p>
                     <p th:data-seller-req="${seller.req.no}"></p>
+                    <p th:data-seller-no="${seller.memberNo}"></p>
                 </div>
                 <div class="button-container">
                     <button class="goButton" th:data-seller-id="${seller.member.id}">권한 부여</button>
@@ -52,29 +53,6 @@
 <footer >
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
-
-<script>
-    $(function(){
-        $(".goButton").click(function() {
-            var sellerId = $(this).attr("data-seller-id");
-            console.log(sellerId); // 값 출력
-
-            // 권한 부여 Ajax 요청
-            $.ajax({
-                url: "/admin/sellerApproval/grantPermission",
-                method: "POST",
-                data: { "sellerId": sellerId },
-                success: function(response) {
-                    console.log("권한이 부여되었습니다.");
-                    location.reload(); // 페이지 새로 고침
-                },
-                error: function(error) {
-                    console.error("권한 부여에 실패했습니다.", error);
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 </html>

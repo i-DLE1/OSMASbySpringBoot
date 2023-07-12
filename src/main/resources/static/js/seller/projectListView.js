@@ -7,7 +7,7 @@ function projectListView(data){
 
     let color = "";
     data.forEach(item=>{
-        console.log(item)
+
         if(item.date >60){
             color = "days-default";
         }else if(item.date > 30){
@@ -17,6 +17,7 @@ function projectListView(data){
         }else{
             color = "days-red";
         }
+
         let $divContainer = $('<div>').addClass('thumbnailWarp')
         const $favoriteBtn = $("<input>").attr('id','favorite-btn').attr('type','button').addClass('favorite-button')
         let $div = $("<div>").addClass("project-item").attr('onclick',`moveSale(${item.no})`)
@@ -24,12 +25,22 @@ function projectListView(data){
         const $thumbnailImg = $("<img>").addClass("project-item-thumbnail")
         item?.img === undefined ? $thumbnailImg.attr('src','./images/common/notImg.jpg') : $thumbnailImg.attr("src",item.img);
         let $contentDiv = $("<div>").addClass("project-row");
-        const $moneyDiv = $("<div>").text(item.currentAmount);
+        const $moneyDiv = $("<div>");
         let $labelDiv  = $("<div>");
-        const $labelSpan = $("<span>").addClass(color).text(`${item.date}일남음`);
         const $titleDiv = $("<div>").text(item.title);
+        const $labelSpan = $("<span>")
+        const $alertButton = $('<input>')
+        const $userCountSpan = $("<span>")
         let $userDiv = $("<div>");
-        const $userCountSpan = $("<span>").text(item.views);
+
+        if(item?.openExpect === 'true'){
+            $labelSpan.addClass('days-cyan').text(' 오픈예정');
+            $moneyDiv.text(`${item.startDate}일 남음`).addClass('font-cyan')
+            $titleDiv.addClass('font-cyan')
+        }else {
+            $labelSpan.addClass(color).text(`${item.date}일남음`);
+            $moneyDiv.text(item.currentAmount);
+        }
 
         if(item?.favorite === 'true'){
             $favoriteBtn.addClass('activate-favorite').attr('onclick',`favoriteToggle(this,${item.no},false)`)
@@ -37,20 +48,33 @@ function projectListView(data){
             $favoriteBtn.addClass('deactivate-favorite').attr('onclick',`favoriteToggle(this,${item.no},true)`)
         }
 
-        $userDiv.append("참여자수 : ").append($userCountSpan).append("명");
+        if(item?.today === 'true') {
+            const $todayLabel = $('<input>').addClass('today-label')
+            $divContainer.append($todayLabel);
+        }
 
         $thumbnailDiv.append($thumbnailImg);
 
         $labelDiv.append($labelSpan);
         $contentDiv.append($moneyDiv)
                     .append($labelDiv);
+
         $div.append($thumbnailDiv)
             .append($contentDiv)
-            .append($titleDiv)
-            .append($userDiv);
+            .append($titleDiv);
+
+        if(item?.openExpect === 'true'){
+            $alertButton.attr('type','button').addClass('alert-btn').val("오픈 알림")
+            $div.append($alertButton)
+        }else{
+            $userCountSpan.text(item.views);
+            $userDiv.append("참여자수 : ").append($userCountSpan).append("명");
+            $div.append($userDiv);
+        }
 
         $divContainer.append($favoriteBtn);
         $divContainer.append($div)
+
         $("#project-view-list").append($divContainer);
     })
 }
@@ -157,8 +181,15 @@ function salesListAjax(pageNo, filter) {
     }
     if(END_LIST) return;
 
+    const today = new URLSearchParams(location.search).get('today')
+    const openExpect = new URLSearchParams(location.search).get('openExpect')
+
     $.ajax({
-        url: `/getSaleList` + `?startNo=${pageNo}` + (filter === undefined ? '' : `&categoryCode=${filter.toString()}`) ,
+        url: `/getSaleList`
+            + `?startNo=${pageNo}`
+            + (filter === undefined ? '' : `&categoryCode=${filter.toString()}`)
+            + (today === null ? '' : `&today=${true}`)
+            + (openExpect === null ? '' : `&openExpect=${true}`),
         type : "get",
         success : function (success) {
             console.log(success)

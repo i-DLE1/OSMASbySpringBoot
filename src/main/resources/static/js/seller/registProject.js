@@ -679,14 +679,14 @@ function nextProject7() {
     location.href = '/seller/regist/project7' + (no === null ?  '' : `?no=${no}`)
 }
 
-function registProjectComplete(){
+function registProjectComplete(temporary){
     let no = new URLSearchParams(location.search).get('no')
 
     $.ajax({
         url : `/seller/regist/projectRegist` + (no === null ?  '' : `?no=${no}`),
         type : 'get',
         success : function (success) {
-            alert("성공적으로 프로젝트가 등록되었습니다.\n심사 승인 후 프로젝트가 시작될 수 있습니다.")
+            if(temporary) alert("성공적으로 프로젝트가 등록되었습니다.\n심사 승인 후 프로젝트가 시작될 수 있습니다.")
             location.href = `/seller/projectList`;
         },
         error : function (error){

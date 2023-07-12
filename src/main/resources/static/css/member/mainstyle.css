@@ -65,7 +65,7 @@ textarea::-webkit-scrollbar-thumb{
 .signup_info{
     height: 50px;
     margin: 10px;
-    margin-bottom:30px;
+    margin-bottom:40px;
     
 }
 .signup_info>input{
@@ -125,6 +125,7 @@ label{
     color: red;
     /* display:none; */
     padding-left: 16px;
+
 }
 
 #id_con{

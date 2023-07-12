@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>판매자 권한 획득/회수 신청 관련 메인</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="/css/admin/sellerApprovalForm/formMain.css">
+    <script src="/js/admin/sellerApprovalForm/formMain.js"></script>
+</head>
+<body>
+
+<header id="header">
+    <th:block th:include="~{/common/fragments/header}"></th:block>
+</header>
+
+<middle>
+    <h1 style="text-align: center;  margin: 100px auto 50px;">OSMAS 판매자 권한 신청</h1><br>
+
+    <div style="align-items: center; text-align: center; margin-top: -50px;">
+    <h3>판매자 권한 신청 준비 서류 안내</h3>
+        <hr>
+    <p>사업자등록증 사본 1부<br>
+        통신판매업 사업자 사본 1부<br>
+        대표자 인감증명서 (또는 본인서명사실확인서) 사본 1부<br>
+        대표자 혹은 사업자 명의 통장 (또는 계좌개설확인서, 온라인통장표지) 사본 1부<br>
+    </p>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; margin: 50px auto 100px;">
+        <div class="box">
+            <h2><a onclick="href='getForm'">판매자 권한 신청하기</a></h2>
+        </div>
+    </div>
+</middle>
+
+
+<footer >
+    <th:block th:include="~{/common/fragments/footer}"></th:block>
+</footer>
+
+</body>
+</html>

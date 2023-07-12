@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>MypageSponsor</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="/static/js/member/mypage.js"></script>
+    <script th:src="@{/js/member/mypage.js}"></script>
     <link rel="stylesheet" href="/css/member/mypagebasic.css">
     <link rel="stylesheet" href="/css/member/mypagemain.css">
 </head>
@@ -28,7 +28,7 @@
 
     <div class="sponsor">
         <div class="img">
-            <img src="/static/images/member/bigsize.png">
+            <img th:src="@{/static/images/member/bigsize.png}">
             <p>상품준비중</p>
         </div>
     </div>
@@ -40,7 +40,7 @@
 
     <div class="sponsor">
         <div class="img">
-            <img src="/static/images/member/overfit.png">
+            <img th:src="@{/static/images/member/overfit.png}">
             <p>배송중</p>
         </div>
     </div>
@@ -52,7 +52,7 @@
 
     <div class="sponsor">
         <div class="img">
-            <img src="/static/images/member/summersize.png">
+            <img th:src="@{/images/member/summersize.png}">
             <p>배송완료</p>
         </div>
     </div>

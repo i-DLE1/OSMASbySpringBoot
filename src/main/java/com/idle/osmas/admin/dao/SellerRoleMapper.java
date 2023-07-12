@@ -27,18 +27,25 @@ public interface SellerRoleMapper {
 
     int changeSellerRoleState(String sellerId); //권한 신청 -> 완료
 
+    int changeSellerRoleReqState(String sellerId); //권한 신청 -> 완료
+
+    int InsertAlertSuccess(String sellerId); //권한 신청 -> 완료
+
     int addRoleToSellerDrop(String sellerId); //권한 회수 신청 -> 완료
 
     int changeSellerRoleDropState(String sellerId); //권한 회수 신청 -> 완료
 
     int addRoleToSellerReason(String sellerId, String reason, int sellerReq); //권한 신청 -> 보류
 
-    int changeSellerRoleState2(int sellerReq); //권한 신청 -> 보류
-
     int addRoleToSellerReasonRetrieve(String sellerId, String reason, int sellerReq); //권한 회수 신청 -> 보류
 
     int changeSellerRoleState3(int sellerReq); //권한 회수 신청 -> 보류
 
 
+    int insertAlert(String sellerId, String reason, int sellerNo);
+
+    int InsertAlert(String sellerId, int sellerNo);
+
+    int hholdingAlert(String sellerId, int sellerNo);
 
 }

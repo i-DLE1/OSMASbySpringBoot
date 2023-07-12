@@ -100,10 +100,11 @@ public class SellerApprovalController {
 
     //권한 회수신청 -> 완료
     @PostMapping("dropPermission")
-    public String dropPermission(@RequestParam("sellerId") String sellerId, Model model) {
+    public String dropPermission(@RequestParam("sellerId") String sellerId, @RequestParam("sellerNo") int sellerNo,
+                                 Model model) {
         model.addAttribute("sellerId", sellerId);
 
-        int result = sellerRoleService.drop(sellerId);
+        int result = sellerRoleService.drop(sellerId, sellerNo);
 
         if (result > 0) {
             return "redirect:/admin/sellerApproval/waitingRetrieve";
@@ -115,12 +116,13 @@ public class SellerApprovalController {
     //권한 신청 -> 보류
     @PostMapping("holdingPermission")
     public String holdingPermission(@RequestParam("sellerId") String sellerId, @RequestParam("reason") String reason,
-                                    @RequestParam("sellerReq") int sellerReq, Model model) {
+                                    @RequestParam("sellerReq") int sellerReq, @RequestParam("sellerNo") int sellerNo,
+                                    Model model) {
         model.addAttribute("sellerId", sellerId);
         model.addAttribute("reason", reason);
         model.addAttribute("sellerReq", sellerReq);
 
-        int result = sellerRoleService.holdingGrant(sellerId, reason, sellerReq);
+        int result = sellerRoleService.holdingGrant(sellerId, reason, sellerReq, sellerNo);
 
         if (result > 0) {
             return "redirect:/admin/sellerApproval/waitingAuthority";
@@ -132,12 +134,13 @@ public class SellerApprovalController {
     //권한 회수 신청 ->보류
     @PostMapping("holdingRetrieveGo")
     public String holdingRetrieveGo(@RequestParam("sellerId") String sellerId, @RequestParam("reason") String reason,
-                                    @RequestParam("sellerReq") int sellerReq, Model model) {
+                                    @RequestParam("sellerReq") int sellerReq,@RequestParam("sellerNo") int sellerNo,
+                                    Model model) {
         model.addAttribute("sellerId", sellerId);
         model.addAttribute("reason", reason);
         model.addAttribute("sellerReq", sellerReq);
 
-        int result = sellerRoleService.holdingRetrieveGo(sellerId, reason, sellerReq);
+        int result = sellerRoleService.holdingRetrieveGo(sellerId, reason, sellerReq, sellerNo);
 
         if (result > 0) {
             return "redirect:/admin/sellerApproval/waitingRetrieve";

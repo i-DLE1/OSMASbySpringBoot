@@ -31,37 +31,50 @@
 </header>
 <div class="board" style="width: 600px;">
 
-    <h2>상품 정보</h2>
+    <h2>프로젝트 정보</h2>
     <section>
         <div style="display: flex;">
             <img src="./grid.png" height="80px" width="100px" alt="">
             <div style="margin-left: 10px;">
-                <div style="margin-top: 15px;">
+                <div style="margin-top: 15px;" th:text="${pay.title}" class="title">
                     프로젝트 이름
                 </div>
                 <div style="font-size: 12px; margin-top: 5px;">
-                            <span>
+                    목표액 : <span th:text="|${pay.targetAmount}원 |">
                                 목표액
                             </span>
-                    <span> 10% </span><span> 남은기한
+                    모금액 :
+                    <span th:text="|${pay.currentAmount}원 |"></span>프로젝트 종료일 : <span th:text="${pay.endDate}"> 프로젝트 종료일
                             </span>
+                    <span style="display: none" th:text="${pay.no}" class="no">
+                </span>
                 </div>
             </div>
         </div>
-        <div class="paycontent">
-            <span>상품 이름</span> <span>수량</span><span>상품금액</span>
-        </div>
-        <div class="paycontent">
-            후원금 :
-            <span>1000원</span>
-        </div>
+
+        <th:block th:each="product : ${productList}">
+            <ul style="padding-left: 0px">
+                <th:block th:if="${product.name !=null}">
+                    <li th:text="${product.productNo}" style="display: none" class="productNo">
+                    </li>
+                    <li>
+                        상품 이름 : <span th:text="${product.name}"></span>
+                        <span th:text="|${product.price}원|"></span>
+                        <span th:text="${product.count}" class="count"></span>개
+
+                    </li>
+                </th:block>
+            </ul>
+            <th:block th:if="${product.name ==null}">
+                <div class="paycontent">
+                    후원금 :
+                    <span th:text="|${product.price}원|">1000원</span>
+                </div>
+            </th:block>
+        </th:block>
         <div class="paycontent">
             총 결제 금액 :
-            <span>6000원</span>
-        </div>
-        <div class="paycontent">
-            예상 전달일 :
-            <span>6월 28일</span>
+            <span th:text="${pay.sumPrice}" class="sumPrice">6000원</span>원
         </div>
 
     </section>
@@ -87,8 +100,9 @@
             </div>
             <div class="address_info">
                 <div class="address_new">
-                    <input type="text" id="sample6_postcode" placeholder="우편번호" class="postalCode" style="width: 100px;">
-                    <input type="button" onclick="sample6_execDaumPostcode()"  value="우편번호 찾기"><br>
+                    <input type="text" id="sample6_postcode" placeholder="우편번호" class="postalCode"
+                           style="width: 100px;">
+                    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
                     <input type="text" id="sample6_address" placeholder="주소" class="general" style="width: 314px;"><br>
                     <div>
                         <input type="text" id="sample6_detailAddress" class="detail" placeholder="상세주소"
@@ -98,7 +112,8 @@
                     </div>
                 </div>
             </div>
-            <button class="add_address" style="margin-left: 10px; margin-top: 10px; width:auto; height:30px;" >주소등록</button>
+            <button class="add_address" style="margin-left: 10px; margin-top: 10px; width:auto; height:30px;">주소등록
+            </button>
         </div>
         <div th:if="${address != null}">
             <div class="address_title">
@@ -106,18 +121,20 @@
             </div>
             <div class="address_info">
                 <div class="address_new">
-                    <input type="text" class="address_info_old" placeholder="우편번호" style="width: 100px;"
+                    <input type="text" class="address_info_old" id="postalCode" placeholder="우편번호" style="width: 100px;"
                            th:value="${address.postalCode}" readonly>
                     <input type="button" value="수정" class="modifyButton"><br>
-                    <input type="text" class="address_info_old" placeholder="주소" th:value="${address.general}"
+                    <input type="text" class="address_info_old" placeholder="주소" id="general"
+                           th:value="${address.general}"
                            style="width: 314px;" readonly><br>
-                    <input type="text" class="address_info_old" placeholder="상세주소" th:value="${address.detail}"
+                    <input type="text" class="address_info_old" placeholder="상세주소" id="detail"
+                           th:value="${address.detail}"
                            style="width: 314px; height: 30px; margin-top: 10px;" readonly>
                 </div>
             </div>
         </div>
-        <div style="margin-top: 10px; margin-left: 5px">배송시 요청사항(선택)
-            <input type="text" placeholder="ex)부재 시 경비실에 맡겨주세요" class="address_request" style="margin-top: 5px">
+        <div style="margin-top: 10px; margin-left: 5px">배송시 요청사항(선택) ex) 부재시 경비실에 맡겨주세요.
+            <input type="text" class="address_request" style="margin-top: 5px">
         </div>
     </section>
     <section>
@@ -130,7 +147,7 @@
     <section>
         <h2>약관 동의</h2>
         <div style="margin-left: 10px;">
-            <input type="checkbox" id="chk_box1">
+            <input type="checkbox" id="chk_box1" required>
             <label for="chk_box1" style="margin-left: 0px;"> 개인정보 제 3자 제공동의(필수)</label>
             <span style="float: right;" class="term_open">보기</span>
             <div style="margin-left: 25px; margin-top: 10px;" class="pay_term">
@@ -149,7 +166,7 @@
         </div>
     </section>
     <div style="text-align: center;">
-        <button type="button" class="ok_button" style="margin-top: 10px;">결제 하기
+        <button type="button" class="ok_button" style="margin-top: 10px;" disabled>결제 하기
         </button>
     </div>
 </div>
@@ -158,33 +175,78 @@
 </footer>
 
 <script>
-    // $(function (){
-    //     $('.add_address').click(function (){
-    //         let postalCode = $('.postalCode').val();
-    //         let detail = $('.detail').val();
-    //         let general = $('.general').val();
-    //         if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
-    //             alert("주소를 적어주세요")
-    //         }else{
-    //             $.ajax({
-    //                 url: "/member/pay/address",
-    //                 type: "post",
-    //                 data:{postalCode, detail,general },
-    //                 success: function (data){
-    //                     alert(data);
-    //                     location.reload();
-    //                 },error: function (error){
-    //                     alert(error)
-    //                 }
-    //             });
-    //         }
-    //     });
-    // });
-    // $(function () {
-    //     $('.ok_button').click(function () {
-    //
-    //     });
-    // });
+    $('#chk_box1').click(function (){
+        if($('#chk_box1').is(':checked')==true&&$('.add_address').val()==null){
+            $('.ok_button').removeAttr('disabled');
+        }else{
+            $('.ok_button').attr('disabled','true');
+        }
+    });
+    $(function () {
+        $('.add_address').click(function () {
+            let postalCode = $('.postalCode').val();
+            let detail = $('.detail').val();
+            let general = $('.general').val();
+
+            let jsonObj = {
+                postalCode: postalCode
+                , detail: detail
+                , general: general
+            };
+            if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
+                alert("주소를 적어주세요")
+            } else {
+                $.ajax({
+                    url: "/member/pay/address",
+                    type: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonObj),
+                    success: function (data) {
+                        alert(data);
+                        location.reload();
+                    }, error: function (error) {
+                        alert(error.responseJSON.message)
+                    }
+                });
+            }
+        });
+    });
+    $(function () {
+        $('.ok_button').click(function () {
+            const $count = document.querySelectorAll('.count');
+            const $productNo = document.querySelectorAll('.productNo');
+            const count = [];
+            const no = $('.no').text();
+            const price = $('.sumPrice').text();
+            const productNo = [];
+            let request
+            const title = $('.title').text();
+
+            request = $('.address_request').val();
+
+            for (let i = 0; i < $count.length; i++) {
+                count[i] = $count[i].innerText;
+                productNo[i] = $productNo[i].innerText;
+            }
+            let jsonObj = {
+                no: no
+                , count: count
+                , productNo: productNo
+                , price: price
+                , title: title
+                , request: request
+            };
+            $.ajax({
+                type: "post",
+                url: "/member/pay/kakao",
+                contentType: "application/json",
+                data: JSON.stringify(jsonObj),
+                success: function (response) {
+                    location.href = response.next_redirect_pc_url;
+                }
+            });
+        });
+    });
 
     window.onload = function () {
         $('.pay_term').hide();
@@ -211,8 +273,33 @@
             $('.address_info_old').removeAttr('readonly');
             $('.modifyButton').val('등록');
         } else {
-            $('.modifyButton').val('수정');
-            $('.address_info_old').attr('readonly', true);
+            let postalCode = $('#postalCode').val();
+            let detail = $('#detail').val();
+            let general = $('#general').val();
+
+            let jsonObj = {
+                postalCode: postalCode
+                , detail: detail
+                , general: general
+            };
+            if (detail.trim().length == 0 || general.trim().length == 0 || postalCode.trim().length == 0) {
+                alert("주소를 적어주세요")
+            } else {
+                $.ajax({
+                    url: "/member/pay/addressMod",
+                    type: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify(jsonObj),
+                    success: function (data) {
+                        alert(data);
+                        $('.modifyButton').val('수정');
+                        $('.address_info_old').attr('readonly', true);
+                        location.reload();
+                    }, error: function (error) {
+                        alert(error.responseJSON.message)
+                    }
+                });
+            }
         }
     });
 

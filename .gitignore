@@ -284,3 +284,6 @@ buildNumber.properties
 
 #savedFiles
 src/main/resources/static/files/
+
+#presentationFiles
+src/main/resources/static/presentation/

@@ -61,6 +61,8 @@ public class SaleListController {
     public List<Map<String, String>> getSaleList(@RequestParam(required = false) List<Integer> categoryCode,
                                                  @RequestParam(required = false) String searchTitle,
                                                  @RequestParam(required = false) int startNo,
+                                                 @RequestParam(required = false) Boolean today,
+                                                 @RequestParam(required = false) Boolean openExpect,
                                                  Principal principal
                                                  ){
 
@@ -70,6 +72,15 @@ public class SaleListController {
 
         projectParams.put("startNo",startNo);
         projectParams.put("endNo",startNo+12);
+
+        if(today != null && today){
+            projectParams.put("today", today);
+        }
+
+        if(openExpect != null && openExpect){
+            System.out.println("openExpect = " + openExpect);
+            projectParams.put("openExpect", openExpect);
+        }
 
         if(categoryCode == null || categoryCode.size() == 0){
             projectParams.put("searchTitle",searchTitle);
@@ -103,12 +114,23 @@ public class SaleListController {
             Map<String, String> attr = new HashMap<>();
 
             long betweenDays = ChronoUnit.DAYS.between(LocalDate.now(),project.getEndDate());
+            long startDays = ChronoUnit.DAYS.between(LocalDate.now(),project.getStartDate());
 
             attr.put("no",String.valueOf(project.getNo()));
             attr.put("title", project.getTitle());
             attr.put("currentAmount", df.format(project.getCurrentAmount())+"원");
-            attr.put("date", String.valueOf(betweenDays) );
+            attr.put("date", String.valueOf(betweenDays));
+            attr.put("startDate", String.valueOf(startDays));
+
             attr.put("views", project.getViews().toString());
+            if(project.getStartDate().isEqual(LocalDate.now())){
+                attr.put("today","true");
+            }else {
+                attr.put("today","false");
+            }
+
+            if(openExpect != null && openExpect) attr.put("openExpect","true");
+
 
             if(projectWishList != null){
                 for (ProjectWishDTO e : projectWishList) {

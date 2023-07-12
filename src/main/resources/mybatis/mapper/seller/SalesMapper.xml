@@ -51,11 +51,11 @@
         <result property="refMemberNo" column="REF_MEMBER_NO"/>
         <result property="refPrjNo" column="REF_PRJ_NO"/>
         <result property="registDate" column="REGIST_DATE"/>
-        <association property="name" resultMap="memberResultMap"/>
+        <association property="nickname" resultMap="memberResultMap"/>
         <association property="answerContent" resultMap="qnaAnswerResultMap"/>
         <association property="answerRegistDate" resultMap="qnaAnswerResultMap"/>
         <association property="answerNo" resultMap="qnaAnswerResultMap"/>
-        <association property="answerName" resultMap="memberResultMap2"/>
+        <association property="answerNickName" resultMap="memberResultMap2"/>
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.QnaAnswerDTO" id="qnaAnswerResultMap">
@@ -67,33 +67,33 @@
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.MemberDTO" id="memberResultMap">
-        <id property="no" column="REF_MEMBER_NO"/>
-        <result property="id" column="ACCOUNT_NO"/>
-        <result property="pwd" column="REGIST_NO"/>
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
         <result property="name" column="NAME"/>
-        <result property="phone" column="CALL_NUMBER"/>
-        <result property="birth" column="RPRSN"/>
-        <result property="email" column="ADDRESS"/>
-        <result property="registDate" column="BANK"/>
-        <result property="nickname" column="REPORT_NO"/>
-        <result property="status" column="REPORT_NO"/>
-        <result property="introduction" column="REPORT_NO"/>
-        <result property="dropReason" column="REPORT_NO"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.MemberDTO" id="memberResultMap2">
-        <id property="no" column="REF_MEMBER_NO"/>
-        <result property="id" column="ACCOUNT_NO"/>
-        <result property="pwd" column="REGIST_NO"/>
-        <result property="name" column="ANSWER_NAME"/>
-        <result property="phone" column="CALL_NUMBER"/>
-        <result property="birth" column="RPRSN"/>
-        <result property="email" column="ADDRESS"/>
-        <result property="registDate" column="BANK"/>
-        <result property="nickname" column="REPORT_NO"/>
-        <result property="status" column="REPORT_NO"/>
-        <result property="introduction" column="REPORT_NO"/>
-        <result property="dropReason" column="REPORT_NO"/>
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="ANSWER_NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="introduction" column="INTRODUCTION"/>
+        <result property="dropReason" column="DROP_REASON"/>
     </resultMap>
 
     <resultMap type="com.idle.osmas.seller.dto.FaqDTO" id="faqResultMap">
@@ -113,7 +113,6 @@
         <result property="deleteYn" column="DELETE_YN"/>
         <result property="refprjNo" column="REF_PRJ_NO"/>
     </resultMap>
-
 
     <select id="selectAllProject" resultMap="salesResultMap">
         SELECT
@@ -175,6 +174,8 @@
                 REF_PRODUCT_NO
             FROM  TBL_PRJ_PRODUCT_LIST
             WHERE REF_PRJ_NO = #{ no })
+          AND
+            STATUS = 'AVAILABLE'
     </select>
 
 
@@ -204,11 +205,11 @@
             A.REF_PRJ_NO,
             A.REGIST_DATE,
             A.NO,
-            B.NAME,
+            B.NICKNAME,
             C.CONTENT AS ANSWER_CONTENT,
             C.REGIST_DATE AS ANSWER_REGIST_DATE,
             C.REF_MEMBER_NO AS ANSWER_NO,
-            D.NAME AS ANSWER_NAME
+            D.NICKNAME AS ANSWER_NICKNAME
         FROM TBL_PRJ_QNA A
                  LEFT JOIN TBL_MEMBER B ON A.REF_MEMBER_NO = B.NO
                  LEFT JOIN TBL_PRJ_QNA_ANSWER C ON A.NO = C.PRJ_QNA_CODE

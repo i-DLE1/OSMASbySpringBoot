@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>MypageAccountDeleteNext</title>
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-  <script src="/static/js/member/mypage.js"></script>
+  <script th:src="@{/js/member/mypage.js}"></script>
   <link rel="stylesheet" href="/css/member/mypagebasic.css">
   <link rel="stylesheet" href="/css/member/mypagemain.css">
 </head>
@@ -22,18 +22,18 @@
       <ul>
         <li><a href="#">탈퇴 사유를 선택해주세요.</a>
           <ul>
-            <li><a href="#">찾는 물품이 없어요</a></li>
-            <li><a href="#">개인 정보를 삭제하고 싶어요</a></li>
-            <li><a href="#">사용이 어려워요</a></li>
-            <li><a href="#">혜택이 부족해요</a></li>
-            <li><a href="#">운영 방식이 만족스럽지 않아요</a></li>
-            <li><a href="#">기타</a></li>
+            <li onclick="selectReason(this)"><a href="#">찾는 물품이 없어요</a></li>
+            <li onclick="selectReason(this)"><a href="#">개인 정보를 삭제하고 싶어요</a></li>
+            <li onclick="selectReason(this)"><a href="#">사용이 어려워요</a></li>
+            <li onclick="selectReason(this)"><a href="#">혜택이 부족해요</a></li>
+            <li onclick="selectReason(this)"><a href="#">운영 방식이 만족스럽지 않아요</a></li>
+            <li onclick="selectReason(this)"><a href="#">기타</a></li>
           </ul>
         </li>
       </ul>
 
       <div class="delete_write">
-        <input type="text" placeholder="항목이외에 기타 불만사항이나 의견을 기재해 주세요."/>
+        <input id="reason" type="text" placeholder="항목이외에 기타 불만사항이나 의견을 기재해 주세요."/>
       </div>
 
       <div class="btn_save">

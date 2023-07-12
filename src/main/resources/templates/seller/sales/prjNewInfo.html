@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="/js/seller/slaesPage.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-bs4.min.js"></script>
 </head>
 
 <body>
@@ -20,7 +22,7 @@
                 <div style="padding-bottom: 20px;">
                     <p th:text="${newInfo.title}" style="text-align: left; font-size: 25px"></p>
                     <div class="content-wrapper">
-                        <div class="newInfoContent" th:text="${newInfo.content}"></div>
+                        <div class="newInfoContent" th:utext="${newInfo.content}"></div>
                         <button class="more-button">더 보기</button>
                     </div>
                     <p th:text="'수정일: '+ ${newInfo.modifyDate}" style="text-align: left; font-size: 15px"></p>
