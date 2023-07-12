@@ -167,13 +167,14 @@
                                ON F.REF_PRJ_NO = J.NO
         WHERE 1=1
         AND  D.REF_PAYMENT_NO IS NOT NULL
+        AND  J.REF_MEMBER_NO = #{userNo}
         <if test="projectNo2 != -1">
         AND F.REF_PRJ_NO = #{projectNo2}
         </if>
         <if test="listType.equalsIgnoreCase('receipt')">
         AND I.STATUS = 'PREPARING'
         </if>
-        <if test="listType.equalsIgnoreCase('delivery')">
+        <if test="listType.equalsIgnoreCase('delivery') or listType.equalsIgnoreCase('refund')">
             AND I.STATUS = 'COMPLETED'
         </if>
         <if test="search != null and searchType.equals('name')">

@@ -31,16 +31,16 @@ public class DeliveryController {
         model.addAttribute("checkList", checkList);
         model.addAttribute("exchangeList", exchangeList);
 //        model.addAttribute("randomList", randomList);
-        System.out.println("exchangeList====================="+exchangeList);
+        System.out.println("exchangeList=====================" + exchangeList);
 
         Map<String, Object> params = new HashMap<>();
         params.put("checkList", checkList);
 //        params.put("randomList", randomList);
 
         Map<String, Object> params2 = new HashMap<>();
-        params.put("exchangeList", exchangeList);
+        params2.put("exchangeList", exchangeList);
 
-        if(checkList != null){
+        if (checkList != null) {
             int result = orderListService.updateDeliveryStatus(params);
             int result2 = orderListService.updateShippingTrackInfo(params);
 
@@ -49,22 +49,20 @@ public class DeliveryController {
             } else {
                 return "redirect:/admin/errorPage";
             }
-        } else{
+        }
+        if (exchangeList != null) {
 
             int result3 = orderListService.exchangeDeliveryStatus(params2);
 
-            if(result3 > 0 ){
+            if (result3 > 0) {
                 return "redirect:/seller/orderList?listType=refund";
-            } else{
+            } else {
                 return "redirect:/admin/errorPage";
             }
 
+        } else {
+            return "redirect:/admin/errorPage";
         }
-
-
-
-
     }
-
 
 }

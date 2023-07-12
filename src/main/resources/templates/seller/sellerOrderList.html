@@ -25,11 +25,11 @@
                         <table id="orderMenu" class="w-100 list-nav mt-5">
                             <tr class="row" >
                                 <td id="orderAll" class="col" onclick="location.href='./orderList?listType=all'">전체조회</td>
-                                <td id="orderReceipt" class="col" onclick="location.href='./orderList?listType=receipt'" >주문접수</td>
+                                <td id="orderReceipt" class="col" onclick="location.href='./orderList?listType=receipt'">주문접수</td>
                                 <td id="orderDelivery" class="col" onclick="location.href='./orderList?listType=delivery'">배송처리</td>
                                 <td id="orderRefund" class="col" onclick="location.href='./orderList?listType=refund'">교환환불</td>
-                                <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancelList'">취소내역</td>
-<!--                                <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>-->
+                                <!--                               <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancelList'">취소내역</td>-->
+                               <!--                                <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>-->
                                 <th class="col-4">
                                     <div class="row col">
                                         <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
@@ -57,10 +57,15 @@
                                 </select>
                             </label>
                             <div>
-                                <button id="orderConfirmationBtn" class="submitbutton" onclick="orderConfirmation()" >배송처리</button>
+                                <th:block th:if="${listType == '주문접수'}">
+                                <button id="orderConfirmationBtn" class="submitbutton" onclick="orderConfirmation()">배송처리</button>
+                                </th:block>
+                                <th:block th:if="${listType == '교환환불'}">
                                 <button id="orderExchangeBtn" class="submitbutton" onclick="orderExchange()" >교환처리</button>
-                                <button id="orderRefundBtn" class="submitbutton" onclick="orderRefund()" >환불처리</button>
+                                </th:block>
+                                <button id="orderRefundBtn" class="submitbutton" onclick="orderRefund()"style="display: none" >환불처리</button>
                             </div>
+
                         </div>
 
 
