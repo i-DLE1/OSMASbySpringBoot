@@ -53,6 +53,10 @@ private final MypageMapper mypageMapper;
         } else {
             return 0;
         }
+    }
 
+    @Override
+    public int updatePwdStatusByNo(int no, String pwd) {
+        return mypageMapper.updatePwdStatusByNo(no, pwd);
     }
 }

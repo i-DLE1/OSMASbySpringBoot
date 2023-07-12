@@ -36,7 +36,7 @@
         <input th:id="postalCode" th:name="postalCode" th:value="${userJoin.addressList.get(0).postalCode}" th:if="${userJoin.addressList.size() > 0}" type="text" required/>
         <input th:id="postalCode" th:name="postalCode" th:if="${userJoin.addressList.size() == 0}" type="text" required/>
 
-        <button class="find_ship" onclick="daumPost()">우편번호 찾기</button><br>
+        <button class="find_ship" onclick="event.preventDefault(); daumPost()">우편번호 찾기</button><br>
         <input th:id="general" th:name="general" th:value="${userJoin.addressList.get(0).general}" th:if="${userJoin.addressList.size() > 0}" type="text" required/>
         <input th:id="general" th:name="general" th:if="${userJoin.addressList.size() == 0}" type="text" required/>
 
@@ -62,6 +62,7 @@
 </footer>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
     function daumPost() {
         new daum.Postcode({
             oncomplete: function (data) {

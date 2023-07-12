@@ -18,4 +18,5 @@ public interface MypageService {
 
     int allInfoByNO(int no, String name, String phone, String general, String detail, String postCode);
 
+    int updatePwdStatusByNo(int no, String pwd);
 }
