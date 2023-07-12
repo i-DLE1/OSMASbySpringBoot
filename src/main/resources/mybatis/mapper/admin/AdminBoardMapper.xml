@@ -122,7 +122,8 @@
         </select>
 
 
-        <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+<!--        <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">-->
+        <select id="getAdminBoardByNo" resultMap="adminBoardResultMap">
             SELECT
                 *
             FROM  TBL_ADMIN_BOARD

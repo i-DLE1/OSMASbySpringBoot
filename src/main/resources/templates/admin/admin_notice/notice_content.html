@@ -53,13 +53,13 @@
     <hr>
 <div class="notice-content" th:if="${noticeContent}">
     <div class="notice-category">
-        <h6 style="font-weight: lighter; font-size: 12px;">카테고리: <span th:text="${noticeContent.classifyCode}"></span></h6>
+        <h6 style="font-weight: lighter; font-size: 12px;"><span th:text="${noticeContent.classifyCode}"></span></h6>
     </div>
     <div class="notice-title">
         <h3><span th:text="${noticeContent.title}"></span></h3>
     </div>
     <div class="notice-date">
-        <h6 style="font-weight: lighter; font-size: 12px;">등록날짜: <span th:text="${noticeContent.registDate}"></span></h6>
+        <h6 style="font-weight: lighter; font-size: 12px;"><span th:text="${noticeContent.registDate}"></span></h6>
     </div>
     <hr>
     <div class="notice-content-text">
@@ -74,7 +74,8 @@
 <!-- 수정 및 삭제 버튼 -->
     <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
         <a th:href="@{/admin/user_notice/notice_edit(no=${noticeContent.no})}" class="btn">수정</a>
-        <a href="javascript:void(0);" onclick="deleteNotice(/*[[${noticeContent.no}]]*/)" class="btn">삭제</a>
+<!--        <a href="javascript:void(0);" onclick="deleteNotice(/*[[${noticeContent.no}]]*/)" class="btn">삭제</a>-->
+        <button onclick="deleteNotice()" class="btn">삭제</button>
     </div>
 </div>
 
@@ -87,10 +88,11 @@
     }
 
     // 삭제 버튼 클릭 시
-    function deleteNotice(no) {
+    function deleteNotice() {
+        const no = new URLSearchParams(location.search).get('no')
         // AJAX를 사용하여 공지사항 삭제 요청을 서버로 보냅니다.
         $.ajax({
-            url: "/delete",  // 경로 수정
+            url: `/admin/user_notice/delete`,  // 경로 수정
             type: "POST",
             data: {no: no},
             success: function (response) {

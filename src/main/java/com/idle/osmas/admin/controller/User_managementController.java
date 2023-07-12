@@ -22,7 +22,8 @@ public class User_managementController {
         this.userManagementService = userManagementService;
     }
 
-//    회원 전체 조회
+
+    //    회원 전체 조회
     @GetMapping("/full_inquiry")
     public String full_inquiry(Model model) {
         List<UserManagementDTO> users = userManagementService.getAllUsers();

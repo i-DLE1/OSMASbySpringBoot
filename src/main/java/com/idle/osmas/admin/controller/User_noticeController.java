@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -55,10 +56,16 @@ public class User_noticeController {
 
     // 공지사항 삭제 메소드
     @PostMapping("/delete")
-    public String deleteNotice(@RequestParam("no") int no) {
+    public String deleteNotice(@RequestParam int no) {
+        System.out.println("no = " + no);
         adminBoardService.deleteAdminBoard(no);
         return "redirect:/admin/user_notice/notice_view/A"; // 경로 수정
 
+    }
+
+    @GetMapping("/notice_edit")
+    public String noticeEdit(@RequestParam(required = false) Integer no, Principal principal, Model model){
+        return "/admin/admin_notice/noticeEdit";
     }
 
 
