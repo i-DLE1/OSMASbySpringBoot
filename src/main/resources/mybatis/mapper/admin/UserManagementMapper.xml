@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idle.osmas.admin.dao.UserManagementMapper">
+
+    <resultMap id="userManagementResultMap" type="com.idle.osmas.admin.dto.UserManagementDTO">
+        <id property="no" column="NO"/>
+        <result property="id" column="ID"/>
+        <result property="pwd" column="PWD"/>
+        <result property="name" column="NAME"/>
+        <result property="phone" column="PHONE"/>
+        <result property="birth" column="BIRTH"/>
+        <result property="email" column="EMAIL"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="dropReason" column="DROP_REASON"/>
+    </resultMap>
+
+    <resultMap id="userManagementRoleResultMap" type="com.idle.osmas.admin.dto.UserManagementRoleDTO">
+        <id property="roleCode" column="ROLE_CODE"/>
+        <result property="roleName" column="ROLE_NAME"/>
+    </resultMap>
+
+
+    <!-- 회원 전체 조회 -->
+    <select id="selectAllMembers" resultMap="userManagementResultMap">
+        SELECT *
+        FROM TBL_MEMBER
+    </select>
+
+    <!-- 회원 상태값(관리자,사용자,판매자)에 따른 조회 -->
+    <select id="getMembersByRole" resultMap="userManagementResultMap">
+        SELECT M.*, R.ROLE_NAME
+        FROM TBL_MEMBER M
+                 JOIN TBL_MEMBER_ROLE R ON M.ROLE_CODE = R.ROLE_CODE
+        WHERE M.ROLE_CODE = #{roleCode}
+    </select>
+
+</mapper>

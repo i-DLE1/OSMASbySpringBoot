@@ -1,146 +1,146 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.idle.osmas.admin.dao.AdminBoardMapper">
+    <!DOCTYPE mapper
+            PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.idle.osmas.admin.dao.AdminBoardMapper">
 
-    <resultMap id="adminBoardResultMap" type="com.idle.osmas.admin.dto.AdminBoardDTO">
-        <id property="no" column="NO"/>
-        <result property="title" column="TITLE"/>
-        <result property="content" column="CONTENT"/>
-        <result property="registDate" column="REGIST_DATE"/>
-        <result property="modifyDate" column="MODIFY_DATE"/>
-        <result property="classifyCode" column="CLASSIFY_CODE"/>
-        <result property="deleteYN" column="DELETE_YN"/>
-        <result property="category" column="CATEGORY"/>
-    </resultMap>
-
-
-    <resultMap id="adminBoardFileResultMap" type="com.idle.osmas.admin.dto.AdminBoardFileDTO">
-        <result property="boardNo" column="BOARD_NO"/>
-        <result property="boardTitle" column="BOARD_TITLE"/>
-        <result property="boardContent" column="BOARD_CONTENT"/>
-        <result property="boardRegistDate" column="BOARD_REGIST_DATE"/>
-        <result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
-        <result property="boardDeleteYN" column="BOARD_DELETE_YN"/>
-        <result property="boardClassifyCode" column="BOARD_CLASSIFY_CODE"/>
-    </resultMap>
+        <resultMap id="adminBoardResultMap" type="com.idle.osmas.admin.dto.AdminBoardDTO">
+            <id property="no" column="NO"/>
+            <result property="title" column="TITLE"/>
+            <result property="content" column="CONTENT"/>
+            <result property="registDate" column="REGIST_DATE"/>
+            <result property="modifyDate" column="MODIFY_DATE"/>
+            <result property="classifyCode" column="CLASSIFY_CODE"/>
+            <result property="deleteYN" column="DELETE_YN"/>
+            <result property="category" column="CATEGORY"/>
+        </resultMap>
 
 
-    <select id="getAllAdminBoards" resultMap="adminBoardResultMap">
-        SELECT
-            S.NO,
-            S.TITLE,
-            S.CONTENT,
-            S.REGIST_DATE,
-            S.MODIFY_DATE,
-            S.CLASSIFY_CODE,
-            S.REF_MEMBER_NO,
-            S.DELETE_YN
-        FROM TBL_ADMIN_BOARD S
-        <where>
-            <if test='boardtype == "N"'>
-                S.CLASSIFY_CODE = '공지사항'
-            </if>
-            <if test='boardtype == "E"'>
-                S.CLASSIFY_CODE = '이벤트'
-            </if>
-            <if test='boardtype == "AT"'>
-                S.CLASSIFY_CODE = '보도자료'
-            </if>
-        </where>
-        ORDER BY S.REGIST_DATE DESC
-    </select>
+        <resultMap id="adminBoardFileResultMap" type="com.idle.osmas.admin.dto.AdminBoardFileDTO">
+            <result property="boardNo" column="BOARD_NO"/>
+            <result property="boardTitle" column="BOARD_TITLE"/>
+            <result property="boardContent" column="BOARD_CONTENT"/>
+            <result property="boardRegistDate" column="BOARD_REGIST_DATE"/>
+            <result property="boardModifyDate" column="BOARD_MODIFY_DATE"/>
+            <result property="boardDeleteYN" column="BOARD_DELETE_YN"/>
+            <result property="boardClassifyCode" column="BOARD_CLASSIFY_CODE"/>
+        </resultMap>
 
 
-    <select id="getAllAdminBoardFiles" resultMap="adminBoardResultMap">
-        SELECT
-            F.NO AS FILE_NO,
-            F.ORIGIN_NAME,
-            F.CHANGE_NAME,
-            F.REGIST_DATE,
-            F.DELETE_YN,
-            B.NO AS BOARD_NO,
-            B.TITLE AS BOARD_TITLE,
-            B.CONTENT AS BOARD_CONTENT,
-            B.REGIST_DATE AS BOARD_REGIST_DATE,
-            B.MODIFY_DATE AS BOARD_MODIFY_DATE,
-            B.DELETE_YN AS BOARD_DELETE_YN,
-            B.CLASSIFY_CODE AS BOARD_CLASSIFY_CODE,
-            M.NO AS MEMBER_NO,
-            M.NAME AS MEMBER_NAME,
-            M.EMAIL AS EMAIL
-        FROM TBL_ADMIN_BOARD_FILE F
-            JOIN TBL_ADMIN_BOARD B ON F.REF_ADMIN_BOARD_NO = B.NO
-            JOIN TBL_MEMBER M ON B.NO = M.NO
-    </select>
-
-    <select id="getAdminNotice" resultMap="adminBoardResultMap">
-        SELECT
-            S.NO,
-            S.TITLE,
-            S.CONTENT,
-            S.REGIST_DATE,
-            S.MODIFY_DATE,
-            S.CLASSIFY_CODE,
-            S.REF_MEMBER_NO,
-            S.DELETE_YN
-        FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '공지사항'
-        ORDER BY S.REGIST_DATE DESC
-    </select>
+        <select id="getAllAdminBoards" resultMap="adminBoardResultMap">
+            SELECT
+                S.NO,
+                S.TITLE,
+                S.CONTENT,
+                S.REGIST_DATE,
+                S.MODIFY_DATE,
+                S.CLASSIFY_CODE,
+                S.REF_MEMBER_NO,
+                S.DELETE_YN
+            FROM TBL_ADMIN_BOARD S
+            <where>
+                <if test='boardtype == "N"'>
+                    S.CLASSIFY_CODE = '공지사항'
+                </if>
+                <if test='boardtype == "E"'>
+                    S.CLASSIFY_CODE = '이벤트'
+                </if>
+                <if test='boardtype == "AT"'>
+                    S.CLASSIFY_CODE = '보도자료'
+                </if>
+            </where>
+            ORDER BY S.REGIST_DATE DESC
+        </select>
 
 
-    <select id="getAdminEvent" resultMap="adminBoardResultMap">
-        SELECT
-            S.NO,
-            S.TITLE,
-            S.CONTENT,
-            S.REGIST_DATE,
-            S.MODIFY_DATE,
-            S.CLASSIFY_CODE,
-            S.REF_MEMBER_NO,
-            S.DELETE_YN
-        FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '이벤트'
-        ORDER BY S.REGIST_DATE DESC
-    </select>
+        <select id="getAllAdminBoardFiles" resultMap="adminBoardResultMap">
+            SELECT
+                F.NO AS FILE_NO,
+                F.ORIGIN_NAME,
+                F.CHANGE_NAME,
+                F.REGIST_DATE,
+                F.DELETE_YN,
+                B.NO AS BOARD_NO,
+                B.TITLE AS BOARD_TITLE,
+                B.CONTENT AS BOARD_CONTENT,
+                B.REGIST_DATE AS BOARD_REGIST_DATE,
+                B.MODIFY_DATE AS BOARD_MODIFY_DATE,
+                B.DELETE_YN AS BOARD_DELETE_YN,
+                B.CLASSIFY_CODE AS BOARD_CLASSIFY_CODE,
+                M.NO AS MEMBER_NO,
+                M.NAME AS MEMBER_NAME,
+                M.EMAIL AS EMAIL
+            FROM TBL_ADMIN_BOARD_FILE F
+                JOIN TBL_ADMIN_BOARD B ON F.REF_ADMIN_BOARD_NO = B.NO
+                JOIN TBL_MEMBER M ON B.NO = M.NO
+        </select>
 
-    <select id="getAdminArticle" resultMap="adminBoardResultMap">
-        SELECT
-            S.NO,
-            S.TITLE,
-            S.CONTENT,
-            S.REGIST_DATE,
-            S.MODIFY_DATE,
-            S.CLASSIFY_CODE,
-            S.REF_MEMBER_NO,
-            S.DELETE_YN
-        FROM TBL_ADMIN_BOARD S
-        WHERE S.CLASSIFY_CODE = '보도자료'
-        ORDER BY S.REGIST_DATE DESC
-    </select>
-
-
-    <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
-        SELECT
-            *
-        FROM  TBL_ADMIN_BOARD
-        WHERE NO = #{no}
-    </select>
-
-    <insert id="registNotice" parameterType="com.idle.osmas.admin.dto.AdminBoardDTO">
-        INSERT INTO TBL_ADMIN_BOARD
-            (NO, TITLE, CONTENT, REGIST_DATE, MODIFY_DATE, CLASSIFY_CODE, REF_MEMBER_NO, DELETE_YN)
-        VALUES (SEQ_TBL_ADMIN_BOARD_NO.NEXTVAL, #{title} , #{content}, SYSDATE, '', #{category}, #{refmemberno}, 'N')
-    </insert>
-
-    <select id="getNoticeList" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
-        SELECT
-            *
-        FROM TBL_ADMIN_BOARD
-        ORDER BY REGIST_DATE DESC
-    </select>
+        <select id="getAdminNotice" resultMap="adminBoardResultMap">
+            SELECT
+                S.NO,
+                S.TITLE,
+                S.CONTENT,
+                S.REGIST_DATE,
+                S.MODIFY_DATE,
+                S.CLASSIFY_CODE,
+                S.REF_MEMBER_NO,
+                S.DELETE_YN
+            FROM TBL_ADMIN_BOARD S
+            WHERE S.CLASSIFY_CODE = '공지사항'
+            ORDER BY S.REGIST_DATE DESC
+        </select>
 
 
-</mapper>
+        <select id="getAdminEvent" resultMap="adminBoardResultMap">
+            SELECT
+                S.NO,
+                S.TITLE,
+                S.CONTENT,
+                S.REGIST_DATE,
+                S.MODIFY_DATE,
+                S.CLASSIFY_CODE,
+                S.REF_MEMBER_NO,
+                S.DELETE_YN
+            FROM TBL_ADMIN_BOARD S
+            WHERE S.CLASSIFY_CODE = '이벤트'
+            ORDER BY S.REGIST_DATE DESC
+        </select>
+
+        <select id="getAdminArticle" resultMap="adminBoardResultMap">
+            SELECT
+                S.NO,
+                S.TITLE,
+                S.CONTENT,
+                S.REGIST_DATE,
+                S.MODIFY_DATE,
+                S.CLASSIFY_CODE,
+                S.REF_MEMBER_NO,
+                S.DELETE_YN
+            FROM TBL_ADMIN_BOARD S
+            WHERE S.CLASSIFY_CODE = '보도자료'
+            ORDER BY S.REGIST_DATE DESC
+        </select>
+
+
+        <select id="getAdminBoardByNo" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+            SELECT
+                *
+            FROM  TBL_ADMIN_BOARD
+            WHERE NO = #{no}
+        </select>
+
+        <insert id="registNotice" parameterType="com.idle.osmas.admin.dto.AdminBoardDTO">
+            INSERT INTO TBL_ADMIN_BOARD
+                (NO, TITLE, CONTENT, REGIST_DATE, MODIFY_DATE, CLASSIFY_CODE, REF_MEMBER_NO, DELETE_YN)
+            VALUES (SEQ_TBL_ADMIN_BOARD_NO.NEXTVAL, #{title} , #{content}, SYSDATE, '', #{category}, #{refmemberno}, 'N')
+        </insert>
+
+        <select id="getNoticeList" resultType="com.idle.osmas.admin.dto.AdminBoardDTO">
+            SELECT
+                *
+            FROM TBL_ADMIN_BOARD
+            ORDER BY REGIST_DATE DESC
+        </select>
+
+
+    </mapper>
