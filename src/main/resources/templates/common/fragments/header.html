@@ -52,6 +52,17 @@
         menu.style.display = "block";
       }
     }
+
+    //판매자 드롭 페이지 표시 기능
+    function toggleSellerDropMenu() {
+      var menu = document.getElementById("sellerDropPageContent");
+
+      if (menu.style.display === "block") {
+        menu.style.display = "none";
+      } else {
+        menu.style.display = "block";
+      }
+    }
   </script>
 
   <div class="User_container">
@@ -67,13 +78,23 @@
     <!-- 사용자 마이페이지 -->
     <th:block sec:authorize="hasRole('USER') or (hasRole('SELLERDROP') and hasRole('SELLER'))
                               and not hasRole('ADMIN')">
-      <div class="userPage" sec:authorize="not hasRole('ADMIN')">
+      <div class="userPage" sec:authorize="not hasRole('ADMIN') and not hasRole('SELLER')">
         <button class="userPageGo" onclick="toggleUserMenu()">마이 페이지</button>
         <div class="userPage-content" id="userPageContent">
           <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>
           <a onclick="location.href='/member/suggest/suggest'">제안하기</a>
           <a onclick="location.href='/member/review/review'">리뷰하기</a>
           <a sec:authorize="not hasRole('SELLERDROP')" onclick="location.href='/admin/sellerApprovalForm/formGetMain'">판매자 권한 신청</a>
+        </div>
+      </div>
+    </th:block>
+
+    <!-- 판매자 권한 삭제한 자의 마이페이지 -->
+    <th:block sec:authorize="hasRole('SELLERDROP')">
+      <div class="sellerDropPage">
+        <button class="sellerDropPageGo" onclick="toggleSellerDropMenu()">마이 페이지</button>
+        <div class="sellerDropPage-content" id="sellerDropPageContent">
+          <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>
         </div>
       </div>
     </th:block>

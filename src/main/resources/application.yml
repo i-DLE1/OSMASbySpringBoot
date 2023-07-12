@@ -24,8 +24,7 @@ mybatis:
 saveFileDirectoryPath: c:\files
 
 # SavedFilePath
-#sellerGetFormFileDirectoryPath: C:/dev/SemiProject/osmas/src/main/resources/static/images/admin/getForm
-sellerGetFormFileDirectoryPath: C:/Rendifull/getForm
+sellerGetFormFileDirectoryPath: C:/dev/SemiProject/osmas/src/main/resources/static/images/admin/getForm
 
 
 

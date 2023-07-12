@@ -1,5 +1,6 @@
 package com.idle.osmas.admin.service;
 
+import com.idle.osmas.admin.dto.PermissionRoleDTO;
 import com.idle.osmas.admin.dto.SellerRoleDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,4 +28,12 @@ public interface SellerApprovalFormService {
     int sellerUpdate(Map<String, String> requestParams, List<Map<String, String>> fileList);
 
     int sellerInsertCancel(String sellerId);
+
+    Integer checkgetFormHistory(String userID);
+
+    List<SellerRoleDTO> getFormConfirmation(String userID);
+
+    Integer checkoutFormHistory(String userID);
+
+    List<PermissionRoleDTO> sellerReason(String userID);
 }

@@ -128,7 +128,6 @@ public class MypageController {
         }
     }
     @GetMapping("MypageAlarm")
-    public void mypageAlarm(){}
     public String mypageAlarm(Model model){
         //판매자 권한 신청 알람 보류/완료 확인용
         // 현재 인증된 사용자 정보 가져오기

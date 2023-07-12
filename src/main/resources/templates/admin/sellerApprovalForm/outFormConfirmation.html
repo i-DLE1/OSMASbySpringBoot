@@ -5,7 +5,7 @@
     <title>판매자 권한 회수 신청 양식</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <link rel="stylesheet" href="/css/admin/sellerApprovalForm/form.css">
-    <script src="/js/admin/sellerApprovalForm/outForm.js"></script>
+    <script src="/js/admin/sellerApprovalForm/outFormHolding.js"></script>
 </head>
 <body>
 
@@ -14,25 +14,24 @@
 </header>
 
 <middle>
-    <h1 style="text-align: center; margin: 50px;">권한 회수 신청하기</h1>
+    <h1 style="text-align: center; margin: 50px;">회수 신청 내용</h1>
 
     <div class="form-group">
         <label for="sellerId">판매자 ID</label>
         <input type="text" id="sellerId" name="sellerId" th:value="${userID}">
     </div>
 
+    <div th:each="reason, iterStat: ${sellerReason}">
         <div class="form-group">
             <label for="reason">회수 사유</label>
-            <select id="reason" name="reason" required>
-                <option value="">사유를 선택해주세요</option>
-                <option value="판매중지">판매 중지</option>
-                <option value="다른펀딩사이트를이용">다른 펀딩 사이트를 이용</option>
-                <option value="기타">기타</option>
-            </select>
-            <div id="otherReasonDiv" style="margin: 10px;">
-                <textarea id="otherReasonInput" name="otherReason" placeholder="기타 사유를 입력해주세요"></textarea>
+                <input type="text" id="reason" name="reason" required th:value="${reason.sellerReason}">
+
+            <div id="otherReasonDiv" style="margin: 30px;">
+                <span id="otherReasonInput" name="otherReason" th:text="${reason.otherReason}"></span>
             </div>
         </div>
+        <hr th:if="${not iterStat.last}">
+    </div>
 
         <h5 style="text-align: center;">
             권한 회수 완료 즉시 판매자님의 데이터가 영구적으로 삭제됩니다. <br>
@@ -42,7 +41,7 @@
         <br><br>
 
         <div class="submit-container">
-            <input id="go" type="submit" value="신청 하기">
+            <input id="no" type="submit" value="신청 취소">
         </div>
 
 </middle>
