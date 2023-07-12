@@ -25,5 +25,5 @@ public interface ReviewService {
     // 후원한프로젝트 코드로 배송이력코드 조회
     public int selectDeliveryStatusCodeistNoBySponsoredNo(int SponsoredNo);
 
-    public int writeReview(ReviewDTO review);
+    public int writeReview(ReviewDTO review) throws Exception;
 }

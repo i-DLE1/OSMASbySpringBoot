@@ -3,6 +3,7 @@ package com.idle.osmas.member.controller;
 import com.idle.osmas.member.dto.*;
 import com.idle.osmas.member.service.MemberServiceImpl;
 import com.idle.osmas.member.service.PayServiceImpl;
+import com.idle.osmas.seller.dto.ProjectFileDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,6 @@ public class PayController {
         List<ProductsDTO> product = new ArrayList<>();
         ProductsDTO products;
 
-
         for(int i = 0 ; i < productNo.length;i++){
             products = payService.selectProduct(productNo[i]);
             products.setCount(count[i]);
@@ -77,6 +77,9 @@ public class PayController {
         System.out.println(product);
         PayDTO pay = payService.selectPay(no);
         pay.setSumPrice(price);
+        ProjectFileDTO projectFile = payService.selectProjectFile(no); // 프로젝트no로 썸네일 파일 가져옴
+        System.out.println(projectFile);
+        m.addAttribute("projectFile",projectFile);
         m.addAttribute("productList", product);
         m.addAttribute("pay",pay);
         m.addAttribute("member",member);

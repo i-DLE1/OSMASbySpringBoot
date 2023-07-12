@@ -16,4 +16,6 @@ public class SponsoredsDTO {
     private int refPrjProductListNo;
     private int memberNo;
     private String productName;
+    private int refPrjNo; // 프로젝트 번호
+    private String changeName;          // 사진
 }

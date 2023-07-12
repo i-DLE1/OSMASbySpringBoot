@@ -32,6 +32,8 @@ public class MemberController {
         this.memberService = memberService;
         this.emailService = emailService;
     }
+
+    // 로그인 실패시 표시
     @GetMapping("/login/login")
     public void memberLoginForm(@RequestParam(value = "error",required = false) String error,
                                 @RequestParam(value = "exception",required = false) String exception, Model model
@@ -47,6 +49,8 @@ public class MemberController {
     public void goSignUp2(){}
     @GetMapping("/signup/signUpSuccess")
     public void goSignUp3(){}
+
+    // 회원가입
     @PostMapping("/signup/signUpInfo")
     public String signUpMember(@ModelAttribute MemberDTO member, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
         String stringBirth =request.getParameter("birthString");
