@@ -1,5 +1,6 @@
 package com.idle.osmas.admin.controller;
 
+import com.idle.osmas.admin.dto.PermissionRoleDTO;
 import com.idle.osmas.admin.dto.SellerRoleDTO;
 import com.idle.osmas.admin.service.SellerApprovalFormService;
 import net.coobird.thumbnailator.Thumbnails;
@@ -75,6 +76,27 @@ public class SellerApprovalFormController {
         return "admin/sellerApprovalForm/outFormAgain";
     }
 
+    @GetMapping("outFormConfirmation")
+    public String outFormConfirmation(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
+
+        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+        // userid 값을 사용하여 사유 가져오기
+        List<PermissionRoleDTO> sellerReason = sellerApprovalFormService.sellerReason(userID);
+
+        model.addAttribute("sellerReason", sellerReason);
+
+        return "admin/sellerApprovalForm/outFormConfirmation";
+
+    }
+
     @GetMapping("formGetMain")
     public void formGetMain() {
     }
@@ -113,22 +135,30 @@ public class SellerApprovalFormController {
 
         return "admin/sellerApprovalForm/outHoldingAlarm";
     }
-
-
     @GetMapping("getForm")
     public String getForm(Model model) {
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-            // 현재 인증된 사용자 정보 가져오기
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // 사용자 아이디 가져오기
+        String userID = userDetails.getUsername();
 
-            // 사용자 아이디 가져오기
-            String userID = userDetails.getUsername();
+        // 사용자의 권한 신청 이력을 확인하는 로직 구현
+        Integer hasApplicationHistory = sellerApprovalFormService.checkgetFormHistory(userID);
+        boolean history = hasApplicationHistory != null && hasApplicationHistory == 1;
 
-            // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        System.out.println("신청이력이 있나? : " + history);
+
+        if (history) {
+            model.addAttribute("userID", userID);
+
+            return "redirect:/admin/sellerApprovalForm/overlapForm1";
+        } else {
             model.addAttribute("userID", userID);
 
             return "admin/sellerApprovalForm/getForm";
+        }
     }
 
     @GetMapping("outForm")
@@ -139,9 +169,20 @@ public class SellerApprovalFormController {
 
         String userID = userDetails.getUsername();
 
-        model.addAttribute("userID", userID);
+        Integer hasApplicationHistory = sellerApprovalFormService.checkoutFormHistory(userID);
+        boolean history = hasApplicationHistory != null && hasApplicationHistory == 1;
 
-        return "admin/sellerApprovalForm/outForm";
+        System.out.println("신청이력이 있나? : " + history);
+
+        if (history) {
+            model.addAttribute("userID", userID);
+
+            return "redirect:/admin/sellerApprovalForm/overlapForm2";
+        } else {
+            model.addAttribute("userID", userID);
+
+            return "admin/sellerApprovalForm/outForm";
+        }
     }
 
     @PostMapping("sellerOut")
@@ -534,7 +575,48 @@ public class SellerApprovalFormController {
         String userID = userDetails.getUsername();
 
         model.addAttribute("userID", userID);
+    }
 
+    @GetMapping("overlapForm1")
+    public void overlapForm1(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+    }
+
+    @GetMapping("overlapForm2")
+    public void overlapForm2(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String userID = userDetails.getUsername();
+
+        model.addAttribute("userID", userID);
+    }
+
+    @GetMapping("/getFormConfirmation")
+    public String getFormConfirmation(Model model){
+            // 현재 인증된 사용자 정보 가져오기
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+    // 사용자 아이디 가져오기
+    String userID = userDetails.getUsername();
+
+    // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
+        model.addAttribute("userID", userID);
+
+    // userid 값을 사용하여 리스트 가져오기
+    List<SellerRoleDTO> getAgain = sellerApprovalFormService.getFormConfirmation(userID);
+
+        model.addAttribute("getAgain", getAgain);
+
+        return "admin/sellerApprovalForm/getFormConfirmation";
     }
 
 }
