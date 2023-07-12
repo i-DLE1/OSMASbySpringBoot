@@ -24,9 +24,6 @@ public class AdminCategoryController {
         this.gettingProposalsService = gettingProposalsService;
     }
 
-    @GetMapping("fundingRanking")
-    public void fundingRanking(){}
-
     @GetMapping("gettingProposals")
     public String gettingProposals(Model model){
         List<SuggestDTO> proposalAll = gettingProposalsService.gettingProposalsAll();
