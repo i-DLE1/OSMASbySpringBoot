@@ -44,22 +44,17 @@ public class SpringSecurityConfiguration {
                 .antMatchers("/seller/regist").authenticated()
                 .antMatchers(HttpMethod.GET,"/seller/regist/**").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/regist/**").hasRole("SELLER")
-                .antMatchers(HttpMethod.GET,"/seller/regist/**").hasRole("ADMIN")
                 .antMatchers("/seller/projectList").authenticated()
                 .antMatchers(HttpMethod.GET,"/seller/projectList").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/projectList").hasRole("SELLER")
-                .antMatchers(HttpMethod.GET,"/seller/projectList").hasRole("ADMIN")
                 .antMatchers("/seller/projectQnAList").authenticated()
                 .antMatchers(HttpMethod.GET,"/seller/projectQnAList").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/projectQnAList").hasRole("SELLER")
-                .antMatchers(HttpMethod.GET,"/seller/projectQnAList").hasRole("ADMIN")
                 .antMatchers("/seller/orderList").authenticated()
                 .antMatchers(HttpMethod.GET,"/seller/orderList").hasRole("SELLER")
                 .antMatchers(HttpMethod.POST,"/seller/orderList").hasRole("SELLER")
-                .antMatchers(HttpMethod.GET,"/seller/orderList").hasRole("ADMIN")
                 .antMatchers("/seller/projectDetail/**").authenticated()
                 .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("SELLER")
-                .antMatchers(HttpMethod.GET,"/seller/projectDetail/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/seller/projectDetail/**").hasRole("SELLER");
 
         // 리뷰 페이지 제안페이지 결제페이지
