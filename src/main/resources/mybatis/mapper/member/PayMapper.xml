@@ -30,6 +30,12 @@
         <result property="targetAmount" column="TARGET_AMOUNT"/>
         <result property="currentAmount" column="CURRENT_AMOUNT"/>
     </resultMap>
+    
+    <resultMap id="projectFileMap" type="com.idle.osmas.seller.dto.ProjectFileDTO">
+        <result property="no" column="NO"/>
+        <result property="projectNo" column="REF_PRJ_NO"/>
+        <result property="changeName" column="CHANGE_NAME"/>
+    </resultMap>
     <select id="selectMemberById" resultMap="memberResultMap">
         SELECT A.NO
              , A.NAME
@@ -112,8 +118,37 @@
         VALUES (#{refPaymentNo}, #{refSponsoredPrjNo})
     </insert>
     
-    <insert id="inserttrackInfo" parameterType="com.idle.osmas.member.dto.ShippingTrackInfoDTO">
+    <insert id="inserttrackInfo" parameterType="com.idle.osmas.member.dto.ShippingTrackInfoDTO"
+            useGeneratedKeys="true" keyProperty="no">
         INSERT INTO TBL_SHIPPING_TRACK_INFO("NO", REF_MEMBER_NO,REQUEST, REF_PAYMENT_NO)
         VALUES (SEQ_TBL_SHIPPING_TRACK_INFO_NO.nextval,#{refMemberNo},#{request},#{refPaymentNo})
+        <selectKey resultType="_int" order="AFTER" keyProperty="no">
+            SELECT SEQ_TBL_SHIPPING_TRACK_INFO_NO.currval FROM DUAL
+        </selectKey>
     </insert>
+    
+    <select id="selectCurrentAmount">
+        SELECT CURRENT_AMOUNT
+        FROM TBL_PRJ
+       WHERE NO = #{projectNo}
+    </select>
+
+    <update id="modAmountPrj" parameterType="com.idle.osmas.seller.dto.ProductDTO">
+        UPDATE TBL_PRJ SET CURRENT_AMOUNT = #{currentAmount} WHERE NO = #{no}
+    </update>
+
+    <insert id="insertDeleveryStatus">
+        INSERT INTO TBL_DELIVERY_STATUS(STATUS, REGIST_DATE, REF_SHIPPING_TRACK_INFO_NO, NO)
+        VALUES ('PREPARING',SYSDATE,#{refShippingTrackInfoNo},SEQ_TBL_DELIVERY_STATUS_NO.nextval)
+    </insert>
+
+    <select id="selectProjectFileDTO" resultMap="projectFileMap">
+        SELECT
+            REF_PRJ_NO,
+            CHANGE_NAME
+          FROM TBL_PRJ_FILE
+         WHERE REF_PRJ_NO = #{no}
+           AND TYPE = 'THUMBNAIL'
+           AND DELETE_YN = 'N'
+    </select>
 </mapper>
