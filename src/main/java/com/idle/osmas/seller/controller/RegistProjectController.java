@@ -5,16 +5,11 @@ import com.idle.osmas.common.exception.AccessAuthorityException;
 import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -42,9 +37,7 @@ public class RegistProjectController {
 
     private final ImageFileController imageFileController;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-
+    private final SellerController sellerController;
 
     public RegistProjectController(ProjectService projectService,
                                    ProjectProgressService projectProgressService,
@@ -54,7 +47,8 @@ public class RegistProjectController {
                                    ProjectFAQService projectFAQService,
                                    ProjectNewsService projectNewsService,
                                    ImageFileController imageFileController,
-                                   ProjectTermService termsService) {
+                                   ProjectTermService termsService,
+                                   SellerController sellerController) {
 
         this.projectService = projectService;
         this.projectProgressService = projectProgressService;
@@ -65,6 +59,7 @@ public class RegistProjectController {
         this.projectNewsService = projectNewsService;
         this.imageFileController = imageFileController;
         this.termsService = termsService;
+        this.sellerController = sellerController;
     }
 
     public Map<String, String> submitButtonNaming(int ProjectNo, String temp, String notTemp){
@@ -130,6 +125,8 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        sellerController.hasRoleSellerValidation(user);
+
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
@@ -169,7 +166,6 @@ public class RegistProjectController {
 
         if(no == null) {
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
-
         }
 
         if(no != null) return "success";
@@ -197,6 +193,8 @@ public class RegistProjectController {
 
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         List<ProjectCategoryDTO> categoryList = projectCategoryService.selectByCategoryType(null);
 
@@ -268,6 +266,8 @@ public class RegistProjectController {
 
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         boolean existProject = false;
 
@@ -412,6 +412,8 @@ public class RegistProjectController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        sellerController.hasRoleSellerValidation(user);
+
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
         }
@@ -453,6 +455,8 @@ public class RegistProjectController {
                                 Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -537,6 +541,8 @@ public class RegistProjectController {
                                  Model model, Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());
@@ -634,6 +640,8 @@ public class RegistProjectController {
                                  Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         if(no == null){
             no = projectService.selectTemporaryProjectNoByUserId(user.getNo());

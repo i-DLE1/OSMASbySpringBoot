@@ -21,7 +21,7 @@
         <footer class="footer">
             <input class="footer-btn" type="button" value="이전" onclick="prevPageMove(4)"/>
             <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProject5(true)"  th:if="${submitName == '임시저장'}"/>
-            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProject5(false)"  th:if="${submitName != '임시저장'}"/>
+            <input class="footer-btn" type="button" th:value="${submitName}" onclick="registProject5(false)"  th:unless="${submitName == '임시저장'}"/>
             <input class="footer-btn" type="button" value="다음" onclick="registProject5(false)" />
         </footer>
         <script src="/js/seller/registProject.js"></script>

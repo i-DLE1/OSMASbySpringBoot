@@ -79,13 +79,19 @@
 </div>
 </th:block>
 
-<th:block th:fragment="progressStatus(status)" >
-  <span th:if="${status == 'CANCEL'}">취소</span>
-  <span th:if="${status == 'TEMPORARY'}">임시저장</span>
-  <span th:if="${status == 'REJECTED'}">반려</span>
-  <span th:if="${status == 'PROCESSING'}">진행중</span>
-  <span th:if="${status == 'CLOSED'}">종료</span>
-  <span th:if="${status == 'SCREENING'}">심사중</span>
+<th:block th:switch="${status}" th:fragment="progressStatus(status)" >
+    <span th:case="${'CANCEL'}">취소</span>
+    <span th:case="${'TEMPORARY'}">임시저장</span>
+    <span th:case="${'REJECTED'}">반려</span>
+    <span th:case="${'PROCESSING'}">진행중</span>
+    <span th:case="${'CLOSED'}">종료</span>
+    <span th:case="${'SCREENING'}">심사중</span>
 </th:block>
 
+
+<th:block th:switch="${status}" th:fragment="payStatus(status)">
+  <span th:case="${'APPROVAL'}">승인</span>
+  <span th:case="${'REFUND'}">거절</span>
+  <span th:case="${'FAIL'}">실패</span>
+</th:block>
 </html>

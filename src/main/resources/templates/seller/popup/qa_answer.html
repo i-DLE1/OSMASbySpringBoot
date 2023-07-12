@@ -17,14 +17,14 @@
                 <label><span>0</span>/1000</label>
                 <label th:for="qa-answer" class="label">답변</label>
                 <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content == null}"></textarea>
-                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:if="${projectQnA.projectQnAAnswer?.content != null}" th:text="${projectQnA.projectQnAAnswer.content}"></textarea>
+                <textarea maxlength="1000" class="textarea" type="text" th:id="qa-answer" name="answer" rows="5" th:unless="${projectQnA.projectQnAAnswer?.content == null}" th:text="${projectQnA.projectQnAAnswer.content}"></textarea>
                 <hr class="qa-line" />
             </div>
             <footer class="footer">
                 <input class="footer-btn" type="button" value="취소" onclick="window.close()" />
 
                 <input th:if="${projectQnA.projectQnAAnswer?.content == null}" class="footer-btn" type="button" value="등록" onclick="qaAnswerSubmit('regist')"/>
-                <input th:if="${projectQnA.projectQnAAnswer?.content != null}" class="footer-btn" type="button" value="수정" onclick="qaAnswerSubmit('modify')"/>
+                <input th:unless="${projectQnA.projectQnAAnswer?.content == null}" class="footer-btn" type="button" value="수정" onclick="qaAnswerSubmit('modify')"/>
             </footer>
         </div>
             <script src="/js/seller/projectDetail.js"></script>

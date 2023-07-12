@@ -5,6 +5,7 @@ import com.idle.osmas.member.dto.UserImpl;
 import com.idle.osmas.seller.dto.*;
 import com.idle.osmas.seller.service.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,18 @@ public class SellerController {
         this.projectQnAService = projectQnAService;
         this.projectProgressService = projectProgressService;
         this.orderListService = orderListService;
+    }
+
+
+    public void hasRoleSellerValidation(UserImpl user) throws AccessAuthorityException {
+
+        boolean hasRoleSeller = false;
+
+        for (GrantedAuthority e : user.getAuthorities()) {
+            if (e.toString().equals("ROLE_SELLER")) hasRoleSeller = true;
+        }
+
+        if(!hasRoleSeller) throw new AccessAuthorityException("접근 권한이 없습니다.");
     }
 
     public String listType(Optional<String> listType){
@@ -117,6 +130,8 @@ public class SellerController {
         }
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        hasRoleSellerValidation(user);
+
         if(pageNo == null ) pageNo = 1;
 
         Map<String, Object> searchCriteria = new HashMap<>();
@@ -145,6 +160,7 @@ public class SellerController {
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
         model.mergeAttributes(getPagenation(pageNo,maxPage));
+
 
         return "/seller/sellerProjectList";
     }
@@ -219,6 +235,8 @@ public class SellerController {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
+        hasRoleSellerValidation(user);
+
         if(pageNo == null ) pageNo = 1;
 
         int startNo = 1 + ((pageNo - 1) * DEFAULT_MAX_ROWS);
@@ -256,9 +274,11 @@ public class SellerController {
 
     @GetMapping("deleteTempProject")
     @ResponseBody
-    public String deleteTempProject(@RequestParam int no, Principal principal){
+    public String deleteTempProject(@RequestParam int no, Principal principal) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        hasRoleSellerValidation(user);
 
         boolean validationProject = projectService.existProjectByProjectNo(no, user.getNo());
 

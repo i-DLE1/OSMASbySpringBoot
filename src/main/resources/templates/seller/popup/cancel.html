@@ -45,8 +45,10 @@
     </div>
     <div class="cancel-content-area">
         <h1 class="cancel-content-title">취소 사유</h1>
+        <div style="display: inline-block; position: relative;">
         <label th:for="cancel-content"><span>0</span>/500</label>
         <textarea maxlength="500" class="cancel-content" th:id="cancel-content" name="content" rows=5 placeholder="취소 사유를 입력하세요." th:text="${project.projectProgress?.content}"></textarea>
+        </div>
     </div>
 
     <footer class="footer">

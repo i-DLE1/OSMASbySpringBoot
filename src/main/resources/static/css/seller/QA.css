@@ -76,6 +76,7 @@ body{
 }
 .input-label{
     position: relative;
+    display: inline-block;
 }
 
 .input-label label{

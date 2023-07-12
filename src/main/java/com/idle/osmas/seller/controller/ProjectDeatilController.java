@@ -27,20 +27,26 @@ public class ProjectDeatilController {
 
     private final ProjectQnAService projectQnAService;
 
+    private final SellerController sellerController;
+
     public ProjectDeatilController(ProjectProgressServiceImpl projectProgressService,
                                    ProductService productService,
                                    ProjectService projectService,
-                                   ProjectQnAService projectQnAService) {
+                                   ProjectQnAService projectQnAService,
+                                   SellerController sellerController) {
 
         this.projectProgressService = projectProgressService;
         this.productService = productService;
         this.projectService = projectService;
         this.projectQnAService = projectQnAService;
+        this.sellerController = sellerController;
     }
 
     @GetMapping("projectDetail")
     public String projectDetail(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         ProjectDTO project = projectService.selectProjectByProjectNo(no,user.getNo());
 
@@ -78,6 +84,8 @@ public class ProjectDeatilController {
     public String getCacnel(@RequestParam int no,  Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         ProjectDTO project = projectService.selectProjectCancelInfoByProjectId(no, user.getNo());
 
@@ -157,6 +165,8 @@ public class ProjectDeatilController {
     public String retry(@RequestParam int no, Principal principal, Model model) throws AccessAuthorityException {
 
         UserImpl user = (UserImpl) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+
+        sellerController.hasRoleSellerValidation(user);
 
         ProjectProgressDTO projectProgress = projectProgressService.progressLastStatusById(no, ProjectProgressStatus.REJECTED);
 
