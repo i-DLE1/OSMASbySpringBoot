@@ -176,14 +176,56 @@
         <if test="listType.equalsIgnoreCase('delivery')">
             AND I.STATUS = 'COMPLETED'
         </if>
+        <if test="search != null and searchType.equals('name')">
+            AND B.NAME LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('address')">
+            AND C.GENERAL || ' ' ||C.DETAIL LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('phone')">
+            AND B.PHONE LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('option')">
+            AND G.NAME || ' ' || G.PRODUCT_SIZE || ',' || A.AMOUNT LIKE '%' || #{search} || '%'
+        </if>
         ORDER BY H.CODE DESC
     </select>
 
+    <update id="updateShippingTrackInfo" parameterType="map">
+            UPDATE TBL_SHIPPING_TRACK_INFO
+            SET CORP = '대한통운',
+                DOC_NO = 1231456
+            WHERE REF_PAYMENT_NO IN
+            <foreach collection="checkList" item="item"
+                     separator="," open="(" close=")">
+                #{item}
+            </foreach>
+    </update>
 
+    <update id="updateDeliveryStatus" parameterType="map">
+            UPDATE TBL_DELIVERY_STATUS
+            SET STATUS = 'COMPLETED',
+                REGIST_DATE = SYSDATE
+            WHERE REF_SHIPPING_TRACK_INFO_NO IN (SELECT NO
+            FROM TBL_SHIPPING_TRACK_INFO
+            WHERE REF_PAYMENT_NO IN
+            <foreach collection="checkList" item="item"
+                     separator="," open="(" close=")">
+                #{item}
+            </foreach>)
+    </update>
 
-
-
-
-
+    <update id="exchangeDeliveryStatus" parameterType="map">
+        UPDATE TBL_DELIVERY_STATUS
+        SET STATUS = 'PREPARING',
+        REGIST_DATE = SYSDATE
+        WHERE REF_SHIPPING_TRACK_INFO_NO IN (SELECT NO
+        FROM TBL_SHIPPING_TRACK_INFO
+        WHERE REF_PAYMENT_NO IN
+        <foreach collection="exchangeList" item="item"
+                 separator="," open="(" close=")">
+            #{item}
+        </foreach>)
+    </update>
 
 </mapper>

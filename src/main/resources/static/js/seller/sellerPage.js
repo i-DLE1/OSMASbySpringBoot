@@ -298,22 +298,53 @@ function deliveryCheck(){
     const query = 'input[class="deliveryChk"]:checked';
     const selectedEls = document.querySelectorAll(query);
     // 선택된 목록에서 value 찾기
-    let result = '';
+    const checkList = new Array();
     selectedEls.forEach((el) => {
-        result += el.value + ',';
+        // result += el.value + ',';
+        checkList.push(parseInt(el.value));
     });
-    result = result.slice(0, -1);
-    // 출력
-    console.log(result);
-    return result;
+    return checkList;
+}
 
+function exchangeCheck(){
+    const query = 'input[class="exchangeChk"]:checked';
+    const selectedEls = document.querySelectorAll(query);
+    // 선택된 목록에서 value 찾기
+    const exchangeList = new Array();
+    selectedEls.forEach((el) => {
+        // result += el.value + ',';
+        exchangeList.push(parseInt(el.value));
+    });
+    return exchangeList;
+}
+
+function makeRandomNum(){
+    let checkList = deliveryCheck();
+    const randomList = new Array();;
+    for(var i=0; i < checkList.length; i++){
+        const randomNo = Math.floor(Math.random() * 899999999) + 100000000;
+        randomList.push(randomNo);
+    }
 }
 
 function orderConfirmation() {
     var result = confirm('배송처리 하시겠습니까?');
     if (result) {
+        let checkList = deliveryCheck();
+        $(document).ready(function () {
+            var form = document.createElement('form');
+            form.method = 'POST';
 
+            // productList 파라미터 추가
+            var productList = document.createElement('input');
+            productList.type = 'hidden';
+            productList.name = 'checkList';
+            productList.value = checkList;
+            form.appendChild(productList);
 
+            document.body.appendChild(form);
+            form.submit();
+        });
 
         alert('배송처리 되었습니다.');
     } else {
@@ -324,6 +355,21 @@ function orderConfirmation() {
 function orderExchange() {
     var result = confirm('교환처리 하시겠습니까?');
     if (result) {
+        let exchangeList = exchangeCheck();
+        $(document).ready(function () {
+            var form = document.createElement('form');
+            form.method = 'POST';
+
+            // productList 파라미터 추가
+            var productList = document.createElement('input');
+            productList.type = 'hidden';
+            productList.name = 'exchangeList';
+            productList.value = exchangeList;
+            form.appendChild(productList);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
         alert('교환처리 되었습니다.');
     } else {
         alert('취소하셨습니다.');

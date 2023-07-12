@@ -29,14 +29,14 @@
                                 <td id="orderDelivery" class="col" onclick="location.href='./orderList?listType=delivery'">배송처리</td>
                                 <td id="orderRefund" class="col" onclick="location.href='./orderList?listType=refund'">교환환불</td>
                                 <td id="orderCancel" class="col" onclick="location.href='./orderList?listType=cancelList'">취소내역</td>
-                                <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>
+<!--                                <td id="orderCalculate" class="col" onclick="location.href='./orderList?listType=calculate'">주문정보</td>-->
                                 <th class="col-4">
                                     <div class="row col">
                                         <select id="searchType" name="searchType" class="col-4 me-3 search-bar">
-                                            <option value="title">주문자명</option>
-                                            <option value="customer">배송지</option>
-                                            <option value="question">연락처</option>
-                                            <option value="phone">상품옵션</option>
+                                            <option value="name">주문자명</option>
+                                            <option value="address">배송지</option>
+                                            <option value="phone">연락처</option>
+<!--                                            <option value="option">상품옵션</option>-->
                                         </select>
                                         <input type="text" class="search-bar col" id="search" name="search">
                                         <button class="search-btn col ms-2 me-2" onclick="projectSearch()">검색</button>
@@ -102,15 +102,15 @@
                                         <span th:text="*{deliveryStatus.status}" />
                                     </td>
                                     <td th:if="${listType == '주문접수'}">
-                                        <input  type="checkbox" th:value="*{paymentAmount.code}" />
+                                        <input class="deliveryChk" type="checkbox" th:value="*{paymentAmount.code}" onclick='deliveryCheck()'/>
                                     </td>
                                     <td th:if="${listType == '배송처리'}">
                                         <span th:text="*{request.docNo}" />
                                     </td>
                                     <td th:if="${listType == '교환환불'}">
-                                        <input class="deliveryChk" type="checkbox" th:value="*{paymentAmount.code}" onclick='deliveryCheck()'/>
+                                        <input class="exchangeChk" type="checkbox" th:value="*{paymentAmount.code}" onclick='exchangeCheck()' />
                                     </td>
-                                        <td th:text="*{paymentAmount.code}"></td>
+<!--                                        <td th:text="*{paymentAmount.code}"></td>-->
 
                                     </th:block>
                                 </tr>

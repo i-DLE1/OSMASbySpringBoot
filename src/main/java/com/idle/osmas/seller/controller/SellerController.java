@@ -176,6 +176,7 @@ public class SellerController {
     // miji 추가
     @GetMapping(value = {"/","/orderList"})
     public String getOrderList(@RequestParam(required = false) Optional<String> listType,
+                               @RequestParam(required = false) String searchType,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) Integer pageNo,
                                @RequestParam(defaultValue= "-1" ,required = false) int projectNo2,
@@ -199,6 +200,7 @@ public class SellerController {
         int projectNo = 0;
 
         searchCriteria.put("listType", listType.get().toString().toUpperCase());
+        searchCriteria.put("searchType",searchType);
         searchCriteria.put("search", search);
         searchCriteria.put("userNo", user.getNo());
         searchCriteria.put("startNo", startNo);
@@ -218,11 +220,17 @@ public class SellerController {
 
         model.addAttribute("endRow", endRow);
         model.addAttribute("search", defaultSearch);
+        model.addAttribute("searchType",searchType);
         model.addAttribute("listType", listType(listType));
         model.addAttribute("userName", user.getName()); // 사용자명
         model.addAttribute("projectList", projectList);
         model.addAttribute("orderList", orderList); // 주문목록
         model.mergeAttributes(getPagenation(pageNo,maxPage));
+
+        System.out.println("searchType"+searchType);
+        System.out.println("search"+search);
+
+
         return "/seller/sellerOrderList";
     }
 
