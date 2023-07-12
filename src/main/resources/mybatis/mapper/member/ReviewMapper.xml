@@ -66,6 +66,7 @@
         , A.REF_MEMBER_NO
         , A.MODIFY_DATE
         , A.REVIEW_TITLE
+        , A.REF_SPONSORED_PRJ_NO
         , K.NICKNAME
         , I.TITLE
 --              사진
@@ -76,11 +77,13 @@
         , B.REF_MEMBER_NO
         , B.MODIFY_DATE
         , B.REVIEW_TITLE
+        , B.REF_SPONSORED_PRJ_NO
         FROM(SELECT
         C.REF_DELIVERY_STATUS_CODE
         , C.REF_MEMBER_NO
         , C.MODIFY_DATE
         , C.REVIEW_TITLE
+        , C.REF_SPONSORED_PRJ_NO
         FROM TBL_REVIEW C
         <if test="searchCondition == 'projectTitle'">
             JOIN TBL_DELIVERY_STATUS J ON(C.REF_DELIVERY_STATUS_CODE = J.NO)
@@ -127,14 +130,20 @@
                 ]]>
 --                     사진
         AND P.TYPE = 'THUMBNAIL'
+        AND G.NO = A.REF_SPONSORED_PRJ_NO
         ORDER BY 1 ASC
     </select>
 
     <select id="selectTotalCountSponsored" resultType="_int">
         SELECT COUNT(*)
         FROM TBL_SPONSORED_PRJ A
-                 JOIN TBL_MEMBER B on A.REF_MEMBER_NO = B.NO
+                 JOIN TBL_MEMBER B on (A.REF_MEMBER_NO = B.NO)
+                 JOIN TBL_PAYMENT_HISTORY C ON (C.REF_SPONSORED_PRJ_NO = A.NO)
+                 JOIN TBL_PAYMENT D ON (C.REF_PAYMENT_NO = D.CODE)
+                 JOIN TBL_SHIPPING_TRACK_INFO E ON (D.CODE = E.REF_PAYMENT_NO)
+                 JOIN TBL_DELIVERY_STATUS F ON (F.REF_SHIPPING_TRACK_INFO_NO = E.NO)
         WHERE B.ID = #{id}
+          AND F.STATUS = 'COMPLETED'
     </select>
 
     <select id="selectSponsoredList" resultMap="sponsoredResultMap">
@@ -228,6 +237,7 @@
           ,  DETELE_YN
           ,  MODIFY_DATE
           ,  REF_DELIVERY_STATUS_CODE
+          ,  REF_SPONSORED_PRJ_NO
         )
             VALUES
         (
@@ -238,6 +248,7 @@
           , 'N'
           , SYSDATE
           , #{refDeliveryStatusCode}
+          , #{SponsoredNo}
         )
     </insert>
     
