@@ -131,6 +131,7 @@ public class ReviewController {
         review.setTitle(title);
         review.setRefDeliveryStatusCode(refDeliveryStatusCode);
         review.setRefMemberNo(memberNo);
+        review.setSponsoredNo(SponsoredNo);
 
         int writeResult = reviewService.writeReview(review);
 

@@ -66,6 +66,7 @@
         , A.REF_MEMBER_NO
         , A.MODIFY_DATE
         , A.REVIEW_TITLE
+        , A.REF_SPONSORED_PRJ_NO
         , K.NICKNAME
         , I.TITLE
 --              사진
@@ -76,11 +77,13 @@
         , B.REF_MEMBER_NO
         , B.MODIFY_DATE
         , B.REVIEW_TITLE
+        , B.REF_SPONSORED_PRJ_NO
         FROM(SELECT
         C.REF_DELIVERY_STATUS_CODE
         , C.REF_MEMBER_NO
         , C.MODIFY_DATE
         , C.REVIEW_TITLE
+        , C.REF_SPONSORED_PRJ_NO
         FROM TBL_REVIEW C
         <if test="searchCondition == 'projectTitle'">
             JOIN TBL_DELIVERY_STATUS J ON(C.REF_DELIVERY_STATUS_CODE = J.NO)
@@ -127,6 +130,7 @@
                 ]]>
 --                     사진
         AND P.TYPE = 'THUMBNAIL'
+        AND G.NO = A.REF_SPONSORED_PRJ_NO
         ORDER BY 1 ASC
     </select>
 
@@ -233,6 +237,7 @@
           ,  DETELE_YN
           ,  MODIFY_DATE
           ,  REF_DELIVERY_STATUS_CODE
+          ,  REF_SPONSORED_PRJ_NO
         )
             VALUES
         (
@@ -243,6 +248,7 @@
           , 'N'
           , SYSDATE
           , #{refDeliveryStatusCode}
+          , #{SponsoredNo}
         )
     </insert>
     

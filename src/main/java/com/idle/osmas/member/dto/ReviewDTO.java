@@ -15,6 +15,7 @@ public class ReviewDTO {
     private java.sql.Date registDate;
     private java.sql.Date modifyDate;
     private char deteleYn;
+    private int SponsoredNo;
 
 
 }
