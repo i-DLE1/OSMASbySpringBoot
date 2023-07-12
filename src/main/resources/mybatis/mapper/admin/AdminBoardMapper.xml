@@ -144,9 +144,7 @@
 
 <!--    게시물 삭제 -->
         <delete id="deleteNotice">
-        DELETE
-        *
-        FROM  TBL_ADMIN_BOARD
+        DELETE TBL_ADMIN_BOARD
         WHERE NO = #{no}
         </delete>
 
