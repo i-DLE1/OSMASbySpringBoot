@@ -9,6 +9,7 @@
     <title>공지사항 수정</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- axios 추가 -->
     <script src="/js/admin/adminBoard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 
     <link rel="stylesheet" href="/css/admin/adminmypage/adminbasicstyle.css">
     <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
@@ -22,40 +23,68 @@
 <h2 style="text-align: center;">글 수정</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
-    <form id="editForm" th:action="@{/admin/user_notice/notice_edit}" method="post">
-        <input type="hidden" name="no" th:value="${no}" /> <!-- 수정할 공지사항 ID -->
-        <input type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}" />
+<!--    <form id="editForm" th:action="@{/admin/user_notice/notice_edit}" method="post">-->
+        <input id="no" type="hidden" name="no" th:value="${no}" /> <!-- 수정할 공지사항 ID -->
+        <input id="title" type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}" />
         <br><br>
-        <textarea name="content" rows="10" cols="80" th:text="${content}"></textarea>
-        <input type="submit" value="글 수정" style="float: right;"/>
-    </form>
+        <textarea id="content" name="content" rows="10" cols="80" th:text="${content}"></textarea>
+        <input type="button" value="글 수정" style="float: right;" onclick="submit()"/>
+<!--    </form>-->
 </div>
 
 <script>
-    const editForm = document.getElementById('editForm');
+    // const editForm = document.getElementById('editForm');
 
-    editForm.addEventListener('submit', function (event) {
-        event.preventDefault();
+    function submit() {
 
-        // FormData 생성
-        const formData = new FormData(this);
+        const no = $("#no").val();
+        const title = $("#title").val();
+        const content = $("#content").val();
 
-        // AJAX 요청 보내기
-        axios({
-            method: 'post',
-            url: '/admin/user_notice/notice_edit',
-            data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' }
-        })
-            .then(function (response) {
-                console.log('글 수정 완료');
+        $.ajax({
+            url : '/admin/user_notice/notice_edit',
+            data : {no, title, content},
+            type : 'post',
+            success : e =>{
                 alert('글 수정 완료!');
                 location.reload(); // 페이지 새로 고침
-            })
-            .catch(function (error) {
-                console.error('글 수정 실패', error);
-            });
-    });
+            },
+            error : e=>{
+                console.log(e);
+            }
+        })
+
+    }
+    // editForm.addEventListener('submit', function (event) {
+    //     // event.preventDefault();
+    //
+    //     const no = $("no").val();
+    //     const title = $("title").val();
+    //     const content = $("content").val();
+    //
+    //     console.log(no, title, content)
+    //
+    //
+    //     // FormData 생성
+    //     // const formData = new FormData(this);
+    //     //
+    //     // console.log(this)
+    //     // AJAX 요청 보내기
+    //     axios({
+    //         method: 'post',
+    //         url: '/admin/user_notice/notice_edit',
+    //         data: {no,title,content},
+    //         // headers: { 'Content-Type': 'multipart/form-data' }
+    //     })
+    //         .then(function (response) {
+    //             console.log('글 수정 완료');
+    //             alert('글 수정 완료!');
+    //             location.reload(); // 페이지 새로 고침
+    //         })
+    //         .catch(function (error) {
+    //             console.error('글 수정 실패', error);
+    //         });
+    // });
 </script>
 </body>
 

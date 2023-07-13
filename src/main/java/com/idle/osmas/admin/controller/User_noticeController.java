@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/user_notice")
@@ -65,8 +66,16 @@ public class User_noticeController {
 
     @GetMapping("/notice_edit")
     public String noticeEdit(@RequestParam(required = false) Integer no, Principal principal, Model model){
+
+
         return "/admin/admin_notice/noticeEdit";
     }
 
 
+    @PostMapping("/notice_edit")
+    @ResponseBody
+    public String postNoticeEdit(@RequestParam(required = false) Map<String,String> adminBoard, Principal principal, Model model){
+        System.out.println("no = " + adminBoard);
+        return "";
+    }
 }
