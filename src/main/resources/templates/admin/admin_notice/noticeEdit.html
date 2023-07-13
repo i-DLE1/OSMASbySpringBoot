@@ -20,15 +20,36 @@
     <div th:include="~{/common/fragments/header}"></div>
 </header>
 
-<h2 style="text-align: center;">글 수정</h2><br><br><br>
+
+<div class="">
+    <nav class="box3">
+        <ul style="border-bottom: none; border-top: none;">
+            <li class="box" th:style="${type == 'A' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
+            <li class="box" th:style="${type == 'N' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
+            <li class="box" th:style="${type == 'E' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
+            <li class="box" th:style="${type == 'AT' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
+            <!-- 관리자 일때 공지사항 등록 버튼 보이게 -->
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <div style="text-align: center;">
+                    <a th:href="@{/admin/admin_notice/notice_registration}" class="btn5" style="padding-top: 5px;">공지사항 등록</a>
+                </div>
+                <script th:inline="javascript">
+                    var refmemberno = /*[[${#authentication.principal.no}]]*/ '';
+                </script>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+
+<h2 style="font-size: 14px;margin-left: 190px;">게시글 수정</h2><br><hr>
 
 <div style="width: 60%; margin: auto;">
 <!--    <form id="editForm" th:action="@{/admin/user_notice/notice_edit}" method="post">-->
         <input id="no" type="hidden" name="no" th:value="${no}" /> <!-- 수정할 공지사항 ID -->
-        <input id="title" type="text" name="title" style="width: 40%;" placeholder="제목" th:value="${title}" />
+        <input id="title" type="text" name="title" style="width: 100%;" placeholder="제목" th:value="${title}" />
         <br><br>
         <textarea id="content" name="content" rows="10" cols="80" th:text="${content}"></textarea>
-        <input type="button" value="글 수정" style="float: right;" onclick="submit()"/>
+        <input type="button" value="글 수정" style="float: left; margin-bottom: 200px" onclick="submit()"/>
 <!--    </form>-->
 </div>
 
@@ -47,7 +68,7 @@
             type : 'post',
             success : e =>{
                 alert('글 수정 완료!');
-                location.reload(); // 페이지 새로 고침
+                window.location.href = '/admin/user_notice/notice_view/A';
             },
             error : e=>{
                 console.log(e);
@@ -57,6 +78,11 @@
     }
 
 </script>
+
+<footer>
+    <div th:include="~{/common/fragments/footer}"></div>
+</footer>
+
 </body>
 
 </html>

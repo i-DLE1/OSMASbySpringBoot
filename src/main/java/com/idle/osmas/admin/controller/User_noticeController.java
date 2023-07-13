@@ -76,6 +76,8 @@ public class User_noticeController {
     @ResponseBody
     public String postNoticeEdit(@RequestParam(required = false) Map<String,String> adminBoard, Principal principal, Model model){
         System.out.println("no = " + adminBoard);
-        return "";
+        return "redirect:/admin/user_notice/notice_view/A";
     }
+
+
 }
