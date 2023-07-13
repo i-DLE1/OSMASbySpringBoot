@@ -20,5 +20,7 @@ public interface SalesMapper {
 
     List<NewInfoDTO> selectNewInfoListByNo(int no);
 
+    List<ProjectFileDTO> selectprojectFileListByNo(int no);
+
     int insertNewQna(QnaDTO qnaDTO);
 }
