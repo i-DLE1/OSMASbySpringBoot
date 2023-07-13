@@ -380,14 +380,19 @@
 
 
     <select id="selectProductStatisticsByProjectNo" parameterType="_int" resultMap="productStatisticsResultMap">
-        SELECT TPRO.NAME,
-               TSP.AMOUNT
+        SELECT TPRO2.NAME,
+               NVL(SQ.AMOUNT, 0) AS AMOUNT
           FROM TBL_PRJ_PRODUCT_LIST TPPL
-          JOIN TBL_PRODUCT TPRO ON TPRO.NO = TPPL.REF_PRODUCT_NO
-          JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL.NO
-          JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
-          JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
-         WHERE TP.STATUS = 'APPROVAL'
-           AND TPPL.REF_PRJ_NO = #{projectNo}
+          JOIN (SELECT TPPL2.NO, SUM(TSP.AMOUNT) AS AMOUNT
+                  FROM TBL_PRJ_PRODUCT_LIST TPPL2
+                  JOIN TBL_PRODUCT TPRO ON TPRO.NO = TPPL2.REF_PRODUCT_NO
+                  JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL2.NO
+                  JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
+                  JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+                 WHERE TP.STATUS = 'APPROVAL'
+                 GROUP BY TPPL2.NO
+               ) SQ ON SQ.NO = TPPL.NO
+          JOIN TBL_PRODUCT TPRO2 ON TPRO2.NO = TPPL.REF_PRODUCT_NO
+         WHERE TPPL.REF_PRJ_NO = #{projectNo}
     </select>
 </mapper>
