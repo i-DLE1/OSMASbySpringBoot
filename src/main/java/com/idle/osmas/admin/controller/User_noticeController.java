@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -40,10 +41,11 @@ public class User_noticeController {
         AdminBoardDTO noticeContent = adminBoardService.getAdminBoardByNo(no);
         System.out.println("noticeContent =========== " + noticeContent);
         model.addAttribute("noticeContent", noticeContent);
-        return  "admin/admin_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
+        return "admin/admin_notice/notice_content"; // 공지사항 내용을 보여주는 페이지로 이동합니다.
     }
 
 
+    // 게시글 등록 메소드
     @PostMapping("/admin/admin_notice/notice_registration")
     public String noticeRegist(@ModelAttribute("adminBoard") AdminBoardDTO adminBoard, Model model) {
         int result = adminBoardService.registBoard(adminBoard);
@@ -52,6 +54,19 @@ public class User_noticeController {
         return "redirect:/admin/admin_notice/notice_fullview";
     }
 
+    // 공지사항 삭제 메소드
+    @PostMapping("/delete")
+    public String deleteNotice(@RequestParam int no) {
+        System.out.println("no = " + no);
+        adminBoardService.deleteAdminBoard(no);
+        return "redirect:/admin/user_notice/notice_view/A"; // 경로 수정
+
+    }
+
+    @GetMapping("/notice_edit")
+    public String noticeEdit(@RequestParam(required = false) Integer no, Principal principal, Model model){
+        return "/admin/admin_notice/noticeEdit";
+    }
 
 
 }

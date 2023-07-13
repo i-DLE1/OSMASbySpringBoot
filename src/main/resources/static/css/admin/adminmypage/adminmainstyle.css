@@ -219,3 +219,9 @@ footer a {
     border: none;
 }
 
+/* 썸머노트 초기화 스타일 */
+.note-editor, .note-toolbar, .note-editing-area {
+    margin: 0;
+    padding: 0;
+}
+

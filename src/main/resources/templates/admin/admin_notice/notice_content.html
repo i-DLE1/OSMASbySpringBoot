@@ -1,52 +1,98 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
-    <title>공지사항_내용</title>
+    <title>공지사항 상세보기</title>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="/js/admin/adminBoard.js"></script>
-    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminbasicstyle.css}">
-    <link rel="stylesheet" th:href="@{/css/admin/adminmypage/adminmainstyle.css}">
-</head>
-<body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/admin/adminmypage/adminbasicstyle.css">
+    <link rel="stylesheet" href="/css/admin/adminmypage/adminmainstyle.css">
 
+
+</head>
+
+<body>
 <header id="header">
     <div th:include="~{/common/fragments/header}"></div>
 </header>
 
+
 <div class="">
     <nav class="box3">
         <ul style="border-bottom: none; border-top: none;">
-            <li class="box" th:style="${type == 'A' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
-            <li class="box" th:style="${type == 'N' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
-            <li class="box" th:style="${type == 'E' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
-            <li class="box" th:style="${type == 'AT' ? 'background-color: #bea376;':''}"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
+            <li class="box" th:class="${type == 'A' ? 'box-selected' : 'box'}"><a th:href="@{/admin/user_notice/notice_view/A}">전체보기</a></li>
+            <li class="box" th:class="${type == 'N' ? 'box-selected' : 'box'}"><a th:href="@{/admin/user_notice/notice_view/N}">공지사항</a></li>
+            <li class="box" th:class="${type == 'E' ? 'box-selected' : 'box'}"><a th:href="@{/admin/user_notice/notice_view/E}">이벤트</a></li>
+            <li class="box" th:class="${type == 'AT' ? 'box-selected' : 'box'}"><a th:href="@{/admin/user_notice/notice_view/AT}">보도자료</a></li>
             <!-- 관리자 일때 공지사항 등록 버튼 보이게 -->
             <th:block sec:authorize="hasRole('ADMIN')">
-                <div style="text-align: center;">
-                    <a th:href="@{/admin/user_notice/notice_view/${type}}" class="btn5" style="padding-top: 5px;">공지사항 목록으로 돌아가기</a>
+                <div style="text-align: center; padding-top: 15px;">
+                    <a th:href="@{/admin/admin_notice/notice_registration}" >공지사항 등록</a>
                 </div>
             </th:block>
         </ul>
     </nav>
 </div>
 
-<div class="notice_content">
-    <br>
-    <h5 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.category}"></h5>
-    <h3 th:if="${noticeContent}" th:text="${noticeContent.title}"></h3>
-    <h6 style="font-weight: lighter;" th:if="${noticeContent}" th:text="${noticeContent.registDate}"></h6>
+
+<div class="notice-content" th:if="${noticeContent}">
+    <div class="notice-category">
+        <h6 style="font-weight: lighter; font-size: 12px;"><span th:text="${noticeContent.classifyCode}"></span></h6>
+    </div>
+    <div class="notice-title">
+        <h3><span th:text="${noticeContent.title}"></span></h3>
+    </div>
+    <div class="notice-date">
+        <h6 style="font-weight: lighter; font-size: 12px;"><span th:text="${noticeContent.registDate}"></span></h6>
+    </div>
     <hr>
-    <!-- content 내용 표시 -->
-    <h5 th:if="${noticeContent}" th:text="${noticeContent.content}"></h5>
+    <div class="notice-content-text">
+        <div th:utext="${noticeContent.content}"></div>
+    </div>
 </div>
 
 
+
+
+
+<!-- 수정 및 삭제 버튼 -->
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="btn-group">
+    <a th:href="@{/admin/user_notice/notice_edit(no=${noticeContent.no})}" class="btn5" style="text-decoration: none;">수정</a>
+    <span style="margin: 0 20px;"></span>
+    <a href="#" onclick="deleteNotice()" class="btn5">삭제</a>
+</div>
+
+
+<!-- 자바스크립트 코드 -->
+<script>
+
+    // 삭제 버튼 클릭 시
+    function deleteNotice() {
+        const no = new URLSearchParams(location.search).get('no')
+        // AJAX를 사용하여 공지사항 삭제 요청을 서버로 보냅니다.
+        $.ajax({
+            url: `/admin/user_notice/delete`,  // 경로 수정
+            type: "POST",
+            data: {no: no},
+            success: function (response) {
+                alert('삭제되었습니다.');
+                window.location.href = "/admin/user_notice/notice_view/A"; // 경로 수정
+            },
+            error: function (xhr, status, error) {
+                console.log("삭제에 실패 하였습니다.: " + error);
+            }
+        });
+
+    }
+</script>
+
+
 <footer>
-    <th:block th:include="~{/common/fragments/footer}"></th:block>
+    <div th:include="~{/common/fragments/footer}"></div>
 </footer>
 
 </body>
+
 </html>
