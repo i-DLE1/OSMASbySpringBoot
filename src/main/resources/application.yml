@@ -20,11 +20,11 @@ mybatis:
   mapper-locations: mybatis/mapper/**/*.xml
 
 # SavedFilePath
-saveFileDirectoryPath: /Users/yuseungcheol/Desktop/project/himedia/project/OSMASbySpringBoot/src/main/resources/static/files
-#saveFileDirectoryPath: c:\files
+#saveFileDirectoryPath: /Users/yuseungcheol/Desktop/project/himedia/project/OSMASbySpringBoot/src/main/resources/static/files
+saveFileDirectoryPath: c:\files
 
 # SavedFilePath
-sellerGetFormFileDirectoryPath: C:/dev/SemiProject/osmas/src/main/resources/static/images/admin/getForm
+sellerGetFormFileDirectoryPath: C:/dev/SemiProject/OSMASbySpringBoot/src/main/resources/static/images/admin/getForm
 
 
 

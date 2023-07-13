@@ -14,6 +14,7 @@
 
         <association property="member" resultMap="memberResultMap"/>
         <association property="productProgress" resultMap="itemProgressResultMap"/>
+        <association property="file" resultMap="projectFileResultMap"/>
     </resultMap>
 
     <resultMap id="itemProgressResultMap" type="com.idle.osmas.admin.dto.ProductProgressDTO">
@@ -31,13 +32,22 @@
         <result property="nickname" column="NICKNAME"/>
     </resultMap>
 
+    <resultMap id="projectFileResultMap" type="com.idle.osmas.admin.dto.ProjectFileDTO">
+        <id property="no" column="NO"/>
+        <result property="deleteYN" column="DELETE_YN"/>
+        <result property="originName" column="ORIGIN_NAME"/>
+        <result property="changeName" column="CHANGE_NAME"/>
+        <result property="registDate" column="REGIST_DATE"/>
+    </resultMap>
+
     <!-- 상품 승인 신청자 -->
     <select id="waitingAllItem" resultMap="itemResultMap">
-        SELECT P.TITLE, P.CONTENT, M.ID, R.STATUS, P.NO
+        SELECT P.TITLE, P.CONTENT, M.ID, R.STATUS, P.NO, F.CHANGE_NAME
         FROM TBL_PRJ P
                  JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
                  JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
                  JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+                 JOIN TBL_PRJ_FILE F ON F.REF_PRJ_NO = P.NO
         WHERE (R.REF_PRJ_NO, R.REGIST_DATE) IN (
             SELECT R.REF_PRJ_NO, MAX(R.REGIST_DATE)
             FROM TBL_PRJ_PROGRESS R
