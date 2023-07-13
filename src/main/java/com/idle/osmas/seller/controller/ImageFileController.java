@@ -71,7 +71,8 @@ public class ImageFileController {
             if(!fileType.equals(ProjectFileType.BODY)) {
                 Thumbnails.of(file.getInputStream()).size(400, 400).toFile(savedFile);
             }else {
-                Thumbnails.of(file.getInputStream()).size(1000, 1000).toFile(savedFile);
+//                Thumbnails.of(file.getInputStream()).size(1000, 1000).toFile(savedFile);
+                Thumbnails.of(file.getInputStream()).scale(1).toFile(savedFile);
             }
 
             if(ProjectFileType.BODY.equals(fileType)) return savedFileName;
