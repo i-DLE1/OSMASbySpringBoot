@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,9 +58,9 @@ public class ProjectDeatilController {
 
         List<ProductDTO> productList = productService.selectSponsoredPrjByProjectNo(no, user.getNo());
 
-        Period betweenDays = Period.between(LocalDate.now(), project.getEndDate());
+        long betweenDays = ChronoUnit.DAYS.between(LocalDate.now(), project.getEndDate());
 
-        model.addAttribute("days",betweenDays.getDays());
+        model.addAttribute("days",betweenDays);
         model.addAttribute("project",project);
         model.addAttribute("productList",productList);
 

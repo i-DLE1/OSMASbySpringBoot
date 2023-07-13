@@ -198,6 +198,9 @@
                          <if test="openExpect != null and openExpect == true">
                              AND PRJ.START_DATE <![CDATA[>]]> TRUNC(SYSDATE)
                          </if>
+                         <if test="openExpect == null ">
+                             AND PRJ.START_DATE <![CDATA[<=]]> TRUNC(SYSDATE)
+                         </if>
                          ORDER BY PRJ.END_DATE
                          ) ST)
          WHERE RNUM BETWEEN #{startNo} AND #{endNo}
@@ -242,9 +245,10 @@
                                TM.STATUS AS TBL_MEMBER_STATUS,
                                TC.NAME AS TBL_CATEGORY_NAME
                           FROM TBL_PRJ PRJ
-                          LEFT JOIN (SELECT PRJ.NO , SUM(TP.AMOUNT) AS CURRENT_AMOUNT
+                          LEFT JOIN (SELECT PRJ.NO , SUM(TP2.PRICE) AS CURRENT_AMOUNT
                                        FROM TBL_PRJ PRJ
                                        JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRJ_NO = PRJ.NO
+                                       JOIN TBL_PRODUCT TP2 ON TP2.NO = TPPL.REF_PRODUCT_NO
                                        JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL.NO
                                        JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
                                        JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
