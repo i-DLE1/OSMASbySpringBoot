@@ -79,7 +79,7 @@
                                      JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
                             WHERE TP.STATUS = 'APPROVAL'
                             GROUP BY TPPL.NO
-        ) TSP ON TSP.NO = TPRO.NO
+                            ) TSP ON TSP.NO = TPRO.NO
                  JOIN TBL_PRJ PRJ ON PRJ.NO = TPPL.REF_PRJ_NO
         WHERE TPPL.REF_PRJ_NO = #{projectNo}
           AND PRJ.REF_MEMBER_NO = #{userNo}

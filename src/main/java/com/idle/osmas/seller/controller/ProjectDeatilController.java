@@ -75,8 +75,8 @@ public class ProjectDeatilController {
         Map<String, Integer> result = new HashMap<>() {};
 
         for(int i = productStatistics.size()-1; i >= 0 ; i--){
-            int count = productStatistics.get(i).getCount()  == 0 ? 1 : productStatistics.get(i).getCount();
-            result.put(i+"."+productStatistics.get(i).getName(), count);
+//            int count = productStatistics.get(i).getCount()  == 0 ? 1 : productStatistics.get(i).getCount();
+            result.put(i+"."+productStatistics.get(i).getName(), productStatistics.get(i).getCount());
         }
 
         return result;

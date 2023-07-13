@@ -370,18 +370,15 @@
                NVL(TSP.AMOUNT,0) AS AMOUNT
           FROM TBL_PRJ_PRODUCT_LIST TPPL
           JOIN TBL_PRODUCT TPRO ON TPRO.NO = TPPL.REF_PRODUCT_NO
-          LEFT JOIN (SELECT TSP.REF_PRJ_PRODUCT_LIST_NO,
-                            SUM(TSP.AMOUNT) AS AMOUNT
-                     FROM TBL_SHIPPING_TRACK_INFO TSTI
-                              JOIN (SELECT TDS2.REF_SHIPPING_TRACK_INFO_NO
-                                    FROM TBL_DELIVERY_STATUS TDS2
-                                    WHERE STATUS = 'COMPLETED'
-                              ) TDS ON TDS.REF_SHIPPING_TRACK_INFO_NO = TSTI.NO
-                              JOIN TBL_PAYMENT TP ON TP.CODE = TSTI.REF_PAYMENT_NO
-                              JOIN TBL_PAYMENT_HISTORY TPH ON TPH.REF_PAYMENT_NO = TP.CODE
-                              JOIN TBL_SPONSORED_PRJ TSP ON TSP.NO = TPH.REF_SPONSORED_PRJ_NO
-                     GROUP BY TSP.REF_PRJ_PRODUCT_LIST_NO
-        ) TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPRO.NO
+          LEFT JOIN (SELECT TPPL.NO ,count(*) AS AMOUNT
+                     FROM TBL_PRJ PRJ
+                              JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRJ_NO = PRJ.NO
+                              JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL.NO
+                              JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
+                              JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+                     WHERE TP.STATUS = 'APPROVAL'
+                     GROUP BY TPPL.NO
+        ) TSP ON TSP.NO = TPRO.NO
         WHERE TPPL.REF_PRJ_NO = #{projectNo}
     </select>
 </mapper>
