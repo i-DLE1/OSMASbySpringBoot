@@ -186,7 +186,7 @@ function confirmTempProject(){
         type: 'get',
         success : function (success) {
             if(success.result === 'isExist'){
-                let temp = confirm("이미 등록을 진행중인 프로젝트가 있습니다.\n새로운 프로젝트는 시작하면 임시저장된 프로젝트는 삭제됩니다.\n임시저장된 프로젝트를 불러오겠습ㄴ니까?")
+                let temp = confirm("이미 등록을 진행중인 프로젝트가 있습니다.\n새로운 프로젝트는 시작하면 임시저장된 프로젝트는 삭제됩니다.\n임시저장된 프로젝트를 불러오겠습니까?")
                 if(temp){
                     location.href = `/seller/regist/project1?no=${success.no}`;
                 }else {
@@ -203,7 +203,7 @@ function confirmTempProject(){
 }
 
 function deleteTempProject(newProject){
-    let isDelete = confirm("정말로 임시저장된 프로젝트를 삭제하시겠니까?")
+    let isDelete = confirm("정말로 임시저장된 프로젝트를 삭제하시겠습니까?")
     if(!isDelete) return;
     $.ajax({
         url : `/seller/regist/deleteTempProject`,

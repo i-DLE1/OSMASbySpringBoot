@@ -314,7 +314,7 @@ const suneditor = (minHeight, maxHeight) => {
             maxHeight: maxHeight,
             minWidth: 1120,
             maxWidth: 1120,
-            imageUploadSizeLimit: 10485760,
+            imageUploadSizeLimit: 1048576000,
             imageUploadUrl : 'http://localhost:8080/files/projectBodyUpload'+ (no === null ? '' : `?no=${no}`),
         }
     )
