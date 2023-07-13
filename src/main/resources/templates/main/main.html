@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/seller/projectItem.css">
+  <link rel="stylesheet" href="/css/seller/projectListView.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
@@ -22,10 +24,53 @@
 
 <middle>
 
-  <div class="sales-container" >
-    <div class="sales-product" th:each="sales : ${ salesList }"><a class="product-image" style="cursor: pointer" th:attr="data-sales-no=${sales.no}" th:text="${ sales.title}"></a></div>
-<!--      <img style="width: 300px; height: 300px" class="product-image" src="./images/seller/sales/sales1.PNG" alt="상품사진1">-->
-  </div>
+    <div class="flex-center">
+      <div class="project-list-sub">
+<!--        <div class="menu-list-project-view">-->
+<!--          <label class="main-category" onclick="initCategory()">-->
+<!--            <span>전체</span>-->
+<!--          </label>-->
+<!--          <th:block th:each="category : ${categoryList}">-->
+<!--            <label th:id="|category-${category.no}|"  class="main-category">-->
+<!--              <span th:text="${category.name}"></span>-->
+<!--            </label>-->
+<!--          </th:block>-->
+<!--        </div>-->
+        <div id="subCategoryList" class="menu-list-project-view">
+          <!-- javascript -->
+        </div>
+        <div id="project-view-list" class="container-project-list-view">
+          <!--  javascript   -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer th:replace="~{/common/fragments/footer :: footer}"></footer>
+  <script src="/js/seller/projectListView.js"></script>
+  <script>
+    mainCategorySelect();
+    categorySelect();
+    salesListAjax();
+
+    let timer;
+    $(window).scroll(()=>{
+      let curScrollY = window.scrollY;
+      let windowHeight = window.innerHeight
+      let documentHeight = document.body.scrollHeight;
+
+      if(curScrollY + windowHeight >= documentHeight){
+        if(!timer){
+          timer = setTimeout(()=>{
+            timer = null;
+            moreItem();
+          },500)
+        }
+
+      }
+    })
+
+  </script>
 
 </middle>
 
