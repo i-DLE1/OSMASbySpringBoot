@@ -76,7 +76,7 @@
                 </td>
                   <td>
                       <span th:if="${item.payment?.status == null}" th:text="없음"></span>
-                      <th:block th:unless="${item.payment?.status == null}" th:replace="/seller/fragments/sellerFrag :: payStatus(${item.payment?.status.toString()})"></th:block>
+                      <th:block th:unless="${item.payment?.status == null}" th:replace="/seller/fragments/sellerFrag :: payStatus(${item.payment?.status?.toString()})"></th:block>
                   </td>
                 <td th:text="*{registDate}"></td>
                 <td>
