@@ -18,7 +18,11 @@
             <div class="categoryboxtext" th:text="${categoryDTO.name}"></div>
         </div>
         <div class="title" th:text="${salesDTO.title}"></div>
-        <div class="sellerlogo"><img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고"></div>
+        <div class="categorybox">
+<!--            <img class="logoimage" src="/images/seller/sales/sellerLogo.PNG" alt="판매자로고">-->
+            <div class="categoryboxtext" th:if="${sellerRollDTO}" th:text="${sellerRollDTO.name}"></div>
+            <div class="categoryboxtext" th:unless="${sellerRollDTO}" th:text="판매자"></div>
+        </div>
     </div>
 
     <div class="product">
@@ -26,9 +30,12 @@
 
         <div class="imagecontainer">
             <div class="productimg">
-                <th:block th:each="fileList: ${projectFileList}">
-                    <img class="image" th:src="@{'/files/project/' + ${salesDTO.no} + '/' + ${fileList.changeName}}" alt="상품사진">
+                <th:block th:if="${projectFileList}">
+                    <th:block th:each="fileList: ${projectFileList}">
+                        <img class="image" th:src="@{'/files/project/' + ${salesDTO.no} + '/' + ${fileList.changeName}}" alt="상품사진">
+                    </th:block>
                 </th:block>
+                <img class="image" th:unless="${projectFileList}" src="/images/common/notImg.jpg" alt="대체이미지">
             </div>
 
             <div class="imagebuttoncontainer">
