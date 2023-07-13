@@ -19,12 +19,6 @@ public interface SellerApprovalFormService {
 
     String findReason(String userID);
 
-    Integer youHolding(String userID);
-
-    Integer youSuccess(String userID);
-
-    Integer youSeller(String userID);
-
     int sellerUpdate(Map<String, String> requestParams, List<Map<String, String>> fileList);
 
     int sellerInsertCancel(String sellerId);
@@ -36,4 +30,12 @@ public interface SellerApprovalFormService {
     Integer checkoutFormHistory(String userID);
 
     List<PermissionRoleDTO> sellerReason(String userID);
+
+    Integer holdingNo(String userID);
+
+    Integer holdingOut(String userID);
+
+    Integer sellerGo(String userID);
+
+    Integer sellerOutt(String userID);
 }

@@ -95,6 +95,8 @@
         <button class="sellerDropPageGo" onclick="toggleSellerDropMenu()">마이 페이지</button>
         <div class="sellerDropPage-content" id="sellerDropPageContent">
           <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>
+          <a onclick="location.href='/member/suggest/suggest'">제안하기</a>
+          <a onclick="location.href='/member/review/review'">리뷰하기</a>
         </div>
       </div>
     </th:block>
@@ -104,7 +106,7 @@
       <div class="sellerPage">
         <button class="sellerPageGo" onclick="toggleSellerMenu()">판매자 페이지</button>
         <div class="sellerPage-content" id="sellerPageContent">
-          <a onclick="location.href='/admin/sellerApprovalForm/outHoldingAlarm'">(보류)알림</a>
+          <a onclick="location.href='/member/mypage/MypageProfile'">마이 페이지</a>
           <a onclick="location.href='/seller/projectList'">프로젝트 조회</a>
           <a onclick="location.href='/seller/orderList'">주문 관리 조회 </a>
           <a onclick="location.href='/seller/projectQnAList'">질문 답변 조회</a>
@@ -121,10 +123,10 @@
       <div class="adminPage-content" id="adminPageContent">
         <a onclick="location.href='/admin/user_notice/notice_view/A'">공지사항</a>
         <a onclick="location.href='/admin/user_management/full_inquiry'">사용자 조회</a>
-        <a onclick="location.href='/admin/footerCategory/termsInput'">약관 쓰기(추후 삭제 예정)</a>
-        <a onclick="location.href='/admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
         <a onclick="location.href='/admin/itemApproval/waitingItem'">상품 승인 관리</a>
+        <a onclick="location.href='/admin/sellerApproval/waitingAuthority'">판매자 권한 관리</a>
         <a onclick="location.href='/admin/adminCategory/gettingProposals'">제안 받기</a>
+        <a onclick="location.href='/admin/footerCategory/termsInput'">약관 작성</a>
       </div>
       </div>
     </th:block>

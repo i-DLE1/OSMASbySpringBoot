@@ -42,18 +42,32 @@
 
 
 
-    <th:block th:if="${alert}">
+    <th:block th:if="${alert1}">
         <div class="mypage_alarm" style="margin: 5%;">
             <p>판매자님의 권한 신청이 보류 되었습니다.</p>
             <button onclick="location.href='/admin/sellerApprovalForm/getFormAgain'">확인하러 가기</button>
         </div>
     </th:block>
 
-    <th:block th:if="${alertGo}">
+    <th:block th:if="${alert3}">
+        <div class="mypage_alarm" style="margin: 5%;">
+            <p>판매자님의 권한 신청이 완료 되었습니다.</p>
+        </div>
+    </th:block>
+
+    <th:block th:if="${alert2}">
+        <div class="mypage_alarm" style="margin: 5%;">
+            <p>판매자님의 권한 회수 신청이 보류 되었습니다.</p>
+            <button onclick="location.href='/admin/sellerApprovalForm/outFormAgain'">확인하러 가기</button>
+        </div>
+    </th:block>
+
+    <th:block th:if="${alert4}">
         <div class="mypage_alarm" style="margin: 5%;">
             <p>판매자님의 권한 회수가 완료 되었습니다.</p>
         </div>
     </th:block>
+
 </main>
 
 <footer>

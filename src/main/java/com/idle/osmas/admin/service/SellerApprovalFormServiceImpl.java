@@ -96,43 +96,6 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         PermissionRoleDTO permissionRoleDTO = sellerApprovalFormMapper.findReason(userID);
         return permissionRoleDTO != null ? permissionRoleDTO.getRejectReason() : null;
     }
-
-    @Override
-    public Integer youHolding(String userID) {
-        Integer result = holdingAlertMapper.youHolding(userID);
-
-        System.out.println("결과값 : " + result);
-
-        if (result != null && result > 0) {
-            return 1;
-        }
-        return 0;
-    }
-
-    @Override
-    public Integer youSuccess(String userID) {
-        Integer result = holdingAlertMapper.youSuccess(userID);
-
-        System.out.println("결과값 : " + result);
-
-        if (result != null && result > 0) {
-            return 1;
-        }
-        return 0;
-    }
-
-    @Override
-    public Integer youSeller(String userID) {
-        Integer result = holdingAlertMapper.getYouSeller(userID);
-
-        System.out.println("결과값 : " + result);
-
-        if (result != null && result > 0) {
-            return 1;
-        }
-        return 0;
-    }
-
     @Override
     @Transactional
     public int sellerUpdate(Map<String, String> requestParams, List<Map<String, String>> fileList) {
@@ -190,6 +153,54 @@ public class SellerApprovalFormServiceImpl implements SellerApprovalFormService 
         System.out.println("값 확인 : " + sellerReasonList);
 
         return sellerReasonList;
+    }
+
+    @Override
+    public Integer holdingNo(String userID) {
+        Integer result = holdingAlertMapper.holdingNo(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer holdingOut(String userID) {
+        Integer result = holdingAlertMapper.holdingOut(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer sellerGo(String userID) {
+        Integer result = holdingAlertMapper.sellerGo(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer sellerOutt(String userID) {
+        Integer result = holdingAlertMapper.sellerOutt(userID);
+
+        System.out.println("결과값 : " + result);
+
+        if (result != null && result > 0) {
+            return 1;
+        }
+        return 0;
     }
 
     @Override
