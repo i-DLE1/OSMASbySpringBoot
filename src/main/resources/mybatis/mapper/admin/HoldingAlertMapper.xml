@@ -45,14 +45,15 @@
         <result property="dropReason" column="DROP_REASON"/>
     </resultMap>
 
-    <!-- 판매자 권한 회수/권한 신청 보류 시 알람 확인하기-->
-    <select id="youHolding">
+    <!-- 판매자 권한 신청 보류 시 알람 확인하기-->
+    <select id="holdingNo">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM TBL_HOLDING_ALERT H
                  JOIN TBL_PERMISSION_ROLE P ON H.REF_PERMISSION_ROLE_NO = P.NO
                  JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
                  JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
                  JOIN TBL_SELLER_ROLE S ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
         WHERE M.ID = #{userID}
           AND H.CONTENT IS NOT NULL
           AND P.PERMISSION_STATUS = 'REJECTED'
@@ -64,11 +65,56 @@
             FROM TBL_PERMISSION_ROLE P
             WHERE P.REF_SELLER_ROLE_REQ_NO = Q.NO
               AND P.PERMISSION_STATUS = 'REJECTED'
+              AND R.REF_MEMBER_ROLE_CODE = 1
+                AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+                AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
+        )
+    </select>
+
+    <!-- 판매자 권한 회수 신청 보류 시 알람 확인하기-->
+    <select id="holdingOut">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM TBL_HOLDING_ALERT H
+                 JOIN TBL_PERMISSION_ROLE P ON H.REF_PERMISSION_ROLE_NO = P.NO
+                 JOIN TBL_SELLER_ROLE_REQ Q ON Q.NO = P.REF_SELLER_ROLE_REQ_NO
+                 JOIN TBL_MEMBER M ON Q.REF_MEMBER_NO = M.NO
+                 JOIN TBL_SELLER_ROLE S ON S.REF_MEMBER_NO = M.NO
+                 JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
+        WHERE M.ID = #{userID}
+          AND H.CONTENT IS NOT NULL
+          AND P.PERMISSION_STATUS = 'REJECTED'
+          AND H.REGIST_DATE = (SELECT MAX(REGIST_DATE) FROM TBL_HOLDING_ALERT)
+          AND S.REF_MEMBER_NO IS NOT NULL
+          AND Q.REGIST_DATE = (SELECT MAX(REGIST_DATE) FROM TBL_SELLER_ROLE_REQ)
+          AND EXISTS (
+            SELECT 1
+            FROM TBL_PERMISSION_ROLE P
+            WHERE P.REF_SELLER_ROLE_REQ_NO = Q.NO
+              AND P.PERMISSION_STATUS = 'REJECTED'
+              AND R.REF_MEMBER_ROLE_CODE = 1
+              AND EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 2
+            )
+              AND NOT EXISTS (
+                SELECT 1
+                FROM TBL_ROLE_LIST
+                WHERE REF_MEMBER_NO = M.NO AND REF_MEMBER_ROLE_CODE = 3
+            )
         )
     </select>
 
     <!-- 판매자 권한 회수 완료 시 알람 확인하기-->
-    <select id="youSuccess">
+    <select id="sellerOutt">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM TBL_MEMBER M
                  JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO
@@ -77,7 +123,7 @@
     </select>
 
     <!-- 판매자 권한 신청 완료 시 알람 확인하기-->
-    <select id="getYouSeller">
+    <select id="sellerGo">
         SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
         FROM TBL_MEMBER M
                  JOIN TBL_ROLE_LIST R ON M.NO = R.REF_MEMBER_NO

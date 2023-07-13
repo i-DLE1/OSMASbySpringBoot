@@ -140,18 +140,31 @@ public class MypageController {
         // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
         model.addAttribute("userID", userID);
 
-        Integer holding = sellerApprovalFormService.youHolding(userID);
-        boolean alert = holding != null && holding == 1;
+        //권한 신청 보류자
+        Integer holdingNo = sellerApprovalFormService.holdingNo(userID);
+        boolean alert1 = holdingNo != null && holdingNo == 1;
+
+        //권한 회수 보류자
+        Integer holdingOut = sellerApprovalFormService.holdingOut(userID);
+        boolean alert2 = holdingOut != null && holdingOut == 1;
+
+        //권한 신청 완료자
+        Integer sellerGo = sellerApprovalFormService.sellerGo(userID);
+        boolean alert3 = sellerGo != null && sellerGo == 1;
 
         //권한 회수 완료자
-        Integer success = sellerApprovalFormService.youSuccess(userID);
-        boolean alertGo = success != null && success == 1;
+        Integer sellerOut = sellerApprovalFormService.sellerOutt(userID);
+        boolean alert4 = sellerOut != null && sellerOut == 1;
 
-        model.addAttribute("alert", alert);
-        model.addAttribute("alertGo", alertGo);
+        model.addAttribute("alert1", alert1);
+        model.addAttribute("alert2", alert2);
+        model.addAttribute("alert3", alert3);
+        model.addAttribute("alert4", alert4);
 
-        System.out.println("권한 신청 보류 값이야? " + alert);
-        System.out.println("권한 회수 성공 값이야? " + alertGo);
+        System.out.println("권한 신청 보류 값이야? " + alert1);
+        System.out.println("권한 신청 성공 값이야? " + alert3);
+        System.out.println("권한 회수 보류 값이야? " + alert2);
+        System.out.println("권한 회수 성공 값이야? " + alert4);
 
         return "/member/mypage/MypageAlarm";
     }

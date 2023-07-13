@@ -27,13 +27,16 @@
         <div th:each="seller, iterStat: ${sellerItem}">
             <div class="product">
                 <div class="image-container">
-                    <img src="image.jpg" alt="Product Image">
+                    <a th:href="@{'/seller/sales/detail?no=' + ${seller.no}}">
+                        <img src="" th:alt="${seller.file.changeName}" th:data-file-name="${seller.file.changeName}">
+                    </a>
                 </div>
                 <div class="content-container">
                     <h3 class="seller-id" th:text="${seller.member.id}">판매자 아이디</h3>
                     <p class="itemn-content" th:text="${seller.title}">판매 제목</p>
                 </div>
                 <h4 class="box2">승인 완료</h4>
+                <button class="goButton" th:data-project-no="${seller.no}" style="display: none;">안보이는 버튼</button>
             </div>
             <hr class="separator" th:if="${not iterStat.last}">
         </div>
@@ -46,5 +49,28 @@
     <th:block th:include="~{/common/fragments/footer}"></th:block>
 </footer>
 
+<script>
+    // 파일 경로를 생성하는 함수
+    function generateFilePath(fileName, projectNo) {
+        var filePath = "/files/project/" + projectNo + "/" + fileName;
+        return filePath;
+    }
+
+    var sellers = document.querySelectorAll(".product");
+    sellers.forEach(function(seller) {
+        var fileName = seller.querySelector(".image-container img").getAttribute("alt");
+        var projectNoString = seller.querySelector(".goButton").getAttribute("data-project-no");
+        var projectNo = parseInt(projectNoString, 10);
+
+        var filePath = generateFilePath(fileName, projectNo);
+        console.log("Image File Path:", filePath);
+
+        var imageElement = new Image();
+        imageElement.onload = function() {
+            seller.querySelector(".image-container img").src = imageElement.src;
+        };
+        imageElement.src = filePath;
+    });
+</script>
 </body>
 </html>

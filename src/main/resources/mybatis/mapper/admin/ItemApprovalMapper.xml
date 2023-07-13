@@ -69,11 +69,12 @@
 
     <!-- 상품 승인 보류자 -->
     <select id="holdingAllItem" resultMap="itemResultMap">
-        SELECT P.TITLE, R.CONTENT, M.ID, R.STATUS, P.NO
+        SELECT P.TITLE, R.CONTENT, M.ID, R.STATUS, P.NO, F.CHANGE_NAME
         FROM TBL_PRJ P
                  JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
                  JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
                  JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+                 JOIN TBL_PRJ_FILE F ON F.REF_PRJ_NO = P.NO
         WHERE (R.REF_PRJ_NO, R.REGIST_DATE) IN (
             SELECT R.REF_PRJ_NO, MAX(R.REGIST_DATE)
             FROM TBL_PRJ_PROGRESS R
@@ -95,11 +96,12 @@
 
     <!-- 상품 승인 완료자 -->
     <select id="successAllItem" resultMap="itemResultMap">
-        SELECT P.TITLE, R.CONTENT, M.ID, R.STATUS, P.NO
+        SELECT P.TITLE, R.CONTENT, M.ID, R.STATUS, P.NO, F.CHANGE_NAME
         FROM TBL_PRJ P
                  JOIN TBL_MEMBER M ON P.REF_MEMBER_NO = M.NO
                  JOIN TBL_PRJ_PROGRESS R ON R.REF_PRJ_NO = P.NO
                  JOIN TBL_ROLE_LIST L ON L.REF_MEMBER_NO = M.NO
+                 JOIN TBL_PRJ_FILE F ON F.REF_PRJ_NO = P.NO
         WHERE (R.REF_PRJ_NO, R.REGIST_DATE) IN (
             SELECT R.REF_PRJ_NO, MAX(R.REGIST_DATE)
             FROM TBL_PRJ_PROGRESS R
@@ -134,6 +136,11 @@
                    WHERE R.STATUS ='SCREENING'
                      AND M.ID = #{sellerId}
                      AND P.NO = #{projectNo}
+                     AND R.REGIST_DATE = (
+                       SELECT MAX(REGIST_DATE)
+                       FROM TBL_PRJ_PROGRESS
+                       WHERE REF_PRJ_NO = P.NO
+                   )
                )
         FROM DUAL
     </insert>
@@ -153,6 +160,11 @@
                    WHERE R.STATUS ='SCREENING'
                      AND M.ID = #{sellerId}
                      AND P.NO = #{projectNo}
+                     AND R.REGIST_DATE = (
+                       SELECT MAX(REGIST_DATE)
+                       FROM TBL_PRJ_PROGRESS
+                       WHERE REF_PRJ_NO = P.NO
+                   )
                )
         FROM DUAL
     </insert>

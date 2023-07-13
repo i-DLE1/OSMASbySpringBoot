@@ -81,6 +81,26 @@ public class SpringSecurityConfiguration {
                 .antMatchers(HttpMethod.GET,"/member/pay/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/member/pay/**").hasRole("ADMIN");
 
+        // 관리지 페이지
+        // (사용자 조회, 상품승인관리, 판매자권한관리, 제안 받기, 약관 작성, 약관 수정)
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/admin/adminCategory/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/admin/adminCategory/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/admin/adminCategory/**").hasRole("ADMIN")
+                .antMatchers("/admin/itemApproval/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/admin/itemApproval/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/admin/itemApproval/**").hasRole("ADMIN")
+                .antMatchers("/admin/sellerApproval/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/admin/sellerApproval/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/admin/sellerApproval/**").hasRole("ADMIN")
+                .antMatchers("/admin/footerCategory/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/admin/footerCategory/termsInput").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/admin/footerCategory/termsEdit").hasRole("ADMIN")
+                .antMatchers("/admin/user_management/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/admin/user_management/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/admin/user_management/**").hasRole("ADMIN");
+
+
 
 
 

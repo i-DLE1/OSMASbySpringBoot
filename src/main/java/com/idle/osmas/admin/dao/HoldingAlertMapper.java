@@ -4,11 +4,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface HoldingAlertMapper {
+    Integer holdingOut(String userID);
 
-    Integer youHolding(String userID);
+    Integer sellerGo(String userID);
 
-    Integer youSuccess(String userID);
+    Integer sellerOutt(String userID);
 
-    Integer getYouSeller(String userID);
+    Integer holdingNo(String userID);
 }
-
