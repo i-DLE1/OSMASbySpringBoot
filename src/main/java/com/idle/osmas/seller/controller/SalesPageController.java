@@ -30,10 +30,12 @@ public class SalesPageController {
         List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         List<ProjectFileDTO> projectFileList = salesService.selectprojectFileListByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
         model.addAttribute("categoryDTO", categoryDTO);
         model.addAttribute("projectFileList", projectFileList);
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
         return "/seller/fragments/product";
     }
 
@@ -43,10 +45,12 @@ public class SalesPageController {
         List<OptionDTO> optionList = salesService.selectOptionByNo(no);
         CategoryDTO categoryDTO = salesService.selectCategoryByNo(no);
         List<ProjectFileDTO> projectFileList = salesService.selectprojectFileListByNo(no);
+        SellerRollDTO sellerRollDTO = salesService.selectSellerRollByNo(no);
         model.addAttribute("salesDTO", salesDTO);
         model.addAttribute("optionList", optionList);
         model.addAttribute("categoryDTO", categoryDTO);
         model.addAttribute("projectFileList", projectFileList);
+        model.addAttribute("sellerRollDTO", sellerRollDTO);
         return "/seller/sales/detail";
     }
 
