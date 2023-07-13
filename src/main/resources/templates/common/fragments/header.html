@@ -71,7 +71,7 @@
       <button onclick="location.href='/member/signup/signUp'">회원가입</button>
     </th:block>
     <th:block sec:authorize="isAuthenticated()">
-        <button sec:authentication="principal.nickname" class="id_button"></button>
+        <button onclick="location.href='/member/mypage/MypageMain'" sec:authentication="principal.nickname" class="id_button"></button>
         <button onclick="location.href='/member/logout'">로그아웃</button>
     </th:block>
 
@@ -155,7 +155,7 @@
 
       <button class="gugu" style="color: black;"><a href="/saleList?today=true">오늘 오픈</a></button>
       <button class="gugu" style="color: black;"><a href="./hotItem">인기 상품</a></button>
-      <button class="gugu" style="color: black;"><a href="./saleList?openExpect=true">오픈 예정</a></button>
+      <button class="gugu" style="color: black;"><a href="/saleList?openExpect=true">오픈 예정</a></button>
       <button class="gugu" style="color: black;"><a onclick="location.href='/admin/user_notice/notice_view/E'">이벤트</a></button>
       <li class="search">
         <input type="text" placeholder="검색할 내용을 입력해주세요">

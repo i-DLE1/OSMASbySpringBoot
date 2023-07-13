@@ -115,7 +115,7 @@ function activePage() {
             $tdSpan.text('상태변경');
             break;
 
-        case '/seller/orderList?listType=cancel' :
+        case '/seller/orderList?listType=cancelList' :
             $("#orderCancelMenu").addClass('active-page') ;
             $("#orderCancel").addClass('active-page') ;
             // $titleSpan.text('취소내역');
@@ -138,32 +138,7 @@ function projectSearch() {
     location.replace(`${path}?listType=${listType}${searchType === undefined ? '' : '&searchType='+searchType}&search=${search}`)
 }
 
-function orderConfirmation() {
-    var result = confirm('배송처리 하시겠습니까?');
-    if (result) {
-        alert('배송처리 되었습니다.');
-    } else {
-        alert('취소하셨습니다.');
-    }
-}
 
-function orderExchange() {
-    var result = confirm('교환처리 하시겠습니까?');
-    if (result) {
-        alert('교환처리 되었습니다.');
-    } else {
-        alert('취소하셨습니다.');
-    }
-}
-
-function orderRefund() {
-    var result = confirm('환불처리 하시겠습니까?');
-    if (result) {
-        alert('환불처리 되었습니다.');
-    } else {
-        alert('취소하셨습니다.');
-    }
-}
 
 function deleteProject(){
     let deleteConfirm = confirm("프로젝트를 삭제하시겠습니까?")
@@ -244,25 +219,168 @@ function deleteTempProject(newProject){
     })
 }
 
+// 페이지 리스트타입을 받아서 화면이동
 function displaySelectedOptions() {
-
     var selectedOptionIndex = projectSelectBox.selectedIndex;
     var selectedOption = projectSelectBox.options[selectedOptionIndex];
-    var projectNo = selectedOption.dataset.projectNo;
-    console.log(projectNo);
+    var projectNo2 = selectedOption.dataset.projectNo;
+    var projectName = selectedOption.dataset.projectTitle;
+    var listText = selectedOption.dataset.listType;
+    var listType = "all";
+    switch (listText){
+        case "전체조회" :
+            listType = "all";
+            break;
+        case "주문접수" :
+            listType = "receipt";
+            break;
+        case "배송처리" :
+            listType = "delivery";
+            break;
+        case "교환환불" :
+            listType = "refund";
+            break;
+        case "취소내역" :
+            listType = "cancelList";
+            break;
+        case "주문정보" :
+            listType = "calculate";
+            break;
+        default:
+            listType = "all";
+    }
 
-    $.ajax({
-        url: '/seller/orderList?listType=all&no=180',
-        method: 'GET',
-        data: { no: projectNo }, // 전달할 데이터
-        success: function(response) {
-            console.log('요청이 성공적으로 처리되었습니다.');
-            window.location.href = '/seller/orderList?listType=all&no='+ projectNo;
+    var currentUrl = window.location.href;
+    var newUrl = currentUrl.split('?')[0] + '?listType=' + listType+ '&projectNo2=' + projectNo2;
+    window.location.href = newUrl;
+}
 
-        },
-        error: function() {
-            console.log('요청 처리 중 오류가 발생하였습니다.');
-        }
+// 페이지 로드 시 번호를 할당하여 출력
+window.addEventListener('DOMContentLoaded', function() {
+    var rowNumbers = document.getElementsByClassName('orderrow-number');
+    var j = 1;
+    for (var i = rowNumbers.length; i > 0; i--) {
+        rowNumbers[i-1].textContent = j++;
+    }
+});
+
+// 주문상품 목록 맨 뒤에 컴마 지우기
+function removeLastComma() {
+    var tds = document.getElementsByClassName('remove-last-character');
+    for (var i = 0; i < tds.length; i++) {
+        var text = tds[i].textContent.trim();
+        text = text.slice(0, -1); // 마지막 한글자 제거
+        tds[i].textContent = text;
+    }
+}
+
+// 버튼 숨기기
+function toggleButtons() {
+    var label = document.getElementById('#listLabel');
+    var listType =  label.innerText;
+    console.log(listType);
+    console.log('하이');
+
+    var orderConfirmationBtn = document.getElementById('orderConfirmationBtn');
+    var orderExchangeBtn = document.getElementById('orderExchangeBtn');
+    var orderRefundBtn = document.getElementById('orderRefundBtn');
+
+    if (listType === '배송처리') {
+        orderConfirmationBtn.style.display = 'inline-block';
+    } else if (listType === '교환처리') {
+        orderExchangeBtn.style.display = 'inline-block';
+    } else if (listType === '환불처리') {
+        orderRefundBtn.style.display = 'inline-block';
+    }
+}
+
+function deliveryCheck(){
+    const query = 'input[class="deliveryChk"]:checked';
+    const selectedEls = document.querySelectorAll(query);
+    // 선택된 목록에서 value 찾기
+    const checkList = new Array();
+    selectedEls.forEach((el) => {
+        // result += el.value + ',';
+        checkList.push(parseInt(el.value));
     });
+    return checkList;
+}
 
+function exchangeCheck(){
+    const query = 'input[class="exchangeChk"]:checked';
+    const selectedEls = document.querySelectorAll(query);
+    // 선택된 목록에서 value 찾기
+    const exchangeList = new Array();
+    selectedEls.forEach((el) => {
+        // result += el.value + ',';
+        exchangeList.push(parseInt(el.value));
+    });
+    return exchangeList;
+}
+
+function makeRandomNum(){
+    let checkList = deliveryCheck();
+    const randomList = new Array();;
+    for(var i=0; i < checkList.length; i++){
+        const randomNo = Math.floor(Math.random() * 899999999) + 100000000;
+        randomList.push(randomNo);
+    }
+}
+
+function orderConfirmation() {
+    var result = confirm('배송처리 하시겠습니까?');
+    if (result) {
+        let checkList = deliveryCheck();
+        $(document).ready(function () {
+            var form = document.createElement('form');
+            form.method = 'POST';
+
+            // productList 파라미터 추가
+            var productList = document.createElement('input');
+            productList.type = 'hidden';
+            productList.name = 'checkList';
+            productList.value = checkList;
+            form.appendChild(productList);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        alert('배송처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
+}
+
+function orderExchange() {
+    var result = confirm('교환처리 하시겠습니까?');
+    if (result) {
+        let exchangeList = exchangeCheck();
+        $(document).ready(function () {
+            var form = document.createElement('form');
+            form.method = 'POST';
+
+            // productList 파라미터 추가
+            var productList = document.createElement('input');
+            productList.type = 'hidden';
+            productList.name = 'exchangeList';
+            productList.value = exchangeList;
+            form.appendChild(productList);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+        alert('교환처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
+}
+
+function orderRefund() {
+    var result = confirm('환불처리 하시겠습니까?');
+    if (result) {
+        alert('환불처리 되었습니다.');
+    } else {
+        alert('취소하셨습니다.');
+    }
 }

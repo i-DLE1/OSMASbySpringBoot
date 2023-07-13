@@ -14,7 +14,12 @@ import java.util.Date;
 public class PaymentDTO {
 
     private int code;
+
+
     private LocalDate paymentDate;
+
+
+
     private String status;
     private int amount;
     private String paymentType;

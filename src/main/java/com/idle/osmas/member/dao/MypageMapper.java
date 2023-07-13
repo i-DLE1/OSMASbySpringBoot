@@ -14,7 +14,6 @@ public interface MypageMapper {
     int updateAddressStatusByNo(int no, String general, String detail, String postalCode);
     MemberDTO selectJoinByNo(int no);
     Integer selectAddressSearchByNo(int no);
-
     int updatePwdStatusByNo(int no, String pwd);
 
 }
