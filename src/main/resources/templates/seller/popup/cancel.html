@@ -24,11 +24,11 @@
             </tr>
             <tr>
                 <th>목표금액(원)</th>
-                <td colspan="2" th:text="${project.targetAmount}"></td>
+                <td colspan="2" th:text="${#numbers.formatInteger(project.targetAmount, 0 ,'COMMA')}"></td>
             </tr>
             <tr>
                 <th>모금액(원)</th>
-                <td colspan="2" th:text="${project.currentAmount}"></td>
+                <td colspan="2" th:text="${#numbers.formatInteger(project.currentAmount, 0, 'COMMA')}"></td>
             </tr>
             <tr>
                 <th>달성률(%)</th>
