@@ -356,5 +356,3 @@ function optionList() {
 
     return optionListArray;
 }
-
-

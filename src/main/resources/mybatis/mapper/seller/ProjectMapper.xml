@@ -136,12 +136,21 @@
                                PRJ.TITLE AS TBL_PRJ_TITLE,
                                PRJ.START_DATE AS TBL_PRJ_START_DATE,
                                PRJ.END_DATE AS TBL_PRJ_END_DATE,
-                               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
-                               PRJ.VIEWS AS TBL_PRJ_VIEWS,
+                               NVL(PRJC.CURRENT_AMOUNT,0) AS TBL_PRJ_CURRENT_AMOUNT,
+                               NVL(PRJC.VIEWS, 0) AS TBL_PRJ_VIEWS,
                                TC.NAME AS TBL_CATEGORY_NAME,
                                TPF.CHANGE_NAME AS TBL_PRJ_FILE_CHANGE_NAME,
                                TPW.REF_MEMBER_NO AS TBL_PRJ_WISH_REF_MEMBER_NO
                           FROM TBL_PRJ PRJ
+                          LEFT JOIN (SELECT PRJ.NO ,COUNT(*) AS VIEWS, SUM(TP.AMOUNT) AS CURRENT_AMOUNT
+                                  FROM TBL_PRJ PRJ
+                                  JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRJ_NO = PRJ.NO
+                                  JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL.NO
+                                  JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
+                                  JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+                                 WHERE TP.STATUS = 'APPROVAL'
+                                 GROUP BY PRJ.NO
+                                 ) PRJC ON PRJC.NO = PRJ.NO
                           JOIN TBL_CATEGORY TC ON PRJ.REF_CATEGORY_NO = TC.NO
                           JOIN (SELECT *
                                   FROM TBL_PRJ_PROGRESS
@@ -210,7 +219,7 @@
                                PRJ.CONTENT AS TBL_PRJ_CONTENT,
                                PRJ.REGIST_DATE AS TBL_PRJ_REGIST_DATE,
                                PRJ.TARGET_AMOUNT AS TBL_PRJ_TARGET_AMOUNT,
-                               PRJ.CURRENT_AMOUNT AS TBL_PRJ_CURRENT_AMOUNT,
+                               NVL(PRJC.CURRENT_AMOUNT, 0) AS TBL_PRJ_CURRENT_AMOUNT,
                                TPP2.REGIST_DATE AS TBL_PRJ_PROGRESS_REGIST_DATE,
                                TPP2.STATUS AS TBL_PRJ_PROGRESS_STATUS,
                                PRJ.START_DATE AS TBL_PRJ_START_DATE,
@@ -222,6 +231,15 @@
                                TM.STATUS AS TBL_MEMBER_STATUS,
                                TC.NAME AS TBL_CATEGORY_NAME
                           FROM TBL_PRJ PRJ
+                          LEFT JOIN (SELECT PRJ.NO , SUM(TP.AMOUNT) AS CURRENT_AMOUNT
+                                       FROM TBL_PRJ PRJ
+                                       JOIN TBL_PRJ_PRODUCT_LIST TPPL ON TPPL.REF_PRJ_NO = PRJ.NO
+                                       JOIN TBL_SPONSORED_PRJ TSP ON TSP.REF_PRJ_PRODUCT_LIST_NO = TPPL.NO
+                                       JOIN TBL_PAYMENT_HISTORY TPH  ON TPH.REF_SPONSORED_PRJ_NO = TSP.NO
+                                       JOIN TBL_PAYMENT TP ON TP.CODE = TPH.REF_PAYMENT_NO
+                                      WHERE TP.STATUS = 'APPROVAL'
+                                      GROUP BY PRJ.NO
+                                     ) PRJC ON PRJC.NO = PRJ.NO
                           JOIN (SELECT *
                                   FROM TBL_PRJ_PROGRESS
                                  WHERE NO IN (SELECT MAX(NO) AS NO
