@@ -2,8 +2,10 @@ package com.idle.osmas.admin.service;
 
 import com.idle.osmas.admin.dto.AdminBoardDTO;
 import com.idle.osmas.admin.dto.AdminBoardFileDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminBoardService {
 
@@ -26,4 +28,6 @@ public interface AdminBoardService {
 
     int deleteAdminBoard(int no);
 
+    @Transactional
+    int updateAdminBoard(Map<String, Object> paramMap);
 }

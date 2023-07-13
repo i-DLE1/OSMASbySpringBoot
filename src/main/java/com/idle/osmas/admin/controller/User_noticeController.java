@@ -10,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/user_notice")
@@ -65,7 +67,34 @@ public class User_noticeController {
 
     @GetMapping("/notice_edit")
     public String noticeEdit(@RequestParam(required = false) Integer no, Principal principal, Model model){
+
+        AdminBoardDTO existingNotice = adminBoardService.getAdminBoardByNo(no);
+
+        // 수정된 데이터를 View로 전달
+        model.addAttribute("no", existingNotice.getNo());
+        model.addAttribute("title", existingNotice.getTitle());
+        model.addAttribute("content", existingNotice.getContent());
+
         return "/admin/admin_notice/noticeEdit";
+    }
+
+
+    @PostMapping("/notice_edit")
+    public String postNoticeEdit(@RequestParam(required = false) Map<String, Object> adminBoard, Principal principal, Model model){
+
+//        System.out.println("adminBoard = " + adminBoard);
+//        int no = Integer.parseInt(adminBoard.get("no"));
+//        String title = adminBoard.get("title");
+//        String content = adminBoard.get("content");
+
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("no", no);
+//        paramMap.put("title", title);
+//        paramMap.put("content", content);
+
+        adminBoardService.updateAdminBoard(adminBoard);
+
+        return "redirect:/admin/user_notice/notice_view/A";
     }
 
 
