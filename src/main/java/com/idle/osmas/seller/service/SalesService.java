@@ -23,6 +23,7 @@ public interface SalesService {
     public List<FaqDTO> selectFaqListByNo(int no);
 
     public List<NewInfoDTO> selectNewInfoListByNo(int no);
+    public List<ProjectFileDTO> selectprojectFileListByNo(int no);
 
     int insertNewQna(QnaDTO qnaDTO);
 

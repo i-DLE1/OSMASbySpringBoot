@@ -26,10 +26,11 @@
 
         <div class="imagecontainer">
             <div class="productimg">
-                <img class="image" src="/images/seller/sales/sales1.PNG" alt="상품사진1">
-                <img class="image" src="/images/seller/sales/sales2.PNG" alt="상품사진1">
-                <img class="image" src="/images/seller/sales/sales3.PNG" alt="상품사진1">
+                <th:block th:each="fileList: ${projectFileList}">
+                    <img class="image" th:src="@{'/files/project/' + ${salesDTO.no} + '/' + ${fileList.changeName}}" alt="상품사진">
+                </th:block>
             </div>
+
             <div class="imagebuttoncontainer">
                 <button class="imagebutton" onclick="showSlide(0)"></button>
                 <button class="imagebutton" onclick="showSlide(1)"></button>
@@ -91,6 +92,7 @@
                        onclick="clearText()" oninput="checkNumericInput(this)">
                 <div class="optiontext">원</div>
             </div>
+
 
             <div class="optionmiddle">
                 <div class="optiontext">옵션선택</div>

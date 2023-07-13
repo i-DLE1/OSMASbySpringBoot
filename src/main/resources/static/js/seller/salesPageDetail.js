@@ -27,7 +27,7 @@ $(document).ready(function() {
                 method: 'GET',  // 요청 메소드 (GET, POST 등)
                 success: function (data) {
                     // 데이터를 성공적으로 가져왔을 때 실행할 코드
-                    $('#dynamicContent').text('성공');
+                    // $('#dynamicContent').text('성공');
                     cachedData[productId] = data;
                     $('#updateContent1').data('loading', false);
                 },

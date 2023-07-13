@@ -114,6 +114,17 @@
         <result property="refprjNo" column="REF_PRJ_NO"/>
     </resultMap>
 
+    <resultMap type="com.idle.osmas.seller.dto.ProjectFileDTO" id="projectFileResultMap">
+        <id property="no" column="NO"/>
+        <result property="projectNo" column="REF_PRJ_NO"/>
+        <result property="type" column="TYPE"/>
+        <result property="originName" column="ORIGIN_NAME"/>
+        <result property="changeName" column="CHANGE_NAME"/>
+        <result property="deleteYN" column="DELETE_YN"/>
+        <result property="registDate" column="REGIST_DATE"/>
+    </resultMap>
+
+
     <select id="selectAllProject" resultMap="salesResultMap">
         SELECT
             NO,
@@ -238,6 +249,16 @@
           AND DELETE_YN = 'N'
         ORDER BY NO DESC
     </select>
+
+    <select id="selectprojectFileListByNo" resultMap="projectFileResultMap" parameterType="_int">
+        SELECT
+            TYPE, ORIGIN_NAME, NO, DELETE_YN, CHANGE_NAME, REGIST_DATE, REF_PRJ_NO
+        FROM TBL_PRJ_FILE
+        WHERE REF_PRJ_NO = #{ no }
+        AND TYPE NOT IN 'THUMBNAIL'
+    </select>
+
+
 
 <!--    <insert id="insertNewQna" parameterType="_String,_String,_int">-->
     <insert id="insertNewQna" parameterType="com.idle.osmas.seller.dto.QnaDTO">

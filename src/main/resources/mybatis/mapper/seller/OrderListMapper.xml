@@ -98,22 +98,54 @@
     </resultMap>
 
 
+    <resultMap type="com.idle.osmas.seller.dto.SalesDTO" id="salesResultMap">
+        <id property="no" column="NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="registDate" column="REGIST_DATE"/>
+        <result property="startDate" column="START_DATE"/>
+        <result property="endDate" column="END_DATE"/>
+        <result property="targetAmount" column="TARGET_AMOUNT"/>
+        <result property="currentAmount" column="CURRENT_AMOUNT"/>
+        <result property="views" column="VIEWS"/>
+        <result property="refMemberNo" column="REF_MEMBER_NO"/>
+        <result property="refCategoryNo" column="REF_CATEGORY_NO"/>
+    </resultMap>
 
-    <select id="selectOrderList" resultMap="sponsoredPRJResultMap" parameterType="_Integer">
+    <select id="selectProjectByUserNo" resultMap="salesResultMap" parameterType="map">
+        SELECT
+            NO,
+            TITLE,
+            CONTENT,
+            REGIST_DATE,
+            START_DATE,
+            END_DATE,
+            TARGET_AMOUNT,
+            CURRENT_AMOUNT,
+            VIEWS,
+            REF_MEMBER_NO,
+            REF_CATEGORY_NO
+        FROM TBL_PRJ
+        WHERE REF_MEMBER_NO = #{ userNo }
+    </select>
+
+    <select id="selectOrderList" resultMap="sponsoredPRJResultMap" parameterType="map">
         SELECT
             D.REF_PAYMENT_NO,
             B.NAME AS MEMBERNAME,
             C.GENERAL,
             C.DETAIL,
-            E.REQUEST,
+            COALESCE(E.REQUEST, '없음') AS REQUEST,
+            E.DOC_NO,
             B.PHONE,
             G.NAME AS PRODUCTNAME,
             G.PRODUCT_SIZE,
             A.AMOUNT,
             H.AMOUNT AS PAYMENTAMOUNT,
             H.PAYMENT_TYPE,
-            I.STATUS AS DELIVERYSTATUS,
-            H.PAYMENT_DATE AS PAYDATE
+            COALESCE(I.STATUS, '없음') AS DELIVERYSTATUS,
+            H.PAYMENT_DATE AS PAYDATE,
+            H.CODE
         FROM TBL_SPONSORED_PRJ A
                  LEFT JOIN TBL_MEMBER B
                            ON A.REF_MEMBER_NO = B.NO
@@ -130,18 +162,71 @@
                  LEFT JOIN TBL_PAYMENT H
                            ON D.REF_PAYMENT_NO = H.CODE
                  LEFT JOIN TBL_DELIVERY_STATUS I
-                           ON E.NO = I.REF_SHIPPING_TRACK_INFO_NO
-
-        WHERE F.REF_PRJ_NO = #{ no }
-
+                               ON E.NO = I.REF_SHIPPING_TRACK_INFO_NO
+                 LEFT JOIN TBL_PRJ J
+                               ON F.REF_PRJ_NO = J.NO
+        WHERE 1=1
+        AND  D.REF_PAYMENT_NO IS NOT NULL
+        AND  J.REF_MEMBER_NO = #{userNo}
+        <if test="projectNo2 != -1">
+        AND F.REF_PRJ_NO = #{projectNo2}
+        </if>
+        <if test="listType.equalsIgnoreCase('receipt')">
+        AND I.STATUS = 'PREPARING'
+        </if>
+        <if test="listType.equalsIgnoreCase('delivery') or listType.equalsIgnoreCase('refund')">
+            AND I.STATUS = 'COMPLETED'
+        </if>
+        <if test="search != null and searchType.equals('name')">
+            AND B.NAME LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('address')">
+            AND C.GENERAL || ' ' ||C.DETAIL LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('phone')">
+            AND B.PHONE LIKE '%' || #{search} || '%'
+        </if>
+        <if test="search != null and searchType.equals('option')">
+            AND G.NAME || ' ' || G.PRODUCT_SIZE || ',' || A.AMOUNT LIKE '%' || #{search} || '%'
+        </if>
         ORDER BY H.CODE DESC
     </select>
 
+    <update id="updateShippingTrackInfo" parameterType="map">
+            UPDATE TBL_SHIPPING_TRACK_INFO
+            SET CORP = '대한통운',
+                DOC_NO = 1231456
+            WHERE REF_PAYMENT_NO IN
+            <foreach collection="checkList" item="item"
+                     separator="," open="(" close=")">
+                #{item}
+            </foreach>
+    </update>
 
+    <update id="updateDeliveryStatus" parameterType="map">
+            UPDATE TBL_DELIVERY_STATUS
+            SET STATUS = 'COMPLETED',
+                REGIST_DATE = SYSDATE
+            WHERE REF_SHIPPING_TRACK_INFO_NO IN (SELECT NO
+            FROM TBL_SHIPPING_TRACK_INFO
+            WHERE REF_PAYMENT_NO IN
+            <foreach collection="checkList" item="item"
+                     separator="," open="(" close=")">
+                #{item}
+            </foreach>)
+    </update>
 
-
-
-
-
+    <update id="exchangeDeliveryStatus" parameterType="map">
+        UPDATE TBL_DELIVERY_STATUS
+        SET STATUS = 'PREPARING',
+        REGIST_DATE = SYSDATE
+        WHERE REF_SHIPPING_TRACK_INFO_NO IN (SELECT NO
+        FROM TBL_SHIPPING_TRACK_INFO
+        WHERE REF_PAYMENT_NO IN
+        <foreach collection="exchangeList" item="item"
+                 separator="," open="(" close=")">
+            #{item}
+        </foreach>)
+    </update>
 
 </mapper>

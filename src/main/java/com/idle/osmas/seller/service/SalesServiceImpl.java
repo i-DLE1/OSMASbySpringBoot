@@ -53,6 +53,11 @@ public class SalesServiceImpl implements SalesService{
     }
 
     @Override
+    public List<ProjectFileDTO> selectprojectFileListByNo(int no) {
+        return salesMapper.selectprojectFileListByNo(no);
+    }
+
+    @Override
     public int insertNewQna(QnaDTO qnaDTO) {
         return salesMapper.insertNewQna(qnaDTO);
     }
