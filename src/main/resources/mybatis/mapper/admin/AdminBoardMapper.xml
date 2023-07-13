@@ -124,7 +124,7 @@
 
         <select id="getAdminBoardByNo" resultMap="adminBoardResultMap">
             SELECT
-                *
+               *
             FROM  TBL_ADMIN_BOARD
             WHERE NO = #{no}
         </select>
@@ -148,7 +148,7 @@
         WHERE NO = #{no}
         </delete>
 
-        <update id="editNotice">
+        <update id="updateNotice">
             UPDATE TBL_ADMIN_BOARD
             SET TITLE = #{title}, CONTENT = #{content}
             WHERE NO = #{no}

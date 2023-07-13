@@ -45,7 +45,7 @@
 
 <div style="width: 60%; margin: auto;">
 <!--    <form id="editForm" th:action="@{/admin/user_notice/notice_edit}" method="post">-->
-        <input id="no" type="hidden" name="no" th:value="${no}" /> <!-- 수정할 공지사항 ID -->
+<!--        <input id="no" type="hidden" name="no" th:value="${no}" /> &lt;!&ndash; 수정할 공지사항 ID &ndash;&gt;-->
         <input id="title" type="text" name="title" style="width: 100%;" placeholder="제목" th:value="${title}" />
         <br><br>
         <textarea id="content" name="content" rows="10" cols="80" th:text="${content}"></textarea>
@@ -58,7 +58,7 @@
 
     function submit() {
 
-        const no = $("#no").val();
+        const no = new URLSearchParams(location.search).get('no');
         const title = $("#title").val();
         const content = $("#content").val();
 
