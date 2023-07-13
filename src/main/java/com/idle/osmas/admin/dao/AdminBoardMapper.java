@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AdminBoardMapper {
@@ -25,5 +26,7 @@ public interface AdminBoardMapper {
     int registNotice(AdminBoardDTO adminBoardDTO);
 
     int deleteNotice(@Param("no") int no);
+
+    int updateNotice(Map<String, Object> paramMap);
 
 }

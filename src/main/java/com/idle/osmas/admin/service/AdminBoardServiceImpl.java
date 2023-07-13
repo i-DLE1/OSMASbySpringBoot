@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminBoardServiceImpl implements AdminBoardService {
@@ -60,6 +61,12 @@ public class AdminBoardServiceImpl implements AdminBoardService {
     @Transactional
     public int deleteAdminBoard(int no) {
         return adminBoardMapper.deleteNotice(no);
+    }
+
+    @Override
+    @Transactional
+    public int updateAdminBoard(Map<String, Object> paramMap) {
+        return adminBoardMapper.updateNotice(paramMap);
     }
 
 }

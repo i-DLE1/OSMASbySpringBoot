@@ -149,6 +149,8 @@
         </delete>
 
         <update id="editNotice">
-            UPDATE
+            UPDATE TBL_ADMIN_BOARD
+            SET TITLE = #{title}, CONTENT = #{content}
+            WHERE NO = #{no}
         </update>
     </mapper>
