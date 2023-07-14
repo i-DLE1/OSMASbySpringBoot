@@ -31,8 +31,8 @@ public class EmailServiceImpl implements EmailService{
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
     }
-    private static final String ADMIN_ADDRESS = "asdq1523@naver.com";
-    private static final String ADMIN_NAME = "HEOYUIL";
+    private static final String ADMIN_ADDRESS = ""; // 네이버 이메일
+    private static final String ADMIN_NAME = "";    // 이름
     @Override
     public String mailSend(String email) throws MessagingException, UnsupportedEncodingException {
         System.out.println("메일 보내기 전");
