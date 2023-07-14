@@ -301,7 +301,7 @@ ORDER BY H.REGIST_DATE DESC
         FROM (
         <foreach collection="fileList" item="file" separator="UNION ALL">
             SELECT
-            #{file.fileType} AS idCode,  -- Enum 값을 사용하여 파일 유형 지정
+            #{file.fileType} AS idCode,
             #{file.originFileName} AS originFileName,
             #{file.savedFileName} AS savedFileName
             FROM DUAL

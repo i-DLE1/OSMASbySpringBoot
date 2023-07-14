@@ -129,15 +129,12 @@ public class MypageController {
     }
     @GetMapping("MypageAlarm")
     public String mypageAlarm(Model model){
-        //판매자 권한 신청 알람 보류/완료 확인용
-        // 현재 인증된 사용자 정보 가져오기
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        // 사용자 아이디 가져오기
         String userID = userDetails.getUsername();
 
-        // 아이디 값을 모델에 추가하여 Thymeleaf 템플릿으로 전달
         model.addAttribute("userID", userID);
 
         //권한 신청 보류자
